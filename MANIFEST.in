@@ -1,0 +1,8 @@
+# Include the license file
+include LICENSE
+
+# Include the version file
+include VERSION
+
+# Include the data files
+recursive-include data *
