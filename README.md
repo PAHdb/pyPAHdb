@@ -21,38 +21,35 @@ Documentation can be found in the
 
 ## Background
 
-The pyPAHdb package is being developed as part of the awarded [James
-Webb Space Telescope](https://www.jwst.nasa.gov/) (*JWST*) Early Release Science (ERS) program
-"Radiative Feedback from Massive Stars as Traced by Multiband Imaging
-and Spectroscopic Mosaics" ([program website](http://jwst-ism.org/);
-ID: 1288). The entire program is coordinated by an international "Core
-team" of 19 scientists and supported by 119 "science
-collaborators". pyPAHdb is developed by the
-[NASA Ames PAH IR Spectroscopic Database](http://www.astrochemistry.org/pahdb/) team,
-asscociated with the
+The pyPAHdb package is being developed as part of the awarded
+[James Webb Space Telescope](https://www.jwst.nasa.gov/) (*JWST*)
+Early Release Science (ERS) program "Radiative Feedback from Massive
+Stars as Traced by Multiband Imaging and Spectroscopic Mosaics"
+([program website](http://jwst-ism.org/); ID: 1288). The entire
+program is coordinated by an international "Core team" of 19
+scientists and supported by 119 "science collaborators". pyPAHdb is
+developed by the
+[NASA Ames PAH IR Spectroscopic Database](http://www.astrochemistry.org/pahdb/)
+team, asscociated with the
 [Astrophysics & Astrochemistry Laboratory](http://www.astrochemistry.org)
-at NASA Ames Research Center
-[NASA Ames Research Center](https://www.nasa.gov/centers/ames).
+at [NASA Ames Research Center](https://www.nasa.gov/centers/ames).
 
 pyPAHdb uses a precomputed matrix of theoretically calculated PAH
-emission spectra from the NASA Ames PAH IR Spectroscopic
-Database. This matrix has been constructed from a collection of
-"astronomical" PAHs, which meet the following critera:
+emission spectra from version 3.00 of the library of computed
+spectra. This matrix has been constructed from a collection of
+"astronomical" PAHs, which meet the following critera and include the
+fullerenes C<sub>60</sub> and C<sub>70</sub>:
 
-       'magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c>20'
-
-Version 3.00 of the library of computed spectra from the NASA Ames PAH
-IR Spectroscopic Database (PAHdb) has been used.
+       'magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c>20 hydrogen>0'
 
 The PAH emission spectra have been calculated with the following
 parameters:
 
-   * Pure PAHs/PANHs more than 20 carbon atoms in size
-   * A calculated vibrational temperature upon the absorption of a 7
-     eV photon
-   * Blackbody emission at the calculated vibrational temperature
-   * A redshift of 15 /cm to mimic some anharmonic effect
-   * Gaussian emission profile with a FWHM of 15 /cm
+* A calculated vibrational temperature upon the absorption of a 7 eV
+  photon
+* Blackbody emission at the calculated vibrational temperature
+* A redshift of 15 /cm to mimic some anharmonic effect
+* Gaussian emission profile with a FWHM of 15 /cm
 
 The NASA Ames PAH IR Spectroscopic Database website is located at
 www.astrochemistry.org/pahdb/.
