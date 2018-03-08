@@ -10,15 +10,6 @@ This file is part of pypahdb - see the module docs for more
 information.
 """
 
-#__author__ = "Matthew J. Shannon, and Christiaan Boersma"
-#__copyright__ = "Copyright 2017, The NASA Ames PAH IR Spectroscopic Database"
-#__credits__ = []
-#__license__ = "BSD 3-Clause"
-#__version__ = "0.0.1"
-#__maintainer__ = "Christiaan Boersma"
-#__email__ = "Christiaan.Boersma@nasa.gov"
-#__status__ = "Prototype"
-
 from os import path
 import copy
 import multiprocessing
@@ -71,7 +62,7 @@ class decomposer(object):
         self.spectrum.convertunitsto(aunits='wavenumbers', ounits='flux density')
 
         # Retrieve the precomputed data
-        # Raiser error if file is not found?
+        # Raise error if file is not found?
         with open(path.join(path.abspath(path.dirname(__file__)), 'data/precomputed.pkl'), 'rb') as f:
             if sys.version_info[0] == 2:
                 self._precomputed = pickle.load(f)
@@ -88,7 +79,6 @@ class decomposer(object):
         pool.close()
         pool.join()
         self._matrix = np.array(self._matrix).T
-
         #for i in range(self._precomputed['matrix'].shape[1]):
         #    self._matrix[:,i] = np.interp(self.spectrum.abscissa, self._precomputed['abscissa'], self._precomputed['matrix'][:,i])
 
@@ -101,7 +91,6 @@ class decomposer(object):
         self._weights, self.norm = zip(*yfit)
         self._weights = np.transpose(np.reshape(self._weights, (self.spectrum.ordinate.shape[1:] + (self._matrix.shape[1],))), (2,0,1))
         self.norm = np.reshape(self.norm, (self.spectrum.ordinate.shape[2], self.spectrum.ordinate.shape[1])).T
-
         #self._weights = np.zeros((self._precomputed['matrix'].shape[1],) + self.spectrum.ordinate.shape[1:])
         #self.norm = np.zeros(self.spectrum.ordinate.shape[1:])
         #for i in range(self.spectrum.ordinate.shape[1]):
@@ -120,17 +109,21 @@ class decomposer(object):
 
         # Lazy Instantiation
         if self._yfit is None:
-            decomposer_fit = partial(_decomposer_fit, m=self._matrix)
-            pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
-            self._yfit = pool.map(decomposer_fit, np.reshape(self._weights, (self._weights.shape[0], self._weights.shape[1] * self._weights.shape[2])).T)
-            pool.close()
-            pool.join()
-            self._yfit = np.transpose(np.reshape(self._yfit, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1))
+            ############################################
+            # on MacOS np.dot() is not thread safe ... #
+            ############################################
+            #decomposer_fit = partial(_decomposer_fit, m=self._matrix)
+            #pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
+            #self._yfit = pool.map(decomposer_fit, np.reshape(self._weights, (self._weights.shape[0], self._weights.shape[1] * self._weights.shape[2])).T)
+            #self._yfit = self._matrix.dot(self._weights[:,0,0])
+            #pool.close()
+            #pool.join()
+            #self._yfit = np.transpose(np.reshape(self._yfit, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1))
 
-            #self._yfit = np.zeros(self.spectrum.ordinate.shape)
-            #for i in range(self.spectrum.ordinate.shape[1]):
-            #    for j in range(self.spectrum.ordinate.shape[2]):
-            #        self._yfit[:,i,j] = self._matrix.dot(self._weights[:,i,j])
+            self._yfit = np.zeros(self.spectrum.ordinate.shape)
+            for i in range(self.spectrum.ordinate.shape[1]):
+                for j in range(self.spectrum.ordinate.shape[2]):
+                    self._yfit[:,i,j] = self._matrix.dot(self._weights[:,i,j])
         return self._yfit
 
     def _get_ionized_fraction(self):
@@ -154,12 +147,12 @@ class decomposer(object):
         """
 
         # Lazy Instantiation
-        if not self._large_fraction:
+        if self._large_fraction is None:
             self._large_fraction = np.sum(self._weights * (self._precomputed['properties']['size'] > 40).astype(float)[:, None, None], axis=0)
             self._large_fraction /= self._large_fraction + np.sum(self._weights * (self._precomputed['properties']['size'] <= 40).astype(float)[:, None, None], axis=0)
         return self._large_fraction
 
-    # Make fit a property for easey access
+    # Make fit a property for easy access
     fit = property(_fit)
 
     # Make ionized_fraction a property for easy access

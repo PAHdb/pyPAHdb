@@ -64,7 +64,7 @@ setup(
     #
     # This field corresponds to the "Home-Page" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#home-page-optional
-    url='https://github.com/pypa/sampleproject',  # Optional
+    url='http://www.astrochemistry.org/pahdb/',  # Optional
 
     # This should be your name or the name of the organization which owns the
     # project.
@@ -125,7 +125,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['lxml', 'numpy', 'scipy', 'astropy'],  # Optional
+    install_requires=['numpy', 'scipy', 'astropy', 'matplotlib'],  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -180,7 +180,6 @@ setup(
     # maintainers, and where to support the project financially. The key is
     # what's used to render the link text on PyPI.
     project_urls={  # Optional
-        'Website': 'http://www.astrochemistry.org/pahdb/',
         'Bug Reports': 'https://github.com/pahdb/pypahdb/issues',
         'Source': 'https://github.com/pahdb/pypahdb/',
     },

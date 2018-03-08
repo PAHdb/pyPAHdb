@@ -4,23 +4,22 @@ calculated PAH emission spectra from the NASA Ames PAH IR
 Spectroscopic Database a spectrum is decomposed into contribution PAH
 subclasses using a nnls-approach.
 
-The matrix of precomputed spectra is for a collection of
-"astronomical" PAHs, which meet the following critera:
+pyPAHdb uses a precomputed matrix of theoretically calculated PAH
+emission spectra from version 3.00 of the library of computed
+spectra. This matrix has been constructed from a collection of
+"astronomical" PAHs, which meet the following critera and include the
+fullerenes C60 and C70:
 
-       'magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c>20'
-
-Version 2.00 of the library of computed spectra from the NASA Ames PAH
-IR Spectroscopic Database (PAHdb) has been used.
+       'magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c>20 hydrogen>0'
 
 The PAH emission spectra have been calculated with the following
 parameters:
 
-   * Pure PAHs/PANHs more than 20 carbon atoms in size
-   * A calculated vibrational temperature upon the absorption of a 7
-     eV photon
-   * Blackbody emission at the calculated vibrational temperature
-   * A redshift of 15 /cm to mimic some anharmonic effect
-   * Gaussian emission profile with a FWHM of 15 /cm
+* A calculated vibrational temperature upon the absorption of a 7 eV
+  photon
+* Blackbody emission at the calculated vibrational temperature
+* A redshift of 15 /cm to mimic some anharmonic effect
+* Gaussian emission profile with a FWHM of 15 /cm
 
 The NASA Ames PAH IR Spectroscopic Database website is located at
 www.astrochemistry.org/pahdb/.
@@ -48,11 +47,12 @@ You are kindly asked to cite the following papers when using pyPAHdb:
       Astrophysical Journal Supplement Series, XXX, 201X (in
       preparation)
 """
+from codecs import open
+from os import path
 
-#with open(os.path.join(here, 'VERSION'), encoding='utf-8') as f:
-#    __version__ = f.read().strip()
-
-__version__ = "0.0.5a1"
+here = path.abspath(path.dirname(__file__))
+with open(path.join(here, 'VERSION'), encoding='utf-8') as f:
+    __version__ = f.read().strip()
 
 from .observation import observation
 from .spectrum import spectrum

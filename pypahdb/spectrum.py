@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # spectrum.py
 """
-spectrum.py: Holds a spectrum ...
+spectrum.py: Holds a spectrum
 
 This file is part of pypahdb - see the module docs for more
 information.
@@ -38,7 +38,7 @@ class spectrum(object):
         self.ordinate = ordinate
         self.uncertainties = uncertainties
         self.units = units
-        
+
         # Always work as if ordinate is a cube
         if len(self.ordinate.shape) == 1:
             self.ordinate = np.reshape(self.ordinate, self.ordinate.shape + (1, 1))

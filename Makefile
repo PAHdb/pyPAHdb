@@ -17,10 +17,10 @@ htmldocs: sphinx
 
 pdfdocs: sphinx
 	make -C docs latexpdf
-	/bin/mv -f docs/build/latex/pyPAHdb.pdf docs/manual.pdf
+	/bin/mv -f docs/build/latex/pyPAHdb.pdf docs/pyPAHdb_`/bin/cat VERSION`.pdf
 
 tests:
-	${TESTS} .
+	${TESTS} pypahdb
 
 wheel:
 	python2 setup.py bdist_wheel

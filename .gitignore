@@ -30,7 +30,6 @@ JWST-NIRSpec*.noiseless_*.pdf
 #########################
 docs/build/*
 docs/html
-docs/manual.pdf
 
 # Packages #
 ############
