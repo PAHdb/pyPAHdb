@@ -3,18 +3,42 @@
 pyPAHdb is a Python package to quickly decompose astronomical PAH
 emission spectra into contributing PAH subclasses.
 
-## Installing
+## Requirements
+
+This software requires:
+
+``python``
+``numpy``
+``scipy``
+``astropy``
+``matplotlib``
+
+## Installation
 
 pyPAHdb can be directly installed from the
 [repository](https://github.com/pahdb/pypahdb):
 
 ``pip install git+git://github.com/pahdb/pypahdb.git#egg=pypahdb``
 
+Or alternatively you may clone it to a directory of your choosing by entering:
+
+``git clone https://github.com/PAHdb/pyPAHdb.git``
+
+and then
+
+``pip install pyPAHdb``
+
+## Examples
+
 Examples on using pyPAHdb can be found in the
 [examples](https://github.com/pahdb/pypahdb/examples/)-directory.
 
+## Unit tests
+
 Unit-tests are available in the
 [pypahdb/tests](https://github.com/pahdb/pypahdb/pypahdb/tests/)-directory.
+
+## Documentation
 
 Documentation can be found in the
 [docs](https://github.com/pahdb/pypahdb/docs/)-directory.
