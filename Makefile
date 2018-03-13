@@ -1,7 +1,7 @@
 # Makefile for pyPAHdb
 
-TESTS  = /usr/local/bin/green
-SPHINX = /usr/local/bin/sphinx-apidoc
+TESTS  = green
+SPHINX = sphinx-apidoc
 
 all: wheel tests alldocs changelog
 
@@ -23,7 +23,7 @@ tests:
 	${TESTS} pypahdb
 
 wheel:
-	python2 setup.py bdist_wheel
+	python setup.py bdist_wheel
 
 changelog:
 	git log --decorate --color >> CHANGELOG.md
