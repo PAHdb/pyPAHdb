@@ -8,15 +8,16 @@ This file is part of pypahdb - see the module docs for more
 information.
 """
 
-import time
 import copy
+import matplotlib.pyplot as plt
+import numpy as np
+import time
+
 from astropy.io import fits
 from astropy import wcs
-import numpy as np
-import matplotlib.pyplot as plt
-from decomposer import decomposer
 
-#from ipdb import set_trace as st
+from .decomposer import decomposer
+
 
 class writer(object):
     """Creates a writer object.

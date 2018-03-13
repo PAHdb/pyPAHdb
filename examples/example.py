@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # example.py
 
 """example.py: Example of using pypahdb to decompose an astronomical PAH spectrum"""

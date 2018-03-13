@@ -18,10 +18,10 @@ import sys
 import numpy as np
 from functools import partial
 from scipy import optimize
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
+# try:
+#     import cPickle as pickle
+# except ImportError:
+import pickle
 
 #from pdb import set_trace as st
 
@@ -88,7 +88,7 @@ class decomposer(object):
         yfit = pool.map(decomposer_nnls, np.reshape(self.spectrum.ordinate, (self.spectrum.ordinate.shape[0], self.spectrum.ordinate.shape[1] * self.spectrum.ordinate.shape[2])).T)
         pool.close()
         pool.join()
-        self._weights, self.norm = zip(*yfit)
+        self._weights, self.norm = list(zip(*yfit))
         self._weights = np.transpose(np.reshape(self._weights, (self.spectrum.ordinate.shape[1:] + (self._matrix.shape[1],))), (2,0,1))
         self.norm = np.reshape(self.norm, (self.spectrum.ordinate.shape[2], self.spectrum.ordinate.shape[1])).T
         #self._weights = np.zeros((self._precomputed['matrix'].shape[1],) + self.spectrum.ordinate.shape[1:])
