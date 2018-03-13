@@ -20,14 +20,6 @@ pyPAHdb can be directly installed from the
 
 ``pip install git+git://github.com/pahdb/pypahdb.git#egg=pypahdb``
 
-Or alternatively you may clone it to a directory of your choosing by entering:
-
-``git clone https://github.com/PAHdb/pyPAHdb.git``
-
-and then
-
-``pip install pyPAHdb``
-
 ## Examples
 
 Examples on using pyPAHdb can be found in the
