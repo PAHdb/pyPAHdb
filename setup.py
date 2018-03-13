@@ -146,7 +146,7 @@ setup(
     # If using Python 2.6 or earlier, then these have to be included in
     # MANIFEST.in as well.
     package_data={  # Optional
-        'pypahdb': ['data/*'],
+        'pypahdb': ['VERSION', 'data/*'],
         'pypahdb.tests': ['data/*']
     },
 
