@@ -23,10 +23,7 @@ class spectrum(object):
     def __init__(self, abscissa, ordinate, uncertainties, units):
         """Construct a spectrum object.
 
-        Note:
-            Assumes JWST FITS file currently.
-
-        Args:
+         Args:
             abscissa (numpy.ndarray): The abscissa values.
             ordinate (numpy.ndarray): The ordinate values.
             uncertainties (numpy.ndarray): Uncertainties on the ordinate.
