@@ -54,6 +54,8 @@ class decomposer(object):
         self._yfit = None
         self._ionized_fraction = None
         self._large_fraction = None
+        self._charge = None
+        self._size = None
 
         # Make a deep copy in case spectrum gets altered outside self
         self.spectrum = copy.deepcopy(spectrum)
@@ -152,6 +154,42 @@ class decomposer(object):
             self._large_fraction /= self._large_fraction + np.sum(self._weights * (self._precomputed['properties']['size'] <= 40).astype(float)[:, None, None], axis=0)
         return self._large_fraction
 
+    def _get_charge(self):
+        """
+        Return the spectral charge breakdown.
+
+        :return: returns array
+        """
+        # Could use multiprocessing
+        # Lazy Instantiation
+        if self._charge is None:
+            self._charge = {'anion': np.zeros(self.spectrum.ordinate.shape),
+                            'neutral': np.zeros(self.spectrum.ordinate.shape),
+                            'cation': np.zeros(self.spectrum.ordinate.shape)}
+            for i in range(self.spectrum.ordinate.shape[1]):
+                for j in range(self.spectrum.ordinate.shape[2]):
+                    self._charge['anion'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['charge'] < 0).astype(float))
+                    self._charge['neutral'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['charge'] == 0).astype(float))
+                    self._charge['cation'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['charge'] > 0).astype(float))
+        return self._charge
+
+    def _get_size(self):
+        """
+        Return the spectral size breakdown.
+
+        :return: returns array
+        """
+        # Could use multiprocessing
+        # Lazy Instantiation
+        if self._size is None:
+            self._size = {'large': np.zeros(self.spectrum.ordinate.shape),
+                          'small': np.zeros(self.spectrum.ordinate.shape)}
+            for i in range(self.spectrum.ordinate.shape[1]):
+                for j in range(self.spectrum.ordinate.shape[2]):
+                    self._size['large'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['size'] > 40).astype(float))
+                    self._size['small'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['size'] <= 40).astype(float))
+        return self._size
+
     # Make fit a property for easy access
     fit = property(_fit)
 
@@ -160,3 +198,9 @@ class decomposer(object):
 
     # Make large_fraction a property for easy access
     large_fraction = property(_get_large_fraction)
+
+    # Make charge a property for easy access
+    charge = property(_get_charge)
+
+    # Make size a property for easy access
+    size = property(_get_size)
