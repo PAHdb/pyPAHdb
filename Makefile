@@ -26,7 +26,7 @@ wheel:
 	python setup.py bdist_wheel
 
 changelog:
-	git log --decorate --color >> CHANGELOG.md
+	git log --decorate --color > CHANGELOG.md
 
 clean: docsclean
 

@@ -19,7 +19,7 @@ from os.path import splitext, basename
 if __name__ == "__main__":
 
     # load an observation from file
-    observation = pypahdb.observation('NGC7023.fits')
+    observation = pypahdb.observation('NGC7023-NW-PAHs.txt')
 
     # decompose the spectrum with PAHdb
     result = pypahdb.decomposer(observation.spectrum)
