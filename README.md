@@ -1,7 +1,7 @@
-# pyPAHdb
+# pypahdb
 
-pyPAHdb is a Python package to quickly decompose astronomical PAH
-emission spectra into contributing PAH subclasses.
+pypahdb is a Python package to quickly fit and decompose astronomical
+PAH emission spectra into contributing PAH subclasses.
 
 ## Requirements
 
@@ -23,17 +23,17 @@ pyPAHdb can be directly installed from the
 ## Examples
 
 Examples on using pyPAHdb can be found in the
-[examples](https://github.com/pahdb/pypahdb/examples/)-directory.
+[examples](examples)-directory.
 
 ## Unit tests
 
 Unit-tests are available in the
-[pypahdb/tests](https://github.com/pahdb/pypahdb/pypahdb/tests/)-directory.
+[pypahdb/tests](pypahdb/tests)-directory.
 
 ## Documentation
 
 Documentation can be found in the
-[docs](https://github.com/pahdb/pypahdb/docs/)-directory.
+[docs](docs)-directory.
 
 ## Background
 
@@ -95,7 +95,7 @@ You are kindly asked to cite the following papers when using pyPAHdb:
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/PAHdb/CONTRIBUTING.md)
+Please read [CONTRIBUTING.md](CONTRIBUTING.md)
 for details on the code of conduct, and the process for submitting
 pull requests.
 
@@ -109,9 +109,8 @@ For the versions available, see the
 * **Christiaan Boersma** - *Initial work* - [PAHdb](https://github.com/pahdb)
 * **Matthew J. Shannon** - *Initial work* - [PAHdb](https://github.com/pahdb)
 
-See also the list of
-[contributors](https://github.com/PAHdb/AmesPAHdbIDLSuite/contributors)
-who participated in this project.
+See also the list of [contributors](CONTRIBUTORS) who participated
+in this project.
 
 ## License
 

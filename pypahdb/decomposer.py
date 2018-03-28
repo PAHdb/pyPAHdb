@@ -1,29 +1,46 @@
 #!/usr/bin/env python
 # decomposer.py
 
-"""
-decomposer.py: Using a precomputed matrix of theoretically
-calculated PAH emission spectra a spectrum is decomposed into
-contribution PAH subclasses using a nnls-approach.
+"""decomposer.py: Using a precomputed matrix of theoretically calculated
+PAH emission spectra, an input spectrum is fitted and decomposed into
+contributions from PAH subclasses using a nnls-approach.
 
 This file is part of pypahdb - see the module docs for more
 information.
 """
 
 from os import path
-import copy
-import multiprocessing
-import sys
 
-import numpy as np
-from functools import partial
-from scipy import optimize
-# try:
-#     import cPickle as pickle
-# except ImportError:
+import copy
+import sys
+import platform
+import multiprocessing
 import pickle
 
-#from pdb import set_trace as st
+from functools import partial
+from scipy import optimize
+
+import numpy as np
+
+def _decomposer_anion(w, m=None, p=None):
+   """Do the actual anion decomposition for multiprocessing"""
+   return  m.dot(w * (p < 0).astype(float))
+
+def _decomposer_neutral(w, m=None, p=None):
+   """Do the actual neutral decomposition for multiprocessing"""
+   return  m.dot(w * (p ==  0).astype(float))
+
+def _decomposer_cation(w, m=None, p=None):
+   """Do the actual cation decomposition for multiprocessing"""
+   return  m.dot(w * (p > 0).astype(float))
+
+def _decomposer_large(w, m=None, p=None):
+   """Do the actual large decomposition for multiprocessing"""
+   return  m.dot(w * (p > 40).astype(float))
+
+def _decomposer_small(w, m=None, p=None):
+   """Do the actual small decomposition for multiprocessing"""
+   return  m.dot(w * (p <= 40).astype(float))
 
 def _decomposer_fit(w, m=None):
     """Do the actual matrix manipulation for multiprocessing"""
@@ -38,17 +55,17 @@ def _decomposer_nnls(y, m=None):
     return optimize.nnls(m, y)
 
 class decomposer(object):
-    """Decomposes a spectrum with PAHdb.
+    """Fits and decomposes a spectrum.
 
     Attributes:
-       spectrum: The decomposed spectrum.
+       spectrum: The spectrum to fit and decompose.
     """
     def __init__(self, spectrum):
         """
         Construct a decomposer object.
 
-        :param spectrum: The spectrum to decompose
-        :return: returns nothing
+        :param spectrum: The spectrum to fit and decompose
+        :return: returns None
         """
 
         self._yfit = None
@@ -74,15 +91,13 @@ class decomposer(object):
 
         # Deal with having no map; have a threshold when to do in for loop?
         # Linearly interpolate the precomputed spectra onto the
-        # frequency grid of the spectrum
+        # frequency grid of the input spectrum
         decomposer_interp = partial(_decomposer_interp, x=self.spectrum.abscissa, xp=self._precomputed['abscissa'])
         pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
         self._matrix = pool.map(decomposer_interp, self._precomputed['matrix'].T)
         pool.close()
         pool.join()
         self._matrix = np.array(self._matrix).T
-        #for i in range(self._precomputed['matrix'].shape[1]):
-        #    self._matrix[:,i] = np.interp(self.spectrum.abscissa, self._precomputed['abscissa'], self._precomputed['matrix'][:,i])
 
         # Perform the fit
         decomposer_nnls = partial(_decomposer_nnls, m=self._matrix)
@@ -93,18 +108,10 @@ class decomposer(object):
         self._weights, self.norm = list(zip(*yfit))
         self._weights = np.transpose(np.reshape(self._weights, (self.spectrum.ordinate.shape[1:] + (self._matrix.shape[1],))), (2,0,1))
         self.norm = np.reshape(self.norm, (self.spectrum.ordinate.shape[2], self.spectrum.ordinate.shape[1])).T
-        #self._weights = np.zeros((self._precomputed['matrix'].shape[1],) + self.spectrum.ordinate.shape[1:])
-        #self.norm = np.zeros(self.spectrum.ordinate.shape[1:])
-        #for i in range(self.spectrum.ordinate.shape[1]):
-        #    for j in range(self.spectrum.ordinate.shape[2]):
-        #        w, n = optimize.nnls(self._matrix, self.spectrum.ordinate[:,i,j])
-        #        self._weights[:,i,j] = w
-        #        self.norm[i,j] = n
-
 
     def _fit(self):
         """
-        Return the fitted spectra.
+        Return the fit.
 
         :return: returns array
         """
@@ -114,18 +121,18 @@ class decomposer(object):
             ############################################
             # on MacOS np.dot() is not thread safe ... #
             ############################################
-            #decomposer_fit = partial(_decomposer_fit, m=self._matrix)
-            #pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
-            #self._yfit = pool.map(decomposer_fit, np.reshape(self._weights, (self._weights.shape[0], self._weights.shape[1] * self._weights.shape[2])).T)
-            #self._yfit = self._matrix.dot(self._weights[:,0,0])
-            #pool.close()
-            #pool.join()
-            #self._yfit = np.transpose(np.reshape(self._yfit, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1))
-
-            self._yfit = np.zeros(self.spectrum.ordinate.shape)
-            for i in range(self.spectrum.ordinate.shape[1]):
-                for j in range(self.spectrum.ordinate.shape[2]):
-                    self._yfit[:,i,j] = self._matrix.dot(self._weights[:,i,j])
+            if platform.system() != "Darwin":
+                decomposer_fit = partial(_decomposer_fit, m=self._matrix)
+                pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
+                self._yfit = pool.map(decomposer_fit, np.reshape(self._weights, (self._weights.shape[0], self._weights.shape[1] * self._weights.shape[2])).T)
+                pool.close()
+                pool.join()
+                self._yfit = np.transpose(np.reshape(self._yfit, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1))
+            else:
+                self._yfit = np.zeros(self.spectrum.ordinate.shape)
+                for i in range(self.spectrum.ordinate.shape[1]):
+                    for j in range(self.spectrum.ordinate.shape[2]):
+                        self._yfit[:,i,j] = self._matrix.dot(self._weights[:,i,j])
         return self._yfit
 
     def _get_ionized_fraction(self):
@@ -155,39 +162,72 @@ class decomposer(object):
         return self._large_fraction
 
     def _get_charge(self):
-        """
-        Return the spectral charge breakdown.
+        """Return the spectral charge breakdown.
 
-        :return: returns array
+        :return: returns associative array with keys 'anion', 'neutral' and 'cation'
         """
-        # Could use multiprocessing
+
         # Lazy Instantiation
         if self._charge is None:
-            self._charge = {'anion': np.zeros(self.spectrum.ordinate.shape),
-                            'neutral': np.zeros(self.spectrum.ordinate.shape),
-                            'cation': np.zeros(self.spectrum.ordinate.shape)}
-            for i in range(self.spectrum.ordinate.shape[1]):
-                for j in range(self.spectrum.ordinate.shape[2]):
-                    self._charge['anion'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['charge'] < 0).astype(float))
-                    self._charge['neutral'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['charge'] == 0).astype(float))
-                    self._charge['cation'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['charge'] > 0).astype(float))
+            ############################################
+            # on MacOS np.dot() is not thread safe ... #
+            ############################################
+            if platform.system() != "Darwin":
+                print platform.system()
+                decomposer_anion = partial(_decomposer_anion, m=self._matrix, p=self._precomputed['properties']['charge'])
+                decomposer_neutral = partial(_decomposer_neutral, m=self._matrix, p=self._precomputed['properties']['charge'])
+                decomposer_cation = partial(_decomposer_cation, m=self._matrix, p=self._precomputed['properties']['charge'])
+                pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
+                anion = pool.map(decomposer_anion, np.reshape(self._weights, (self._weights.shape[0], self._weights.shape[1] * self._weights.shape[2])).T)
+                neutral = pool.map(decomposer_neutral, np.reshape(self._weights, (self._weights.shape[0], self._weights.shape[1] * self._weights.shape[2])).T)
+                cation = pool.map(decomposer_cation, np.reshape(self._weights, (self._weights.shape[0], self._weights.shape[1] * self._weights.shape[2])).T)
+                pool.close()
+                pool.join()
+                self._charge = {'anion': np.transpose(np.reshape(anion, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1)),
+                                'neutral': np.transpose(np.reshape(neutral, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1)),
+                                'cation': np.transpose(np.reshape(cation, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1))}
+            else:
+                self._charge = {'anion': np.zeros(self.spectrum.ordinate.shape),
+                                'neutral': np.zeros(self.spectrum.ordinate.shape),
+                                'cation': np.zeros(self.spectrum.ordinate.shape)}
+                for i in range(self.spectrum.ordinate.shape[1]):
+                    for j in range(self.spectrum.ordinate.shape[2]):
+                        self._charge['anion'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['charge'] < 0).astype(float))
+                        self._charge['neutral'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['charge'] == 0).astype(float))
+                        self._charge['cation'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['charge'] > 0).astype(float))
+
         return self._charge
 
     def _get_size(self):
-        """
-        Return the spectral size breakdown.
+        """Return the spectral size breakdown.
 
-        :return: returns array
+        :return: returns associative array with keys 'large' and 'small'
         """
-        # Could use multiprocessing
+
         # Lazy Instantiation
         if self._size is None:
-            self._size = {'large': np.zeros(self.spectrum.ordinate.shape),
-                          'small': np.zeros(self.spectrum.ordinate.shape)}
-            for i in range(self.spectrum.ordinate.shape[1]):
-                for j in range(self.spectrum.ordinate.shape[2]):
-                    self._size['large'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['size'] > 40).astype(float))
-                    self._size['small'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['size'] <= 40).astype(float))
+            ############################################
+            # on MacOS np.dot() is not thread safe ... #
+            ############################################
+            if platform.system() != "Darwin":
+                print platform.system()
+                decomposer_large = partial(_decomposer_large, m=self._matrix, p=self._precomputed['properties']['size'])
+                decomposer_small = partial(_decomposer_small, m=self._matrix, p=self._precomputed['properties']['size'])
+                pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
+                large = pool.map(decomposer_large, np.reshape(self._weights, (self._weights.shape[0], self._weights.shape[1] * self._weights.shape[2])).T)
+                small = pool.map(decomposer_small, np.reshape(self._weights, (self._weights.shape[0], self._weights.shape[1] * self._weights.shape[2])).T)
+                pool.close()
+                pool.join()
+                self._charge = {'large': np.transpose(np.reshape(large, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1)),
+                                'small': np.transpose(np.reshape(small, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1))}
+            else:
+                self._size = {'large': np.zeros(self.spectrum.ordinate.shape),
+                              'small': np.zeros(self.spectrum.ordinate.shape)}
+                for i in range(self.spectrum.ordinate.shape[1]):
+                    for j in range(self.spectrum.ordinate.shape[2]):
+                        self._size['large'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['size'] > 40).astype(float))
+                        self._size['small'][:,i,j] = self._matrix.dot(self._weights[:,i,j] * (self._precomputed['properties']['size'] <= 40).astype(float))
+
         return self._size
 
     # Make fit a property for easy access
