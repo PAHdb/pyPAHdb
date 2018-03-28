@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 
+from matplotlib.backends.backend_pdf import PdfPages
+
 from astropy.io import fits
 from astropy import wcs
 
@@ -28,7 +30,7 @@ class writer(object):
 
     """
 
-    def __init__(self, result, header="", basename=""):
+    def __init__(self, result, header="", basename="", opdf=True, ofits=True):
         """Instantiate a writer object.
 
         Args:
@@ -39,66 +41,51 @@ class writer(object):
             basename (String): basename
 
         """
-
-        # Think about output we want to show ...
         # What if not decomposer object ...
         # Make sure we're dealing with a 'decomposer' object
         if isinstance(result, decomposer):
+            if opdf:
+                # save summary pdf
+                with PdfPages(basename + 'pypahdb.pdf') as pdf:
+                    d = pdf.infodict()
+                    d['Title'] = 'pyPAHdb Result Summary'
+                    d['Author'] = 'pyPAHdb'
+                    d['Subject'] = 'Summary of a pyPAHdb PAH database Decomposition'
+                    d['Keywords'] = 'pyPAHdb PAH database'
+                    for i in range(result.spectrum.ordinate.shape[1]):
+                        for j in range(result.spectrum.ordinate.shape[2]):
+                            plt.plot(1e4 / result.spectrum.abscissa, result.spectrum.ordinate[:,i,j], color='blue')
+                            plt.plot(1e4 / result.spectrum.abscissa, result.fit[:,i,j], color='red')
+                            plt.plot(1e4 / result.spectrum.abscissa, result.size['large'][:,i,j], color='green')
+                            plt.plot(1e4 / result.spectrum.abscissa, result.size['small'][:,i,j], color='orange')
+                            plt.plot(1e4 / result.spectrum.abscissa, result.charge['anion'][:,i,j], color='magenta')
+                            plt.plot(1e4 / result.spectrum.abscissa, result.charge['neutral'][:,i,j], color='cyan')
+                            plt.plot(1e4 / result.spectrum.abscissa, result.charge['cation'][:,i,j], color='violet')
+                            plt.xlabel(result.spectrum.units['abscissa']['str'])
+                            plt.ylabel(result.spectrum.units['ordinate']['str'])
+                            plt.legend(['Observations', 'Fit', 'Large', 'Small', 'Anion', 'Neutral', 'Cation'])
+                            pdf.savefig()
+                            plt.gcf().clear()
 
-            # deal with maps ... Add large/ionized fractions
-            # save summary pdf
-            plt.plot(result.spectrum.abscissa, result.spectrum.ordinate[:,0,0], color='blue')
-            plt.plot(result.spectrum.abscissa, result.fit[:,0,0], color='red')
-            plt.xlabel(result.spectrum.units['abscissa']['str'])
-            plt.ylabel(result.spectrum.units['ordinate']['str'])
-            plt.legend(['Observations', 'Fit'])
-            plt.savefig(basename + '_summary.pdf')
+            if ofits:
+                # save resuls to fits
+                if isinstance(header, fits.header.Header):
+                    # should probably clean up the header, i.e., extract certain keywords only
+                    hdr = copy.deepcopy(header)
+                else:
+                    hdr = fits.Header()
 
-            # save resuls to fits
-            if isinstance(header, fits.header.Header):
-                hdr = copy.deepcopy(header)
-            else:
-                hdr = fits.Header()
+                hdr['DATE'] = time.strftime("%Y-%m-%dT%H:%m:%S")
+                hdr['SOFTWARE'] = "pypahdb"
+                hdr['SOFT_VER'] = "0.5.0.a1"
+                hdr['COMMENT'] = "This file contains the results from a pypahdb fit"
+                hdr['COMMENT'] = "Visit https://github.com/pahdb/pypahdb/ for more information on pypahdb"
+                hdr['COMMENT'] = "The 1st plane contains the ionized fraction"
+                hdr['COMMENT'] = "The 2nd plane contains the large fraction"
+                hdr['COMMENT'] = "The 3rd plane contains the norm"
 
-            # common cards
-            hdr['DATE'] = time.strftime("%Y-%m-%dT%H:%m:%S")
-            hdr['SOFTWARE'] = "pypahdb"
-            hdr['SOFT_VER'] = "0.5.0.a1"
-            hdr['COMMENT'] = "Visit https://www.github.com/pahdb/pypahdb/ for information on pypahdb"
-
-            # need to deal with writting the breakdown spectra ...
-            # write fit to fits-file
-            h = copy.deepcopy(hdr)
-            h['COMMENT'] = "This file contains a pypahdb fit"
-            h['BUNIT'] = 'MJy/sr'
-            h['CTYPE3'] = 'FREQ-TAB'
-            h['CUNIT3'] = '1/cm'
-            h['PS3_0'] = 'FREQ-TAB'
-            h['PS3_1'] = 'FREQUENCY'
-            if result.fit.shape[1] == 1 and result.fit.shape[2] == 1:
-                h['FRAC_ION'] = result.ionized_fraction[0,0]
-                h['FRAC_SIZ'] = result.large_fraction[0,0]
-            hdu = fits.PrimaryHDU(result.fit, header=h)
-            tbl = fits.BinTableHDU.from_columns([fits.Column(name=h['PS3_1'], format='E', array=result.spectrum.abscissa)])
-            tbl.name = h['PS3_0']
-            hdulist = fits.HDUList([hdu, tbl])
-            hdulist.writeto(basename + '_fit.fits', overwrite=True)
-
-            if result.fit.shape[1] != 1 or result.fit.shape[2] != 1:
-                # write norm to fits-file
-                h = copy.deepcopy(hdr)
-                h['COMMENT'] = "This file contains the norm of a pahdb decomposition"
-                hdu = fits.PrimaryHDU(result.norm, header=h)
-                hdu.writeto(basename + '_norm.fits', overwrite=True)
-
-                # write ionization fraction to fits-file
-                h = copy.deepcopy(hdr)
-                h['COMMENT'] = "This file contains the ionized fraction from a pahdb decomposition"
-                hdu = fits.PrimaryHDU(result.ionized_fraction, header=h)
-                hdu.writeto(basename + '_fi.fits', overwrite=True)
-
-                # write large fraction to fits-file
-                h = copy.deepcopy(hdr)
-                h['COMMENT'] = "This file contains the large fraction from a pahdb decomposition"
-                hdu = fits.PrimaryHDU(result.large_fraction, header=h)
-                hdu.writeto(basename + '_fl.fits', overwrite=True)
+                # write results to fits-file
+                hdu = fits.PrimaryHDU(np.stack((result.ionized_fraction,
+                                                result.large_fraction,
+                                                result.norm), axis=0), header=hdr)
+                hdu.writeto(basename + 'pypahdb.fits', overwrite=True)

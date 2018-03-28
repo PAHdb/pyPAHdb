@@ -37,9 +37,12 @@ class observation(object):
 
         try:
             with fits.open(self.file_path) as hdu:
+                # what if we're loading a table?
+                # use the wcs definitions for coordinate three, either via linear scale or lookup table
                 if ('TELESCOP' in hdu[0].header.keys() and hdu[0].header['TELESCOP'] == 'Spitzer' and
                    'INSTRUME' in hdu[0].header.keys() and hdu[0].header['INSTRUME'] == 'IRSX'):
                     self.header = hdu[0].header
+                    #self.wcs = wcs.WCS(hdu[0].header, naxis=2)
                     self.spectrum = spectrum(hdu[1].data['wavelength'], hdu[0].data, np.zeros(hdu[0].data.shape), {'abscissa':{'str':'wavelength [um]'}, 'ordinate':{'str':'surface brightness [MJy/sr]'}})
                     return None
         except IOError:
