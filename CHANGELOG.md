@@ -1,4 +1,31 @@
-[33mcommit 9d543c422041dda1dc2dd2ff820991d74a5519b0[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+[33mcommit edce61c0e430a21ad968aec7c2766a48503dbc9b[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 036ad3b 1a57010
+Author: NASA Ames PAH IR Spectroscopic Database <30665870+PAHdb@users.noreply.github.com>
+Date:   Thu Mar 29 11:19:31 2018 -0700
+
+    Merge pull request #4 from mattjshannon/master
+    
+    Updated figure plotting in writer.py, and a few print statements
+
+[33mcommit 1a5701053204dd8e776cdd14aaf1644a6c2bdd05[m
+Author: Matt Shannon <matthew.j.shannon@gmail.com>
+Date:   Thu Mar 29 11:12:50 2018 -0700
+
+    Added title to figure: cation fraction, large fraction, norm
+
+[33mcommit 3a7e59526ded79c4e8a011fb6f088c8f68550360[m
+Author: Matt Shannon <matthew.j.shannon@gmail.com>
+Date:   Thu Mar 29 11:01:25 2018 -0700
+
+    Updated figure plotting in writer.py, adjusted print statements in observation.py and decomposer.py
+
+[33mcommit 036ad3b3be49922b5e560efba4d9feb8c09917e5[m
+Author: Christiaan Boersma <Christiaan.Boersma@nasa.gov>
+Date:   Wed Mar 28 16:15:46 2018 -0700
+
+    Added more multiprocessing support to decomposer.py. Cleaned-up examples and added README.md. Minor overall fixes.
+
+[33mcommit 9d543c422041dda1dc2dd2ff820991d74a5519b0[m
 Author: Christiaan Boersma <Christiaan.Boersma@nasa.gov>
 Date:   Tue Mar 27 22:01:16 2018 -0700
 
