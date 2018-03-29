@@ -11,6 +11,7 @@ information.
 from __future__ import print_function
 
 import copy
+import decimal
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import numpy as np
@@ -102,6 +103,10 @@ class writer(object):
         model = self.result.fit[:,i,j]
         ax0.plot(wave, data, label='Observations')
         ax0.plot(wave, model, label='Model')
+        norm_val = self.result.norm[0][0]
+        norm_str = str(decimal.Decimal(norm_val).quantize(decimal.Decimal("0.1")))
+        ax0.text(0.1, 0.9, 'Norm = ' + norm_str, ha='center', va='center',
+                transform=ax0.transAxes)
 
         # Residuals.
         ax1.plot(wave, data - model, label='Residuals')
@@ -129,6 +134,20 @@ class writer(object):
         ax1.legend(loc=0)
         ax2.legend(loc=0)
         ax3.legend(loc=0)
+
+        
+
+        ion_frac = self.result.ionized_fraction[0][0]
+        ion_str = str(decimal.Decimal(ion_frac).quantize(decimal.Decimal("0.01")))
+
+        size_frac = self.result.large_fraction[0][0]
+        size_str = str(decimal.Decimal(size_frac).quantize(decimal.Decimal("0.01")))
+
+        cat_str = 'Cation fraction: ' + ion_str
+        size_str = 'Large fraction: ' + size_str
+
+        ax0.set_title(cat_str + ', ' + size_str)
+
 
         # Save figure.
         savename = self.basename + 'pypahdb.pdf'
