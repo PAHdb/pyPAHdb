@@ -43,7 +43,7 @@ class observation(object):
                    'INSTRUME' in hdu[0].header.keys() and hdu[0].header['INSTRUME'] == 'IRSX'):
                     self.header = hdu[0].header
                     #self.wcs = wcs.WCS(hdu[0].header, naxis=2)
-                    self.spectrum = spectrum(hdu[1].data['wavelength'], hdu[0].data, np.zeros(hdu[0].data.shape), {'abscissa':{'str':'wavelength [um]'}, 'ordinate':{'str':'surface brightness [MJy/sr]'}})
+                    self.spectrum = spectrum(hdu[1].data['wavelength'], hdu[0].data, np.zeros(hdu[0].data.shape), {'abscissa':{'str':'Wavelength [micron]'}, 'ordinate':{'str':'Surface brightness [MJy/sr]'}})
                     return None
         except IOError:
             pass
@@ -51,7 +51,7 @@ class observation(object):
         try:
             data = ascii.read(self.file_path)
             self.header = fits.header.Header()
-            self.spectrum = spectrum(np.array(data['col1']), np.array(data['col2']), np.zeros(len(data['col1'])), {'abscissa':{'str':'wavelength [um]'}, 'ordinate':{'str':'surface brightness [MJy/sr]'}})
+            self.spectrum = spectrum(np.array(data['col1']), np.array(data['col2']), np.zeros(len(data['col1'])), {'abscissa':{'str':'Wavelength [micron]'}, 'ordinate':{'str':'Surface brightness [MJy/sr]'}})
             return None
         except UnicodeDecodeError:
             pass
