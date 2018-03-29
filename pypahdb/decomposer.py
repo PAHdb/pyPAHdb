@@ -173,7 +173,6 @@ class decomposer(object):
             # on MacOS np.dot() is not thread safe ... #
             ############################################
             if platform.system() != "Darwin":
-                print platform.system()
                 decomposer_anion = partial(_decomposer_anion, m=self._matrix, p=self._precomputed['properties']['charge'])
                 decomposer_neutral = partial(_decomposer_neutral, m=self._matrix, p=self._precomputed['properties']['charge'])
                 decomposer_cation = partial(_decomposer_cation, m=self._matrix, p=self._precomputed['properties']['charge'])
@@ -210,7 +209,6 @@ class decomposer(object):
             # on MacOS np.dot() is not thread safe ... #
             ############################################
             if platform.system() != "Darwin":
-                print platform.system()
                 decomposer_large = partial(_decomposer_large, m=self._matrix, p=self._precomputed['properties']['size'])
                 decomposer_small = partial(_decomposer_small, m=self._matrix, p=self._precomputed['properties']['size'])
                 pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
