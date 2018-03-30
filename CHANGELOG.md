@@ -1,4 +1,16 @@
-[33mcommit edce61c0e430a21ad968aec7c2766a48503dbc9b[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+[33mcommit 37444003fca35d632af8d1430076590d38faf174[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Christiaan Boersma <Christiaan.Boersma@nasa.gov>
+Date:   Fri Mar 30 09:55:52 2018 -0700
+
+    Track precomputed matrix (.pkl) using Git LFS
+
+[33mcommit ca10bed323cb934b3e49449cc8212372983eab46[m
+Author: Christiaan Boersma <Christiaan.Boersma@nasa.gov>
+Date:   Thu Mar 29 12:51:52 2018 -0700
+
+    Some aestetic changes to the PDF output.
+
+[33mcommit edce61c0e430a21ad968aec7c2766a48503dbc9b[m
 Merge: 036ad3b 1a57010
 Author: NASA Ames PAH IR Spectroscopic Database <30665870+PAHdb@users.noreply.github.com>
 Date:   Thu Mar 29 11:19:31 2018 -0700
