@@ -216,8 +216,8 @@ class decomposer(object):
                 small = pool.map(decomposer_small, np.reshape(self._weights, (self._weights.shape[0], self._weights.shape[1] * self._weights.shape[2])).T)
                 pool.close()
                 pool.join()
-                self._charge = {'large': np.transpose(np.reshape(large, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1)),
-                                'small': np.transpose(np.reshape(small, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1))}
+                self._size = {'large': np.transpose(np.reshape(large, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1)),
+                              'small': np.transpose(np.reshape(small, (self.spectrum.ordinate.shape[1:] + (self.spectrum.ordinate.shape[0],))), (2,0,1))}
             else:
                 self._size = {'large': np.zeros(self.spectrum.ordinate.shape),
                               'small': np.zeros(self.spectrum.ordinate.shape)}

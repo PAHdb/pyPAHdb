@@ -1,4 +1,10 @@
-[33mcommit 37444003fca35d632af8d1430076590d38faf174[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+[33mcommit e08f5b8ba954727900c1ffbcfc8068966c41eca3[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Christiaan Boersma <Christiaan.Boersma@nasa.gov>
+Date:   Fri Mar 30 10:03:26 2018 -0700
+
+    Precomputed matrix uses now PAH spectra from version 3.00 of the library of computed spectra from PAHdb.
+
+[33mcommit 37444003fca35d632af8d1430076590d38faf174[m
 Author: Christiaan Boersma <Christiaan.Boersma@nasa.gov>
 Date:   Fri Mar 30 09:55:52 2018 -0700
 
