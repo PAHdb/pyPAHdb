@@ -15,10 +15,25 @@ This software requires:
 
 ## Installation
 
+The pyPAHdb repository uses the [GIT
+LFS](https://github.com/git-lfs/git-lfs) extension for managing large
+files. For properly cloning the repository the Git LFS client needs to
+be installed on your system. Instructions to do so can be found at the
+[GIT LFS](https://github.com/git-lfs/git-lfs). Since the LFS-server
+leverages SSL, you might need to add the Let's Encrypt Intermediate X3
+certificate to your trust. Optionally, you could
+GIT_SSL_NO_VERIFY=true.
+
 pyPAHdb can be directly installed from the
-[repository](https://github.com/pahdb/pypahdb):
+[repository](https://github.com/pahdb/pypahdb) using pip:
 
 ``pip install git+git://github.com/pahdb/pypahdb.git#egg=pypahdb``
+
+In case of remaining issues with the SSL-certificate after adding the
+intermediate to your trusted chain, you can add '--trusted-host
+www.astrochemistry.org' to the install command:
+
+``pip install --trusted-host git+git://github.com/pahdb/pypahdb.git#egg=pypahdb``
 
 ## Examples
 
