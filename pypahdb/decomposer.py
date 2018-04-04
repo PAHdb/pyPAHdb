@@ -145,7 +145,8 @@ class decomposer(object):
         # Lazy Instantiation
         if self._ionized_fraction is None:
             self._ionized_fraction = np.sum(self._weights * (self._precomputed['properties']['charge'] > 0).astype(float)[:, None, None], axis=0)
-            self._ionized_fraction /= self._ionized_fraction + np.sum(self._weights * (self._precomputed['properties']['charge'] == 0).astype(float)[:, None, None], axis=0)
+            nonzero = np.nonzero(self._ionized_fraction)
+            self._ionized_fraction[nonzero] /= self._ionized_fraction[nonzero] + (np.sum(self._weights * (self._precomputed['properties']['charge'] == 0).astype(float)[:, None, None], axis=0))[nonzero]
         return self._ionized_fraction
 
     def _get_large_fraction(self):
@@ -158,7 +159,8 @@ class decomposer(object):
         # Lazy Instantiation
         if self._large_fraction is None:
             self._large_fraction = np.sum(self._weights * (self._precomputed['properties']['size'] > 40).astype(float)[:, None, None], axis=0)
-            self._large_fraction /= self._large_fraction + np.sum(self._weights * (self._precomputed['properties']['size'] <= 40).astype(float)[:, None, None], axis=0)
+            nonzero = np.nonzero(self._large_fraction)
+            self._large_fraction[nonzero] /= self._large_fraction[nonzero] + (np.sum(self._weights * (self._precomputed['properties']['size'] <= 40).astype(float)[:, None, None], axis=0))[nonzero]
         return self._large_fraction
 
     def _get_charge(self):

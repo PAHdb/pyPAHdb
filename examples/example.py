@@ -13,16 +13,15 @@ __email__ = "Christiaan.Boersma@nasa.gov"
 __status__ = "Prototype"
 
 import pypahdb
-from astropy.io import fits
 from os.path import splitext, basename
 
 if __name__ == "__main__":
 
     # load an observation from file
-    observation = pypahdb.observation('NGC7023-NW-PAHs.txt')
+    observation = pypahdb.observation('NGC7023.fits')
 
     # decompose the spectrum with PAHdb
     result = pypahdb.decomposer(observation.spectrum)
 
     # write results to file
-    pypahdb.writer(result, header=observation.header, basename=basename(splitext(observation.file_path)[0]) + '_')
+    pypahdb.writer(result, opdf=False, header=observation.header, basename=basename(splitext(observation.file_path)[0]) + '_')
