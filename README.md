@@ -40,13 +40,13 @@ www.astrochemistry.org' to the install command:
 ## Examples
 
 ```python
-# # import the pypahdb package
+# import the pypahdb package
 import pypahdb
-# # read-in observation.fits
+# read-in observation.fits
 observation = pypahdb.observation('observation.fits')
-# # run the decomposer on the spectrum in observation.fits
+# run the decomposer on the spectrum in observation.fits
 result = pypahdb.decomposer(observation.spectrum)
-# # write decomposer results to file
+# write decomposer results to file
 pypahdb.writer(result)
 ```
 Examples on using pyPAHdb can be found in the
@@ -90,9 +90,9 @@ parameters:
 
 * A calculated vibrational temperature upon the absorption of a 7 eV
   photon
-* Blackbody emission at the calculated vibrational temperature
+* A calculated integrated band intensity after following the entire emission cascade
 * A redshift of 15 /cm to mimic some anharmonic effect
-* Gaussian emission profile with a FWHM of 15 /cm
+* A Gaussian emission profile with a FWHM of 15 /cm
 
 The NASA Ames PAH IR Spectroscopic Database website is located at
 www.astrochemistry.org/pahdb/.

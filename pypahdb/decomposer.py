@@ -90,6 +90,7 @@ class decomposer(object):
 
 
         # Deal with having no map; have a threshold when to do in for loop?
+
         # Linearly interpolate the precomputed spectra onto the
         # frequency grid of the input spectrum
         decomposer_interp = partial(_decomposer_interp, x=self.spectrum.abscissa, xp=self._precomputed['abscissa'])

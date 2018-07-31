@@ -57,6 +57,7 @@ class spectrum(object):
             #print(keywords.get('aunits'))
             self.abscissa = 1e4 / self.abscissa[::-1]
             self.ordinate = self.ordinate[::-1,::,::]
+            self.units['abscissa']['str'] = 'frequency [wavenumber]'
 
         #if keywords.get('ounits'):
            # print(keywords.get('ounits'))
