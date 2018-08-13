@@ -3,19 +3,22 @@
 pypahdb is a Python package to quickly fit and decompose astronomical
 PAH emission spectra into contributing PAH subclasses.
 
+A paper describing pypahdb was presented at
+[SciPy2018](https://scipy2018.scipy.org) and can be found using the
+doi
+[10.25080/Majora-4af1f417-00f](http://doi.org/10.25080/Majora-4af1f417-00f)
+
 ## Requirements
 
 This software requires:
 
 ``python``
-``numpy``
 ``scipy``
 ``astropy``
-``matplotlib``
 
 ## Installation
 
-The pyPAHdb repository uses the [GIT
+The pyPAHdb repository leverages the [GIT
 LFS](https://github.com/git-lfs/git-lfs) extension for managing large
 files. For properly cloning the repository the Git LFS client needs to
 be installed on your system. Instructions to do so can be found at the
@@ -23,7 +26,7 @@ be installed on your system. Instructions to do so can be found at the
 LFS-server leverages SSL, you might need to add the Let's Encrypt
 Intermediate X3 certificate to your trust or set the GIT_SSL_CAINFO to
 point to the intermediate certificate. As a last resort, you could set
-GIT_SSL_NO_VERIFY=true. The Let's Encrypt Intermediate X3 certificat
+GIT_SSL_NO_VERIFY=true. The Let's Encrypt Intermediate X3 certificate
 can be found [here](https://letsencrypt.org/certificates/).
 
 pyPAHdb can be directly installed from the
@@ -36,6 +39,11 @@ intermediate to your trusted chain, you can add '--trusted-host
 www.astrochemistry.org' to the install command:
 
 ``pip install --trusted-host www.astrochemistry.org git+git://github.com/pahdb/pypahdb.git#egg=pypahdb``
+
+**NB** We are aware of the LFS-server requiring credentials and are
+investigating several approaches to work around this requirement. For
+now, the 'pickled' data can be directly obtained from
+[here](http://www.astrochemistry.org/precomputed.pkl).
 
 ## Examples
 
