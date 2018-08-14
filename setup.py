@@ -24,7 +24,7 @@ with open(path.join(here, 'VERSION'), encoding='utf-8') as f:
 
 class BuildPyCommand(build_py):
     def run(self):
-        response = urllib2.urlopen('http://www.astrochemistry.org/PAHdb/pypahdb/pickle.php')
+        response = urllib2.urlopen('http://www.astrochemistry.org/pahdb/pypahdb/pickle.php')
         with open(path.join(here, 'pypahdb/data/precomputed.pkl'), 'w') as f:
             f.write(response.read())
         build_py.run(self)
