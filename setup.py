@@ -6,6 +6,8 @@ https://github.com/pypa/sampleproject
 
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
+from setuptools.command.build_py import build_py
+import urllib2
 # To use a consistent encoding
 from codecs import open
 from os import path
@@ -19,6 +21,13 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 # Get the version from the VERSION file
 with open(path.join(here, 'VERSION'), encoding='utf-8') as f:
     version = f.read().strip()
+
+class BuildPyCommand(build_py):
+    def run(self):
+        response = urllib2.urlopen('http://www.astrochemistry.org/PAHdb/pypahdb/pickle.php')
+        with open(path.join(here, 'pypahdb/data/precomputed.pkl'), 'w') as f:
+            f.write(response.read())
+        build_py.run(self)
 
 # Arguments marked as "Required" below must be included for upload to PyPI.
 # Fields marked as "Optional" may be commented out.
@@ -125,7 +134,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['numpy', 'scipy', 'astropy', 'matplotlib'],  # Optional
+    install_requires=['scipy', 'astropy', 'matplotlib'],  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -182,5 +191,10 @@ setup(
     project_urls={  # Optional
         'Bug Reports': 'https://github.com/pahdb/pypahdb/issues',
         'Source': 'https://github.com/pahdb/pypahdb/',
+    },
+
+    # Run custom commands
+    cmdclass={ # Optional
+        'build_py': BuildPyCommand,
     },
 )

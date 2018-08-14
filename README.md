@@ -1,12 +1,12 @@
 # pypahdb
 
-pypahdb is a Python package to quickly fit and decompose astronomical
-PAH emission spectra into contributing PAH subclasses.
+pypahdb is a Python package to fit and decompose astronomical PAH
+emission spectra into contributing PAH subclasses.
 
-A paper describing pypahdb was presented at
+A paper describing pypahdb in detail was presented at
 [SciPy2018](https://scipy2018.scipy.org) and can be found using the
 doi
-[10.25080/Majora-4af1f417-00f](http://doi.org/10.25080/Majora-4af1f417-00f)
+[10.25080/Majora-4af1f417-00f](http://doi.org/10.25080/Majora-4af1f417-00f).
 
 ## Requirements
 
@@ -18,32 +18,10 @@ This software requires:
 
 ## Installation
 
-The pyPAHdb repository leverages the [GIT
-LFS](https://github.com/git-lfs/git-lfs) extension for managing large
-files. For properly cloning the repository the Git LFS client needs to
-be installed on your system. Instructions to do so can be found at the
-[GIT LFS-page](https://github.com/git-lfs/git-lfs). Since the
-LFS-server leverages SSL, you might need to add the Let's Encrypt
-Intermediate X3 certificate to your trust or set the GIT_SSL_CAINFO to
-point to the intermediate certificate. As a last resort, you could set
-GIT_SSL_NO_VERIFY=true. The Let's Encrypt Intermediate X3 certificate
-can be found [here](https://letsencrypt.org/certificates/).
-
-pyPAHdb can be directly installed from the
+pypahdb can be directly installed from the
 [repository](https://github.com/pahdb/pypahdb) using pip:
 
 ``pip install git+git://github.com/pahdb/pypahdb.git#egg=pypahdb``
-
-In case of remaining issues with the SSL-certificate after adding the
-intermediate to your trusted chain, you can add '--trusted-host
-www.astrochemistry.org' to the install command:
-
-``pip install --trusted-host www.astrochemistry.org git+git://github.com/pahdb/pypahdb.git#egg=pypahdb``
-
-**NB** We are aware of the LFS-server requiring credentials and are
-investigating several approaches to work around this requirement. For
-now, the 'pickled' data can be directly obtained from
-[here](http://www.astrochemistry.org/precomputed.pkl).
 
 ## Examples
 
@@ -57,7 +35,7 @@ result = pypahdb.decomposer(observation.spectrum)
 # write decomposer results to file
 pypahdb.writer(result)
 ```
-Examples on using pyPAHdb can be found in the
+More examples can be found in the
 [examples](examples)-directory.
 
 ## Unit tests
@@ -72,20 +50,19 @@ Documentation can be found in the
 
 ## Background
 
-The pyPAHdb package is being developed as part of the awarded
-[James Webb Space Telescope](https://www.jwst.nasa.gov/) (*JWST*)
-Early Release Science (ERS) program "Radiative Feedback from Massive
-Stars as Traced by Multiband Imaging and Spectroscopic Mosaics"
-([program website](http://jwst-ism.org/); ID: 1288). The entire
-program is coordinated by an international "Core team" of 19
-scientists and supported by 119 "science collaborators". pyPAHdb is
-developed by the
-[NASA Ames PAH IR Spectroscopic Database](http://www.astrochemistry.org/pahdb/)
-team, asscociated with the
-[Astrophysics & Astrochemistry Laboratory](http://www.astrochemistry.org)
-at [NASA Ames Research Center](https://www.nasa.gov/centers/ames).
+The pypahdb package is being developed as part of the awarded [James
+Webb Space Telescope](https://www.jwst.nasa.gov/) (*JWST*) Early
+Release Science (ERS) program "Radiative Feedback from Massive Stars
+as Traced by Multiband Imaging and Spectroscopic Mosaics" ([program
+website](http://jwst-ism.org/); ID: 1288). The program is coordinated
+by an international "Core team" of 19 scientists and supported by 119
+"science collaborators". pypahdb is developed by the [NASA Ames PAH IR
+Spectroscopic Database](http://www.astrochemistry.org/pahdb/) team,
+asscociated with the [Astrophysics & Astrochemistry
+Laboratory](http://www.astrochemistry.org) at [NASA Ames Research
+Center](https://www.nasa.gov/centers/ames).
 
-pyPAHdb uses a precomputed matrix of theoretically calculated PAH
+pypahdb uses a precomputed matrix of theoretically calculated PAH
 emission spectra from version 3.00 of the library of computed
 spectra. This matrix has been constructed from a collection of
 "astronomical" PAHs, which meet the following critera and include the
@@ -102,31 +79,15 @@ parameters:
 * A redshift of 15 /cm to mimic some anharmonic effect
 * A Gaussian emission profile with a FWHM of 15 /cm
 
-The NASA Ames PAH IR Spectroscopic Database website is located at
-www.astrochemistry.org/pahdb/.
+Additional information can be found at the NASA Ames PAH IR
+Spectroscopic Database website, which is located at
+[www.astrochemistry.org/pahdb/](http://www.astrochemistry.org/pahdb/pypahdb).
 
-You are kindly asked to cite the following papers when using pyPAHdb:
+You are kindly asked to cite the following paper when using pypahdb:
 
-    * C.W. Bauschlicher, Jr., A. Ricca, C. Boersma, and
-      L.J. Allamandola, "THE NASA AMES PAH IR SPECTROSCOPIC DATABASE:
-      COMPUTATIONAL VERSION 3.00 WITH UPDATED CONTENT AND THE
-      INTRODUCTION OF MULTIPLE SCALING FACTORS", The Astrophysical
-      Journal Supplement Series, 234, 32, 2018
-      10.3847/1538-4365/aaa019
-
-    * C. Boersma, C.W. Bauschlicher, Jr., A. Ricca, A.L. Mattioda,
-      J. Cami, E. Peeters, F. Sanchez de Armas, G. Puerta Saborido,
-      D.M. Hudgins, and L.J. Allamandola, "THE NASA AMES PAH IR
-      SPECTROSCOPIC DATABASE VERSION 2.00: UPDATED CONTENT, WEBSITE AND
-      ON/OFFLINE TOOLS", The Astrophysical Journal Supplement Series,
-      211, 8, 2014 10.1088/0067-0049/211/1/8
-
-    * Mattioda, A. L., Hudgins, D. M., Boersma, C., Ricca, A.,
-      Peeters, E., Cami, J., Sanchez de Armas, F., Puerta Saborido,
-      G., Bauschlicher, C. W., J., and Allamandola, L. J. "THE NASA
-      AMES PAH IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", The
-      Astrophysical Journal Supplement Series, XXX, 201X (in
-      preparation)
+	* Shannon, M.J., Boersma, C., "Organic Molecules in Space: Insights from
+	  the NASA Ames Molecular Database in the era of the James Webb Space
+      Telescope", 2018, SciPy, 99 doi:10.25080/majora-4af1f417-00f
 
 ## Contributing
 
