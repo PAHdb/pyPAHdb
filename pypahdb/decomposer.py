@@ -70,13 +70,11 @@ class decomposer(object):
        spectrum: The spectrum to fit and decompose.
     """
     def __init__(self, spectrum):
-        """
-        Construct a decomposer object.
+        """Construct a decomposer object.
 
-        :param spectrum: The spectrum to fit and decompose
-        :return: returns None
+        Args:
+            spectrum (object): The spectrum to fit and decompose
         """
-
         self._yfit = None
         self._ionized_fraction = None
         self._large_fraction = None
@@ -135,10 +133,10 @@ class decomposer(object):
         self.norm = np.reshape(self.norm, (ordd.shape[2], ordd.shape[1])).T
 
     def _fit(self):
-        """
-        Return the fit.
+        """Return the fit.
 
-        :return: returns array
+        Returns:
+            self._yfit (ndarray): PAHdb total fit.
         """
 
         # Lazy Instantiation
@@ -177,10 +175,10 @@ class decomposer(object):
         return self._yfit
 
     def _get_ionized_fraction(self):
-        """
-        Return the ionized fraction.
+        """Return the ionized fraction.
 
-        :return: returns array
+        Returns:
+            self._ionized_fraction (ndarray): Ion fraction of fit.
         """
 
         # Lazy Instantiation
@@ -202,10 +200,10 @@ class decomposer(object):
         return self._ionized_fraction
 
     def _get_large_fraction(self):
-        """
-        Return the large fraction.
+        """Return the large fraction.
 
-        :return: returns array
+        Returns:
+            self._large_fraction (ndarray): Large fraction of fit.
         """
 
         # Lazy Instantiation
@@ -229,8 +227,9 @@ class decomposer(object):
     def _get_charge(self):
         """Return the spectral charge breakdown.
 
-        :return: returns associative array with keys
-        'anion', 'neutral' and 'cation'
+        Returns:
+            self._charge (ndarray): Associative array with keys
+                'anion', 'neutral' and 'cation'
         """
 
         # Lazy Instantiation
@@ -313,7 +312,9 @@ class decomposer(object):
     def _get_size(self):
         """Return the spectral size breakdown.
 
-        :return: returns associative array with keys 'large' and 'small'
+        Returns:
+            self._size (ndarray): Associative array with keys
+                'large', 'small'
         """
 
         # Lazy Instantiation
