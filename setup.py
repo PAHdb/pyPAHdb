@@ -79,10 +79,10 @@ setup(
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#summary
-    description='Using a precomputed matrix of theoretically calculated '
-                'PAH emission spectra from the NASA Ames PAH IR Spectroscopic '
-                'Database, a spectrum is decomposed into contribution PAH '
-                'subclasses using a nnls-approach',  # Required
+    description='Using a precomputed matrix of theoretically calculated \
+                PAH emission spectra from the NASA Ames PAH IR Spectroscopic \
+                Database, a spectrum is decomposed into contribution PAH \
+                subclasses using a nnls-approach',  # Required
 
     # This is an optional longer description of your project that represents
     # the body of text which users will see when they visit PyPI.
