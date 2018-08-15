@@ -41,7 +41,7 @@ class BuildPyCommand(build_py):
     def run(self):
         # honor the --dry-run flag
         if not self.dry_run:
-            response = urlopen('http://www.astrochemistry.org/pahdb/pypahdb/precomputed.pkl')
+            response = urlopen('http://www.astrochemistry.org/pahdb/pypahdb/pickle.php')
             with open(path.join(here, 'pypahdb/data/precomputed.pkl'), 'wb') as f:
               f.write(response.read())
         build_py.run(self)
