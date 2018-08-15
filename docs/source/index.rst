@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to pyPAHdb's documentation!
+Welcome to pypahdb's documentation!
 ===================================
 
 .. toctree::
@@ -11,9 +11,11 @@ Welcome to pyPAHdb's documentation!
    :caption: Contents:
 
    introduction
+   installation
+   usage
+   release-history
    pypahdb
-
-
+   modules
 
 Indices and tables
 ==================
@@ -21,3 +23,4 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+

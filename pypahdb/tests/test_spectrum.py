@@ -17,14 +17,14 @@ class SpectrumTestCase(unittest.TestCase):
         """Can we create an instance of spectrum?"""
 
         zeros = np.zeros(5)
-        self.assertIsInstance(spectrum(zeros, zeros, zeros, ['empty', 'empty']), spectrum)
+        self.assertIsInstance(spectrum(zeros, zeros, zeros, {'abscissa':{'type':0, 'str':'empty'}, 'ordinate':{'type':0, 'str':'empty'}}), spectrum)
 
     def test_convert_units_micron_to_wavenumber(self):
         """Can we correctly convert micron to wavenumber?"""
 
         micron = np.arange(5, dtype='float') + 1
         zeros = np.zeros(5)
-        s = spectrum(micron, zeros, zeros, ['micron', 'flux'])
+        s = spectrum(micron, zeros, zeros, {'abscissa':{'type':0, 'str':'empty'}, 'ordinate':{'type':0, 'str':'empty'}})
         s.convertunitsto(aunits='wavenumber')
         self.assertEqual(s.abscissa.tolist(), (1e4 / micron[::-1]).tolist())
 

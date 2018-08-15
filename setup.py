@@ -1,32 +1,49 @@
-"""A setuptools based setup module.
-See:
-https://packaging.python.org/en/latest/distributing.html
-https://github.com/pypa/sampleproject
-"""
-
-# Always prefer setuptools over distutils
+from os import path
 from setuptools import setup, find_packages
 from setuptools.command.build_py import build_py
-import urllib2
-# To use a consistent encoding
-from codecs import open
-from os import path
+import sys
+import versioneer
+
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
+
+# NOTE: This file must remain Python 2 compatible for the foreseeable future,
+# to ensure that we error out properly for people with outdated setuptools
+# and/or pip.
+#if sys.version_info < (3, 6):
+#    error = """
+#pypahdb does not support Python {0}.{2}.
+#Python 3.6 and above is required. Check your Python version like so:
+#
+#python3 --version
+#
+#This may be due to an out-of-date pip. Make sure you have pip >= 9.0.1.
+#Upgrade pip like so:
+#
+#pip install --upgrade pip
+#""".format(3, 6)
+#    sys.exit(error)
 
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+with open(path.join(here, 'README.md')) as f:
     long_description = f.read()
 
-# Get the version from the VERSION file
-with open(path.join(here, 'VERSION'), encoding='utf-8') as f:
-    version = f.read().strip()
+with open(path.join(here, 'requirements.txt')) as requirements_file:
+    # Parse requirements.txt, ignoring any commented-out lines.
+    requirements = [line for line in requirements_file.read().splitlines()
+                    if not line.startswith('#')]
 
 class BuildPyCommand(build_py):
     def run(self):
-        response = urllib2.urlopen('http://www.astrochemistry.org/pahdb/pypahdb/pickle.php')
-        with open(path.join(here, 'pypahdb/data/precomputed.pkl'), 'w') as f:
-            f.write(response.read())
+        # honor the --dry-run flag
+        if not self.dry_run:
+            response = urlopen('http://www.astrochemistry.org/pahdb/pypahdb/precomputed.pkl')
+            with open(path.join(here, 'pypahdb/data/precomputed.pkl'), 'wb') as f:
+              f.write(response.read())
         build_py.run(self)
 
 # Arguments marked as "Required" below must be included for upload to PyPI.
@@ -44,7 +61,7 @@ setup(
     # There are some restrictions on what makes a valid project name
     # specification here:
     # https://packaging.python.org/specifications/core-metadata/#name
-    name='pyPAHdb',  # Required
+    name='pypahdb',  # Required
 
     # Versions should comply with PEP 440:
     # https://www.python.org/dev/peps/pep-0440/
@@ -52,7 +69,7 @@ setup(
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version=version,  # Required
+    version=versioneer.get_version(),  # Required
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
@@ -73,7 +90,7 @@ setup(
     #
     # This field corresponds to the "Home-Page" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#home-page-optional
-    url='http://www.astrochemistry.org/pahdb/',  # Optional
+    url='http://www.astrochemistry.org/pahdb/pypahdb',  # Optional
 
     # This should be your name or the name of the organization which owns the
     # project.
@@ -103,12 +120,8 @@ setup(
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
+        'Natural Language :: English',
     ],
 
     # This field adds keywords for your project which will appear on the
@@ -134,7 +147,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['scipy', 'astropy', 'matplotlib'],  # Optional
+    install_requires=requirements,  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -154,8 +167,9 @@ setup(
     #
     # If using Python 2.6 or earlier, then these have to be included in
     # MANIFEST.in as well.
+    include_package_data=True,
     package_data={  # Optional
-        'pypahdb': ['VERSION', 'data/*'],
+        'pypahdb': ['data/*'],
         'pypahdb.tests': ['data/*']
     },
 

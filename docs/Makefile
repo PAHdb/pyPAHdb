@@ -2,9 +2,9 @@
 #
 
 # You can set these variables from the command line.
-SPHINXOPTS    =
-SPHINXBUILD   = python -msphinx
-SPHINXPROJ    = pyPAHdb
+SPHINXOPTS    = "-W"  # This flag turns warnings into errors.
+SPHINXBUILD   = sphinx-build
+SPHINXPROJ    = PackagingScientificPython
 SOURCEDIR     = source
 BUILDDIR      = build
 

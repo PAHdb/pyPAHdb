@@ -1,6 +1,6 @@
 # Makefile for pyPAHdb
 
-TESTS  = green
+TESTS  = pytest
 SPHINX = sphinx-apidoc
 
 all: wheel tests alldocs changelog
@@ -20,7 +20,7 @@ pdfdocs: sphinx
 	/bin/mv -f docs/build/latex/pyPAHdb.pdf docs/pyPAHdb_`/bin/cat VERSION`.pdf
 
 tests:
-	${TESTS} pypahdb
+	${TESTS}
 
 wheel:
 	python setup.py bdist_wheel

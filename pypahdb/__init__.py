@@ -51,12 +51,9 @@ You are kindly asked to cite the following papers when using pyPAHdb:
       Astrophysical Journal Supplement Series, XXX, 201X (in
       preparation)
 """
-from codecs import open
-from os import path
-
-here = path.abspath(path.dirname(__file__))
-with open(path.join(here, 'VERSION'), encoding='utf-8') as f:
-    __version__ = f.read().strip()
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions
 
 from .observation import observation
 from .spectrum import spectrum

@@ -1,3 +1,5 @@
+![travis-ci](https://img.shields.io/travis/PAHdb/pypahdb.svg "Logo Title Text 1") ![pypi](https://img.shields.io/pypi/v/pypahdb.svg "Logo Title Text 1")
+
 # pypahdb
 
 pypahdb is a Python package to fit and decompose astronomical PAH
