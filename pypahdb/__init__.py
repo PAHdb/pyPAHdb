@@ -51,11 +51,14 @@ You are kindly asked to cite the following papers when using pyPAHdb:
       Astrophysical Journal Supplement Series, XXX, 201X (in
       preparation)
 """
-from ._version import get_versions
-__version__ = get_versions()['version']
-del get_versions
 
 from .observation import observation
 from .spectrum import spectrum
 from .decomposer import decomposer
 from .writer import writer
+
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions
+
+__all__ = ['observation', 'spectrum', 'decomposer', 'writer']

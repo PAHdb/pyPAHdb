@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # example.py
 
-"""example.py: Example of using pypahdb to decompose an astronomical PAH spectrum"""
+"""Example of using pypahdb to decompose an astronomical PAH spectrum"""
 
 __author__ = "Christiaan Boersma"
 __copyright__ = "Copyright 2018, The NASA Ames PAH IR Spectroscopic Database"
@@ -24,4 +24,6 @@ if __name__ == "__main__":
     result = pypahdb.decomposer(observation.spectrum)
 
     # write results to file
-    pypahdb.writer(result, opdf=False, header=observation.header, basename=basename(splitext(observation.file_path)[0]) + '_')
+    pypahdb.writer(result, opdf=False,
+                   header=observation.header,
+                   basename=basename(splitext(observation.file_path)[0]) + '_')

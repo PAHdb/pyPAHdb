@@ -1,7 +1,6 @@
 from os import path
 from setuptools import setup, find_packages
 from setuptools.command.build_py import build_py
-import sys
 import versioneer
 
 try:
@@ -9,22 +8,24 @@ try:
 except ImportError:
     from urllib2 import urlopen
 
-# NOTE: This file must remain Python 2 compatible for the foreseeable future,
-# to ensure that we error out properly for people with outdated setuptools
-# and/or pip.
-#if sys.version_info < (3, 6):
-#    error = """
-#pypahdb does not support Python {0}.{2}.
-#Python 3.6 and above is required. Check your Python version like so:
-#
-#python3 --version
-#
-#This may be due to an out-of-date pip. Make sure you have pip >= 9.0.1.
-#Upgrade pip like so:
-#
-#pip install --upgrade pip
-#""".format(3, 6)
-#    sys.exit(error)
+"""
+NOTE: This file must remain Python 2 compatible for the foreseeable future,
+to ensure that we error out properly for people with outdated setuptools
+and/or pip.
+if sys.version_info < (3, 6):
+   error = '''
+pypahdb does not support Python {0}.{2}.
+Python 3.6 and above is required. Check your Python version like so:
+
+python3 --version
+
+This may be due to an out-of-date pip. Make sure you have pip >= 9.0.1.
+Upgrade pip like so:
+
+pip install --upgrade pip
+'''.format(3, 6)
+   sys.exit(error)
+"""
 
 here = path.abspath(path.dirname(__file__))
 
@@ -37,17 +38,21 @@ with open(path.join(here, 'requirements.txt')) as requirements_file:
     requirements = [line for line in requirements_file.read().splitlines()
                     if not line.startswith('#')]
 
+
 class BuildPyCommand(build_py):
     def run(self):
+        remote_pkl = 'http://www.astrochemistry.org/pahdb/pypahdb/pickle.php'
+        local_pkl = 'pypahdb/data/precomputed.pkl'
         # honor the --dry-run flag
         if not self.dry_run:
-            response = urlopen('http://www.astrochemistry.org/pahdb/pypahdb/pickle.php')
-            with open(path.join(here, 'pypahdb/data/precomputed.pkl'), 'wb') as f:
-              f.write(response.read())
+            response = urlopen(remote_pkl)
+            with open(path.join(here, local_pkl), 'wb') as f:
+                f.write(response.read())
         build_py.run(self)
 
 # Arguments marked as "Required" below must be included for upload to PyPI.
 # Fields marked as "Optional" may be commented out.
+
 
 setup(
     # This is the name of your project. The first time you publish this
@@ -74,7 +79,10 @@ setup(
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#summary
-    description=' Using a precomputed matrix of theoretically calculated PAH emission spectra from the NASA Ames PAH IR Spectroscopic Database, a spectrum is decomposed into contribution PAH subclasses using a nnls-approach',  # Required
+    description='Using a precomputed matrix of theoretically calculated \
+                PAH emission spectra from the NASA Ames PAH IR Spectroscopic \
+                Database, a spectrum is decomposed into contribution PAH \
+                subclasses using a nnls-approach',  # Required
 
     # This is an optional longer description of your project that represents
     # the body of text which users will see when they visit PyPI.
@@ -157,10 +165,10 @@ setup(
     #
     # Similar to `install_requires` above, these must be valid existing
     # projects.
-    #extras_require={  # Optional
+    # extras_require={  # Optional
     #    'dev': ['check-manifest'],
     #    'test': ['coverage'],
-    #},
+    # },
 
     # If there are data files included in your packages that need to be
     # installed, specify them here.
@@ -178,7 +186,7 @@ setup(
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files
     #
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    #data_files=[('my_data', ['data/data_file'])],  # Optional
+    # data_files=[('my_data', ['data/data_file'])],  # Optional
 
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
@@ -187,11 +195,11 @@ setup(
     #
     # For example, the following would provide a command called `sample` which
     # executes the function `main` from this package when invoked:
-    #entry_points={  # Optional
+    # entry_points={  # Optional
     #    'console_scripts': [
     #        'sample=sample:main',
     #    ],
-    #},
+    # },
 
     # List additional URLs that are relevant to your project as a dict.
     #
@@ -208,7 +216,7 @@ setup(
     },
 
     # Run custom commands
-    cmdclass={ # Optional
+    cmdclass={  # Optional
         'build_py': BuildPyCommand,
     },
 )

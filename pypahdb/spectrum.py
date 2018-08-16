@@ -9,6 +9,7 @@ information.
 
 import numpy as np
 
+
 class spectrum(object):
     """Create a spectrum object.
 
@@ -38,8 +39,11 @@ class spectrum(object):
 
         # Always work as if ordinate is a cube
         if len(self.ordinate.shape) == 1:
-            self.ordinate = np.reshape(self.ordinate, self.ordinate.shape + (1, 1))
-            self.uncertainties = np.reshape(self.uncertainties, self.uncertainties.shape + (1, 1))
+            self.ordinate = \
+                np.reshape(self.ordinate, self.ordinate.shape + (1, 1))
+            self.uncertainties = \
+                np.reshape(self.uncertainties,
+                           self.uncertainties.shape + (1, 1))
         self._units = units
 
     def convertunitsto(self, **keywords):
@@ -54,10 +58,10 @@ class spectrum(object):
         """
         # currently hard coded
         if keywords.get('aunits'):
-            #print(keywords.get('aunits'))
+            # print(keywords.get('aunits'))
             self.abscissa = 1e4 / self.abscissa[::-1]
-            self.ordinate = self.ordinate[::-1,::,::]
+            self.ordinate = self.ordinate[::-1, ::, ::]
             self.units['abscissa']['str'] = 'frequency [wavenumber]'
 
-        #if keywords.get('ounits'):
-           # print(keywords.get('ounits'))
+        # if keywords.get('ounits'):
+            # print(keywords.get('ounits'))

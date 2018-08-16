@@ -10,6 +10,7 @@ import numpy as np
 
 from pypahdb import writer
 
+
 class WriterTestCase(unittest.TestCase):
     """Unit tests for `writer.py`"""
 
@@ -18,6 +19,7 @@ class WriterTestCase(unittest.TestCase):
 
         zeros = np.zeros(5)
         self.assertIsInstance(writer(zeros), writer)
+
 
 if __name__ == '__main__':
     unittest.main()
