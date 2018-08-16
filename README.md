@@ -1,11 +1,11 @@
-![travis-ci](https://img.shields.io/travis/PAHdb/pypahdb.svg "Logo Title Text 1") ![pypi](https://img.shields.io/pypi/v/pypahdb.svg "Logo Title Text 1")
+![travis-ci](https://img.shields.io/travis/PAHdb/pyPAHdb.svg "Travis-ci") ![pypi](https://img.shields.io/pypi/v/pyPAHdb.svg "pypi")
 
 # pypahdb
 
 pypahdb is a Python package to fit and decompose astronomical PAH
 emission spectra into contributing PAH subclasses.
 
-A paper describing pypahdb in detail was presented at
+A paper describing pypahdb was presented at
 [SciPy2018](https://scipy2018.scipy.org) and can be found using the
 doi
 [10.25080/Majora-4af1f417-00f](http://doi.org/10.25080/Majora-4af1f417-00f).
@@ -21,9 +21,9 @@ This software requires:
 ## Installation
 
 pypahdb can be directly installed from the
-[repository](https://github.com/pahdb/pypahdb) using pip:
+[repository](https://github.com/PAHdb/pyPAHdb) using pip:
 
-``pip install git+git://github.com/pahdb/pypahdb.git#egg=pypahdb``
+``pip install git+git://github.com/PAHdb/pyPAHdb.git``
 
 ## Examples
 
