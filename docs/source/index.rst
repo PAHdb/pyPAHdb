@@ -14,7 +14,6 @@ Welcome to pypahdb's documentation!
    installation
    usage
    release-history
-   pypahdb
    modules
 
 Indices and tables
