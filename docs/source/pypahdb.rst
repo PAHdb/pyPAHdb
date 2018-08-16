@@ -26,6 +26,7 @@ pypahdb\.observation module
     :members:
     :undoc-members:
     :show-inheritance:
+    :noindex:
 
 pypahdb\.spectrum module
 ------------------------
