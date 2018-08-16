@@ -1,5 +1,4 @@
-"""
-The pyPAHdb package is being developed as part of the awarded James
+"""The pyPAHdb package is being developed as part of the awarded James
 Webb Space Telescope (JWST) Early Release Science (ERS) program
 "Radiative Feedback from Massive Stars as Traced by Multiband Imaging
 and Spectroscopic Mosaics" (ID: 1288). The entire program is
@@ -21,7 +20,8 @@ parameters:
 
 * A calculated vibrational temperature upon the absorption of a 7 eV
   photon
-* Blackbody emission at the calculated vibrational temperature
+* A calculated integrated band intensity after following the entire
+  emission cascade
 * A redshift of 15 /cm to mimic some anharmonic effect
 * Gaussian emission profile with a FWHM of 15 /cm
 
@@ -50,6 +50,7 @@ You are kindly asked to cite the following papers when using pyPAHdb:
       AMES PAH IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", The
       Astrophysical Journal Supplement Series, XXX, 201X (in
       preparation)
+
 """
 
 from .observation import observation

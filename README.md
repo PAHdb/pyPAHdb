@@ -1,5 +1,4 @@
-[![Travis Status](https://img.shields.io/travis/PAHdb/pyPAHdb.svg)](https://travis-ci.org/PAHdb/pyPAHdb)
-[![Coverage Status](https://coveralls.io/repos/github/PAHdb/pyPAHdb/badge.svg?branch=master)](https://coveralls.io/github/PAHdb/pyPAHdb?branch=master)
+[![Travis Status](https://img.shields.io/travis/PAHdb/pyPAHdb.svg)](https://travis-ci.org/PAHdb/pyPAHdb) [![Coverage Status]( https://codecov.io/gh/PAHdb/pyPAHdb/graph/badge.svg)](https://codecov.io/gh/PAHdb/pyPAHdb)
 
 # pypahdb
 
@@ -41,15 +40,10 @@ pypahdb.writer(result)
 More examples can be found in the
 [examples](examples)-directory.
 
-## Unit tests
-
-Unit-tests are available in the
-[pypahdb/tests](pypahdb/tests)-directory.
-
 ## Documentation
 
-Documentation can be found in the
-[docs](docs)-directory.
+Documentation can be found at
+[www.astrochemistry.org/pahdb/pypahdb](http://www.astrochemistry.org/pahdb/pypahdb).
 
 ## Background
 
@@ -84,7 +78,7 @@ parameters:
 
 Additional information can be found at the NASA Ames PAH IR
 Spectroscopic Database website, which is located at
-[www.astrochemistry.org/pahdb/](http://www.astrochemistry.org/pahdb/pypahdb).
+[www.astrochemistry.org/pahdb](http://www.astrochemistry.org/pahdb/pypahdb).
 
 You are kindly asked to cite the following paper when using pypahdb:
 
