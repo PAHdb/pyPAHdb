@@ -1,4 +1,5 @@
-![travis-ci](https://img.shields.io/travis/PAHdb/pyPAHdb.svg "Travis-ci") ![pypi](https://img.shields.io/pypi/v/pyPAHdb.svg "pypi")
+[![Travis Status](https://img.shields.io/travis/PAHdb/pyPAHdb.svg)](https://travis-ci.org/PAHdb/pyPAHdb)
+[![Coverage Status](https://coveralls.io/repos/github/PAHdb/pyPAHdb/badge.svg?branch=master)](https://coveralls.io/github/PAHdb/pyPAHdb?branch=master)
 
 # pypahdb
 
