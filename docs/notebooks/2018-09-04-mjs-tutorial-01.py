@@ -5,22 +5,35 @@
 
 # We begin this series by performing a simple analysis of a single astronomical spectrum. We will use one of the sample spectra here. Feel free to follow along, and attempt the same method with a simple spectrum of your own.
 
-# Data used in this example: pyPAHdb/examples/NGC7023-NW-PAHs.txt ***find a way to import dynamically!***
+# Data used in this example: pyPAHdb/tests/data/NGC7023-NW-PAHs.txt
 
 # ***
 
-# ### Necessary modules
+# ### Necessary modules and paths
 
-# In[6]:
+# In[1]:
 
 
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 import pypahdb
 
 # The below command will suppress the shell output, since we are using
 # matplotlib within a notebook.
 get_ipython().run_line_magic('matplotlib', 'inline')
+
+
+# We'll dynamically determine the location containing our tests data:
+
+# In[14]:
+
+
+# Identify the path to the folder containing the test data we are going to use.
+# In your usage, 
+package_dir = os.path.dirname(os.path.abspath(pypahdb.__file__))
+data_dir = package_dir + '/tests/data/'
+data_dir
 
 
 # ***
@@ -41,11 +54,12 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 # We will use the example spectrum ``NGC7023-NW-PAHs.txt`` here.
 
-# In[67]:
+# In[12]:
 
 
-# Loading from the PWD for now until we find a more elegant solution.
-data_file = 'NGC7023-NW-PAHs.txt'
+# Loading from the data directory. For your uses, point to the location
+# of the spectrum you are examining.
+data_file = data_dir + 'NGC7023-NW-PAHs.txt'
 
 
 # Let's examine the first few lines of this file so we understand its structure...

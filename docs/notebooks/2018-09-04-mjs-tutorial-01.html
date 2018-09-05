@@ -11792,7 +11792,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Data used in this example: pyPAHdb/examples/NGC7023-NW-PAHs.txt <strong><em>find a way to import dynamically!</em></strong></p>
+<p>Data used in this example: pyPAHdb/tests/data/NGC7023-NW-PAHs.txt</p>
 
 </div>
 </div>
@@ -11810,17 +11810,18 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Necessary-modules">Necessary modules<a class="anchor-link" href="#Necessary-modules">&#182;</a></h3>
+<h3 id="Necessary-modules-and-paths">Necessary modules and paths<a class="anchor-link" href="#Necessary-modules-and-paths">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pypahdb</span>
 
 <span class="c1"># The below command will suppress the shell output, since we are using</span>
@@ -11829,6 +11830,52 @@ div#notebook {
 </pre></div>
 
 </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We'll dynamically determine the location containing our tests data:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Identify the path to the folder containing the test data we are going to use.</span>
+<span class="c1"># In your usage, </span>
+<span class="n">package_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">pypahdb</span><span class="o">.</span><span class="vm">__file__</span><span class="p">))</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="n">package_dir</span> <span class="o">+</span> <span class="s1">&#39;/tests/data/&#39;</span>
+<span class="n">data_dir</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[14]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;/Users/mjshanno/miniconda3/envs/py3/lib/python3.6/site-packages/pypahdb/tests/data/&#39;</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -11892,11 +11939,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Loading from the PWD for now until we find a more elegant solution.</span>
-<span class="n">data_file</span> <span class="o">=</span> <span class="s1">&#39;NGC7023-NW-PAHs.txt&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Loading from the data directory. For your uses, point to the location</span>
+<span class="c1"># of the spectrum you are examining.</span>
+<span class="n">data_file</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;NGC7023-NW-PAHs.txt&#39;</span>
 </pre></div>
 
 </div>
