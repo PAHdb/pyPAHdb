@@ -9,6 +9,7 @@ information.
 """
 
 import numpy as np
+import os
 
 from astropy.io import ascii
 from astropy.io import fits
@@ -57,8 +58,14 @@ class observation(object):
                                  {'abscissa': {'str': abscissa_unit},
                                   'ordinate': {'str': ordinate_unit}})
                     return None
-        except Exception as e:
-            print(e)
+        except FileNotFoundError as e:
+            raise(e)
+        except OSError as e:
+            # Because astropy.io.fits.open raises a generic OSError
+            # if the file is the header is missing an END card
+            # (which ASCII files do), we have to catch OSError here
+            # and pass so that we can read it as ASCII.
+            # print(e)
             pass
 
         try:
@@ -75,4 +82,4 @@ class observation(object):
             print(e)
             pass
 
-        raise IOError(self.file_path + ": File-format not recognized")
+        raise OSError(self.file_path + ": File-format not recognized")

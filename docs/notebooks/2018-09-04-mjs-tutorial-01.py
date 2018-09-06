@@ -286,5 +286,3 @@ type(result.size)
 
 type(result.spectrum)
 
-
-# ***

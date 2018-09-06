@@ -11,7 +11,7 @@ Welcome to pyPAHdb's documentation!
    :caption: Contents:
 
    introduction
-   test
+   tutorial_01
    installation
    usage
    release-history
