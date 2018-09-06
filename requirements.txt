@@ -2,4 +2,4 @@ scipy
 astropy
 matplotlib
 nbsphinx
-pandoc
+pypandoc
