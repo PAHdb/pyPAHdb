@@ -1,11 +1,15 @@
 
 # coding: utf-8
 
-# # <span style="color:blue">Tutorial series: using pyPAHdb to analyze astronomical spectra.</span>
+# # <span style="color:blue">Tutorial series: using pyPAHdb
+# to analyze astronomical spectra.</span>
 
 # # Tutorial 01: a single Spitzer spectrum.
 
-# We begin this series by performing a simple analysis of a single astronomical spectrum. We will use one of the sample spectra here. Feel free to follow along, and attempt the same method with a simple spectrum of your own.
+# We begin this series by performing a simple analysis of a
+# single astronomical spectrum. We will use one of the sample spectra here.
+# Feel free to follow along, and attempt the same method with a simple
+# spectrum of your own.
 
 # Data used in this example: pyPAHdb/tests/data/NGC7023-NW-PAHs.txt
 
@@ -23,7 +27,7 @@ import pypahdb
 
 # The below command will suppress the shell output, since we are using
 # matplotlib within a notebook.
-get_ipython().run_line_magic('matplotlib', 'inline')
+# get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # We'll dynamically determine the location containing our tests data:
@@ -43,12 +47,13 @@ data_dir
 # ## <span style="color:blue">Step 2</span>: Preparing the data
 
 # You should ensure your data has a simple format. Acceptable formats include:
-# 
+#
 # - FITS
 #     - ...
-#     
+#
 # - ASCII
-#     - either two-column (wavelength, flux) or three-column (wavelength, flux, flux error)
+#     - either two-column (wavelength, flux) or three-column
+# (wavelength, flux, flux error)
 #     - seperated by commas (CSV) or single spaces
 #     - ***what about headers?? do we use skiprows in pypahdb right now??***
 
@@ -64,7 +69,8 @@ data_dir
 data_file = data_dir + 'NGC7023-NW-PAHs.txt'
 
 
-# Let's examine the first few lines of this file so we understand its structure...
+# Let's examine the first few lines of this file so we understand
+# its structure...
 
 # In[5]:
 
@@ -77,7 +83,8 @@ for index, line in enumerate(open(data_file, 'r')):
 
 # So we have two columns separated by a space, the first being wavelength
 # and the second being surface brightness (for convenience we'll call this
-# flux). The line breaks (\n) will be handled easily by np.loadtxt (or any other module you desire):
+# flux). The line breaks (\n) will be handled easily by np.loadtxt
+# (or any other module you desire):
 
 # In[6]:
 
@@ -100,21 +107,24 @@ len(wave), len(flux), type(wave), type(wave[0]), type(flux[0])
 # In[13]:
 
 
-plt.plot(wave, flux);
-plt.xlabel(r'Wavelength ($\mu$m)');
-plt.ylabel('Surface brightness (MJy/sr)');
+plt.plot(wave, flux)
+plt.xlabel(r'Wavelength ($\mu$m)')
+plt.ylabel('Surface brightness (MJy/sr)')
 
 
 # We see that it is a reasonably smooth spectrum composed of Spitzer/IRS
-# observations using the SL module (SL1 and SL2, covering ~5-14 microns approximately).
+# observations using the SL module (SL1 and SL2, covering ~5-14 microns
+# approximately).
 
-# The data needs to be monotonic, i.e. not double-valued or out of order (as determined by the wavelength array).
+# The data needs to be monotonic, i.e. not double-valued or out
+# of order (as determined by the wavelength array).
 
 # In[9]:
 
 
 def strictly_increasing(L):
-    return all(x<y for x, y in zip(L, L[1:]))
+    return all(x < y for x, y in zip(L, L[1:]))
+
 
 strictly_increasing(wave)
 
@@ -144,9 +154,11 @@ observation.file_path
 
 # ### 2. Pass the spectrum to ``decomposer``
 
-# Now with our ``observation`` instance, we simply pass its spectrum to the pyPAHdb ``decomposer``, which will perform the decomposition by PAH.
+# Now with our ``observation`` instance, we simply pass its spectrum
+# to the pyPAHdb ``decomposer``, which will perform the decomposition by PAH.
 
-# ** seems like you shouldn't need to specify observation.spectrum?? just observation? or...? **
+# ** seems like you shouldn't need to specify observation.spectrum?? just
+# observation? or...? **
 
 # In[48]:
 
@@ -172,7 +184,8 @@ pypahdb.writer(result, opdf=False,
 
 # ***
 
-# ## <span style="color:blue">Step 3</span>: Running pyPAHdb (long version with details)
+# ## <span style="color:blue">Step 3</span>: Running pyPAHdb (long version
+# with details)
 
 # ### 1. Instantiate an ``observation`` object
 
@@ -229,9 +242,11 @@ observation.spectrum.ordinate.shape
 
 # ### 2. Pass the spectrum to ``decomposer``
 
-# Now with our ``observation`` instance, we simply pass its spectrum to the pyPAHdb ``decomposer``, which will perform the decomposition by PAH.
+# Now with our ``observation`` instance, we simply pass its spectrum
+# to the pyPAHdb ``decomposer``, which will perform the decomposition by PAH.
 
-# ** seems like you shouldn't need to specify observation.spectrum?? just observation? or...? **
+# ** seems like you shouldn't need to specify observation.spectrum??
+# just observation? or...? **
 
 # In[48]:
 
@@ -285,4 +300,3 @@ type(result.size)
 
 
 type(result.spectrum)
-
