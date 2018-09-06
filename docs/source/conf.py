@@ -17,10 +17,10 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
-import sys
-#sys.path.insert(0, os.path.abspath('../..'))
+
+# sys.path.insert(0, os.path.abspath('../..'))
 import pypahdb
+import sphinx_rtd_theme
 
 # -- General configuration ------------------------------------------------
 
@@ -39,15 +39,17 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
+    'matplotlib.sphinxext.plot_directive',
+]
 #    'IPython.sphinxext.ipython_directive',
 #    'IPython.sphinxext.ipython_console_highlighting',
-    'matplotlib.sphinxext.plot_directive',
 #    'numpydoc',
 #    'sphinx_copybutton',
-]
 
 # Configuration options for plot_directive. See:
-# https://github.com/matplotlib/matplotlib/blob/f3ed922d935751e08494e5fb5311d3050a3b637b/lib/matplotlib/sphinxext/plot_directive.py#L81
+# https://github.com/matplotlib/matplotlib/blob/
+# f3ed922d935751e08494e5fb5311d3050a3b637b/lib/matplotlib/
+# sphinxext/plot_directive.py#L81
 plot_html_show_source_link = False
 plot_html_show_formats = False
 
@@ -106,7 +108,6 @@ todo_include_todos = False
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
-import sphinx_rtd_theme
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -183,14 +184,17 @@ man_pages = [
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
+
+description_text = \
+    'Using a precomputed matrix of theoretically calculated PAH emission ' \
+    'spectra from the NASA Ames PAH IR Spectroscopic Database, a spectrum ' \
+    'is decomposed into contribution PAH subclasses using a nnls-approach'
+
 texinfo_documents = [
     (master_doc, 'pypahdb', u'pypahdb Documentation',
-     author, 'pypahdb', 'Using a precomputed matrix of theoretically calculated PAH emission spectra from the NASA Ames PAH IR Spectroscopic Database, a spectrum is decomposed into contribution PAH subclasses using a nnls-approach',
+     author, 'pypahdb', description_text,
      'Miscellaneous'),
 ]
-
-
-
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {

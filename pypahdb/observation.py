@@ -9,7 +9,6 @@ information.
 """
 
 import numpy as np
-import os
 
 from astropy.io import ascii
 from astropy.io import fits
@@ -60,7 +59,7 @@ class observation(object):
                     return None
         except FileNotFoundError as e:
             raise(e)
-        except OSError as e:
+        except OSError:
             # Because astropy.io.fits.open raises a generic OSError
             # if the file is the header is missing an END card
             # (which ASCII files do), we have to catch OSError here

@@ -13,7 +13,7 @@
 
 # ## <span style="color:blue">Step 1</span>: Necessary modules and paths
 
-# In[1]:
+# In[2]:
 
 
 import matplotlib.pyplot as plt
@@ -28,11 +28,11 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 # We'll dynamically determine the location containing our tests data:
 
-# In[2]:
+# In[3]:
 
 
-# Identify the path to the folder containing the test data we are going to use.
-# In your usage, 
+# Identify the path to the folder containing the test data
+# we are going to use.
 package_dir = os.path.dirname(os.path.abspath(pypahdb.__file__))
 data_dir = package_dir + '/tests/data/'
 data_dir
@@ -56,7 +56,7 @@ data_dir
 
 # We will use the example spectrum ``NGC7023-NW-PAHs.txt`` here.
 
-# In[3]:
+# In[4]:
 
 
 # Loading from the data directory. For your uses, point to the location
@@ -66,7 +66,7 @@ data_file = data_dir + 'NGC7023-NW-PAHs.txt'
 
 # Let's examine the first few lines of this file so we understand its structure...
 
-# In[4]:
+# In[5]:
 
 
 for index, line in enumerate(open(data_file, 'r')):
@@ -79,7 +79,7 @@ for index, line in enumerate(open(data_file, 'r')):
 # and the second being surface brightness (for convenience we'll call this
 # flux). The line breaks (\n) will be handled easily by np.loadtxt (or any other module you desire):
 
-# In[5]:
+# In[6]:
 
 
 wave, flux = np.loadtxt(data_file, delimiter=' ', dtype='float', skiprows=1).T
@@ -89,7 +89,7 @@ wave, flux = np.loadtxt(data_file, delimiter=' ', dtype='float', skiprows=1).T
 
 # Now let's check its dimensions and type(s).
 
-# In[6]:
+# In[7]:
 
 
 len(wave), len(flux), type(wave), type(wave[0]), type(flux[0])
@@ -97,7 +97,7 @@ len(wave), len(flux), type(wave), type(wave[0]), type(flux[0])
 
 # ### Examine the data
 
-# In[7]:
+# In[13]:
 
 
 plt.plot(wave, flux);
@@ -110,7 +110,7 @@ plt.ylabel('Surface brightness (MJy/sr)');
 
 # The data needs to be monotonic, i.e. not double-valued or out of order (as determined by the wavelength array).
 
-# In[8]:
+# In[9]:
 
 
 def strictly_increasing(L):
@@ -128,13 +128,13 @@ strictly_increasing(wave)
 # All that's needed is the path to the text file above.
 # ** can it accept both space and CSV files ???? **
 
-# In[9]:
+# In[14]:
 
 
 observation = pypahdb.observation(data_file)
 
 
-# In[10]:
+# In[15]:
 
 
 observation.file_path

@@ -3,6 +3,9 @@
 
 """Example of using pypahdb to decompose an astronomical PAH spectrum"""
 
+import pypahdb
+from os.path import splitext, basename
+
 __author__ = "Christiaan Boersma"
 __copyright__ = "Copyright 2018, The NASA Ames PAH IR Spectroscopic Database"
 __credits__ = ["Matthew J. Shannon"]
@@ -11,9 +14,6 @@ __version__ = "0.0.1"
 __maintainer__ = "Christiaan Boersma"
 __email__ = "Christiaan.Boersma@nasa.gov"
 __status__ = "Prototype"
-
-import pypahdb
-from os.path import splitext, basename
 
 if __name__ == "__main__":
 
