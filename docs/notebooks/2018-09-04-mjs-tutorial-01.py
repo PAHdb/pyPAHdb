@@ -1,7 +1,9 @@
 
 # coding: utf-8
 
-# # Using pyPAHdb to analyze astronomical spectra: Tutorial 01
+# # <span style="color:blue">Tutorial series: using pyPAHdb to analyze astronomical spectra.</span>
+
+# # Tutorial 01: a single Spitzer spectrum.
 
 # We begin this series by performing a simple analysis of a single astronomical spectrum. We will use one of the sample spectra here. Feel free to follow along, and attempt the same method with a simple spectrum of your own.
 
@@ -9,7 +11,7 @@
 
 # ***
 
-# ### Necessary modules and paths
+# ## <span style="color:blue">Step 1</span>: Necessary modules and paths
 
 # In[1]:
 
@@ -26,7 +28,7 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 # We'll dynamically determine the location containing our tests data:
 
-# In[14]:
+# In[2]:
 
 
 # Identify the path to the folder containing the test data we are going to use.
@@ -38,7 +40,7 @@ data_dir
 
 # ***
 
-# # Preparing the data
+# ## <span style="color:blue">Step 2</span>: Preparing the data
 
 # You should ensure your data has a simple format. Acceptable formats include:
 # 
@@ -54,7 +56,7 @@ data_dir
 
 # We will use the example spectrum ``NGC7023-NW-PAHs.txt`` here.
 
-# In[12]:
+# In[3]:
 
 
 # Loading from the data directory. For your uses, point to the location
@@ -64,11 +66,11 @@ data_file = data_dir + 'NGC7023-NW-PAHs.txt'
 
 # Let's examine the first few lines of this file so we understand its structure...
 
-# In[68]:
+# In[4]:
 
 
 for index, line in enumerate(open(data_file, 'r')):
-    print(line)
+    print(line, end='')
     if index >= 3:
         break
 
@@ -77,7 +79,7 @@ for index, line in enumerate(open(data_file, 'r')):
 # and the second being surface brightness (for convenience we'll call this
 # flux). The line breaks (\n) will be handled easily by np.loadtxt (or any other module you desire):
 
-# In[14]:
+# In[5]:
 
 
 wave, flux = np.loadtxt(data_file, delimiter=' ', dtype='float', skiprows=1).T
@@ -87,7 +89,7 @@ wave, flux = np.loadtxt(data_file, delimiter=' ', dtype='float', skiprows=1).T
 
 # Now let's check its dimensions and type(s).
 
-# In[31]:
+# In[6]:
 
 
 len(wave), len(flux), type(wave), type(wave[0]), type(flux[0])
@@ -95,7 +97,7 @@ len(wave), len(flux), type(wave), type(wave[0]), type(flux[0])
 
 # ### Examine the data
 
-# In[22]:
+# In[7]:
 
 
 plt.plot(wave, flux);
@@ -108,7 +110,7 @@ plt.ylabel('Surface brightness (MJy/sr)');
 
 # The data needs to be monotonic, i.e. not double-valued or out of order (as determined by the wavelength array).
 
-# In[23]:
+# In[8]:
 
 
 def strictly_increasing(L):
@@ -119,17 +121,23 @@ strictly_increasing(wave)
 
 # ***
 
-# # Running pyPAHdb (short version)
+# ## <span style="color:blue">Step 3</span>: Running pyPAHdb (short version)
 
 # ### 1. Instantiate an ``observation`` object
 
 # All that's needed is the path to the text file above.
 # ** can it accept both space and CSV files ???? **
 
-# In[32]:
+# In[9]:
 
 
 observation = pypahdb.observation(data_file)
+
+
+# In[10]:
+
+
+observation.file_path
 
 
 # Now we have an ``observation`` object that encapsulates our data.
@@ -164,9 +172,9 @@ pypahdb.writer(result, opdf=False,
 
 # ***
 
-# # Running pyPAHdb (long version with details)
+# ## <span style="color:blue">Step 3</span>: Running pyPAHdb (long version with details)
 
-# ## 1. Instantiate an ``observation`` object
+# ### 1. Instantiate an ``observation`` object
 
 # All that's needed is the path to the text file above.
 # ** can it accept both space and CSV files ???? **
@@ -219,7 +227,7 @@ type(observation.spectrum.ordinate)
 observation.spectrum.ordinate.shape
 
 
-# ## 2. Pass the spectrum to ``decomposer``
+# ### 2. Pass the spectrum to ``decomposer``
 
 # Now with our ``observation`` instance, we simply pass its spectrum to the pyPAHdb ``decomposer``, which will perform the decomposition by PAH.
 

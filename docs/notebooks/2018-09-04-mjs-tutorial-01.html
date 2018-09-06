@@ -11775,7 +11775,15 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Using-pyPAHdb-to-analyze-astronomical-spectra:-Tutorial-01">Using pyPAHdb to analyze astronomical spectra: Tutorial 01<a class="anchor-link" href="#Using-pyPAHdb-to-analyze-astronomical-spectra:-Tutorial-01">&#182;</a></h1>
+<h1 id="Tutorial-series:-using-pyPAHdb-to-analyze-astronomical-spectra."><span style="color:blue">Tutorial series: using pyPAHdb to analyze astronomical spectra.</span><a class="anchor-link" href="#Tutorial-series:-using-pyPAHdb-to-analyze-astronomical-spectra.">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Tutorial-01:-a-single-Spitzer-spectrum.">Tutorial 01: a single Spitzer spectrum.<a class="anchor-link" href="#Tutorial-01:-a-single-Spitzer-spectrum.">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -11810,7 +11818,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Necessary-modules-and-paths">Necessary modules and paths<a class="anchor-link" href="#Necessary-modules-and-paths">&#182;</a></h3>
+<h2 id="Step-1:-Necessary-modules-and-paths"><span style="color:blue">Step 1</span>: Necessary modules and paths<a class="anchor-link" href="#Step-1:-Necessary-modules-and-paths">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -11845,7 +11853,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Identify the path to the folder containing the test data we are going to use.</span>
@@ -11865,13 +11873,13 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[14]:</div>
+<div class="prompt output_prompt">Out[2]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;/Users/mjshanno/miniconda3/envs/py3/lib/python3.6/site-packages/pypahdb/tests/data/&#39;</pre>
+<pre>&#39;/Users/mjshanno/Documents/GitHub/pyPAHdb/pypahdb/tests/data/&#39;</pre>
 </div>
 
 </div>
@@ -11893,7 +11901,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Preparing-the-data">Preparing the data<a class="anchor-link" href="#Preparing-the-data">&#182;</a></h1>
+<h2 id="Step-2:-Preparing-the-data"><span style="color:blue">Step 2</span>: Preparing the data<a class="anchor-link" href="#Step-2:-Preparing-the-data">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -11939,7 +11947,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Loading from the data directory. For your uses, point to the location</span>
@@ -11963,11 +11971,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">break</span>
 </pre></div>
@@ -11987,13 +11995,9 @@ div#notebook {
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>wavelength &#34;surface brightness&#34;
-
 5.24282 50.918551188790325
-
 5.2738 53.081826767577795
-
 5.30479 55.46148169840347
-
 </pre>
 </div>
 </div>
@@ -12015,7 +12019,7 @@ flux). The line breaks (\n) will be handled easily by np.loadtxt (or any other m
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">wave</span><span class="p">,</span> <span class="n">flux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
@@ -12046,7 +12050,7 @@ flux). The line breaks (\n) will be handled easily by np.loadtxt (or any other m
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">wave</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">flux</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">wave</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">wave</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">type</span><span class="p">(</span><span class="n">flux</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -12062,7 +12066,7 @@ flux). The line breaks (\n) will be handled easily by np.loadtxt (or any other m
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[31]:</div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -12087,7 +12091,7 @@ flux). The line breaks (\n) will be handled easily by np.loadtxt (or any other m
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wave</span><span class="p">,</span> <span class="n">flux</span><span class="p">);</span>
@@ -12143,7 +12147,7 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">strictly_increasing</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
@@ -12162,7 +12166,7 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[23]:</div>
+<div class="prompt output_prompt">Out[8]:</div>
 
 
 
@@ -12190,7 +12194,7 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Running-pyPAHdb-(short-version)">Running pyPAHdb (short version)<a class="anchor-link" href="#Running-pyPAHdb-(short-version)">&#182;</a></h1>
+<h2 id="Step-3:-Running-pyPAHdb-(short-version)"><span style="color:blue">Step 3</span>: Running pyPAHdb (short version)<a class="anchor-link" href="#Step-3:-Running-pyPAHdb-(short-version)">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -12214,13 +12218,77 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">observation</span> <span class="o">=</span> <span class="n">pypahdb</span><span class="o">.</span><span class="n">observation</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Empty or corrupt FITS file
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: VerifyWarning: Error validating header for HDU #0 (note: Astropy uses zero-based indexing).
+    Header size is not multiple of 2880: 5117
+There may be extra bytes after the last HDU or the file is corrupted. [astropy.io.fits.hdu.hdulist]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">observation</span><span class="o">.</span><span class="n">file_path</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[10]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;/Users/mjshanno/Documents/GitHub/pyPAHdb/pypahdb/tests/data/NGC7023-NW-PAHs.txt&#39;</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -12356,7 +12424,7 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Running-pyPAHdb-(long-version-with-details)">Running pyPAHdb (long version with details)<a class="anchor-link" href="#Running-pyPAHdb-(long-version-with-details)">&#182;</a></h1>
+<h2 id="Step-3:-Running-pyPAHdb-(long-version-with-details)"><span style="color:blue">Step 3</span>: Running pyPAHdb (long version with details)<a class="anchor-link" href="#Step-3:-Running-pyPAHdb-(long-version-with-details)">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -12364,7 +12432,7 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="1.-Instantiate-an-observation-object">1. Instantiate an <code>observation</code> object<a class="anchor-link" href="#1.-Instantiate-an-observation-object">&#182;</a></h2>
+<h3 id="1.-Instantiate-an-observation-object">1. Instantiate an <code>observation</code> object<a class="anchor-link" href="#1.-Instantiate-an-observation-object">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -12621,7 +12689,7 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2.-Pass-the-spectrum-to-decomposer">2. Pass the spectrum to <code>decomposer</code><a class="anchor-link" href="#2.-Pass-the-spectrum-to-decomposer">&#182;</a></h2>
+<h3 id="2.-Pass-the-spectrum-to-decomposer">2. Pass the spectrum to <code>decomposer</code><a class="anchor-link" href="#2.-Pass-the-spectrum-to-decomposer">&#182;</a></h3>
 </div>
 </div>
 </div>
