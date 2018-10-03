@@ -18,7 +18,7 @@ class WriterTestCase(unittest.TestCase):
         """Can we create an instance of writer?"""
 
         zeros = np.zeros(5)
-        self.assertIsInstance(writer(zeros), writer)
+        self.assertIsInstance(writer(zeros, file_path='test.tmp'), writer)
 
 
 if __name__ == '__main__':
