@@ -55,7 +55,8 @@ class observation(object):
                                  hdu[0].data,
                                  np.zeros(hdu[0].data.shape),
                                  {'abscissa': {'str': abscissa_unit},
-                                  'ordinate': {'str': ordinate_unit}})
+                                  'ordinate': {'str': ordinate_unit}},
+                                 self.file_path)
                     return None
         except FileNotFoundError as e:
             raise(e)
@@ -75,7 +76,8 @@ class observation(object):
                          np.array(data[data.colnames[1]]),
                          np.zeros(len(data[data.colnames[0]])),
                          {'abscissa': {'str': 'wavelength [micron]'},
-                          'ordinate': {'str': 'surface brightness [MJy/sr]'}})
+                          'ordinate': {'str': 'surface brightness [MJy/sr]'}},
+                         self.file_path)
             return None
         except Exception as e:
             print(e)

@@ -69,6 +69,7 @@ class decomposer(object):
     Attributes:
        spectrum: The spectrum to fit and decompose.
     """
+
     def __init__(self, spectrum):
         """Construct a decomposer object.
 
@@ -80,6 +81,7 @@ class decomposer(object):
         self._large_fraction = None
         self._charge = None
         self._size = None
+        self.file_path = spectrum.file_path
 
         # Make a deep copy in case spectrum gets altered outside self
         self.spectrum = copy.deepcopy(spectrum)
