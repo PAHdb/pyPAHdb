@@ -11,9 +11,9 @@ Welcome to pyPAHdb's documentation!
    :caption: Contents:
 
    introduction
-   tutorial_01
    installation
    usage
+   tutorial_01   
    release-history
    pypahdb
    modules

@@ -11,8 +11,8 @@ Subpackages
 Submodules
 ----------
 
-pypahdb\.decomposer module
---------------------------
+pypahdb.decomposer module
+-------------------------
 
 .. automodule:: pypahdb.decomposer
     :members:
@@ -20,8 +20,8 @@ pypahdb\.decomposer module
     :show-inheritance:
     :noindex:
 
-pypahdb\.observation module
----------------------------
+pypahdb.observation module
+--------------------------
 
 .. automodule:: pypahdb.observation
     :members:
@@ -29,8 +29,8 @@ pypahdb\.observation module
     :show-inheritance:
     :noindex:
 
-pypahdb\.spectrum module
-------------------------
+pypahdb.spectrum module
+-----------------------
 
 .. automodule:: pypahdb.spectrum
     :members:
@@ -38,14 +38,15 @@ pypahdb\.spectrum module
     :show-inheritance:
     :noindex:
 
-pypahdb\.writer module
-----------------------
+pypahdb.writer module
+---------------------
 
 .. automodule:: pypahdb.writer
     :members:
     :undoc-members:
     :show-inheritance:
     :noindex:
+
 
 Module contents
 ---------------

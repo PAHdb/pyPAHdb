@@ -179,9 +179,8 @@ setup(
     # MANIFEST.in as well.
     include_package_data=True,
     package_data={  # Optional
-        'pypahdb': ['data/*'],
+        'pypahdb': ['data/*', 'examples/NGC7023-NW-PAHs.txt'],
         'pypahdb.tests': ['data/*'],
-        'pypahdb': ['examples/NGC7023-NW-PAHs.txt'],
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
