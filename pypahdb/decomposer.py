@@ -19,7 +19,6 @@ import pkg_resources
 import sys
 
 from functools import partial
-from os import path
 from scipy import optimize
 
 

@@ -56,8 +56,8 @@ class Mydecomposer(Decomposer):
                 """Plot a pyPAHdb fit and save to a PDF.
 
                 Note:
-                    Designed to accept (i,j) because it will be adjusted to make plots
-                    for spectral cubes (outputting a multipage PDF.)
+                    Designed to accept (i,j) because it will be adjusted to
+                    make plots for spectral cubes (outputting a multipage PDF.)
 
                 Args:
                     i (int): Pixel coordiante (abscissa).
@@ -71,7 +71,7 @@ class Mydecomposer(Decomposer):
                 # Create figure, shared axes.
                 fig = plt.figure(figsize=(8, 11))
                 gs = gridspec.GridSpec(4, 1, height_ratios=[2, 1, 2, 2])
-                gs.update(wspace=0.025, hspace=0.00)  # set the spacing between axes.
+                gs.update(wspace=0.025, hspace=0.00)  # spacing between axes.
                 ax0 = fig.add_subplot(gs[0])
                 ax1 = fig.add_subplot(gs[1], sharex=ax0)
                 ax2 = fig.add_subplot(gs[2], sharex=ax0)
@@ -142,7 +142,7 @@ class Mydecomposer(Decomposer):
                 d = pdf.infodict()
                 d['Title'] = 'pyPAHdb Result Summary'
                 d['Author'] = 'pyPAHdb'
-                d['Subject'] = 'Summary of a pyPAHdb PAH database Decomposition'
+                d['Subject'] = 'Summary of pyPAHdb PAH database Decomposition'
                 d['Keywords'] = 'pyPAHdb PAH database'
                 for i in range(self.result.spectrum.ordinate.shape[1]):
                     for j in range(self.result.spectrum.ordinate.shape[2]):
@@ -160,7 +160,7 @@ class Mydecomposer(Decomposer):
             hdr['DATE'] = time.strftime("%Y-%m-%dT%H:%m:%S")
             hdr['SOFTWARE'] = "pypahdb"
             hdr['SOFT_VER'] = "0.5.0.a1"
-            hdr['COMMENT'] = "This file contains the results from a pypahdb fit"
+            hdr['COMMENT'] = "This file contains results from a pypahdb fit"
             hdr['COMMENT'] = "Visit https://github.com/pahdb/pypahdb/ " \
                 "for more information on pypahdb"
             hdr['COMMENT'] = "The 1st plane contains the ionized fraction"
@@ -170,7 +170,8 @@ class Mydecomposer(Decomposer):
             # write results to fits-file
             hdu = fits.PrimaryHDU(np.stack((self.result.ionized_fraction,
                                             self.result.large_fraction,
-                                            self.result.norm), axis=0), header=hdr)
+                                            self.result.norm), axis=0),
+                                  header=hdr)
             hdu.writeto(self.basename + '_pypahdb.fits', overwrite=True)
             print('Saved: ', self.basename + '_pypahdb.fits')
 
@@ -198,8 +199,3 @@ class Mydecomposer(Decomposer):
                     hdr = fits.Header()
 
                 _save_fits(hdr)
-
-
-
-
-
