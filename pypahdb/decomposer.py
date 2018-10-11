@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-# decomposer.py
+"""
+decomposer.py
 
-"""decomposer.py: Using a precomputed matrix of theoretically calculated
+Using a precomputed matrix of theoretically calculated
 PAH emission spectra, an input spectrum is fitted and decomposed into
 contributions from PAH subclasses using a nnls-approach.
 
@@ -9,61 +10,20 @@ This file is part of pypahdb - see the module docs for more
 information.
 """
 
-from os import path
-
 import copy
-import sys
-import platform
 import multiprocessing
+import numpy as np
 import pickle
+import platform
+import pkg_resources
+import sys
 
 from functools import partial
+from os import path
 from scipy import optimize
 
-import numpy as np
 
-
-def _decomposer_anion(w, m=None, p=None):
-    """Do the actual anion decomposition for multiprocessing"""
-    return m.dot(w * (p < 0).astype(float))
-
-
-def _decomposer_neutral(w, m=None, p=None):
-    """Do the actual neutral decomposition for multiprocessing"""
-    return m.dot(w * (p == 0).astype(float))
-
-
-def _decomposer_cation(w, m=None, p=None):
-    """Do the actual cation decomposition for multiprocessing"""
-    return m.dot(w * (p > 0).astype(float))
-
-
-def _decomposer_large(w, m=None, p=None):
-    """Do the actual large decomposition for multiprocessing"""
-    return m.dot(w * (p > 40).astype(float))
-
-
-def _decomposer_small(w, m=None, p=None):
-    """Do the actual small decomposition for multiprocessing"""
-    return m.dot(w * (p <= 40).astype(float))
-
-
-def _decomposer_fit(w, m=None):
-    """Do the actual matrix manipulation for multiprocessing"""
-    return m.dot(w)
-
-
-def _decomposer_interp(fp, x=None, xp=None):
-    """Do the actual interpolation for multiprocessing"""
-    return np.interp(x, xp, fp)
-
-
-def _decomposer_nnls(y, m=None):
-    """Do the actual nnls for multiprocessing"""
-    return optimize.nnls(m, y)
-
-
-class decomposer(object):
+class Decomposer(object):
     """Fits and decomposes a spectrum.
 
     Attributes:
@@ -91,8 +51,9 @@ class decomposer(object):
 
         # Retrieve the precomputed data
         # Raise error if file is not found?
-        fpath = path.abspath(path.dirname(__file__))
-        with open(path.join(fpath, 'data/precomputed.pkl'), 'rb') as f:
+        file_name = 'data/precomputed.pkl'
+        file_path = pkg_resources.resource_filename('pypahdb', file_name)
+        with open(file_path, 'rb') as f:
             if sys.version_info[0] == 2:
                 self._precomputed = pickle.load(f)
             elif sys.version_info[0] == 3:
@@ -102,7 +63,7 @@ class decomposer(object):
 
         # Linearly interpolate the precomputed spectra onto the
         # frequency grid of the input spectrum
-        decomposer_interp = partial(_decomposer_interp,
+        decomposer_interp = partial(self._decomposer_interp,
                                     x=self.spectrum.abscissa,
                                     xp=self._precomputed['abscissa'])
         pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
@@ -113,7 +74,7 @@ class decomposer(object):
         self._matrix = np.array(self._matrix).T
 
         # Perform the fit
-        decomposer_nnls = partial(_decomposer_nnls, m=self._matrix)
+        decomposer_nnls = partial(self._decomposer_nnls, m=self._matrix)
         pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
 
         # For clarity, define a few quantities.
@@ -133,6 +94,38 @@ class decomposer(object):
             np.transpose(np.reshape(self._weights, new_shape), (2, 0, 1))
         self.norm = np.reshape(self.norm, (ordd.shape[2], ordd.shape[1])).T
 
+    def _decomposer_anion(self, w, m=None, p=None):
+        """Do the actual anion decomposition for multiprocessing"""
+        return m.dot(w * (p < 0).astype(float))
+
+    def _decomposer_neutral(self, w, m=None, p=None):
+        """Do the actual neutral decomposition for multiprocessing"""
+        return m.dot(w * (p == 0).astype(float))
+
+    def _decomposer_cation(self, w, m=None, p=None):
+        """Do the actual cation decomposition for multiprocessing"""
+        return m.dot(w * (p > 0).astype(float))
+
+    def _decomposer_large(self, w, m=None, p=None):
+        """Do the actual large decomposition for multiprocessing"""
+        return m.dot(w * (p > 40).astype(float))
+
+    def _decomposer_small(self, w, m=None, p=None):
+        """Do the actual small decomposition for multiprocessing"""
+        return m.dot(w * (p <= 40).astype(float))
+
+    def _decomposer_fit(self, w, m=None):
+        """Do the actual matrix manipulation for multiprocessing"""
+        return m.dot(w)
+
+    def _decomposer_interp(self, fp, x=None, xp=None):
+        """Do the actual interpolation for multiprocessing"""
+        return np.interp(x, xp, fp)
+
+    def _decomposer_nnls(self, y, m=None):
+        """Do the actual nnls for multiprocessing"""
+        return optimize.nnls(m, y)
+
     def _fit(self):
         """Return the fit.
 
@@ -146,7 +139,7 @@ class decomposer(object):
             # on MacOS np.dot() is not thread safe ... #
             ############################################
             if platform.system() != "Darwin":
-                decomposer_fit = partial(_decomposer_fit, m=self._matrix)
+                decomposer_fit = partial(self._decomposer_fit, m=self._matrix)
                 n_cpus = multiprocessing.cpu_count()
                 pool = multiprocessing.Pool(processes=n_cpus - 1)
 
@@ -240,13 +233,13 @@ class decomposer(object):
             ############################################
             if platform.system() != "Darwin":
                 decomposer_anion = \
-                    partial(_decomposer_anion, m=self._matrix,
+                    partial(self._decomposer_anion, m=self._matrix,
                             p=self._precomputed['properties']['charge'])
                 decomposer_neutral = \
-                    partial(_decomposer_neutral, m=self._matrix,
+                    partial(self._decomposer_neutral, m=self._matrix,
                             p=self._precomputed['properties']['charge'])
                 decomposer_cation = \
-                    partial(_decomposer_cation, m=self._matrix,
+                    partial(self._decomposer_cation, m=self._matrix,
                             p=self._precomputed['properties']['charge'])
 
                 n_cpus = multiprocessing.cpu_count()
@@ -325,10 +318,10 @@ class decomposer(object):
             ############################################
             if platform.system() != "Darwin":
                 decomposer_large = \
-                    partial(_decomposer_large, m=self._matrix,
+                    partial(self._decomposer_large, m=self._matrix,
                             p=self._precomputed['properties']['size'])
                 decomposer_small = \
-                    partial(_decomposer_small, m=self._matrix,
+                    partial(self._decomposer_small, m=self._matrix,
                             p=self._precomputed['properties']['size'])
 
                 # Create pool.
