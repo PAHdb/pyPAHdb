@@ -24,7 +24,7 @@ script:
   - coverage run -m pytest  # Run the tests and check for test coverage.
   - coverage report -m  # Generate test coverage report.
   - codecov  # Upload the report to codecov.
-  - flake8 --max-line-length=115  # Enforce code style (but relax line length limit a bit).
+  - flake8 --exclude=docs/source/tutorial*.py --max-line-length=115  # Enforce code style (but relax line length limit a bit).
   - make -C docs html  # Build the documentation.
   - set -e
   - doctr deploy --built-docs docs/build/html .  # Publish the documentation.

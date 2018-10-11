@@ -13,10 +13,9 @@ Welcome to pyPAHdb's documentation!
    introduction
    installation
    usage
-   tutorial_01   
+   tutorials
    release-history
    pypahdb
-   modules
 
 Indices and tables
 ==================

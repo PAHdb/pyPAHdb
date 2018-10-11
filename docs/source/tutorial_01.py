@@ -1,9 +1,7 @@
 
 # coding: utf-8
 
-# # <span style="color:blue">Tutorial series: using pyPAHdb to analyze astronomical spectra.</span>
-
-# # Tutorial 01: a single Spitzer spectrum.
+# # Tutorial 01: a single Spitzer spectrum
 
 # We begin this series by performing a simple analysis of a single astronomical spectrum. We will use one of the sample spectra here. Feel free to follow along, and attempt the same method with a simple spectrum of your own.
 
