@@ -21,7 +21,7 @@ class spectrum(object):
 
     """
 
-    def __init__(self, abscissa, ordinate, uncertainties, units, file_path):
+    def __init__(self, abscissa, ordinate, uncertainties, units):
         """Construct a spectrum object.
 
          Args:
@@ -36,7 +36,6 @@ class spectrum(object):
         self.ordinate = ordinate
         self.uncertainties = uncertainties
         self.units = units
-        self.file_path = file_path
 
         # Always work as if ordinate is a cube
         if len(self.ordinate.shape) == 1:

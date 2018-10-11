@@ -32,8 +32,8 @@ class writer(object):
 
     """
 
-    def __init__(self, result, header="", output_directory=None,
-                 file_path=None, save_pdf=True, save_fits=True):
+    def __init__(self, result, basename, header="",
+                 save_pdf=True, save_fits=True):
         """Instantiate a writer object.
 
         Args:
@@ -45,30 +45,10 @@ class writer(object):
 
         """
         self.result = result
+        self.basename = basename
         self.header = header
         self.save_pdf = save_pdf
         self.save_fits = save_fits
-
-        # Ideally expects pypahdb.result objects.
-        if file_path is not None:
-            self.file_path = file_path
-        else:
-            self.file_path = result.file_path
-
-        # Handle possible edge case, may arise in testing.
-        if '/' in self.file_path:
-            input_file = self.file_path.split('/')[-1]
-        else:
-            input_file = self.file_path
-
-        if output_directory is not None:
-            self.output_directory = output_directory
-        else:
-            self.output_directory = \
-                self.file_path.split(input_file)[0]
-
-        # Prefix for writing to disk.
-        self.output_file = self.output_directory + input_file.split('.')[0]
 
         # What if not decomposer object ...
         # Make sure we're dealing with a 'decomposer' object
@@ -180,7 +160,7 @@ class writer(object):
         return fig
 
     def _save_summary_pdf(self):
-        with PdfPages(self.output_file + '_pypahdb.pdf') as pdf:
+        with PdfPages(self.basename + '_pypahdb.pdf') as pdf:
             d = pdf.infodict()
             d['Title'] = 'pyPAHdb Result Summary'
             d['Author'] = 'pyPAHdb'
@@ -192,7 +172,7 @@ class writer(object):
                     pdf.savefig(fig)
                     plt.close(fig)
                     plt.gcf().clear()
-        print('Saved: ', self.output_file + '_pypahdb.pdf')
+        print('Saved: ', self.basename + '_pypahdb.pdf')
 
         return
 
@@ -212,7 +192,7 @@ class writer(object):
         hdu = fits.PrimaryHDU(np.stack((self.result.ionized_fraction,
                                         self.result.large_fraction,
                                         self.result.norm), axis=0), header=hdr)
-        hdu.writeto(self.output_file + '_pypahdb.fits', overwrite=True)
-        print('Saved: ', self.output_file + '_pypahdb.fits')
+        hdu.writeto(self.basename + '_pypahdb.fits', overwrite=True)
+        print('Saved: ', self.basename + '_pypahdb.fits')
 
         return
