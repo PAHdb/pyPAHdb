@@ -107,3 +107,5 @@ NGC7023_*.fits
 JWST-NIRSpec*.noiseless_*.fits
 NGC7023_*.pdf
 JWST-NIRSpec*.noiseless_*.pdf
+pypahdb/data/sample_data_NGC7023-NW-PAHs_pypahdb.fits
+pypahdb/data/sample_data_NGC7023-NW-PAHs_pypahdb.pdf
