@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-# writer.py
-
 """
-writer.py: Writes decomposer results to file
+writer.py
+
+Writes decomposer results to file.
 
 This file is part of pypahdb - see the module docs for more
 information.
@@ -15,12 +15,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 
-from .decomposer import decomposer
 from astropy.io import fits
 from matplotlib.backends.backend_pdf import PdfPages
+from pypahdb.decomposer import Decomposer
 
 
-class writer(object):
+class Writer(object):
     """Creates a writer object.
 
     Writes PDF and FITS files.
@@ -52,7 +52,7 @@ class writer(object):
 
         # What if not decomposer object ...
         # Make sure we're dealing with a 'decomposer' object
-        if isinstance(result, decomposer):
+        if isinstance(result, Decomposer):
             if save_pdf:
                 # save summary pdf
                 self._save_summary_pdf()

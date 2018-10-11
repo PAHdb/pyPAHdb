@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-# observation.py
-
 """
-observation.py: Holds and astronomical observation
+observation.py
+
+Holds and astronomical observation.
 
 This file is part of pypahdb - see the module docs for more
 information.
@@ -13,10 +13,10 @@ import numpy as np
 from astropy.io import ascii
 from astropy.io import fits
 
-from .spectrum import spectrum
+from pypahdb.spectrum import Spectrum
 
 
-class observation(object):
+class Observation(object):
     """Creates an observation object.
 
     Currently reads ASCII data and Spitzer-IRS data cubes.
@@ -51,7 +51,7 @@ class observation(object):
 
                     # Create spectrum object.
                     self.spectrum = \
-                        spectrum(hdu[h0].data[h1],
+                        Spectrum(hdu[h0].data[h1],
                                  hdu[0].data,
                                  np.zeros(hdu[0].data.shape),
                                  {'abscissa': {'str': abscissa_unit},
@@ -71,7 +71,7 @@ class observation(object):
             data = ascii.read(self.file_path)
             self.header = fits.header.Header()
             self.spectrum = \
-                spectrum(np.array(data[data.colnames[0]]),
+                Spectrum(np.array(data[data.colnames[0]]),
                          np.array(data[data.colnames[1]]),
                          np.zeros(len(data[data.colnames[0]])),
                          {'abscissa': {'str': 'wavelength [micron]'},
