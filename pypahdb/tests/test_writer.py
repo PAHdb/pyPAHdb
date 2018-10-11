@@ -2,13 +2,13 @@
 # test_writer.py
 
 """
-test_writer.py: unit tests for class writer.
+test_writer.py: unit tests for class Writer.
 """
 
 import unittest
 import numpy as np
 
-from pypahdb import writer
+from pypahdb.writer import Writer
 
 
 class WriterTestCase(unittest.TestCase):
@@ -18,7 +18,7 @@ class WriterTestCase(unittest.TestCase):
         """Can we create an instance of writer?"""
 
         zeros = np.zeros(5)
-        self.assertIsInstance(writer(zeros), writer)
+        self.assertIsInstance(Writer(zeros), Writer)
 
 
 if __name__ == '__main__':

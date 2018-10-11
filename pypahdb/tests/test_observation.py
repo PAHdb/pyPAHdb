@@ -8,7 +8,7 @@ test_observation.py: unit tests for class observation.
 import unittest
 import pkg_resources
 
-from pypahdb import observation
+from pypahdb.observation import Observation
 
 
 class SpectrumTestCase(unittest.TestCase):
@@ -19,7 +19,7 @@ class SpectrumTestCase(unittest.TestCase):
         file_name = 'data/sample_data_NGC7023.dat'
         file_path = pkg_resources.resource_filename('pypahdb', file_name)
 
-        self.assertIsInstance(observation(file_path), observation)
+        self.assertIsInstance(Observation(file_path), Observation)
 
 
 if __name__ == '__main__':
