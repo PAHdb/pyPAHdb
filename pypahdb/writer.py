@@ -32,7 +32,7 @@ class writer(object):
 
     """
 
-    def __init__(self, result, basename, header="",
+    def __init__(self, result, basename="output", header="",
                  save_pdf=True, save_fits=True):
         """Instantiate a writer object.
 

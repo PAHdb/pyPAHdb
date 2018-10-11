@@ -20,8 +20,7 @@ class SpectrumTestCase(unittest.TestCase):
         zeros = np.zeros(5)
         test_dict = {'abscissa': {'type': 0, 'str': 'empty'},
                      'ordinate': {'type': 0, 'str': 'empty'}}
-        test_spec = spectrum(zeros, zeros, zeros, test_dict,
-                             file_path='test.tmp')
+        test_spec = spectrum(zeros, zeros, zeros, test_dict)
         self.assertIsInstance(test_spec, spectrum)
 
     def test_convert_units_micron_to_wavenumber(self):
@@ -32,7 +31,7 @@ class SpectrumTestCase(unittest.TestCase):
 
         test_dict = {'abscissa': {'type': 0, 'str': 'empty'},
                      'ordinate': {'type': 0, 'str': 'empty'}}
-        s = spectrum(micron, zeros, zeros, test_dict, file_path='test.tmp')
+        s = spectrum(micron, zeros, zeros, test_dict)
         s.convertunitsto(aunits='wavenumber')
         self.assertEqual(s.abscissa.tolist(), (1e4 / micron[::-1]).tolist())
 
