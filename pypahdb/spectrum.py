@@ -1,7 +1,8 @@
-#!/usr/bin/env python
-# spectrum.py
+#!/usr/bin/env python3
 """
-spectrum.py: Holds a spectrum
+spectrum.py
+
+Holds a spectrum.
 
 This file is part of pypahdb - see the module docs for more
 information.
@@ -10,7 +11,7 @@ information.
 import numpy as np
 
 
-class spectrum(object):
+class Spectrum(object):
     """Create a spectrum object.
 
     Attributes:

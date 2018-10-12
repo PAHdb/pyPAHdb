@@ -8,10 +8,12 @@ The example.py-file can be directly run from the terminal:
 
 ```./example.py```
 
-Currently two example input-files are provided. The first is a
-FITS-file containing a Spitzer-IRS data cube of the northwest PDR in
-NGC 7023. The second is an ASCII-tabulated spectrum from a single
-position in the NGC 7023 data cube.
+Or via:
+
+```python example.py```
+
+By default, it uses a sample ASCII-tabulated spectrum from a single
+position in the NGC 7023 data cube (stored within the pypahdb/data folder).
 
 Upon successfully running the example program, two files should have
 appeared. One is a PDF-file summarizing the results, the other is a

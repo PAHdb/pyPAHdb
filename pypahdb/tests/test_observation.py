@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # test_observation.py
 
 """
@@ -6,8 +6,9 @@ test_observation.py: unit tests for class observation.
 """
 
 import unittest
-from os import path
-from pypahdb import observation
+import pkg_resources
+
+from pypahdb.observation import Observation
 
 
 class SpectrumTestCase(unittest.TestCase):
@@ -15,9 +16,10 @@ class SpectrumTestCase(unittest.TestCase):
 
     def test_is_instance(self):
         """Can we create an instance of observation?"""
-        file_path = path.join(path.abspath(path.dirname(__file__)),
-                              'data/NGC7023.dat')
-        self.assertIsInstance(observation(file_path), observation)
+        file_name = 'data/sample_data_NGC7023.dat'
+        file_path = pkg_resources.resource_filename('pypahdb', file_name)
+
+        self.assertIsInstance(Observation(file_path), Observation)
 
 
 if __name__ == '__main__':

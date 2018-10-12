@@ -91,13 +91,15 @@ setup(
     # that file directly (as we have already done above)
     #
     # This field corresponds to the "Description" metadata field:
-    # https://packaging.python.org/specifications/core-metadata/#description-optional
+    # https://packaging.python.org/specifications/
+    # core-metadata/#description-optional
     long_description=long_description,  # Optional
 
     # This should be a valid link to your project's main homepage.
     #
     # This field corresponds to the "Home-Page" metadata field:
-    # https://packaging.python.org/specifications/core-metadata/#home-page-optional
+    # https://packaging.python.org/specifications/
+    # core-metadata/#home-page-optional
     url='http://www.astrochemistry.org/pahdb/pypahdb',  # Optional
 
     # This should be your name or the name of the organization which owns the
@@ -178,12 +180,12 @@ setup(
     include_package_data=True,
     package_data={  # Optional
         'pypahdb': ['data/*'],
-        'pypahdb.tests': ['data/*']
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:
-    # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files
+    # http://docs.python.org/3.4/distutils/
+    # setupscript.html#installing-additional-files
     #
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
     # data_files=[('my_data', ['data/data_file'])],  # Optional
@@ -204,7 +206,8 @@ setup(
     # List additional URLs that are relevant to your project as a dict.
     #
     # This field corresponds to the "Project-URL" metadata fields:
-    # https://packaging.python.org/specifications/core-metadata/#project-url-multiple-use
+    # https://packaging.python.org/specifications/
+    # core-metadata/#project-url-multiple-use
     #
     # Examples listed include a pattern for specifying where the package tracks
     # issues, where the source is hosted, where to say thanks to the package

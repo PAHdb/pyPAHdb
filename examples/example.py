@@ -1,29 +1,29 @@
-#!/usr/bin/env python
-# example.py
+#!/usr/bin/env python3
+"""
+example.py
 
-"""Example of using pypahdb to decompose an astronomical PAH spectrum"""
+Example of using pypahdb to decompose an astronomical PAH spectrum.
+"""
 
-__author__ = "Christiaan Boersma"
-__copyright__ = "Copyright 2018, The NASA Ames PAH IR Spectroscopic Database"
-__credits__ = ["Matthew J. Shannon"]
-__license__ = "BSD 3-Clause"
-__version__ = "0.0.1"
-__maintainer__ = "Christiaan Boersma"
-__email__ = "Christiaan.Boersma@nasa.gov"
-__status__ = "Prototype"
+import pkg_resources
 
-import pypahdb
-from os.path import splitext, basename
+from pypahdb.decomposer import Decomposer
+from pypahdb.observation import Observation
 
-if __name__ == "__main__":
 
-    # load an observation from file
-    observation = pypahdb.observation('NGC7023.fits')
+if __name__ == '__main__':
 
-    # decompose the spectrum with PAHdb
-    result = pypahdb.decomposer(observation.spectrum)
+    # The sample data file.
+    file_path = 'data/sample_data_NGC7023-NW-PAHs.txt'
 
-    # write results to file
-    pypahdb.writer(result, opdf=False,
-                   header=observation.header,
-                   basename=basename(splitext(observation.file_path)[0]) + '_')
+    data_file = pkg_resources.resource_filename('pypahdb', file_path)
+
+    # Load the file into an Observation object.
+    obs = Observation(data_file)
+
+    # Decompose the spectrum with pyPAHdb.
+    pahdb_fit = Decomposer(obs.spectrum)
+
+    # Save the fit to disk, both as a PDF and FITS file.
+    pahdb_fit.save_pdf(filename='NGC7023_pypahdb.pdf')
+    pahdb_fit.save_fits(filename='NGC7023_pypahdb.fits')
