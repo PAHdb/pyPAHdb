@@ -1,7 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 decomposer.py
 
+A subclass of DecomposerBase that extends functionality for writing files
+to disk (as PDF or FITS).
+
+From Decomposer:
 Using a precomputed matrix of theoretically calculated
 PAH emission spectra, an input spectrum is fitted and decomposed into
 contributions from PAH subclasses using a nnls-approach.
@@ -11,374 +15,184 @@ information.
 """
 
 import copy
-import multiprocessing
+import decimal
+import matplotlib.gridspec as gridspec
+import matplotlib.pyplot as plt
 import numpy as np
-import pickle
-import platform
-import pkg_resources
-import sys
+import time
 
-from functools import partial
-from scipy import optimize
+from astropy.io import fits
+from matplotlib.backends.backend_pdf import PdfPages
+from pypahdb.decomposer_base import DecomposerBase
 
 
-class Decomposer(object):
-    """Fits and decomposes a spectrum.
-
-    Attributes:
-       spectrum: The spectrum to fit and decompose.
-    """
+class Decomposer(DecomposerBase):
 
     def __init__(self, spectrum):
-        """Construct a decomposer object.
+        DecomposerBase.__init__(self, spectrum)
+
+    def write_to_disk(self, basename="output", header="",
+                      save_pdf=True, save_fits=True):
+        """Instantiate a writer object.
 
         Args:
-            spectrum (object): The spectrum to fit and decompose
-        """
-        self._yfit = None
-        self._ionized_fraction = None
-        self._large_fraction = None
-        self._charge = None
-        self._size = None
+            result (pypahdb.decomposer): Decomposer object.
 
-        # Make a deep copy in case spectrum gets altered outside self
-        self.spectrum = copy.deepcopy(spectrum)
+        Keywords:
+            header (String, list): header
+            output_prefix (String): base prefix for saving to a file.
 
-        # Convert units of spectrum to wavenumber and flux density
-        self.spectrum.convertunitsto(aunits='wavenumbers',
-                                     ounits='flux density')
-
-        # Retrieve the precomputed data
-        # Raise error if file is not found?
-        file_name = 'data/precomputed.pkl'
-        file_path = pkg_resources.resource_filename('pypahdb', file_name)
-        with open(file_path, 'rb') as f:
-            if sys.version_info[0] == 2:
-                self._precomputed = pickle.load(f)
-            elif sys.version_info[0] == 3:
-                self._precomputed = pickle.load(f, encoding='latin1')
-
-        # Deal with having no map; have a threshold when to do in for loop?
-
-        # Linearly interpolate the precomputed spectra onto the
-        # frequency grid of the input spectrum
-        decomposer_interp = partial(self._decomposer_interp,
-                                    x=self.spectrum.abscissa,
-                                    xp=self._precomputed['abscissa'])
-        pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
-        self._matrix = pool.map(decomposer_interp,
-                                self._precomputed['matrix'].T)
-        pool.close()
-        pool.join()
-        self._matrix = np.array(self._matrix).T
-
-        # Perform the fit
-        decomposer_nnls = partial(self._decomposer_nnls, m=self._matrix)
-        pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
-
-        # For clarity, define a few quantities.
-        ordd = self.spectrum.ordinate
-        n_elements_yz = ordd.shape[1] * ordd.shape[2]
-        pool_shape = np.reshape(ordd, (ordd.shape[0], n_elements_yz))
-
-        # Perform the fit.
-        yfit = pool.map(decomposer_nnls, pool_shape.T)
-        pool.close()
-        pool.join()
-
-        # Determine the weights and norm.
-        new_shape = (ordd.shape[1:] + (self._matrix.shape[1],))
-        self._weights, self.norm = list(zip(*yfit))
-        self._weights = \
-            np.transpose(np.reshape(self._weights, new_shape), (2, 0, 1))
-        self.norm = np.reshape(self.norm, (ordd.shape[2], ordd.shape[1])).T
-
-    def _decomposer_anion(self, w, m=None, p=None):
-        """Do the actual anion decomposition for multiprocessing"""
-        return m.dot(w * (p < 0).astype(float))
-
-    def _decomposer_neutral(self, w, m=None, p=None):
-        """Do the actual neutral decomposition for multiprocessing"""
-        return m.dot(w * (p == 0).astype(float))
-
-    def _decomposer_cation(self, w, m=None, p=None):
-        """Do the actual cation decomposition for multiprocessing"""
-        return m.dot(w * (p > 0).astype(float))
-
-    def _decomposer_large(self, w, m=None, p=None):
-        """Do the actual large decomposition for multiprocessing"""
-        return m.dot(w * (p > 40).astype(float))
-
-    def _decomposer_small(self, w, m=None, p=None):
-        """Do the actual small decomposition for multiprocessing"""
-        return m.dot(w * (p <= 40).astype(float))
-
-    def _decomposer_fit(self, w, m=None):
-        """Do the actual matrix manipulation for multiprocessing"""
-        return m.dot(w)
-
-    def _decomposer_interp(self, fp, x=None, xp=None):
-        """Do the actual interpolation for multiprocessing"""
-        return np.interp(x, xp, fp)
-
-    def _decomposer_nnls(self, y, m=None):
-        """Do the actual nnls for multiprocessing"""
-        return optimize.nnls(m, y)
-
-    def _fit(self):
-        """Return the fit.
-
-        Returns:
-            self._yfit (ndarray): PAHdb total fit.
         """
 
-        # Lazy Instantiation
-        if self._yfit is None:
-            ############################################
-            # on MacOS np.dot() is not thread safe ... #
-            ############################################
-            if platform.system() != "Darwin":
-                decomposer_fit = partial(self._decomposer_fit, m=self._matrix)
-                n_cpus = multiprocessing.cpu_count()
-                pool = multiprocessing.Pool(processes=n_cpus - 1)
+        def _save_summary_pdf():
+            """Save a PDF summary of the spectral fits/breakdowns."""
 
-                # Convenience defintions.
-                ordd = self.spectrum.ordinate
-                wt_elements_yz = \
-                    self._weights.shape[1] * self._weights.shape[2]
-                wt_shape = np.reshape(self._weights,
-                                      (self._weights.shape[0], wt_elements_yz))
+            def smart_round(value, style="0.1"):
+                """Round a float correctly, returning a string."""
+                tmp = decimal.Decimal(value).quantize(decimal.Decimal(style))
+                return str(tmp)
 
-                # Perform fit.
-                self._yfit = pool.map(decomposer_fit, wt_shape.T)
-                pool.close()
-                pool.join()
+            def _plot_pahdb_fit(i, j):
+                """Plot a pyPAHdb fit and save to a PDF.
 
-                # Reshape the results.
-                new_shape = (ordd.shape[1:] + (ordd.shape[0],))
-                self._yfit = \
-                    np.transpose(np.reshape(self._yfit, new_shape), (2, 0, 1))
+                Note:
+                    Designed to accept (i,j) because it will be adjusted to
+                    make plots for spectral cubes (outputting a multipage PDF.)
 
-            else:
-                self._yfit = np.zeros(self.spectrum.ordinate.shape)
+                Args:
+                    i (int): Pixel coordiante (abscissa).
+                    j (int): Pixel coordinate (ordinate).
+
+                Returns:
+                    True if successful.
+
+                """
+
+                # Create figure, shared axes.
+                fig = plt.figure(figsize=(8, 11))
+                gs = gridspec.GridSpec(4, 1, height_ratios=[2, 1, 2, 2])
+                gs.update(wspace=0.025, hspace=0.00)  # spacing between axes.
+                ax0 = fig.add_subplot(gs[0])
+                ax1 = fig.add_subplot(gs[1], sharex=ax0)
+                ax2 = fig.add_subplot(gs[2], sharex=ax0)
+                ax3 = fig.add_subplot(gs[3], sharex=ax0)
+
+                # Common quantities for clarity.
+                abscissa = self.spectrum.abscissa
+                charge = self.charge
+
+                # ax0 -- Best fit.
+                data = self.spectrum.ordinate[:, i, j]
+                model = self.fit[:, i, j]
+                ax0.plot(abscissa, data, 'kx', ms=5, mew=0.5, label='input')
+                ax0.plot(abscissa, model, label='fit', color='red')
+                norm_val = self.norm[i][j]
+                norm_str = smart_round(norm_val, style="0.1")
+                norm_str = '$norm$=' + norm_str
+                ax0.text(0.025, 0.9, norm_str, ha='left', va='center',
+                         transform=ax0.transAxes)
+
+                # ax1 -- Residuals.
+                ax1.plot(abscissa, data - model, lw=1,
+                         label='residual', color='black')
+                ax1.axhline(y=0, color='0.5', ls='--', dashes=(12, 16),
+                            zorder=-10, lw=0.5)
+
+                # ax2 -- Size breakdown.
+                ax2.plot(abscissa, model, color='red', lw=1.5)
+                ax2.plot(abscissa, self.size['large'][:, i, j],
+                         label='large', lw=1, color='purple')
+                ax2.plot(abscissa, self.size['small'][:, i, j],
+                         label='small', lw=1, color='crimson')
+                size_frac = self.large_fraction[i][j]
+                size_str = smart_round(size_frac, style="0.01")
+                size_str = '$f_{large}$=' + size_str
+                ax2.text(0.025, 0.9, size_str, ha='left', va='center',
+                         transform=ax2.transAxes)
+
+                # ax3 -- Charge breakdown.
+                ax3.plot(abscissa, model, color='red', lw=1.5)
+                ax3.plot(abscissa, charge['anion'][:, i, j],
+                         label='anion', lw=1, color='orange')
+                ax3.plot(abscissa, charge['neutral'][:, i, j],
+                         label='neutral', lw=1, color='green')
+                ax3.plot(abscissa, charge['cation'][:, i, j],
+                         label='cation', lw=1, color='blue')
+                ion_frac = self.ionized_fraction[i][j]
+                ion_str = smart_round(ion_frac, "0.01")
+                ion_str = '$f_{ionized}$=' + ion_str
+                ax3.text(0.025, 0.9, ion_str, ha='left', va='center',
+                         transform=ax3.transAxes)
+
+                # Plot labels.
+                ylabel = self.spectrum.units['ordinate']['str']
+                fig.text(0.02, 0.5, ylabel, va='center', rotation='vertical')
+                ax3.set_xlabel(self.spectrum.units['abscissa']['str'])
+
+                # Set tick parameters and add legends to all axes.
+                for ax in (ax0, ax1, ax2, ax3):
+                    ax.tick_params(axis='both', which='both', direction='in',
+                                   top=True, right=True)
+                    ax.minorticks_on()
+                    ax.legend(loc=0, frameon=False)
+
+                return fig
+
+            with PdfPages(self.basename + '_pypahdb.pdf') as pdf:
+                d = pdf.infodict()
+                d['Title'] = 'pyPAHdb Result Summary'
+                d['Author'] = 'pyPAHdb'
+                d['Subject'] = 'Summary of pyPAHdb PAH database Decomposition'
+                d['Keywords'] = 'pyPAHdb PAH database'
                 for i in range(self.spectrum.ordinate.shape[1]):
                     for j in range(self.spectrum.ordinate.shape[2]):
-                        self._yfit[:, i, j] = \
-                            self._matrix.dot(self._weights[:, i, j])
-        return self._yfit
+                        fig = _plot_pahdb_fit(i, j)
+                        pdf.savefig(fig)
+                        plt.close(fig)
+                        plt.gcf().clear()
+            print('Saved: ', self.basename + '_pypahdb.pdf')
 
-    def _get_ionized_fraction(self):
-        """Return the ionized fraction.
+            return
 
-        Returns:
-            self._ionized_fraction (ndarray): Ion fraction of fit.
-        """
+        def _save_fits(hdr):
+            """Save a FITS file of the spectral fits/breakdowns."""
 
-        # Lazy Instantiation
-        if self._ionized_fraction is None:
+            hdr['DATE'] = time.strftime("%Y-%m-%dT%H:%m:%S")
+            hdr['SOFTWARE'] = "pypahdb"
+            hdr['SOFT_VER'] = "0.5.0.a1"
+            hdr['COMMENT'] = "This file contains results from a pypahdb fit"
+            hdr['COMMENT'] = "Visit https://github.com/pahdb/pypahdb/ " \
+                "for more information on pypahdb"
+            hdr['COMMENT'] = "The 1st plane contains the ionized fraction"
+            hdr['COMMENT'] = "The 2nd plane contains the large fraction"
+            hdr['COMMENT'] = "The 3rd plane contains the norm"
 
-            # Compute ionized fraction.
-            charge_matrix = self._precomputed['properties']['charge']
-            ions = (charge_matrix > 0).astype(float)[:, None, None]
-            self._ionized_fraction = np.sum(self._weights * ions, axis=0)
+            # write results to fits-file
+            hdu = fits.PrimaryHDU(np.stack((self.ionized_fraction,
+                                            self.large_fraction,
+                                            self.norm), axis=0),
+                                  header=hdr)
+            hdu.writeto(self.basename + '_pypahdb.fits', overwrite=True)
+            print('Saved: ', self.basename + '_pypahdb.fits')
 
-            nonzero = np.nonzero(self._ionized_fraction)
+            return
 
-            # Update ionized fraction.
-            neutrals = (charge_matrix == 0).astype(float)[:, None, None]
-            neutrals_wt = (np.sum(self._weights * neutrals, axis=0))[nonzero]
-            self._ionized_fraction[nonzero] /= \
-                self._ionized_fraction[nonzero] + neutrals_wt
+        self.basename = basename
+        self.header = header
+        self.save_pdf = save_pdf
+        self.save_fits = save_fits
 
-        return self._ionized_fraction
+        if save_pdf:
+            # save summary pdf
+            _save_summary_pdf()
 
-    def _get_large_fraction(self):
-        """Return the large fraction.
-
-        Returns:
-            self._large_fraction (ndarray): Large fraction of fit.
-        """
-
-        # Lazy Instantiation
-        if self._large_fraction is None:
-
-            # Compute large fraction.
-            size_matrix = self._precomputed['properties']['size']
-            large = (size_matrix > 40).astype(float)[:, None, None]
-            self._large_fraction = np.sum(self._weights * large, axis=0)
-
-            nonzero = np.nonzero(self._large_fraction)
-
-            # Update the large fraction.
-            small = (size_matrix <= 40).astype(float)[:, None, None]
-            small_wt = (np.sum(self._weights * small, axis=0))[nonzero]
-            self._large_fraction[nonzero] /= \
-                self._large_fraction[nonzero] + small_wt
-
-        return self._large_fraction
-
-    def _get_charge(self):
-        """Return the spectral charge breakdown.
-
-        Returns:
-            self._charge (ndarray): Associative array with keys
-                'anion', 'neutral' and 'cation'
-        """
-
-        # Lazy Instantiation
-        if self._charge is None:
-            ############################################
-            # on MacOS np.dot() is not thread safe ... #
-            ############################################
-            if platform.system() != "Darwin":
-                decomposer_anion = \
-                    partial(self._decomposer_anion, m=self._matrix,
-                            p=self._precomputed['properties']['charge'])
-                decomposer_neutral = \
-                    partial(self._decomposer_neutral, m=self._matrix,
-                            p=self._precomputed['properties']['charge'])
-                decomposer_cation = \
-                    partial(self._decomposer_cation, m=self._matrix,
-                            p=self._precomputed['properties']['charge'])
-
-                n_cpus = multiprocessing.cpu_count()
-                pool = multiprocessing.Pool(processes=n_cpus - 1)
-
-                # Conveniences for below.
-                wt_shape_yz = self._weights.shape[1] * self._weights.shape[2]
-                new_dims = np.reshape(self._weights,
-                                      (self._weights.shape[0], wt_shape_yz))
-
-                # Map the charge arrays.
-                anion = pool.map(decomposer_anion, new_dims.T)
-                neutral = pool.map(decomposer_neutral, new_dims.T)
-                cation = pool.map(decomposer_cation, new_dims.T)
-
-                pool.close()
-                pool.join()
-
-                # Reshape the charge arrays.
-                interior = (self.spectrum.ordinate.shape[1:] +
-                            (self.spectrum.ordinate.shape[0],))
-                new_anion = \
-                    np.transpose(np.reshape(anion, interior), (2, 0, 1))
-                new_neut = \
-                    np.transpose(np.reshape(neutral, interior), (2, 0, 1))
-                new_cat = \
-                    np.transpose(np.reshape(cation, interior), (2, 0, 1))
-
-                self._charge = {'anion': new_anion,
-                                'neutral': new_neut,
-                                'cation': new_cat}
-
+        if save_fits:
+            # save resuls to fits
+            if isinstance(header, fits.header.Header):
+                # should probably clean up the header
+                # i.e., extract certain keywords only
+                hdr = copy.deepcopy(header)
             else:
-                ord_shape = self.spectrum.ordinate.shape
-                self._charge = {'anion': np.zeros(ord_shape),
-                                'neutral': np.zeros(ord_shape),
-                                'cation': np.zeros(ord_shape)}
+                hdr = fits.Header()
 
-                charge_matrix = self._precomputed['properties']['charge']
-
-                for i in range(self.spectrum.ordinate.shape[1]):
-                    for j in range(self.spectrum.ordinate.shape[2]):
-
-                        # Charge weights.
-                        wt_anion = self._weights[:, i, j] * \
-                            (charge_matrix < 0).astype(float)
-                        wt_neut = self._weights[:, i, j] * \
-                            (charge_matrix == 0).astype(float)
-                        wt_cat = self._weights[:, i, j] * \
-                            (charge_matrix > 0).astype(float)
-
-                        # Compute dot product.
-                        dot_wt_anion = self._matrix.dot(wt_anion)
-                        dot_wt_neut = self._matrix.dot(wt_neut)
-                        dot_wt_cat = self._matrix.dot(wt_cat)
-
-                        # Fill arrays.
-                        self._charge['anion'][:, i, j] = dot_wt_anion
-                        self._charge['neutral'][:, i, j] = dot_wt_neut
-                        self._charge['cation'][:, i, j] = dot_wt_cat
-
-        return self._charge
-
-    def _get_size(self):
-        """Return the spectral size breakdown.
-
-        Returns:
-            self._size (ndarray): Associative array with keys
-                'large', 'small'
-        """
-
-        # Lazy Instantiation
-        if self._size is None:
-            ############################################
-            # on MacOS np.dot() is not thread safe ... #
-            ############################################
-            if platform.system() != "Darwin":
-                decomposer_large = \
-                    partial(self._decomposer_large, m=self._matrix,
-                            p=self._precomputed['properties']['size'])
-                decomposer_small = \
-                    partial(self._decomposer_small, m=self._matrix,
-                            p=self._precomputed['properties']['size'])
-
-                # Create pool.
-                n_cpus = multiprocessing.cpu_count()
-                pool = multiprocessing.Pool(processes=n_cpus - 1)
-
-                # Using weights, map for large, small PAHs.
-                wt_shape_yz = self._weights.shape[1] * self._weights.shape[2]
-                new_shape = np.reshape(self._weights,
-                                       (self._weights.shape[0], wt_shape_yz))
-                large = pool.map(decomposer_large, new_shape.T)
-                small = pool.map(decomposer_small, new_shape.T)
-                pool.close()
-                pool.join()
-
-                # Reshape the outputs.
-                ordd = self.spectrum.ordinate
-                ord_shape_yz = (ordd.shape[1:] + (ordd.shape[0],))
-                new_large = \
-                    np.transpose(np.reshape(large, ord_shape_yz), (2, 0, 1))
-                new_small = \
-                    np.transpose(np.reshape(small, ord_shape_yz), (2, 0, 1))
-
-                self._size = {'large': new_large,
-                              'small': new_small}
-
-            else:
-                self._size = {'large': np.zeros(self.spectrum.ordinate.shape),
-                              'small': np.zeros(self.spectrum.ordinate.shape)}
-                size_matrix = self._precomputed['properties']['size']
-
-                for i in range(self.spectrum.ordinate.shape[1]):
-                    for j in range(self.spectrum.ordinate.shape[2]):
-
-                        large_wt = self._weights[:, i, j] * \
-                            (size_matrix > 40).astype(float)
-                        small_wt = self._weights[:, i, j] * \
-                            (size_matrix <= 40).astype(float)
-
-                        large_amount = self._matrix.dot(large_wt)
-                        small_amount = self._matrix.dot(small_wt)
-
-                        self._size['large'][:, i, j] = large_amount
-                        self._size['small'][:, i, j] = small_amount
-
-        return self._size
-
-    # Make fit a property for easy access
-    fit = property(_fit)
-
-    # Make ionized_fraction a property for easy access
-    ionized_fraction = property(_get_ionized_fraction)
-
-    # Make large_fraction a property for easy access
-    large_fraction = property(_get_large_fraction)
-
-    # Make charge a property for easy access
-    charge = property(_get_charge)
-
-    # Make size a property for easy access
-    size = property(_get_size)
+            _save_fits(hdr)

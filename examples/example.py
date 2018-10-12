@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 example.py
 
@@ -7,7 +7,7 @@ Example of using pypahdb to decompose an astronomical PAH spectrum.
 
 import pkg_resources
 
-from pypahdb.mydecomposer import Mydecomposer
+from pypahdb.decomposer import Decomposer
 from pypahdb.observation import Observation
 
 
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     obs = Observation(data_file)
 
     # Decompose the spectrum with pyPAHdb.
-    pahdb_fit = Mydecomposer(obs.spectrum)
+    pahdb_fit = Decomposer(obs.spectrum)
 
     # Write the output to disk, as both PDF and FITS (by default).
     pahdb_fit.write_to_disk(basename='example_output')
