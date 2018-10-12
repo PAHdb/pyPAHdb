@@ -20,14 +20,6 @@ pypahdb.tests.test\_spectrum module
     :undoc-members:
     :show-inheritance:
 
-pypahdb.tests.test\_writer module
----------------------------------
-
-.. automodule:: pypahdb.tests.test_writer
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------

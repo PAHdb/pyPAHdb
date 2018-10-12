@@ -16,7 +16,6 @@ import numpy as np
 import pickle
 import platform
 import pkg_resources
-import sys
 
 from functools import partial
 from scipy import optimize

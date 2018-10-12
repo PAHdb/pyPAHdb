@@ -20,6 +20,15 @@ pypahdb.decomposer module
     :show-inheritance:
     :noindex:
 
+pypahdb.decomposer\_base module
+-------------------------------
+
+.. automodule:: pypahdb.decomposer_base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :noindex:
+
 pypahdb.observation module
 --------------------------
 
@@ -38,15 +47,6 @@ pypahdb.spectrum module
     :show-inheritance:
     :noindex:
 
-pypahdb.writer module
----------------------
-
-.. automodule:: pypahdb.writer
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :noindex:
-
 
 Module contents
 ---------------
@@ -55,3 +55,4 @@ Module contents
     :members:
     :undoc-members:
     :show-inheritance:
+    :noindex:
