@@ -24,5 +24,6 @@ if __name__ == '__main__':
     # Decompose the spectrum with pyPAHdb.
     pahdb_fit = Decomposer(obs.spectrum)
 
-    # Write the output to disk, as both PDF and FITS (by default).
-    pahdb_fit.write_to_disk(basename='example_output')
+    # Save the fit to disk, both as a PDF and FITS file.
+    pahdb_fit.save_pdf(filename='NGC7023_pypahdb.pdf')
+    pahdb_fit.save_fits(filename='NGC7023_pypahdb.fits')

@@ -31,130 +31,119 @@ class Decomposer(DecomposerBase):
     def __init__(self, spectrum):
         DecomposerBase.__init__(self, spectrum)
 
-    def write_to_disk(self, basename="output", header="",
-                      save_pdf=True, save_fits=True):
-        """Instantiate a writer object.
+    def save_pdf(self, filename="output.pdf"):
+        """Save a PDF summary of the spectral fits/breakdowns."""
 
-        Args:
-            result (pypahdb.decomposer): Decomposer object.
+        def smart_round(value, style="0.1"):
+            """Round a float correctly, returning a string."""
+            tmp = decimal.Decimal(value).quantize(decimal.Decimal(style))
+            return str(tmp)
 
-        Keywords:
-            header (String, list): header
-            output_prefix (String): base prefix for saving to a file.
+        def _plot_pahdb_fit(i, j):
+            """Plot a pyPAHdb fit and save to a PDF.
 
-        """
+            Note:
+                Designed to accept (i,j) because it will be adjusted to
+                make plots for spectral cubes (outputting a multipage PDF.)
 
-        def _save_summary_pdf():
-            """Save a PDF summary of the spectral fits/breakdowns."""
+            Args:
+                i (int): Pixel coordiante (abscissa).
+                j (int): Pixel coordinate (ordinate).
 
-            def smart_round(value, style="0.1"):
-                """Round a float correctly, returning a string."""
-                tmp = decimal.Decimal(value).quantize(decimal.Decimal(style))
-                return str(tmp)
+            Returns:
+                True if successful.
 
-            def _plot_pahdb_fit(i, j):
-                """Plot a pyPAHdb fit and save to a PDF.
+            """
+            # Create figure, shared axes.
+            fig = plt.figure(figsize=(8, 11))
+            gs = gridspec.GridSpec(4, 1, height_ratios=[2, 1, 2, 2])
+            gs.update(wspace=0.025, hspace=0.00)  # spacing between axes.
+            ax0 = fig.add_subplot(gs[0])
+            ax1 = fig.add_subplot(gs[1], sharex=ax0)
+            ax2 = fig.add_subplot(gs[2], sharex=ax0)
+            ax3 = fig.add_subplot(gs[3], sharex=ax0)
 
-                Note:
-                    Designed to accept (i,j) because it will be adjusted to
-                    make plots for spectral cubes (outputting a multipage PDF.)
+            # Common quantities for clarity.
+            abscissa = self.spectrum.abscissa
+            charge = self.charge
 
-                Args:
-                    i (int): Pixel coordiante (abscissa).
-                    j (int): Pixel coordinate (ordinate).
+            # ax0 -- Best fit.
+            data = self.spectrum.ordinate[:, i, j]
+            model = self.fit[:, i, j]
+            ax0.plot(abscissa, data, 'kx', ms=5, mew=0.5, label='input')
+            ax0.plot(abscissa, model, label='fit', color='red')
+            norm_val = self.norm[i][j]
+            norm_str = smart_round(norm_val, style="0.1")
+            norm_str = '$norm$=' + norm_str
+            ax0.text(0.025, 0.9, norm_str, ha='left', va='center',
+                     transform=ax0.transAxes)
 
-                Returns:
-                    True if successful.
+            # ax1 -- Residuals.
+            ax1.plot(abscissa, data - model, lw=1,
+                     label='residual', color='black')
+            ax1.axhline(y=0, color='0.5', ls='--', dashes=(12, 16),
+                        zorder=-10, lw=0.5)
 
-                """
+            # ax2 -- Size breakdown.
+            ax2.plot(abscissa, model, color='red', lw=1.5)
+            ax2.plot(abscissa, self.size['large'][:, i, j],
+                     label='large', lw=1, color='purple')
+            ax2.plot(abscissa, self.size['small'][:, i, j],
+                     label='small', lw=1, color='crimson')
+            size_frac = self.large_fraction[i][j]
+            size_str = smart_round(size_frac, style="0.01")
+            size_str = '$f_{large}$=' + size_str
+            ax2.text(0.025, 0.9, size_str, ha='left', va='center',
+                     transform=ax2.transAxes)
 
-                # Create figure, shared axes.
-                fig = plt.figure(figsize=(8, 11))
-                gs = gridspec.GridSpec(4, 1, height_ratios=[2, 1, 2, 2])
-                gs.update(wspace=0.025, hspace=0.00)  # spacing between axes.
-                ax0 = fig.add_subplot(gs[0])
-                ax1 = fig.add_subplot(gs[1], sharex=ax0)
-                ax2 = fig.add_subplot(gs[2], sharex=ax0)
-                ax3 = fig.add_subplot(gs[3], sharex=ax0)
+            # ax3 -- Charge breakdown.
+            ax3.plot(abscissa, model, color='red', lw=1.5)
+            ax3.plot(abscissa, charge['anion'][:, i, j],
+                     label='anion', lw=1, color='orange')
+            ax3.plot(abscissa, charge['neutral'][:, i, j],
+                     label='neutral', lw=1, color='green')
+            ax3.plot(abscissa, charge['cation'][:, i, j],
+                     label='cation', lw=1, color='blue')
+            ion_frac = self.ionized_fraction[i][j]
+            ion_str = smart_round(ion_frac, "0.01")
+            ion_str = '$f_{ionized}$=' + ion_str
+            ax3.text(0.025, 0.9, ion_str, ha='left', va='center',
+                     transform=ax3.transAxes)
 
-                # Common quantities for clarity.
-                abscissa = self.spectrum.abscissa
-                charge = self.charge
+            # Plot labels.
+            ylabel = self.spectrum.units['ordinate']['str']
+            fig.text(0.02, 0.5, ylabel, va='center', rotation='vertical')
+            ax3.set_xlabel(self.spectrum.units['abscissa']['str'])
 
-                # ax0 -- Best fit.
-                data = self.spectrum.ordinate[:, i, j]
-                model = self.fit[:, i, j]
-                ax0.plot(abscissa, data, 'kx', ms=5, mew=0.5, label='input')
-                ax0.plot(abscissa, model, label='fit', color='red')
-                norm_val = self.norm[i][j]
-                norm_str = smart_round(norm_val, style="0.1")
-                norm_str = '$norm$=' + norm_str
-                ax0.text(0.025, 0.9, norm_str, ha='left', va='center',
-                         transform=ax0.transAxes)
+            # Set tick parameters and add legends to all axes.
+            for ax in (ax0, ax1, ax2, ax3):
+                ax.tick_params(axis='both', which='both', direction='in',
+                               top=True, right=True)
+                ax.minorticks_on()
+                ax.legend(loc=0, frameon=False)
 
-                # ax1 -- Residuals.
-                ax1.plot(abscissa, data - model, lw=1,
-                         label='residual', color='black')
-                ax1.axhline(y=0, color='0.5', ls='--', dashes=(12, 16),
-                            zorder=-10, lw=0.5)
+            return fig
 
-                # ax2 -- Size breakdown.
-                ax2.plot(abscissa, model, color='red', lw=1.5)
-                ax2.plot(abscissa, self.size['large'][:, i, j],
-                         label='large', lw=1, color='purple')
-                ax2.plot(abscissa, self.size['small'][:, i, j],
-                         label='small', lw=1, color='crimson')
-                size_frac = self.large_fraction[i][j]
-                size_str = smart_round(size_frac, style="0.01")
-                size_str = '$f_{large}$=' + size_str
-                ax2.text(0.025, 0.9, size_str, ha='left', va='center',
-                         transform=ax2.transAxes)
+        with PdfPages(filename) as pdf:
+            d = pdf.infodict()
+            d['Title'] = 'pyPAHdb Result Summary'
+            d['Author'] = 'pyPAHdb'
+            d['Subject'] = 'Summary of pyPAHdb PAH database Decomposition'
+            d['Keywords'] = 'pyPAHdb PAH database'
+            for i in range(self.spectrum.ordinate.shape[1]):
+                for j in range(self.spectrum.ordinate.shape[2]):
+                    fig = _plot_pahdb_fit(i, j)
+                    pdf.savefig(fig)
+                    plt.close(fig)
+                    plt.gcf().clear()
+        print('Saved: ', filename)
 
-                # ax3 -- Charge breakdown.
-                ax3.plot(abscissa, model, color='red', lw=1.5)
-                ax3.plot(abscissa, charge['anion'][:, i, j],
-                         label='anion', lw=1, color='orange')
-                ax3.plot(abscissa, charge['neutral'][:, i, j],
-                         label='neutral', lw=1, color='green')
-                ax3.plot(abscissa, charge['cation'][:, i, j],
-                         label='cation', lw=1, color='blue')
-                ion_frac = self.ionized_fraction[i][j]
-                ion_str = smart_round(ion_frac, "0.01")
-                ion_str = '$f_{ionized}$=' + ion_str
-                ax3.text(0.025, 0.9, ion_str, ha='left', va='center',
-                         transform=ax3.transAxes)
+        return
 
-                # Plot labels.
-                ylabel = self.spectrum.units['ordinate']['str']
-                fig.text(0.02, 0.5, ylabel, va='center', rotation='vertical')
-                ax3.set_xlabel(self.spectrum.units['abscissa']['str'])
+    def save_fits(self, filename="output.fits", header=""):
+        """Save a FITS file of the spectral fits/breakdowns."""
 
-                # Set tick parameters and add legends to all axes.
-                for ax in (ax0, ax1, ax2, ax3):
-                    ax.tick_params(axis='both', which='both', direction='in',
-                                   top=True, right=True)
-                    ax.minorticks_on()
-                    ax.legend(loc=0, frameon=False)
-
-                return fig
-
-            with PdfPages(self.basename + '_pypahdb.pdf') as pdf:
-                d = pdf.infodict()
-                d['Title'] = 'pyPAHdb Result Summary'
-                d['Author'] = 'pyPAHdb'
-                d['Subject'] = 'Summary of pyPAHdb PAH database Decomposition'
-                d['Keywords'] = 'pyPAHdb PAH database'
-                for i in range(self.spectrum.ordinate.shape[1]):
-                    for j in range(self.spectrum.ordinate.shape[2]):
-                        fig = _plot_pahdb_fit(i, j)
-                        pdf.savefig(fig)
-                        plt.close(fig)
-                        plt.gcf().clear()
-            print('Saved: ', self.basename + '_pypahdb.pdf')
-
-            return
-
-        def _save_fits(hdr):
+        def _save_fits(hdr, filename):
             """Save a FITS file of the spectral fits/breakdowns."""
 
             hdr['DATE'] = time.strftime("%Y-%m-%dT%H:%m:%S")
@@ -172,27 +161,19 @@ class Decomposer(DecomposerBase):
                                             self.large_fraction,
                                             self.norm), axis=0),
                                   header=hdr)
-            hdu.writeto(self.basename + '_pypahdb.fits', overwrite=True)
-            print('Saved: ', self.basename + '_pypahdb.fits')
+            hdu.writeto(filename, overwrite=True)
+            print('Saved: ', filename)
 
             return
 
-        self.basename = basename
-        self.header = header
-        self.save_pdf = save_pdf
-        self.save_fits = save_fits
+        # save resuls to fits
+        if isinstance(header, fits.header.Header):
+            # should probably clean up the header
+            # i.e., extract certain keywords only
+            hdr = copy.deepcopy(header)
+        else:
+            hdr = fits.Header()
 
-        if save_pdf:
-            # save summary pdf
-            _save_summary_pdf()
+        _save_fits(hdr, filename)
 
-        if save_fits:
-            # save resuls to fits
-            if isinstance(header, fits.header.Header):
-                # should probably clean up the header
-                # i.e., extract certain keywords only
-                hdr = copy.deepcopy(header)
-            else:
-                hdr = fits.Header()
-
-            _save_fits(hdr)
+        return
