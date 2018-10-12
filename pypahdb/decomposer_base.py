@@ -53,10 +53,11 @@ class DecomposerBase(object):
         file_name = 'data/precomputed.pkl'
         file_path = pkg_resources.resource_filename('pypahdb', file_name)
         with open(file_path, 'rb') as f:
-            if sys.version_info[0] == 2:
-                self._precomputed = pickle.load(f)
-            elif sys.version_info[0] == 3:
+            try:
                 self._precomputed = pickle.load(f, encoding='latin1')
+            except Exception as e:
+                print('Python 3 is required for pypahdb.')
+                raise(e)
 
         # Deal with having no map; have a threshold when to do in for loop?
 
