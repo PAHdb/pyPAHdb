@@ -85,9 +85,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials.html">Tutorial series: using pyPAHdb to analyze astronomical spectra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../release-history.html">Release History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pypahdb.html">pypahdb package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pypahdb</a></li>
 </ul>
 
             
@@ -151,10 +151,11 @@
            <div itemprop="articleBody">
             
   <h1>Source code for pypahdb.spectrum</h1><div class="highlight"><pre>
-<span></span><span class="ch">#!/usr/bin/env python</span>
-<span class="c1"># spectrum.py</span>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">spectrum.py: Holds a spectrum</span>
+<span class="sd">spectrum.py</span>
+
+<span class="sd">Holds a spectrum.</span>
 
 <span class="sd">This file is part of pypahdb - see the module docs for more</span>
 <span class="sd">information.</span>
@@ -163,7 +164,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="spectrum"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.spectrum.spectrum">[docs]</a><span class="k">class</span> <span class="nc">spectrum</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Spectrum"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.spectrum.Spectrum">[docs]</a><span class="k">class</span> <span class="nc">Spectrum</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a spectrum object.</span>
 
 <span class="sd">    Attributes:</span>
@@ -199,7 +200,7 @@
                            <span class="bp">self</span><span class="o">.</span><span class="n">uncertainties</span><span class="o">.</span><span class="n">shape</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_units</span> <span class="o">=</span> <span class="n">units</span>
 
-<div class="viewcode-block" id="spectrum.convertunitsto"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.spectrum.spectrum.convertunitsto">[docs]</a>    <span class="k">def</span> <span class="nf">convertunitsto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">keywords</span><span class="p">):</span>
+<div class="viewcode-block" id="Spectrum.convertunitsto"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.spectrum.Spectrum.convertunitsto">[docs]</a>    <span class="k">def</span> <span class="nf">convertunitsto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">keywords</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert units.</span>
 
 <span class="sd">        Args:</span>
@@ -230,7 +231,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, The NASA Ames PAH IR Spectroscopic Database Team.
+        &copy; Copyright 2018, The NASA Ames PAH IR Spectroscopic Database Team
 
     </p>
   </div>
@@ -249,21 +250,14 @@
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'0+unknown',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 

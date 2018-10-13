@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Release History &mdash; pyPAHdb 0+unknown documentation</title>
+  <title>Tutorial series: using pyPAHdb to analyze astronomical spectra &mdash; pyPAHdb 0+unknown documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pypahdb package" href="pypahdb.html" />
-    <link rel="prev" title="Tutorial 01: a single Spitzer spectrum" href="tutorial_01.html" /> 
+    <link rel="next" title="Tutorial 01: a single Spitzer spectrum" href="tutorial_01.html" />
+    <link rel="prev" title="Usage" href="usage.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -87,11 +87,11 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorial series: using pyPAHdb to analyze astronomical spectra</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Release History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#initial-release-2018-08-15">Initial Release (2018-08-15)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial series: using pyPAHdb to analyze astronomical spectra</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_01.html">Tutorial 01: a single Spitzer spectrum</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="release-history.html">Release History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pypahdb.html">pypahdb package</a></li>
 </ul>
 
@@ -138,13 +138,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Release History</li>
+      <li>Tutorial series: using pyPAHdb to analyze astronomical spectra</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/release-history.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/tutorials.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -176,10 +176,31 @@
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="release-history">
-<h1>Release History<a class="headerlink" href="#release-history" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="initial-release-2018-08-15">
-<h2>Initial Release (2018-08-15)<a class="headerlink" href="#initial-release-2018-08-15" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tutorial-series-using-pypahdb-to-analyze-astronomical-spectra">
+<h1>Tutorial series: using pyPAHdb to analyze astronomical spectra<a class="headerlink" href="#tutorial-series-using-pypahdb-to-analyze-astronomical-spectra" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_01.html">Tutorial 01: a single Spitzer spectrum</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_01.html#Step-1:-Necessary-modules-and-paths">Step 1: Necessary modules and paths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_01.html#Step-2:-Preparing-the-data">Step 2: Preparing the data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_01.html#Load-the-data">Load the data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_01.html#Examine-the-data">Examine the data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_01.html#Step-3:-Running-pyPAHdb-(short-version)">Step 3: Running pyPAHdb (short version)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_01.html#1.-Instantiate-an-observation-object">1. Instantiate an <code class="docutils literal notranslate"><span class="pre">observation</span></code> object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_01.html#2.-Pass-the-spectrum-to-decomposer">2. Pass the spectrum to <code class="docutils literal notranslate"><span class="pre">decomposer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_01.html#3.-Plot-and-save-the-results-using-writer">3. Plot and save the results using <code class="docutils literal notranslate"><span class="pre">writer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_01.html#Step-3:-Running-pyPAHdb-(long-version-with-details)">Step 3: Running pyPAHdb (long version with details)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_01.html#1.-Instantiate-an-observation-object">1. Instantiate an <code class="docutils literal notranslate"><span class="pre">observation</span></code> object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_01.html#2.-Pass-the-spectrum-to-decomposer">2. Pass the spectrum to <code class="docutils literal notranslate"><span class="pre">decomposer</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 
@@ -191,10 +212,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="pypahdb.html" class="btn btn-neutral float-right" title="pypahdb package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tutorial_01.html" class="btn btn-neutral float-right" title="Tutorial 01: a single Spitzer spectrum" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="tutorial_01.html" class="btn btn-neutral" title="Tutorial 01: a single Spitzer spectrum" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="usage.html" class="btn btn-neutral" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

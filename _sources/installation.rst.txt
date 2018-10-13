@@ -2,6 +2,9 @@
 Installation
 ============
 
-At the command line::
+pyPAHdb can be installed using pip. At the command line::
 
-    $ pip install pypahdb
+    $ pip install git+git://github.com/PAHdb/pyPAHdb.git
+
+.. $ pip install pypahdb
+

@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Release History" href="release-history.html" />
+    <link rel="next" title="Tutorial series: using pyPAHdb to analyze astronomical spectra" href="tutorials.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
 
   
@@ -87,9 +87,9 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorial series: using pyPAHdb to analyze astronomical spectra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release-history.html">Release History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pypahdb.html">pypahdb package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">pypahdb</a></li>
 </ul>
 
             
@@ -154,10 +154,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="usage">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
-<p>Start by importing pypahdb.</p>
+<p>The general flow for using pyPAHdb is shown below. See the tutorial series for detailed explanations of how to best use pyPAHdb for your purposes.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pypahdb</span>
+
+<span class="c1"># Construct an observation object.</span>
+<span class="n">observation</span> <span class="o">=</span> <span class="n">pyPAHdb</span><span class="o">.</span><span class="n">observation</span><span class="p">(</span><span class="s1">&#39;NGC7023.fits&#39;</span><span class="p">)</span>
+
+<span class="c1"># Pass its spectrum to decomposer, which performs the fit.</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pyPAHdb</span><span class="o">.</span><span class="n">decomposer</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">spectrum</span><span class="p">)</span>
+
+<span class="c1"># Write the results to disk (by default, both a .FITS and .PDF file).</span>
+<span class="n">pyPAHdb</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">observation</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -170,7 +198,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="release-history.html" class="btn btn-neutral float-right" title="Release History" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tutorials.html" class="btn btn-neutral float-right" title="Tutorial series: using pyPAHdb to analyze astronomical spectra" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -182,7 +210,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, The NASA Ames PAH IR Spectroscopic Database Team.
+        &copy; Copyright 2018, The NASA Ames PAH IR Spectroscopic Database Team
 
     </p>
   </div>
@@ -201,21 +229,14 @@
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0+unknown',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 

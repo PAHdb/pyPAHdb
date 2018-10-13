@@ -87,6 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorial series: using pyPAHdb to analyze astronomical spectra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release-history.html">Release History</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pypahdb package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
@@ -95,26 +96,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pypahdb-decomposer-module">pypahdb.decomposer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pypahdb-decomposer-base-module">pypahdb.decomposer_base module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pypahdb-observation-module">pypahdb.observation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pypahdb-spectrum-module">pypahdb.spectrum module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pypahdb-writer-module">pypahdb.writer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pypahdb">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pypahdb</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">pypahdb package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pypahdb.tests.html">pypahdb.tests package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pypahdb-decomposer-module">pypahdb.decomposer module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pypahdb-observation-module">pypahdb.observation module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pypahdb-spectrum-module">pypahdb.spectrum module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pypahdb-writer-module">pypahdb.writer module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-pypahdb">Module contents</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -181,7 +166,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pypahdb-package">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="pypahdb-package">
 <h1>pypahdb package<a class="headerlink" href="#pypahdb-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
@@ -191,7 +195,6 @@
 <li class="toctree-l2"><a class="reference internal" href="pypahdb.tests.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pypahdb.tests.html#module-pypahdb.tests.test_observation">pypahdb.tests.test_observation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pypahdb.tests.html#module-pypahdb.tests.test_spectrum">pypahdb.tests.test_spectrum module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pypahdb.tests.html#module-pypahdb.tests.test_writer">pypahdb.tests.test_writer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pypahdb.tests.html#module-pypahdb.tests">Module contents</a></li>
 </ul>
 </li>
@@ -203,14 +206,45 @@
 </div>
 <div class="section" id="pypahdb-decomposer-module">
 <h2>pypahdb.decomposer module<a class="headerlink" href="#pypahdb-decomposer-module" title="Permalink to this headline">¶</a></h2>
-<p>decomposer.py: Using a precomputed matrix of theoretically calculated
+<p>decomposer.py</p>
+<p>A subclass of DecomposerBase that extends functionality for writing files
+to disk (as PDF or FITS).</p>
+<p>From Decomposer:
+Using a precomputed matrix of theoretically calculated
 PAH emission spectra, an input spectrum is fitted and decomposed into
 contributions from PAH subclasses using a nnls-approach.</p>
 <p>This file is part of pypahdb - see the module docs for more
 information.</p>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">pypahdb.decomposer.</code><code class="descname">decomposer</code><span class="sig-paren">(</span><em>spectrum</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#decomposer"><span class="viewcode-link">[source]</span></a></dt>
+<em class="property">class </em><code class="descclassname">pypahdb.decomposer.</code><code class="descname">Decomposer</code><span class="sig-paren">(</span><em>spectrum</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pypahdb.decomposer_base.DecomposerBase</span></code></p>
+<dl class="method">
+<dt>
+<code class="descname">save_fits</code><span class="sig-paren">(</span><em>filename='output.fits'</em>, <em>header=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.save_fits"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Save a FITS file of the spectral fits/breakdowns.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">save_pdf</code><span class="sig-paren">(</span><em>filename='output.pdf'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.save_pdf"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Save a PDF summary of the spectral fits/breakdowns.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pypahdb-decomposer-base-module">
+<h2>pypahdb.decomposer_base module<a class="headerlink" href="#pypahdb-decomposer-base-module" title="Permalink to this headline">¶</a></h2>
+<p>decomposer_base.py</p>
+<p>Using a precomputed matrix of theoretically calculated
+PAH emission spectra, an input spectrum is fitted and decomposed into
+contributions from PAH subclasses using a nnls-approach.</p>
+<p>This file is part of pypahdb - see the module docs for more
+information.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">pypahdb.decomposer_base.</code><code class="descname">DecomposerBase</code><span class="sig-paren">(</span><em>spectrum</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Fits and decomposes a spectrum.</p>
 <dl class="docutils">
@@ -280,12 +314,13 @@ information.</p>
 </div>
 <div class="section" id="pypahdb-observation-module">
 <h2>pypahdb.observation module<a class="headerlink" href="#pypahdb-observation-module" title="Permalink to this headline">¶</a></h2>
-<p>observation.py: Holds and astronomical observation</p>
+<p>observation.py</p>
+<p>Holds and astronomical observation.</p>
 <p>This file is part of pypahdb - see the module docs for more
 information.</p>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">pypahdb.observation.</code><code class="descname">observation</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/observation.html#observation"><span class="viewcode-link">[source]</span></a></dt>
+<em class="property">class </em><code class="descclassname">pypahdb.observation.</code><code class="descname">Observation</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/observation.html#Observation"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Creates an observation object.</p>
 <p>Currently reads ASCII data and Spitzer-IRS data cubes.</p>
@@ -298,12 +333,13 @@ information.</p>
 </div>
 <div class="section" id="pypahdb-spectrum-module">
 <h2>pypahdb.spectrum module<a class="headerlink" href="#pypahdb-spectrum-module" title="Permalink to this headline">¶</a></h2>
-<p>spectrum.py: Holds a spectrum</p>
+<p>spectrum.py</p>
+<p>Holds a spectrum.</p>
 <p>This file is part of pypahdb - see the module docs for more
 information.</p>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">pypahdb.spectrum.</code><code class="descname">spectrum</code><span class="sig-paren">(</span><em>abscissa</em>, <em>ordinate</em>, <em>uncertainties</em>, <em>units</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/spectrum.html#spectrum"><span class="viewcode-link">[source]</span></a></dt>
+<em class="property">class </em><code class="descclassname">pypahdb.spectrum.</code><code class="descname">Spectrum</code><span class="sig-paren">(</span><em>abscissa</em>, <em>ordinate</em>, <em>uncertainties</em>, <em>units</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/spectrum.html#Spectrum"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Create a spectrum object.</p>
 <dl class="docutils">
@@ -315,7 +351,7 @@ units (list): The units.</dd>
 </dl>
 <dl class="method">
 <dt>
-<code class="descname">convertunitsto</code><span class="sig-paren">(</span><em>**keywords</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/spectrum.html#spectrum.convertunitsto"><span class="viewcode-link">[source]</span></a></dt>
+<code class="descname">convertunitsto</code><span class="sig-paren">(</span><em>**keywords</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/spectrum.html#Spectrum.convertunitsto"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Convert units.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -329,28 +365,8 @@ ounits (str): The new ordinate units.</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="pypahdb-writer-module">
-<h2>pypahdb.writer module<a class="headerlink" href="#pypahdb-writer-module" title="Permalink to this headline">¶</a></h2>
-<p>writer.py: Writes decomposer results to file</p>
-<p>This file is part of pypahdb - see the module docs for more
-information.</p>
-<dl class="class">
-<dt>
-<em class="property">class </em><code class="descclassname">pypahdb.writer.</code><code class="descname">writer</code><span class="sig-paren">(</span><em>result</em>, <em>header=''</em>, <em>basename=''</em>, <em>opdf=True</em>, <em>ofits=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/writer.html#writer"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Creates a writer object.</p>
-<p>Writes PDF and FITS files.</p>
-<dl class="docutils">
-<dt>Attributes:</dt>
-<dd>result (pypahdb.decomposer): Decomposer object.
-header (fits.header.Header): FITS header (normally).
-basename (str): Base string, used for saving files.</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="section" id="module-pypahdb">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pypahdb" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <p>The pyPAHdb package is being developed as part of the awarded James
 Webb Space Telescope (JWST) Early Release Science (ERS) program
 “Radiative Feedback from Massive Stars as Traced by Multiband Imaging
@@ -401,128 +417,6 @@ Astrophysical Journal Supplement Series, XXX, 201X (in
 preparation)</li>
 </ul>
 </div></blockquote>
-<dl class="class">
-<dt id="pypahdb.observation">
-<em class="property">class </em><code class="descclassname">pypahdb.</code><code class="descname">observation</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/observation.html#observation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.observation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Creates an observation object.</p>
-<p>Currently reads ASCII data and Spitzer-IRS data cubes.</p>
-<dl class="docutils">
-<dt>Attributes:</dt>
-<dd>spectrum (spectrum): contains loaded spectrum</dd>
-</dl>
-</dd></dl>
-
-<dl class="class">
-<dt id="pypahdb.spectrum">
-<em class="property">class </em><code class="descclassname">pypahdb.</code><code class="descname">spectrum</code><span class="sig-paren">(</span><em>abscissa</em>, <em>ordinate</em>, <em>uncertainties</em>, <em>units</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/spectrum.html#spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.spectrum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Create a spectrum object.</p>
-<dl class="docutils">
-<dt>Attributes:</dt>
-<dd>abscissa (numpy.ndarray): The abscissa values.
-ordinate (numpy.ndarray): The ordinate values.
-uncertainties (numpy.ndarray): Uncertainties on the ordinate.
-units (list): The units.</dd>
-</dl>
-<dl class="method">
-<dt id="pypahdb.spectrum.convertunitsto">
-<code class="descname">convertunitsto</code><span class="sig-paren">(</span><em>**keywords</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/spectrum.html#spectrum.convertunitsto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.spectrum.convertunitsto" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert units.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>aunits (str): The new abscissa units.
-ounits (str): The new ordinate units.</dd>
-<dt>Returns:</dt>
-<dd>Nothing.</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pypahdb.decomposer">
-<em class="property">class </em><code class="descclassname">pypahdb.</code><code class="descname">decomposer</code><span class="sig-paren">(</span><em>spectrum</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#decomposer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.decomposer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Fits and decomposes a spectrum.</p>
-<dl class="docutils">
-<dt>Attributes:</dt>
-<dd>spectrum: The spectrum to fit and decompose.</dd>
-</dl>
-<dl class="attribute">
-<dt id="pypahdb.decomposer.charge">
-<code class="descname">charge</code><a class="headerlink" href="#pypahdb.decomposer.charge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the spectral charge breakdown.</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd><dl class="first last docutils">
-<dt>self._charge (ndarray): Associative array with keys</dt>
-<dd>‘anion’, ‘neutral’ and ‘cation’</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pypahdb.decomposer.fit">
-<code class="descname">fit</code><a class="headerlink" href="#pypahdb.decomposer.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the fit.</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>self._yfit (ndarray): PAHdb total fit.</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pypahdb.decomposer.ionized_fraction">
-<code class="descname">ionized_fraction</code><a class="headerlink" href="#pypahdb.decomposer.ionized_fraction" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the ionized fraction.</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>self._ionized_fraction (ndarray): Ion fraction of fit.</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pypahdb.decomposer.large_fraction">
-<code class="descname">large_fraction</code><a class="headerlink" href="#pypahdb.decomposer.large_fraction" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the large fraction.</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>self._large_fraction (ndarray): Large fraction of fit.</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pypahdb.decomposer.size">
-<code class="descname">size</code><a class="headerlink" href="#pypahdb.decomposer.size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the spectral size breakdown.</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd><dl class="first last docutils">
-<dt>self._size (ndarray): Associative array with keys</dt>
-<dd>‘large’, ‘small’</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pypahdb.writer">
-<em class="property">class </em><code class="descclassname">pypahdb.</code><code class="descname">writer</code><span class="sig-paren">(</span><em>result</em>, <em>header=''</em>, <em>basename=''</em>, <em>opdf=True</em>, <em>ofits=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/writer.html#writer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.writer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Creates a writer object.</p>
-<p>Writes PDF and FITS files.</p>
-<dl class="docutils">
-<dt>Attributes:</dt>
-<dd>result (pypahdb.decomposer): Decomposer object.
-header (fits.header.Header): FITS header (normally).
-basename (str): Base string, used for saving files.</dd>
-</dl>
-</dd></dl>
-
 </div>
 </div>
 
@@ -546,7 +440,7 @@ basename (str): Base string, used for saving files.</dd>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, The NASA Ames PAH IR Spectroscopic Database Team.
+        &copy; Copyright 2018, The NASA Ames PAH IR Spectroscopic Database Team
 
     </p>
   </div>
@@ -565,21 +459,14 @@ basename (str): Base string, used for saving files.</dd>
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0+unknown',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 
