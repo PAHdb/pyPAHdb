@@ -16,34 +16,44 @@ information.
 
 import copy
 import decimal
+import time
+
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import numpy as np
-import time
 
 from astropy.io import fits
 from matplotlib.backends.backend_pdf import PdfPages
+
 from pypahdb.decomposer_base import DecomposerBase
 
 
 class Decomposer(DecomposerBase):
+    """Extends the DecomposerBase class to write to disk (PDF, FITS)."""
 
     def __init__(self, spectrum):
+        """Initialize a Decomposer object.
+
+        Inherits from the DecomposerBase class of decomposer_base.py.
+
+        Args:
+            spectrum (pypahdb.spectrum.Spectrum): The data to fit/decompose.
+        """
         DecomposerBase.__init__(self, spectrum)
 
-    def save_pdf(self, filename="output.pdf"):
-        """Save a PDF summary of the spectral fits/breakdowns."""
+    def save_pdf(self, filename):
+        """Saves a PDF summary of the fit with parameter breakdowns."""
 
         def smart_round(value, style="0.1"):
-            """Round a float correctly, returning a string."""
+            """Rounds a float nicely, returning a string."""
             tmp = decimal.Decimal(value).quantize(decimal.Decimal(style))
             return str(tmp)
 
         def _plot_pahdb_fit(i, j):
-            """Plot a pyPAHdb fit and save to a PDF.
+            """Plots a pyPAHdb fit and save to a PDF.
 
             Note:
-                Designed to accept (i,j) because it will be adjusted to
+                Designed to accept (i,j) because it will later be adjusted to
                 make plots for spectral cubes (outputting a multipage PDF.)
 
             Args:
@@ -51,7 +61,7 @@ class Decomposer(DecomposerBase):
                 j (int): Pixel coordinate (ordinate).
 
             Returns:
-                True if successful.
+                fig (matplotlib.figure.Figure): object containing the plot.
 
             """
             # Create figure, shared axes.
@@ -140,12 +150,11 @@ class Decomposer(DecomposerBase):
 
         return
 
-    def save_fits(self, filename="output.fits", header=""):
-        """Save a FITS file of the spectral fits/breakdowns."""
+    def save_fits(self, filename, header=""):
+        """Saves a FITS file of the pyPAHdb fit/breakdown."""
 
-        def _save_fits(hdr, filename):
-            """Save a FITS file of the spectral fits/breakdowns."""
-
+        def _fits_to_disk(hdr, filename):
+            """Writes the FITS file to disk, with header."""
             hdr['DATE'] = time.strftime("%Y-%m-%dT%H:%m:%S")
             hdr['SOFTWARE'] = "pypahdb"
             hdr['SOFT_VER'] = "0.5.0.a1"
@@ -166,7 +175,7 @@ class Decomposer(DecomposerBase):
 
             return
 
-        # save resuls to fits
+        # save results to fits
         if isinstance(header, fits.header.Header):
             # should probably clean up the header
             # i.e., extract certain keywords only
@@ -174,6 +183,6 @@ class Decomposer(DecomposerBase):
         else:
             hdr = fits.Header()
 
-        _save_fits(hdr, filename)
+        _fits_to_disk(hdr, filename)
 
         return

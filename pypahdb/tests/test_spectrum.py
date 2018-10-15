@@ -6,6 +6,7 @@ test_spectrum.py: unit tests for class spectrum.
 """
 
 import unittest
+
 import numpy as np
 
 from pypahdb.spectrum import Spectrum

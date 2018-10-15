@@ -12,12 +12,12 @@ information.
 
 import copy
 import multiprocessing
-import numpy as np
 import pickle
 import platform
 import pkg_resources
-
 from functools import partial
+
+import numpy as np
 from scipy import optimize
 
 
@@ -32,7 +32,7 @@ class DecomposerBase(object):
         """Construct a decomposer object.
 
         Args:
-            spectrum (object): The spectrum to fit and decompose
+            spectrum (spectrum.Spectrum): The spectrum to fit and decompose.
         """
         self._yfit = None
         self._ionized_fraction = None
