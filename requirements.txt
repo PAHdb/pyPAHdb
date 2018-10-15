@@ -1,4 +1,3 @@
 scipy
 astropy
 matplotlib
-nbsphinx
