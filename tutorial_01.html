@@ -88,22 +88,18 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorial series: using pyPAHdb to analyze astronomical spectra</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Tutorial 01: a single Spitzer spectrum</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Step-1:-Necessary-modules-and-paths">Step 1: Necessary modules and paths</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Step-2:-Preparing-the-data">Step 2: Preparing the data</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Load-the-data">Load the data</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Examine-the-data">Examine the data</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tutorial 01: a single Spitzer spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Table-of-contents">Table of contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Step-1:-Necessary-modules">Step 1: Necessary modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-2:-Data-validation">Step 2: Data validation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#A.-Inspect-the-data">A. Inspect the data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#B.-Make-a-quick-plot">B. Make a quick plot</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Running-pyPAHdb-(short-version)">Step 3: Running pyPAHdb (short version)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#1.-Instantiate-an-observation-object">1. Instantiate an <code class="docutils literal notranslate"><span class="pre">observation</span></code> object</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#2.-Pass-the-spectrum-to-decomposer">2. Pass the spectrum to <code class="docutils literal notranslate"><span class="pre">decomposer</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#3.-Plot-and-save-the-results-using-writer">3. Plot and save the results using <code class="docutils literal notranslate"><span class="pre">writer</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Running-pyPAHdb-(long-version-with-details)">Step 3: Running pyPAHdb (long version with details)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#1.-Instantiate-an-observation-object">1. Instantiate an <code class="docutils literal notranslate"><span class="pre">observation</span></code> object</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#2.-Pass-the-spectrum-to-decomposer">2. Pass the spectrum to <code class="docutils literal notranslate"><span class="pre">decomposer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Running-pyPAHdb">Step 3: Running pyPAHdb</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#A.-Instantiate-an-Observation-object">A. Instantiate an <code class="docutils literal notranslate"><span class="pre">Observation</span></code> object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#B.-Pass-the-spectrum-to-Decomposer">B. Pass the spectrum to <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#C.-Write-the-results-to-disk">C. Write the results to disk</a></li>
 </ul>
 </li>
 </ul>
@@ -368,13 +364,31 @@ astronomical spectrum. We will use one of the sample spectra here. Feel
 free to follow along, and attempt the same method with a simple spectrum
 of your own.</p>
 <p>Data used in this example:
-pyPAHdb/data/sample_data_NGC7023-NW-PAHs.txt</p>
-<hr class="docutils" />
-<div class="section" id="Step-1:-Necessary-modules-and-paths">
-<h2>Step 1: Necessary modules and paths<a class="headerlink" href="#Step-1:-Necessary-modules-and-paths" title="Permalink to this headline">¶</a></h2>
+<code class="docutils literal notranslate"><span class="pre">pyPAHdb/data/sample_data_NGC7023-NW-PAHs.txt</span></code>.</p>
+<p>These data are from: Boersma, C., Bregman, J. D., &amp; Allamandola, L. J.
+2013, ApJ, 769, 117 (<a class="reference external" href="http://adsabs.harvard.edu/abs/2013ApJ...769..117B">http://adsabs.harvard.edu/abs/2013ApJ…769..117B</a>)</p>
+</div>
+<div class="section" id="Table-of-contents">
+<h1>Table of contents<a class="headerlink" href="#Table-of-contents" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li><a class="reference external" href="#step1">Import needed modules</a></li>
+<li><a class="reference external" href="#step2">Data validation</a><ol class="arabic">
+<li><a class="reference external" href="#step2a">Inspect the data</a></li>
+<li><a class="reference external" href="#step2b">Make a quick plot</a></li>
+</ol>
+</li>
+<li><a class="reference external" href="#step3">Running pyPAHdb</a><ol class="arabic">
+<li><cite>Instantiate an ``Observation`</cite> object &lt;#step3a&gt;`__</li>
+<li><cite>Pass the spectrum to ``Decomposer`</cite> &lt;#step3b&gt;`__</li>
+<li><a class="reference external" href="#step3c">Write the results to disk</a></li>
+</ol>
+</li>
+</ol>
+<div class="section" id="Step-1:-Necessary-modules">
+<h2>Step 1: Necessary modules<a class="headerlink" href="#Step-1:-Necessary-modules" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [1]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -382,18 +396,22 @@ pyPAHdb/data/sample_data_NGC7023-NW-PAHs.txt</p>
 <span class="c1"># matplotlib within a notebook.</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pkg_resources</span>
-<span class="kn">import</span> <span class="nn">pypahdb</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">pypahdb.decomposer</span> <span class="k">import</span> <span class="n">Decomposer</span>
+<span class="kn">from</span> <span class="nn">pypahdb.observation</span> <span class="k">import</span> <span class="n">Observation</span>
 </pre></div>
 </div>
 </div>
 </div>
 <hr class="docutils" />
-<div class="section" id="Step-2:-Preparing-the-data">
-<h2>Step 2: Preparing the data<a class="headerlink" href="#Step-2:-Preparing-the-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Step-2:-Data-validation">
+<h2>Step 2: Data validation<a class="headerlink" href="#Step-2:-Data-validation" title="Permalink to this headline">¶</a></h2>
 <p>You should ensure your data has a simple format. Acceptable formats
 include:</p>
 <ul class="simple">
@@ -405,18 +423,16 @@ include:</p>
 <li>either two-column (wavelength, flux) or three-column (wavelength,
 flux, flux error)</li>
 <li>seperated by commas (CSV) or single spaces</li>
-<li><strong>*what about headers?? do we use skiprows in pypahdb right
-now??*</strong></li>
 </ul>
 </li>
 </ul>
-<div class="section" id="Load-the-data">
-<h3>Load the data<a class="headerlink" href="#Load-the-data" title="Permalink to this headline">¶</a></h3>
-<p>We will use the example spectrum <code class="docutils literal notranslate"><span class="pre">sample_data_NGC7023-NW-PAHs.txt</span></code>
-here.</p>
-<div class="nbinput docutils container">
+<div class="section" id="A.-Inspect-the-data">
+<h3>A. Inspect the data<a class="headerlink" href="#A.-Inspect-the-data" title="Permalink to this headline">¶</a></h3>
+<p>We will use the example spectrum <code class="docutils literal notranslate"><span class="pre">sample_data_NGC7023-NW-PAHs.txt</span></code>,
+included in the pypahdb distribution.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -424,17 +440,6 @@ here.</p>
 <span class="c1"># of the spectrum you are examining.</span>
 <span class="c1"># data_file = data_dir + &#39;NGC7023-NW-PAHs.txt&#39;</span>
 <span class="n">data_file</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="s1">&#39;data/sample_data_NGC7023-NW-PAHs.txt&#39;</span><span class="p">)</span>
-<span class="n">data_file</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[2]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&#39;/home/koma/Documents/GitHub/pyPAHdb/pypahdb/data/sample_data_NGC7023-NW-PAHs.txt&#39;
 </pre></div>
 </div>
 </div>
@@ -442,7 +447,7 @@ here.</p>
 structure…</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -464,55 +469,99 @@ wavelength &#34;surface brightness&#34;
 5.30479 55.46148169840347
 </pre></div></div>
 </div>
-<p>So we have two columns separated by a space, the first being wavelength
-and the second being surface brightness (for convenience we’ll call this
-flux). The line breaks (</p>
-<div class="math notranslate nohighlight">
-\n</div><p>) will be handled easily by np.loadtxt (or any other module you desire):</p>
+<p>We will use <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to load the data for quick analysis:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">wave</span><span class="p">,</span> <span class="n">flux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>  <span class="c1"># Loads the data into a pandas DataFrame.</span>
 </pre></div>
 </div>
 </div>
-<p>We used .T to transpose the array (such that it’s column-oriented).</p>
-<p>Now let’s check its dimensions and type(s).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">len</span><span class="p">(</span><span class="n">wave</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">flux</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">wave</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">wave</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">type</span><span class="p">(</span><span class="n">flux</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[5]:
+<span></span>Out[11]:
 </pre></div>
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>(194, 194, numpy.ndarray, numpy.float64, numpy.float64)
-</pre></div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>wavelength</th>
+      <th>surface brightness</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.24282</td>
+      <td>50.918551</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5.27380</td>
+      <td>53.081827</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.30479</td>
+      <td>55.461482</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5.33577</td>
+      <td>58.099673</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.36676</td>
+      <td>61.056485</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 </div>
-</div>
-<div class="section" id="Examine-the-data">
-<h3>Examine the data<a class="headerlink" href="#Examine-the-data" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="B.-Make-a-quick-plot">
+<h3>B. Make a quick plot<a class="headerlink" href="#B.-Make-a-quick-plot" title="Permalink to this headline">¶</a></h3>
+<p>Let’s make a quick plot to make sure the spectrum has no unusual
+features/artifacts.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wave</span><span class="p">,</span> <span class="n">flux</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Wavelength ($\mu$m)&#39;</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Surface brightness (MJy/sr)&#39;</span><span class="p">);</span>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;wavelength&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;surface brightness&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Wavelength (μm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Surface brightness (MJy/sr)&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -520,7 +569,7 @@ flux). The line breaks (</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/tutorial_01_20_0.png" src="_images/tutorial_01_20_0.png" />
+<img alt="_images/tutorial_01_19_0.png" src="_images/tutorial_01_19_0.png" />
 </div>
 </div>
 <p>We see that it is a reasonably smooth spectrum composed of Spitzer/IRS
@@ -530,20 +579,20 @@ approximately).</p>
 (as determined by the wavelength array).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">strictly_increasing</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
 
-<span class="n">strictly_increasing</span><span class="p">(</span><span class="n">wave</span><span class="p">)</span>
+<span class="n">strictly_increasing</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;wavelength&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[7]:
+<span></span>Out[14]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
@@ -554,75 +603,92 @@ approximately).</p>
 </div>
 </div>
 <hr class="docutils" />
-<div class="section" id="Step-3:-Running-pyPAHdb-(short-version)">
-<h2>Step 3: Running pyPAHdb (short version)<a class="headerlink" href="#Step-3:-Running-pyPAHdb-(short-version)" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="1.-Instantiate-an-observation-object">
-<h3>1. Instantiate an <code class="docutils literal notranslate"><span class="pre">observation</span></code> object<a class="headerlink" href="#1.-Instantiate-an-observation-object" title="Permalink to this headline">¶</a></h3>
-<p>All that’s needed is the path to the text file above. ** can it accept
-both space and CSV files ???? **</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">observation</span> <span class="o">=</span> <span class="n">pypahdb</span><span class="o">.</span><span class="n">observation</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
+<div class="section" id="Step-3:-Running-pyPAHdb">
+<h2>Step 3: Running pyPAHdb<a class="headerlink" href="#Step-3:-Running-pyPAHdb" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="A.-Instantiate-an-Observation-object">
+<h3>A. Instantiate an <code class="docutils literal notranslate"><span class="pre">Observation</span></code> object<a class="headerlink" href="#A.-Instantiate-an-Observation-object" title="Permalink to this headline">¶</a></h3>
+<p>All that’s needed is the path to the text file above.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">observation</span><span class="o">.</span><span class="n">file_path</span>
+<span></span><span class="n">data_file</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[9]:
+<span></span>Out[15]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&#39;/home/koma/Documents/GitHub/pyPAHdb/pypahdb/data/sample_data_NGC7023-NW-PAHs.txt&#39;
+<span></span>&#39;/Users/koma/Documents/GitHub/pyPAHdb/pypahdb/data/sample_data_NGC7023-NW-PAHs.txt&#39;
 </pre></div>
 </div>
 </div>
-<p>Now we have an <code class="docutils literal notranslate"><span class="pre">observation</span></code> object that encapsulates our data.</p>
-</div>
-<div class="section" id="2.-Pass-the-spectrum-to-decomposer">
-<h3>2. Pass the spectrum to <code class="docutils literal notranslate"><span class="pre">decomposer</span></code><a class="headerlink" href="#2.-Pass-the-spectrum-to-decomposer" title="Permalink to this headline">¶</a></h3>
-<p>Now with our <code class="docutils literal notranslate"><span class="pre">observation</span></code> instance, we simply pass its spectrum to
-the pyPAHdb <code class="docutils literal notranslate"><span class="pre">decomposer</span></code>, which will perform the decomposition by PAH.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">result</span> <span class="o">=</span> <span class="n">pypahdb</span><span class="o">.</span><span class="n">decomposer</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">spectrum</span><span class="p">)</span>
+<span></span><span class="n">obs</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Now we have a <code class="docutils literal notranslate"><span class="pre">decomposer</span></code> object that encapsulates the fit.</p>
-</div>
-<div class="section" id="3.-Plot-and-save-the-results-using-writer">
-<h3>3. Plot and save the results using <code class="docutils literal notranslate"><span class="pre">writer</span></code><a class="headerlink" href="#3.-Plot-and-save-the-results-using-writer" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">pypahdb.writer</span></code> is a convenient way to view and save your results.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">obs</span><span class="o">.</span><span class="n">file_path</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[17]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&#39;/Users/koma/Documents/GitHub/pyPAHdb/pypahdb/data/sample_data_NGC7023-NW-PAHs.txt&#39;
+</pre></div>
+</div>
+</div>
+<p>Now we have an <code class="docutils literal notranslate"><span class="pre">Observation</span></code> object that encapsulates our data.</p>
+</div>
+<div class="section" id="B.-Pass-the-spectrum-to-Decomposer">
+<h3>B. Pass the spectrum to <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code><a class="headerlink" href="#B.-Pass-the-spectrum-to-Decomposer" title="Permalink to this headline">¶</a></h3>
+<p>Now with our <code class="docutils literal notranslate"><span class="pre">Observation</span></code> instance, we simply pass its spectrum to
+the pyPAHdb <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code>, which will perform the decomposition by PAH.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pahdb_fit</span> <span class="o">=</span> <span class="n">Decomposer</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">spectrum</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now we have a <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> object that encapsulates the fit.</p>
+</div>
+<div class="section" id="C.-Write-the-results-to-disk">
+<h3>C. Write the results to disk<a class="headerlink" href="#C.-Write-the-results-to-disk" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> class includes methods for saving the fit results to
+disk:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># write results to file</span>
-<span class="c1"># by default, will save PDF and FITS files; can turn off with save_pdf=False as an argument.</span>
-<span class="c1"># by default, saves output to the directory containing the input file;</span>
-<span class="c1"># can instead save to a user-defined directory by setting output_directory.</span>
-<span class="c1"># e.g., output_directory=&#39;&#39; will save to the local folder.</span>
-<span class="n">pypahdb</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+<span class="n">pahdb_fit</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;NGC7023_pypahdb.pdf&#39;</span><span class="p">)</span>
+<span class="n">pahdb_fit</span><span class="o">.</span><span class="n">save_fits</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;NGC7023_pypahdb.fits&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -631,8 +697,8 @@ the pyPAHdb <code class="docutils literal notranslate"><span class="pre">decompo
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Saved:  /home/koma/Documents/GitHub/pyPAHdb/pypahdb/data/sample_data_NGC7023-NW-PAHs_pypahdb.pdf
-Saved:  /home/koma/Documents/GitHub/pyPAHdb/pypahdb/data/sample_data_NGC7023-NW-PAHs_pypahdb.fits
+Saved:  NGC7023_pypahdb.pdf
+Saved:  NGC7023_pypahdb.fits
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -640,327 +706,6 @@ Saved:  /home/koma/Documents/GitHub/pyPAHdb/pypahdb/data/sample_data_NGC7023-NW-
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;Figure size 432x288 with 0 Axes&gt;
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<hr class="docutils" />
-<div class="section" id="Step-3:-Running-pyPAHdb-(long-version-with-details)">
-<h2>Step 3: Running pyPAHdb (long version with details)<a class="headerlink" href="#Step-3:-Running-pyPAHdb-(long-version-with-details)" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="1.-Instantiate-an-observation-object">
-<h3>1. Instantiate an <code class="docutils literal notranslate"><span class="pre">observation</span></code> object<a class="headerlink" href="#1.-Instantiate-an-observation-object" title="Permalink to this headline">¶</a></h3>
-<p>All that’s needed is the path to the text file above. ** can it accept
-both space and CSV files ???? **</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [32]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">observation</span> <span class="o">=</span> <span class="n">pypahdb</span><span class="o">.</span><span class="n">observation</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>Now we have an <code class="docutils literal notranslate"><span class="pre">observation</span></code> object that encapsulates our data.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [34]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">observation</span><span class="o">.</span><span class="n">file_path</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[34]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&#39;NGC7023-NW-PAHs.txt&#39;
-</pre></div>
-</div>
-</div>
-<p>The wavelength array is contained within
-<code class="docutils literal notranslate"><span class="pre">observation.spectrum.abscissa</span></code>.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [46]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">abscissa</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[46]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>numpy.ndarray
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [45]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">observation</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">abscissa</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[45]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>array([5.24282, 5.2738 , 5.30479, 5.33577, 5.36676, 5.39774, 5.42873,
-       5.45971, 5.4907 , 5.52169])
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [47]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">observation</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">abscissa</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[47]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>(194,)
-</pre></div>
-</div>
-</div>
-<p>The flux array is within <code class="docutils literal notranslate"><span class="pre">observation.spectrum.ordinate</span></code>.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [42]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">ordinate</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[42]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>numpy.ndarray
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [43]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">observation</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[43]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>(194, 1, 1)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="2.-Pass-the-spectrum-to-decomposer">
-<h3>2. Pass the spectrum to <code class="docutils literal notranslate"><span class="pre">decomposer</span></code><a class="headerlink" href="#2.-Pass-the-spectrum-to-decomposer" title="Permalink to this headline">¶</a></h3>
-<p>Now with our <code class="docutils literal notranslate"><span class="pre">observation</span></code> instance, we simply pass its spectrum to
-the pyPAHdb <code class="docutils literal notranslate"><span class="pre">decomposer</span></code>, which will perform the decomposition by PAH.</p>
-<p>** seems like you shouldn’t need to specify observation.spectrum??
-just observation? or…? **</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [48]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">result</span> <span class="o">=</span> <span class="n">pypahdb</span><span class="o">.</span><span class="n">decomposer</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">spectrum</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [49]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[49]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>pypahdb.decomposer.decomposer
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [51]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[51]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>dict
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [53]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[53]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>numpy.ndarray
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [54]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">ionized_fraction</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[54]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>numpy.ndarray
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [55]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">large_fraction</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[55]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>numpy.ndarray
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [56]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">norm</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[56]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>numpy.ndarray
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [57]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[57]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>dict
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [58]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">spectrum</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[58]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>pypahdb.spectrum.spectrum
 </pre></div>
 </div>
 </div>

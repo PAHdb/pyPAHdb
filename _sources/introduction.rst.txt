@@ -3,10 +3,35 @@ Introduction
 
 pyPAHdb is used to characterize emission from one of the most prevalent types of organic molecules in space, namely polycyclic aromatic hydrocarbons (PAHs). It leverages the detailed studies of organic molecules done at the NASA Ames Research Center. pyPAHdb is a streamlined Python version of the NASA Ames PAH IR Spectroscopic Database (PAHdb; `www.astrochemistry.org/pahdb <http://www.astrochemistry.org/pahdb>`_) suite of IDL tools. PAHdb has been extensively used to analyze and interpret the PAH signature from a plethora of emission sources, ranging from solar-system objects to entire galaxies. pyPAHdb decomposes astronomical PAH emission spectra into contributing PAH sub-classes in terms of charge and size using a database-fitting technique. The inputs for the fit are spectra constructed using the spectroscopic libraries of PAHdb and take into account the detailed photo-physics of the PAH excitation/emission process.
 
-Academic reference
-------------------
+Academic references
+-------------------
 
-A white paper for pyPAHdb was presented at the Scipy 2018 conference as a conference proceeding. Please see `https://doi.org/10.25080/Majora-4af1f417-00f <https://doi.org/10.25080/Majora-4af1f417-00f>`_ for the full article in PDF form.
+Software citation
+_________________
+
+We request that authors who publish works using pyPAHdb please cite out conferencing proceeding from *SciPy* 2018:
+
+Shannon, M.J., Boersma, C., "ORGANIC MOLECULES IN SPACE: INSIGHTS FROM THE NASA AMES MOLECULAR DATABASE IN THE ERA OF THE JAMES WEBB SPACE TELESCOPE", 2018, *SciPy*, 99 `10.25080/majora-4af1f417-00f <http://dx.doi.org/10.25080/majora-4af1f417-00f>`__ — `BibTeX <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/bibtex>`__ - `RIS <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/ris>`__
+
+PAHdb principal citations
+_________________________
+
+We further kindly request that authors also cite the principal publications for PAHdb, upon which pyPAHdb is based:
+
+C.W. Bauschlicher, Jr., A. Ricca, C. Boersma, L.J. Allamandola, "THE NASA AMES PAH IR SPECTROSCOPIC DATABASE: COMPUTATIONAL VERSION 3.00 WITH UPDATED CONTENT AND THE INTRODUCTION OF MULTIPLE SCALING FACTORS", *The Astrophysical Journal Supplement Series*, **234**, 32, 2018, `10.3847/1538-4365/aaa019 <http://dx.doi.org/10.3847/1538-4365/aaa019>`__ — `BibTeX <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.3847~1538-4365~aaa019/bibtex>`__
+- `RIS <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.3847~1538-4365~aaa019/ris>`__
+
+
+C. Boersma, C.W. Bauschlicher, Jr., A. Ricca, A.L. Mattioda, J. Cami, E. Peeters, F. S&#225;nchez de Armas, G. Puerta Saborido, D.M. Hudgins, and L.J. Allamandola, "THE NASA AMES PAH IR SPECTROSCOPIC DATABASE VERSION 2.00: UPDATED CONTENT, WEBSITE AND ON/OFFLINE TOOLS", *The Astrophysical Journal Supplement Series*, **211**, 8, 2014, 
+`10.1088/0067-0049/211/1/8 <http://dx.doi.org/10.1088/0067-0049/211/1/8>`__ — `BibTeX <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~211~1~8/bibtex>`__
+- `RIS <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~211~1~8/ris>`__
+
+
+C.W. Bauschlicher, Jr., C. Boersma, A. Ricca, A.L. Mattioda, J. Cami, E. Peeters, F. S&#225;nchez de Armas, G. Puerta Saborido, D.M. Hudgins, and L.J. Allamandola, "THE NASA AMES PAH IR SPECTROSCOPIC DATABASE: THE COMPUTED SPECTRA", *The Astrophysical Journal Supplement Series*, **189**, 341, 2010, `10.1088/0067-0049/189/2/341 <http://dx.doi.org/10.1088/0067-0049/189/2/341>`__ — `BibTeX <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~189~2~341/bibtex>`__ - `RIS <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~189~2~341/ris>`__
+
+Mattioda, A. L., Hudgins, D. M., Boersma, C., Ricca, A., Peeters, E., Cami, J., S&#225;nchez de Armas, F., Puerta Saborido, G., Bauschlicher, C. W., J., and Allamandola, L. J. "THE NASA AMES PAH IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", *The Astrophysical Journal Supplement Series*, **XXX**, 201X *(in preparation)*
+
+
 
 pyPAHdb details
 ---------------
@@ -88,41 +113,42 @@ presented in the figure above and is as follows:
 
 (1) Read-in a file containing spectroscopic PAH observations of an
     astronomical object. This functionality is provided by the class
-    ``observation``, which is implemented in ``observation.py``. It is the
+    ``Observation``, which is implemented in ``observation.py``. It is the
     responsibility of the user to ensure all non-PAH emission
     components have been removed from the spectrum. The class uses a
     fall-through try-except chain to attempt to read the given
     filename using the facilities provided by ``astropy.io``. The
     spectroscopic data is stored as a class attribute as a
-    ``spectrum`` object, which holds the data in terms of abscissa and
+    ``Spectrum`` object, which holds the data in terms of abscissa and
     ordinate values using ``numpy`` arrays. The units associated with
     the abscissa and ordinate values are, in the case of a FITS file,
     determined from the accompanying header, which itself is also
     stored as a class attribute. The spectral coordinate system is
-    interpreted from FITS header keywords. The ``spectrum`` class is
+    interpreted from FITS header keywords. The ``Spectrum`` class is
     implemented in ``spectrum.py`` and provides functionality to convert
     between different coordinate representations. Below is example
     Python code demonstrating the use of the class. The file
-    ``NGC7023-NW-BRIGHT.txt_pahs.txt`` in this demonstration can be
+    ``sample_data_NGC7023-NW-PAHs.txt`` in this demonstration can be
     found in the ``examples`` directory that is part of the
     pyPAHdb package. The output of the following code-block is shown in the flowchart.
 
 .. code-block:: python
 
-    import pypahdb as pah
     import matplotlib.pyplot as plt
-    file = 'NGC7023-NW-BRIGHT.txt_pahs.txt'
-    obs = pah.observation(file)
+    from pypahdb.observation import Observation
+
+    filename = 'sample_data_NGC7023-NW-PAHs.txt'
+    obs = Observation(filename)
     s = obs.spectrum
     plt.plot(s.abscissa, s.ordinate[:,0,0])
-    plt.ylabel(s.units['ordinate']['str']);
-    plt.xlabel(s.units['abscissa']['str']);
+    plt.ylabel(s.units['ordinate']['str'])
+    plt.xlabel(s.units['abscissa']['str'])
     plt.show()
 
 (2) Decompose the observed PAH emission into contributions from
     different PAH subclasses, here charge and size. This functionality
-    is provided by the class ``decomposer``, which is implemented in
-    ``decomposer.py``. The class takes as input a ``spectrum`` object, of
+    is provided by the class ``Decomposer``, which is implemented in
+    ``decomposer.py``. The class takes as input a ``Spectrum`` object, of
     which it creates a deep copy and calls its
     ``spectrum.convertunitsto`` method to convert the abscissa units
     to wavenumber. Subsequently, a pre-computed ``numpy`` matrix of
@@ -146,18 +172,19 @@ presented in the figure above and is as follows:
 
 .. code-block:: python
 
-    result = pah.decomposer(obs.spectrum)
+    from pypahdb.decomposer import Decomposer
+    result = Decomposer(obs.spectrum)
     s = result.spectrum
     plt.plot(s.abscissa, s.ordinate[:,0,0], 'x')
-    plt.ylabel(s.units['ordinate']['str']);
-    plt.xlabel(s.units['abscissa']['str']);
+    plt.ylabel(s.units['ordinate']['str'])
+    plt.xlabel(s.units['abscissa']['str'])
     plt.plot(s.abscissa, result.fit[:,0,0])
     plt.show()
 
-(3) Produce output to file given a ``decomposer`` object. This
-    functionality is provided by the class ``writer``, which is
-    implemented in ``writer.py``, and serves to summarize the results from
-    the ``decomposer`` class so that a user may assess the quality of
+(3) Produce output to file given a ``Decomposer`` object. Previously stored
+    within the ``Writer`` class, this functionality is now contained within
+    ``Decomposer`` itself. The output serves to summarize the results from
+    the ``Decomposer`` class so that a user may assess the quality of
     the fit and store the PAH characteristics of their astronomical
     observations. The class uses ``astropy.fits`` to write the PAH
     characteristics to a FITS file and the ``matplotlib`` package to
@@ -169,4 +196,5 @@ presented in the figure above and is as follows:
 
 .. code-block:: python
 
-   pah.writer(result, header=obs.header)
+    result.save_pdf(filename='NGC7023_pypahdb.pdf')
+    result.save_fits(filename='NGC7023_pypahdb.fits', header=obs.header)

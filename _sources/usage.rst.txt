@@ -6,13 +6,15 @@ The general flow for using pyPAHdb is shown below. See the tutorial series for d
 
 .. code-block:: python
 
-    import pypahdb
+    from pypahdb.decomposer import Decomposer
+    from pypahdb.observation import Observation
 
-    # Construct an observation object.
-    observation = pyPAHdb.observation('NGC7023.fits')
+    # Construct an Observation object.
+    obs = Observation('NGC7023.fits')
 
-    # Pass its spectrum to decomposer, which performs the fit.
-    result = pyPAHdb.decomposer(observation.spectrum)
+    # Pass the Observation's spectrum to Decomposer, which performs the fit.
+    pahdb_fit = Decomposer(obs.spectrum)
 
-    # Write the results to disk (by default, both a .FITS and .PDF file).
-    pyPAHdb.writer(result, header=observation.header)
+    # Write the results to file
+    pahdb_fit.save_pdf(filename='NGC7023_pypahdb.pdf')
+    pahdb_fit.save_fits(filename='NGC7023_pypahdb.fits', header=obs.header)

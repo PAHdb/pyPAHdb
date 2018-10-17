@@ -165,12 +165,12 @@
 
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">multiprocessing</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">pkg_resources</span>
-
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">optimize</span>
 
 
@@ -185,7 +185,7 @@
         <span class="sd">&quot;&quot;&quot;Construct a decomposer object.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            spectrum (object): The spectrum to fit and decompose</span>
+<span class="sd">            spectrum (spectrum.Spectrum): The spectrum to fit and decompose.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ionized_fraction</span> <span class="o">=</span> <span class="kc">None</span>

@@ -169,34 +169,44 @@
 
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">decimal</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
 <span class="kn">import</span> <span class="nn">matplotlib.gridspec</span> <span class="k">as</span> <span class="nn">gridspec</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">from</span> <span class="nn">astropy.io</span> <span class="k">import</span> <span class="n">fits</span>
 <span class="kn">from</span> <span class="nn">matplotlib.backends.backend_pdf</span> <span class="k">import</span> <span class="n">PdfPages</span>
+
 <span class="kn">from</span> <span class="nn">pypahdb.decomposer_base</span> <span class="k">import</span> <span class="n">DecomposerBase</span>
 
 
 <div class="viewcode-block" id="Decomposer"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer">[docs]</a><span class="k">class</span> <span class="nc">Decomposer</span><span class="p">(</span><span class="n">DecomposerBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extends the DecomposerBase class to write to disk (PDF, FITS).&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Decomposer object.</span>
+
+<span class="sd">        Inherits from the DecomposerBase class of decomposer_base.py.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spectrum (pypahdb.spectrum.Spectrum): The data to fit/decompose.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">DecomposerBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Decomposer.save_pdf"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.save_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">save_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;output.pdf&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Save a PDF summary of the spectral fits/breakdowns.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Decomposer.save_pdf"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.save_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">save_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves a PDF summary of the fit with parameter breakdowns.&quot;&quot;&quot;</span>
 
         <span class="k">def</span> <span class="nf">smart_round</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;0.1&quot;</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Round a float correctly, returning a string.&quot;&quot;&quot;</span>
+            <span class="sd">&quot;&quot;&quot;Rounds a float nicely, returning a string.&quot;&quot;&quot;</span>
             <span class="n">tmp</span> <span class="o">=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">Decimal</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">quantize</span><span class="p">(</span><span class="n">decimal</span><span class="o">.</span><span class="n">Decimal</span><span class="p">(</span><span class="n">style</span><span class="p">))</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">_plot_pahdb_fit</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Plot a pyPAHdb fit and save to a PDF.</span>
+            <span class="sd">&quot;&quot;&quot;Plots a pyPAHdb fit and save to a PDF.</span>
 
 <span class="sd">            Note:</span>
-<span class="sd">                Designed to accept (i,j) because it will be adjusted to</span>
+<span class="sd">                Designed to accept (i,j) because it will later be adjusted to</span>
 <span class="sd">                make plots for spectral cubes (outputting a multipage PDF.)</span>
 
 <span class="sd">            Args:</span>
@@ -204,7 +214,7 @@
 <span class="sd">                j (int): Pixel coordinate (ordinate).</span>
 
 <span class="sd">            Returns:</span>
-<span class="sd">                True if successful.</span>
+<span class="sd">                fig (matplotlib.figure.Figure): object containing the plot.</span>
 
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="c1"># Create figure, shared axes.</span>
@@ -293,12 +303,11 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="Decomposer.save_fits"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.save_fits">[docs]</a>    <span class="k">def</span> <span class="nf">save_fits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;output.fits&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Save a FITS file of the spectral fits/breakdowns.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Decomposer.save_fits"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.save_fits">[docs]</a>    <span class="k">def</span> <span class="nf">save_fits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves a FITS file of the pyPAHdb fit/breakdown.&quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">_save_fits</span><span class="p">(</span><span class="n">hdr</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Save a FITS file of the spectral fits/breakdowns.&quot;&quot;&quot;</span>
-
+        <span class="k">def</span> <span class="nf">_fits_to_disk</span><span class="p">(</span><span class="n">hdr</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Writes the FITS file to disk, with header.&quot;&quot;&quot;</span>
             <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;DATE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%m:%S&quot;</span><span class="p">)</span>
             <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;SOFTWARE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;pypahdb&quot;</span>
             <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;SOFT_VER&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0.5.0.a1&quot;</span>
@@ -319,7 +328,7 @@
 
             <span class="k">return</span>
 
-        <span class="c1"># save resuls to fits</span>
+        <span class="c1"># save results to fits</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">fits</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">Header</span><span class="p">):</span>
             <span class="c1"># should probably clean up the header</span>
             <span class="c1"># i.e., extract certain keywords only</span>
@@ -327,7 +336,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">hdr</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">Header</span><span class="p">()</span>
 
-        <span class="n">_save_fits</span><span class="p">(</span><span class="n">hdr</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="n">_fits_to_disk</span><span class="p">(</span><span class="n">hdr</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
 
         <span class="k">return</span></div></div>
 </pre></div>
