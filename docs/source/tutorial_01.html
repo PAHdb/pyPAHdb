@@ -11809,8 +11809,8 @@ div#notebook {
 </ol>
 </li>
 <li><a href="#step3">Running pyPAHdb</a><ol>
-<li><a href="#step3a">Instantiate an observation object</a></li>
-<li><a href="#step3b">Pass the spectrum to decomposer</a></li>
+<li><a href="#step3a">Instantiate an <code>Observation</code> object</a></li>
+<li><a href="#step3b">Pass the spectrum to <code>Decomposer</code></a></li>
 <li><a href="#step3c">Write the results to disk</a></li>
 </ol>
 </li>
@@ -12207,7 +12207,7 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="A.-Instantiate-an-observation-object-">A. Instantiate an <code>observation</code> object <a name="step3a" /><a class="anchor-link" href="#A.-Instantiate-an-observation-object-">&#182;</a></h3>
+<h3 id="A.-Instantiate-an-Observation-object-">A. Instantiate an <code>Observation</code> object <a name="step3a" /><a class="anchor-link" href="#A.-Instantiate-an-Observation-object-">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -12303,7 +12303,7 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we have an <code>observation</code> object that encapsulates our data.</p>
+<p>Now we have an <code>Observation</code> object that encapsulates our data.</p>
 
 </div>
 </div>
@@ -12312,7 +12312,7 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="B.-Pass-the-spectrum-to-decomposer-">B. Pass the spectrum to <code>decomposer</code> <a name="step3b" /><a class="anchor-link" href="#B.-Pass-the-spectrum-to-decomposer-">&#182;</a></h3>
+<h3 id="B.-Pass-the-spectrum-to-Decomposer-">B. Pass the spectrum to <code>Decomposer</code> <a name="step3b" /><a class="anchor-link" href="#B.-Pass-the-spectrum-to-Decomposer-">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -12320,7 +12320,7 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now with our <code>observation</code> instance, we simply pass its spectrum to the pyPAHdb <code>decomposer</code>, which will perform the decomposition by PAH.</p>
+<p>Now with our <code>Observation</code> instance, we simply pass its spectrum to the pyPAHdb <code>Decomposer</code>, which will perform the decomposition by PAH.</p>
 
 </div>
 </div>
@@ -12342,7 +12342,7 @@ observations using the SL module (SL1 and SL2, covering ~5-14 microns approximat
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we have a <code>decomposer</code> object that encapsulates the fit.</p>
+<p>Now we have a <code>Decomposer</code> object that encapsulates the fit.</p>
 
 </div>
 </div>

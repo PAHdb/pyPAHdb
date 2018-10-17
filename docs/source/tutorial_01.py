@@ -13,8 +13,8 @@
 #     1. [Inspect the data](#step2a)
 #     2. [Make a quick plot](#step2b)    
 # 3. [Running pyPAHdb](#step3)
-#     1. [Instantiate an observation object](#step3a)
-#     2. [Pass the spectrum to decomposer](#step3b)
+#     1. [Instantiate an `Observation` object](#step3a)
+#     2. [Pass the spectrum to `Decomposer`](#step3b)
 #     3. [Write the results to disk](#step3c)
 
 # ## <font color=blue>Step 1</font>: Necessary modules <a name="step1"></a>
@@ -118,7 +118,7 @@ strictly_increasing(df['wavelength'])
 
 # ## <font color=blue>Step 3</font>: Running pyPAHdb <a name="step3"></a>
 
-# ### A. Instantiate an ``observation`` object <a name="step3a"></a>
+# ### A. Instantiate an ``Observation`` object <a name="step3a"></a>
 
 # All that's needed is the path to the text file above.
 
@@ -140,11 +140,11 @@ obs = Observation(data_file)
 obs.file_path
 
 
-# Now we have an ``observation`` object that encapsulates our data.
+# Now we have an ``Observation`` object that encapsulates our data.
 
-# ### B. Pass the spectrum to ``decomposer`` <a name="step3b"></a>
+# ### B. Pass the spectrum to ``Decomposer`` <a name="step3b"></a>
 
-# Now with our ``observation`` instance, we simply pass its spectrum to the pyPAHdb ``decomposer``, which will perform the decomposition by PAH.
+# Now with our ``Observation`` instance, we simply pass its spectrum to the pyPAHdb ``Decomposer``, which will perform the decomposition by PAH.
 
 # In[18]:
 
@@ -152,7 +152,7 @@ obs.file_path
 pahdb_fit = Decomposer(obs.spectrum)
 
 
-# Now we have a ``decomposer`` object that encapsulates the fit.
+# Now we have a ``Decomposer`` object that encapsulates the fit.
 
 # ### C. Write the results to disk <a name="step3c"></a>
 
