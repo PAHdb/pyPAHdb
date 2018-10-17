@@ -165,5 +165,3 @@ pahdb_fit = Decomposer(obs.spectrum)
 pahdb_fit.save_pdf(filename='NGC7023_pypahdb.pdf')
 pahdb_fit.save_fits(filename='NGC7023_pypahdb.fits')
 
-
-# ***
