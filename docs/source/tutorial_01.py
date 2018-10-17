@@ -5,7 +5,10 @@
 
 # We begin this series by performing a simple analysis of a single astronomical spectrum. We will use one of the sample spectra here. Feel free to follow along, and attempt the same method with a simple spectrum of your own.
 
-# Data used in this example: `pyPAHdb/data/sample_data_NGC7023-NW-PAHs.txt`
+# Data used in this example: `pyPAHdb/data/sample_data_NGC7023-NW-PAHs.txt`.
+# 
+# These data are from:
+# Boersma, C., Bregman, J. D., & Allamandola, L. J. 2013, ApJ, 769, 117 (http://adsabs.harvard.edu/abs/2013ApJ...769..117B)
 
 # # Table of contents
 # 1. [Import needed modules](#step1)
