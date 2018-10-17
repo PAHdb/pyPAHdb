@@ -1,4 +1,5 @@
-[![Travis Status](https://img.shields.io/travis/PAHdb/pyPAHdb.svg)](https://travis-ci.org/PAHdb/pyPAHdb) [![Coverage Status]( https://codecov.io/gh/PAHdb/pyPAHdb/graph/badge.svg)](https://codecov.io/gh/PAHdb/pyPAHdb)
+[![Travis Status](https://img.shields.io/travis/PAHdb/pyPAHdb.svg)](https://travis-ci.org/PAHdb/pyPAHdb) [![Coverage Status]( https://codecov.io/gh/PAHdb/pyPAHdb/graph/badge.svg)](https://codecov.io/gh/PAHdb/pyPAHdb) [![Documentation](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://pahdb.github.io/pyPAHdb/)
+
 
 # pypahdb
 
