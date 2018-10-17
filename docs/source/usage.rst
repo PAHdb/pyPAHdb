@@ -16,5 +16,5 @@ The general flow for using pyPAHdb is shown below. See the tutorial series for d
     pahdb_fit = Decomposer(obs.spectrum)
 
     # Write the results to file
-	pahdb_fit.save_pdf(filename='NGC7023_pypahdb.pdf')
-	pahdb_fit.save_fits(filename='NGC7023_pypahdb.fits', header=obs.header)
+    pahdb_fit.save_pdf(filename='NGC7023_pypahdb.pdf')
+    pahdb_fit.save_fits(filename='NGC7023_pypahdb.fits', header=obs.header)
