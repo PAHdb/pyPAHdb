@@ -188,7 +188,7 @@
 <h2>Academic references<a class="headerlink" href="#academic-references" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="software-citation">
 <h3>Software citation<a class="headerlink" href="#software-citation" title="Permalink to this headline">¶</a></h3>
-<p>We request that authors who publish works using pyPAHdb please cite out conferencing proceeding from <em>SciPy</em> 2018:</p>
+<p>We request that authors who publish works using pyPAHdb please cite our conferencing proceeding from <em>SciPy</em> 2018:</p>
 <p>Shannon, M.J., Boersma, C., “ORGANIC MOLECULES IN SPACE: INSIGHTS FROM THE NASA AMES MOLECULAR DATABASE IN THE ERA OF THE JAMES WEBB SPACE TELESCOPE”, 2018, <em>SciPy</em>, 99 <a class="reference external" href="http://dx.doi.org/10.25080/majora-4af1f417-00f">10.25080/majora-4af1f417-00f</a> — <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/bibtex">BibTeX</a> - <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/ris">RIS</a></p>
 </div>
 <div class="section" id="pahdb-principal-citations">
@@ -368,6 +368,7 @@ the use of the class and extends the previous code-block. The
 output of the code-block is shown in the flowchart.</li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pypahdb.decomposer</span> <span class="kn">import</span> <span class="n">Decomposer</span>
+
 <span class="n">result</span> <span class="o">=</span> <span class="n">Decomposer</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">spectrum</span><span class="p">)</span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">spectrum</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">ordinate</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
@@ -391,8 +392,8 @@ provided. Below is example code demonstrating the use of the
 class, which extends the previous code-block. The size breakdown
 part of the generated PDF output is shown in the flowchart.</li>
 </ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;NGC7023_pypahdb.pdf&#39;</span><span class="p">)</span>
-<span class="n">result</span><span class="o">.</span><span class="n">save_fits</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;NGC7023_pypahdb.fits&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">obs</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb.pdf&#39;</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">save_fits</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb.fits&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">obs</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

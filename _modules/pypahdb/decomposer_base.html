@@ -174,6 +174,46 @@
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">optimize</span>
 
 
+<span class="k">def</span> <span class="nf">_decomposer_anion</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Do the actual anion decomposition for multiprocessing&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_decomposer_neutral</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Do the actual neutral decomposition for multiprocessing&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_decomposer_cation</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Do the actual cation decomposition for multiprocessing&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_decomposer_large</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Do the actual large decomposition for multiprocessing&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_decomposer_small</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Do the actual small decomposition for multiprocessing&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_decomposer_fit</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Do the actual matrix manipulation for multiprocessing&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_decomposer_interp</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Do the actual interpolation for multiprocessing&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_decomposer_nnls</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Do the actual nnls for multiprocessing&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">optimize</span><span class="o">.</span><span class="n">nnls</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="DecomposerBase"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer_base.DecomposerBase">[docs]</a><span class="k">class</span> <span class="nc">DecomposerBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Fits and decomposes a spectrum.</span>
 
@@ -215,7 +255,7 @@
 
         <span class="c1"># Linearly interpolate the precomputed spectra onto the</span>
         <span class="c1"># frequency grid of the input spectrum</span>
-        <span class="n">decomposer_interp</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decomposer_interp</span><span class="p">,</span>
+        <span class="n">decomposer_interp</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_interp</span><span class="p">,</span>
                                     <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">abscissa</span><span class="p">,</span>
                                     <span class="n">xp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;abscissa&#39;</span><span class="p">])</span>
         <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -226,7 +266,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
         <span class="c1"># Perform the fit</span>
-        <span class="n">decomposer_nnls</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decomposer_nnls</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">)</span>
+        <span class="n">decomposer_nnls</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_nnls</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">)</span>
         <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
         <span class="c1"># For clarity, define a few quantities.</span>
@@ -246,38 +286,6 @@
             <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">,</span> <span class="n">new_shape</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span> <span class="p">(</span><span class="n">ordd</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ordd</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
 
-    <span class="k">def</span> <span class="nf">_decomposer_anion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Do the actual anion decomposition for multiprocessing&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">_decomposer_neutral</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Do the actual neutral decomposition for multiprocessing&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">_decomposer_cation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Do the actual cation decomposition for multiprocessing&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">_decomposer_large</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Do the actual large decomposition for multiprocessing&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">_decomposer_small</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Do the actual small decomposition for multiprocessing&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">_decomposer_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Do the actual matrix manipulation for multiprocessing&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_decomposer_interp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Do the actual interpolation for multiprocessing&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_decomposer_nnls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Do the actual nnls for multiprocessing&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">optimize</span><span class="o">.</span><span class="n">nnls</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
     <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the fit.</span>
 
@@ -291,7 +299,7 @@
             <span class="c1"># on MacOS np.dot() is not thread safe ... #</span>
             <span class="c1">############################################</span>
             <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;Darwin&quot;</span><span class="p">:</span>
-                <span class="n">decomposer_fit</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decomposer_fit</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">)</span>
+                <span class="n">decomposer_fit</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_fit</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">)</span>
                 <span class="n">n_cpus</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
                 <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">n_cpus</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -385,13 +393,13 @@
             <span class="c1">############################################</span>
             <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;Darwin&quot;</span><span class="p">:</span>
                 <span class="n">decomposer_anion</span> <span class="o">=</span> \
-                    <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decomposer_anion</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
+                    <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_anion</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
                             <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;charge&#39;</span><span class="p">])</span>
                 <span class="n">decomposer_neutral</span> <span class="o">=</span> \
-                    <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decomposer_neutral</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
+                    <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_neutral</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
                             <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;charge&#39;</span><span class="p">])</span>
                 <span class="n">decomposer_cation</span> <span class="o">=</span> \
-                    <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decomposer_cation</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
+                    <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_cation</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
                             <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;charge&#39;</span><span class="p">])</span>
 
                 <span class="n">n_cpus</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
@@ -470,10 +478,10 @@
             <span class="c1">############################################</span>
             <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;Darwin&quot;</span><span class="p">:</span>
                 <span class="n">decomposer_large</span> <span class="o">=</span> \
-                    <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decomposer_large</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
+                    <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_large</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
                             <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">])</span>
                 <span class="n">decomposer_small</span> <span class="o">=</span> \
-                    <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decomposer_small</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
+                    <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_small</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
                             <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">])</span>
 
                 <span class="c1"># Create pool.</span>
