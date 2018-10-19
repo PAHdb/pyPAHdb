@@ -9,7 +9,7 @@ Academic references
 Software citation
 _________________
 
-We request that authors who publish works using pyPAHdb please cite out conferencing proceeding from *SciPy* 2018:
+We request that authors who publish works using pyPAHdb please cite our conferencing proceeding from *SciPy* 2018:
 
 Shannon, M.J., Boersma, C., "ORGANIC MOLECULES IN SPACE: INSIGHTS FROM THE NASA AMES MOLECULAR DATABASE IN THE ERA OF THE JAMES WEBB SPACE TELESCOPE", 2018, *SciPy*, 99 `10.25080/majora-4af1f417-00f <http://dx.doi.org/10.25080/majora-4af1f417-00f>`__ — `BibTeX <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/bibtex>`__ - `RIS <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/ris>`__
 
@@ -173,6 +173,7 @@ presented in the figure above and is as follows:
 .. code-block:: python
 
     from pypahdb.decomposer import Decomposer
+
     result = Decomposer(obs.spectrum)
     s = result.spectrum
     plt.plot(s.abscissa, s.ordinate[:,0,0], 'x')
@@ -196,5 +197,5 @@ presented in the figure above and is as follows:
 
 .. code-block:: python
 
-    result.save_pdf(filename='NGC7023_pypahdb.pdf')
-    result.save_fits(filename='NGC7023_pypahdb.fits', header=obs.header)
+    result.save_pdf('NGC7023_pypahdb.pdf')
+    result.save_fits('NGC7023_pypahdb.fits', header=obs.header)
