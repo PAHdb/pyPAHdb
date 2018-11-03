@@ -5,6 +5,7 @@
 ./_modules/pypahdb/decomposer_base.html
 ./_modules/pypahdb/observation.html
 ./_modules/pypahdb/spectrum.html
+./_modules/pypahdb/tests/test_decomposer.html
 ./_modules/pypahdb/tests/test_observation.html
 ./_modules/pypahdb/tests/test_spectrum.html
 ./_sources/index.rst.txt

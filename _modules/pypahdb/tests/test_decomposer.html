@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pypahdb.tests.test_observation &mdash; pyPAHdb 0+unknown documentation</title>
+  <title>pypahdb.tests.test_decomposer &mdash; pyPAHdb 0+unknown documentation</title>
   
 
   
@@ -135,7 +135,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>pypahdb.tests.test_observation</li>
+      <li>pypahdb.tests.test_decomposer</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -150,29 +150,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for pypahdb.tests.test_observation</h1><div class="highlight"><pre>
+  <h1>Source code for pypahdb.tests.test_decomposer</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># test_observation.py</span>
+<span class="c1"># test_decomposer.py</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">test_observation.py: unit tests for class observation.</span>
+<span class="sd">test_spectrum.py: unit tests for class spectrum.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">pkg_resources</span>
 
 <span class="kn">from</span> <span class="nn">pypahdb.observation</span> <span class="k">import</span> <span class="n">Observation</span>
+<span class="kn">from</span> <span class="nn">pypahdb.decomposer</span> <span class="k">import</span> <span class="n">Decomposer</span>
 
+<div class="viewcode-block" id="DecomposerTestCase"><a class="viewcode-back" href="../../../pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase">[docs]</a><span class="k">class</span> <span class="nc">DecomposerTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Unit tests for `decomposer.py`&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SpectrumTestCase"><a class="viewcode-back" href="../../../pypahdb.tests.html#pypahdb.tests.test_observation.SpectrumTestCase">[docs]</a><span class="k">class</span> <span class="nc">SpectrumTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Unit tests for `observation.py`&quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="SpectrumTestCase.test_is_instance"><a class="viewcode-back" href="../../../pypahdb.tests.html#pypahdb.tests.test_observation.SpectrumTestCase.test_is_instance">[docs]</a>    <span class="k">def</span> <span class="nf">test_is_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Can we create an instance of Observation?&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DecomposerTestCase.test_is_instance"><a class="viewcode-back" href="../../../pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase.test_is_instance">[docs]</a>    <span class="k">def</span> <span class="nf">test_is_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Can we create an instance of Decomposer?&quot;&quot;&quot;</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;data/sample_data_NGC7023.dat&#39;</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+        <span class="n">observation</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">file_path</span><span class="p">);</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">Observation</span><span class="p">(</span><span class="n">file_path</span><span class="p">),</span> <span class="n">Observation</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">Decomposer</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">spectrum</span><span class="p">),</span> <span class="n">Decomposer</span><span class="p">)</span></div></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>

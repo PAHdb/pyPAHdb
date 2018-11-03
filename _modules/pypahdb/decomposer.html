@@ -152,19 +152,14 @@
             
   <h1>Source code for pypahdb.decomposer</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">decomposer.py</span>
+<span class="sd">&quot;&quot;&quot;decomposer.py</span>
 
-<span class="sd">A subclass of DecomposerBase that extends functionality for writing files</span>
-<span class="sd">to disk (as PDF or FITS).</span>
-
-<span class="sd">From Decomposer:</span>
-<span class="sd">Using a precomputed matrix of theoretically calculated</span>
-<span class="sd">PAH emission spectra, an input spectrum is fitted and decomposed into</span>
-<span class="sd">contributions from PAH subclasses using a nnls-approach.</span>
+<span class="sd">Subclassing DecomposerBase to add support for writting results to</span>
+<span class="sd">disk.</span>
 
 <span class="sd">This file is part of pypahdb - see the module docs for more</span>
 <span class="sd">information.</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">copy</span>

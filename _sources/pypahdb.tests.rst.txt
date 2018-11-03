@@ -4,6 +4,14 @@ pypahdb.tests package
 Submodules
 ----------
 
+pypahdb.tests.test\_decomposer module
+--------------------------------------
+
+.. automodule:: pypahdb.tests.test_decomposer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pypahdb.tests.test\_observation module
 --------------------------------------
 

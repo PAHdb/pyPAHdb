@@ -170,7 +170,7 @@
 
 
 <div class="viewcode-block" id="Observation"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.observation.Observation">[docs]</a><span class="k">class</span> <span class="nc">Observation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates an observation object.</span>
+    <span class="sd">&quot;&quot;&quot;Creates an Observation object.</span>
 
 <span class="sd">    Currently reads ASCII data and Spitzer-IRS data cubes.</span>
 
@@ -179,7 +179,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Instantiate an observation object.</span>
+        <span class="sd">&quot;&quot;&quot;Instantiate an Observation object.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            file_path (str): String of file to load.</span>
@@ -214,10 +214,9 @@
             <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
             <span class="c1"># Because astropy.io.fits.open raises a generic OSError</span>
-            <span class="c1"># if the file is the header is missing an END card</span>
-            <span class="c1"># (which ASCII files do), we have to catch OSError here</span>
-            <span class="c1"># and pass so that we can read it as ASCII.</span>
-            <span class="c1"># print(e)</span>
+            <span class="c1"># when the file header is missing the END card (which</span>
+            <span class="c1"># ASCII files do), we have to catch OSError here and pass</span>
+            <span class="c1"># so that we can try and read it as ASCII.</span>
             <span class="k">pass</span>
 
         <span class="k">try</span><span class="p">:</span>
