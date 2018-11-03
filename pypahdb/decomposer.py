@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
-"""
-decomposer.py
+"""decomposer.py
 
-A subclass of DecomposerBase that extends functionality for writing files
-to disk (as PDF or FITS).
-
-From Decomposer:
-Using a precomputed matrix of theoretically calculated
-PAH emission spectra, an input spectrum is fitted and decomposed into
-contributions from PAH subclasses using a nnls-approach.
+Subclassing DecomposerBase to add support for writting results to
+disk.
 
 This file is part of pypahdb - see the module docs for more
 information.
+
 """
 
 import copy

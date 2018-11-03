@@ -15,7 +15,7 @@ class SpectrumTestCase(unittest.TestCase):
     """Unit tests for `observation.py`"""
 
     def test_is_instance(self):
-        """Can we create an instance of observation?"""
+        """Can we create an instance of Observation?"""
         file_name = 'data/sample_data_NGC7023.dat'
         file_path = pkg_resources.resource_filename('pypahdb', file_name)
 

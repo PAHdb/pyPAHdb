@@ -4,7 +4,7 @@ decomposer_base.py
 
 Using a precomputed matrix of theoretically calculated
 PAH emission spectra, an input spectrum is fitted and decomposed into
-contributions from PAH subclasses using a nnls-approach.
+contributing PAH subclasses using a NNLS-approach.
 
 This file is part of pypahdb - see the module docs for more
 information.

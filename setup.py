@@ -38,10 +38,9 @@ with open(path.join(here, 'requirements.txt')) as requirements_file:
     requirements = [line for line in requirements_file.read().splitlines()
                     if not line.startswith('#')]
 
-
 class BuildPyCommand(build_py):
     def run(self):
-        remote_pkl = 'http://www.astrochemistry.org/pahdb/pypahdb/pickle.php'
+        remote_pkl = 'https://www.astrochemistry.org/pahdb/pypahdb/pickle.php'
         local_pkl = 'pypahdb/data/precomputed.pkl'
         # honor the --dry-run flag
         if not self.dry_run:
@@ -53,15 +52,12 @@ class BuildPyCommand(build_py):
 # Arguments marked as "Required" below must be included for upload to PyPI.
 # Fields marked as "Optional" may be commented out.
 
-
 setup(
     # This is the name of your project. The first time you publish this
     # package, this name will be registered for you. It will determine how
     # users can install this project, e.g.:
     #
-    # $ pip install sampleproject
-    #
-    # And where it will live on PyPI: https://pypi.org/project/sampleproject/
+    # $ pip install pypahdb
     #
     # There are some restrictions on what makes a valid project name
     # specification here:
@@ -82,7 +78,7 @@ setup(
     description='Using a precomputed matrix of theoretically calculated \
                 PAH emission spectra from the NASA Ames PAH IR Spectroscopic \
                 Database, a spectrum is decomposed into contribution PAH \
-                subclasses using a nnls-approach',  # Required
+                subclasses using a NNLS-approach',  # Required
 
     # This is an optional longer description of your project that represents
     # the body of text which users will see when they visit PyPI.
@@ -100,7 +96,7 @@ setup(
     # This field corresponds to the "Home-Page" metadata field:
     # https://packaging.python.org/specifications/
     # core-metadata/#home-page-optional
-    url='http://www.astrochemistry.org/pahdb/pypahdb',  # Optional
+    url='https://www.astrochemistry.org/pahdb/pypahdb/',  # Optional
 
     # This should be your name or the name of the organization which owns the
     # project.
@@ -119,7 +115,7 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
 
         # Indicate who your project is intended for
         'Intended Audience :: Science/Research',
@@ -138,7 +134,7 @@ setup(
     # project page. What does your project relate to?
     #
     # Note that this is a string of words separated by whitespace, not a list.
-    keywords='PAH, Spectroscopy, NASA, Ames, Fitting',  # Optional
+    keywords='PAH Spectroscopy NASA Ames Fitting',  # Optional
 
     # You can just specify package directories manually here if your project is
     # simple. Or you can use find_packages().

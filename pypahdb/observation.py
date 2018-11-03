@@ -17,7 +17,7 @@ from pypahdb.spectrum import Spectrum
 
 
 class Observation(object):
-    """Creates an observation object.
+    """Creates an Observation object.
 
     Currently reads ASCII data and Spitzer-IRS data cubes.
 
@@ -26,7 +26,7 @@ class Observation(object):
     """
 
     def __init__(self, file_path):
-        """Instantiate an observation object.
+        """Instantiate an Observation object.
 
         Args:
             file_path (str): String of file to load.
@@ -61,10 +61,9 @@ class Observation(object):
             raise(e)
         except OSError:
             # Because astropy.io.fits.open raises a generic OSError
-            # if the file is the header is missing an END card
-            # (which ASCII files do), we have to catch OSError here
-            # and pass so that we can read it as ASCII.
-            # print(e)
+            # when the file header is missing the END card (which
+            # ASCII files do), we have to catch OSError here and pass
+            # so that we can try and read it as ASCII.
             pass
 
         try:

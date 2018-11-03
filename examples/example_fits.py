@@ -14,16 +14,6 @@ from pypahdb.observation import Observation
 
 if __name__ == '__main__':
 
-    # A warning since this example is somewhat CPU intensive,
-    # requests user input to continue.
-    print('Note, this FITS cube contains 210 pixels; this example may take '
-          'some time to run (for reference, approximately 3 minutes on a '
-          'dual core Haswell CPU).')
-    user_input = input('Do you wish to continue? y/[n]: ')
-    if user_input.lower() not in ['y', 'yes']:
-        print('Aborting.')
-        raise SystemExit()
-
     # Track the time elapsed.
     start = time.perf_counter()
 
@@ -38,7 +28,8 @@ if __name__ == '__main__':
     pahdb_fit = Decomposer(obs.spectrum)
 
     # Write the results to file.
-    pahdb_fit.save_pdf('NGC7023_pypahdb_fits_example.pdf')
+    # The save_pdf is not run by default as it takes a lot of CPU time
+    #pahdb_fit.save_pdf('NGC7023_pypahdb_fits_example.pdf')
     pahdb_fit.save_fits('NGC7023_pypahdb_fits_example.fits', header=obs.header)
 
     # Print the time elapsed.
