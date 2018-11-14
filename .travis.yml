@@ -21,11 +21,11 @@ env:
     - secure: cz5Jsvws1hJ0T3/JI9IlwhTt52wfmBHBsIOMgXUVibI/JsbkttbgUonyteW8/m668k/Ks2iG+ELxzzSeRfO2z6iAb8nNJF9olOzyFJpAUEwZ1R6RAlVMoy8IwWUqSe6huPVJ2Bl9/9/fkTFu2GujQWBCwWm9if4NXRDbVeUjjK+BGBQ5ajYXkL7jkAz+f3Vwo9+Sk2jBdAbTQbbanOiZnNDhco1MlpIijhLZ1XjdfUFdDrIEZ1pJPtFpUONtSRn+i2eR6B2mR5G7izpf44ZUQpa9BmYwgnKutFbHNqxutAIxk/R4/VyOAJpOUePtvNnyrcxpmQGjAG5wI1+I9PJm09A/U+nO5OirufjunYj0otmRS+nC6KzwPQPItX8u5ysPyr7V33up/mbiP0Dde1G0MAPgIXNri5qiXycB3Ly0tA9dMcAqAI7+9f6qiCbMHrhRhXcU4btuKAKvpFqabXWZindppBTkD1Cox7OdM+JzsOLWMny3KeGgFx0qX8WdKVPxWZsGv6HKVYTdwvLfN+NV/C8cuppY3sFUn63Uk+fFN/LGGVsEXPNzw6BV8ADHpXdQAwR1+ReCNwgLWc4WhZ2zVk51ElbNZGJy1OrWmyhYSX0uotaRAHN5iDSCaVJbmfJs8W4tOJXMskdyzq8ENj7Odvgjs92aTdkLZlyW6meq85s="
 
 script:
-  - cd  # Change path to $HOME
-  - coverage run -m pytest --pyargs pypahdb.tests  # Run the tests and check for test coverage.
+  - cd  # Change path to $HOME.
+  - coverage run --source pypahdb -m pytest --pyargs pypahdb.tests  # Run the tests and check for test coverage.
   - coverage report -m  # Generate test coverage report.
   - codecov  # Upload the report to codecov.
-  - cd $TRAVIS_BUILD_DIR  # Change path back to $TRAVIS_BUILD_DIR 
+  - cd $TRAVIS_BUILD_DIR  # Change path back to $TRAVIS_BUILD_DIR.
   - flake8 --exclude versioneer.py,docs/source/tutorial*.py  # Enforce code style.
   - make -C docs html  # Build the documentation.
   - set -e
