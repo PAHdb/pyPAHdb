@@ -164,6 +164,7 @@
 <span class="kn">from</span> <span class="nn">pypahdb.observation</span> <span class="k">import</span> <span class="n">Observation</span>
 <span class="kn">from</span> <span class="nn">pypahdb.decomposer</span> <span class="k">import</span> <span class="n">Decomposer</span>
 
+
 <div class="viewcode-block" id="DecomposerTestCase"><a class="viewcode-back" href="../../../pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase">[docs]</a><span class="k">class</span> <span class="nc">DecomposerTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Unit tests for `decomposer.py`&quot;&quot;&quot;</span>
 
@@ -171,7 +172,7 @@
         <span class="sd">&quot;&quot;&quot;Can we create an instance of Decomposer?&quot;&quot;&quot;</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;data/sample_data_NGC7023.dat&#39;</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
-        <span class="n">observation</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">file_path</span><span class="p">);</span>
+        <span class="n">observation</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">Decomposer</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">spectrum</span><span class="p">),</span> <span class="n">Decomposer</span><span class="p">)</span></div></div>
 
@@ -215,7 +216,6 @@
         <script type="text/javascript" src="../../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   
