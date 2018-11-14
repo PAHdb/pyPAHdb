@@ -14,9 +14,16 @@ from pypahdb.observation import Observation
 class SpectrumTestCase(unittest.TestCase):
     """Unit tests for `observation.py`"""
 
-    def test_is_instance(self):
-        """Can we create an instance of Observation?"""
+    def test_read_ascii(self):
+        """Can we create an instance of Observation from an ASCII file?"""
         file_name = 'data/sample_data_NGC7023.dat'
+        file_path = pkg_resources.resource_filename('pypahdb', file_name)
+
+        self.assertIsInstance(Observation(file_path), Observation)
+
+    def test_read_fits(self):
+        """Can we create an instance of Observation from a FITS file?"""
+        file_name = 'data/sample_data_NGC7023.fits'
         file_path = pkg_resources.resource_filename('pypahdb', file_name)
 
         self.assertIsInstance(Observation(file_path), Observation)
