@@ -11,6 +11,7 @@ import pkg_resources
 from pypahdb.observation import Observation
 from pypahdb.decomposer import Decomposer
 
+
 class DecomposerTestCase(unittest.TestCase):
     """Unit tests for `decomposer.py`"""
 
@@ -18,7 +19,7 @@ class DecomposerTestCase(unittest.TestCase):
         """Can we create an instance of Decomposer?"""
         file_name = 'data/sample_data_NGC7023.dat'
         file_path = pkg_resources.resource_filename('pypahdb', file_name)
-        observation = Observation(file_path);
+        observation = Observation(file_path)
 
         self.assertIsInstance(Decomposer(observation.spectrum), Decomposer)
 
