@@ -48,6 +48,7 @@ class BuildPyCommand(build_py):
             response = urlopen(remote_pkl)
             with open(path.join(here, local_pkl), 'wb') as f:
                 f.write(response.read())
+        versioneer.get_cmdclass()['build_py'].run(self)
         build_py.run(self)
 
 # Arguments marked as "Required" below must be included for upload to PyPI.
