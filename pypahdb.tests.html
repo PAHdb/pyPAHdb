@@ -200,12 +200,42 @@
 </div>
 <div class="section" id="module-pypahdb.tests.test_decomposer">
 <span id="pypahdb-tests-test-decomposer-module"></span><h2>pypahdb.tests.test_decomposer module<a class="headerlink" href="#module-pypahdb.tests.test_decomposer" title="Permalink to this headline">¶</a></h2>
-<p>test_spectrum.py: unit tests for class spectrum.</p>
+<p>test_spectrum.py: unit tests for class decomposer.</p>
 <dl class="class">
 <dt id="pypahdb.tests.test_decomposer.DecomposerTestCase">
 <em class="property">class </em><code class="descclassname">pypahdb.tests.test_decomposer.</code><code class="descname">DecomposerTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/tests/test_decomposer.html#DecomposerTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.tests.test_decomposer.DecomposerTestCase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
 <p>Unit tests for <cite>decomposer.py</cite></p>
+<dl class="method">
+<dt id="pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_charge">
+<code class="descname">test_has_charge</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/tests/test_decomposer.html#DecomposerTestCase.test_has_charge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_charge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can we generate a charge results?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_fit">
+<code class="descname">test_has_fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/tests/test_decomposer.html#DecomposerTestCase.test_has_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can we create a fit?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_ionized_fraction">
+<code class="descname">test_has_ionized_fraction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/tests/test_decomposer.html#DecomposerTestCase.test_has_ionized_fraction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_ionized_fraction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can we create an ionized fraction?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_large_fraction">
+<code class="descname">test_has_large_fraction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/tests/test_decomposer.html#DecomposerTestCase.test_has_large_fraction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_large_fraction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can we calculate a large fraction?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_size">
+<code class="descname">test_has_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/tests/test_decomposer.html#DecomposerTestCase.test_has_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can we generate a size results?</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="pypahdb.tests.test_decomposer.DecomposerTestCase.test_is_instance">
 <code class="descname">test_is_instance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/tests/test_decomposer.html#DecomposerTestCase.test_is_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.tests.test_decomposer.DecomposerTestCase.test_is_instance" title="Permalink to this definition">¶</a></dt>
@@ -213,6 +243,11 @@
 </dd></dl>
 
 </dd></dl>
+
+<dl class="function">
+<dt id="pypahdb.tests.test_decomposer.observation_obj">
+<code class="descclassname">pypahdb.tests.test_decomposer.</code><code class="descname">observation_obj</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/tests/test_decomposer.html#observation_obj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.tests.test_decomposer.observation_obj" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-pypahdb.tests.test_observation">
@@ -224,9 +259,15 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
 <p>Unit tests for <cite>observation.py</cite></p>
 <dl class="method">
-<dt id="pypahdb.tests.test_observation.SpectrumTestCase.test_is_instance">
-<code class="descname">test_is_instance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/tests/test_observation.html#SpectrumTestCase.test_is_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.tests.test_observation.SpectrumTestCase.test_is_instance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Can we create an instance of Observation?</p>
+<dt id="pypahdb.tests.test_observation.SpectrumTestCase.test_read_ascii">
+<code class="descname">test_read_ascii</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/tests/test_observation.html#SpectrumTestCase.test_read_ascii"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.tests.test_observation.SpectrumTestCase.test_read_ascii" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can we create an instance of Observation from an ASCII file?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pypahdb.tests.test_observation.SpectrumTestCase.test_read_fits">
+<code class="descname">test_read_fits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/tests/test_observation.html#SpectrumTestCase.test_read_fits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.tests.test_observation.SpectrumTestCase.test_read_fits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can we create an instance of Observation from a FITS file?</p>
 </dd></dl>
 
 </dd></dl>

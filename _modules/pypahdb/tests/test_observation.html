@@ -167,9 +167,16 @@
 <div class="viewcode-block" id="SpectrumTestCase"><a class="viewcode-back" href="../../../pypahdb.tests.html#pypahdb.tests.test_observation.SpectrumTestCase">[docs]</a><span class="k">class</span> <span class="nc">SpectrumTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Unit tests for `observation.py`&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SpectrumTestCase.test_is_instance"><a class="viewcode-back" href="../../../pypahdb.tests.html#pypahdb.tests.test_observation.SpectrumTestCase.test_is_instance">[docs]</a>    <span class="k">def</span> <span class="nf">test_is_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Can we create an instance of Observation?&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SpectrumTestCase.test_read_ascii"><a class="viewcode-back" href="../../../pypahdb.tests.html#pypahdb.tests.test_observation.SpectrumTestCase.test_read_ascii">[docs]</a>    <span class="k">def</span> <span class="nf">test_read_ascii</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Can we create an instance of Observation from an ASCII file?&quot;&quot;&quot;</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;data/sample_data_NGC7023.dat&#39;</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">Observation</span><span class="p">(</span><span class="n">file_path</span><span class="p">),</span> <span class="n">Observation</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpectrumTestCase.test_read_fits"><a class="viewcode-back" href="../../../pypahdb.tests.html#pypahdb.tests.test_observation.SpectrumTestCase.test_read_fits">[docs]</a>    <span class="k">def</span> <span class="nf">test_read_fits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Can we create an instance of Observation from a FITS file?&quot;&quot;&quot;</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;data/sample_data_NGC7023.fits&#39;</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">Observation</span><span class="p">(</span><span class="n">file_path</span><span class="p">),</span> <span class="n">Observation</span><span class="p">)</span></div></div>
