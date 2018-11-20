@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pypahdb.decomposer &mdash; pyPAHdb 0.6.1.post11+g78f52b9 documentation</title>
+  <title>pypahdb.decomposer &mdash; pyPAHdb 0.6.1.post13+g6aaa44d documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                0.6.1.post11+g78f52b9
+                0.6.1.post13+g6aaa44d
               </div>
             
           
@@ -171,6 +171,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">astropy.io</span> <span class="k">import</span> <span class="n">fits</span>
+<span class="kn">from</span> <span class="nn">astropy.wcs</span> <span class="k">import</span> <span class="n">WCS</span>
 <span class="kn">from</span> <span class="nn">matplotlib.backends.backend_pdf</span> <span class="k">import</span> <span class="n">PdfPages</span>
 
 <span class="kn">from</span> <span class="nn">pypahdb.decomposer_base</span> <span class="k">import</span> <span class="n">DecomposerBase</span>
@@ -189,24 +190,72 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">DecomposerBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Decomposer.save_pdf"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.save_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">save_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Saves a PDF summary of the fit with parameter breakdowns.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Decomposer.save_pdf"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.save_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">save_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">domaps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">doplots</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves a PDF summary of the fit results.&quot;&quot;&quot;</span>
 
         <span class="k">def</span> <span class="nf">smart_round</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;0.1&quot;</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Rounds a float nicely, returning a string.&quot;&quot;&quot;</span>
             <span class="n">tmp</span> <span class="o">=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">Decimal</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">quantize</span><span class="p">(</span><span class="n">decimal</span><span class="o">.</span><span class="n">Decimal</span><span class="p">(</span><span class="n">style</span><span class="p">))</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">_plot_pahdb_fit</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Plots a pyPAHdb fit and save to a PDF.</span>
+        <span class="k">def</span> <span class="nf">_plot_map</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">wcs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Plots a pyPAHdb map and save to a PDF.</span>
 
-<span class="sd">            Note:</span>
-<span class="sd">                Designed to accept (i,j) because it will later be adjusted to</span>
-<span class="sd">                make plots for spectral cubes (outputting a multipage PDF.)</span>
+<span class="sd">            Notes:</span>
+<span class="sd">                None.</span>
 
 <span class="sd">            Args:</span>
-<span class="sd">                i (int): Pixel coordiante (abscissa).</span>
+<span class="sd">                im (numpy): The map to plot</span>
+<span class="sd">                title (string): The title</span>
+
+<span class="sd">            Keywords:</span>
+<span class="sd">                wcs (wcs.wcs): wcs (defaults to None).</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                fig (matplotlib.figure.Figure): object containing the plot.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">wcs</span><span class="p">,</span> <span class="n">WCS</span><span class="p">):</span>
+                <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="n">wcs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s1">&#39;on&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">minorticks_on</span><span class="p">()</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s1">&#39;in&#39;</span><span class="p">,</span>
+                                     <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span>
+                                     <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s1">&#39;in&#39;</span><span class="p">,</span>
+                                     <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span>
+                                     <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span>
+                       <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Ra [$^{\circ}$ &#39; &#39;&#39;]&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Dec [$^{\circ}$ &#39; &#39;&#39;]&quot;</span><span class="p">)</span>
+            <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">shrink</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+            <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">fig</span>
+
+        <span class="k">def</span> <span class="nf">_plot_fit</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Plots a pypahdb fit and save to a PDF.</span>
+
+<span class="sd">            Notes:</span>
+<span class="sd">                None.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                i (int): Pixel coordinate (abscissa).</span>
 <span class="sd">                j (int): Pixel coordinate (ordinate).</span>
+
+<span class="sd">            Keywords:</span>
+<span class="sd">                domaps (bool): Save maps to PDF (defaults to True)</span>
+<span class="sd">                doplots (bool): Save plots to PDF (defaults to True)</span>
 
 <span class="sd">            Returns:</span>
 <span class="sd">                fig (matplotlib.figure.Figure): object containing the plot.</span>
@@ -284,17 +333,45 @@
 
         <span class="k">with</span> <span class="n">PdfPages</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">pdf</span><span class="p">:</span>
             <span class="n">d</span> <span class="o">=</span> <span class="n">pdf</span><span class="o">.</span><span class="n">infodict</span><span class="p">()</span>
-            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;pyPAHdb Result Summary&#39;</span>
-            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Author&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;pyPAHdb&#39;</span>
-            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Summary of pyPAHdb PAH database Decomposition&#39;</span>
-            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Keywords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;pyPAHdb PAH database&#39;</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
-                    <span class="n">fig</span> <span class="o">=</span> <span class="n">_plot_pahdb_fit</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-                    <span class="n">pdf</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-                    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-                    <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saved: &#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;pypahdb Result Summary&#39;</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Author&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;pypahdb&#39;</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Summary of pypahdb PAH database Decomposition&#39;</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Keywords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;pypahdb PAH database&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">domaps</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">fits</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">Header</span><span class="p">):</span>
+                    <span class="n">hdr</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+                    <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;NAXIS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+                    <span class="n">cards</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NAXIS3&#39;</span><span class="p">,</span> <span class="s1">&#39;PC3_3&#39;</span><span class="p">,</span> <span class="s1">&#39;CRPIX3&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;CRVAL3&#39;</span><span class="p">,</span> <span class="s1">&#39;CTYPE3&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;CUNIT3&#39;</span><span class="p">,</span> <span class="s1">&#39;PS3_0&#39;</span><span class="p">,</span> <span class="s1">&#39;PS3_1&#39;</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cards</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span><span class="p">:</span>
+                            <span class="k">del</span> <span class="n">hdr</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+                    <span class="n">wcs</span> <span class="o">=</span> <span class="n">WCS</span><span class="p">(</span><span class="n">hdr</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">wcs</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">_plot_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ionized_fraction</span><span class="p">,</span>
+                                <span class="s1">&#39;ionization fraction&#39;</span><span class="p">,</span> <span class="n">wcs</span><span class="o">=</span><span class="n">wcs</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">_plot_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">large_fraction</span><span class="p">,</span>
+                                <span class="s1">&#39;large fraction&#39;</span><span class="p">,</span> <span class="n">wcs</span><span class="o">=</span><span class="n">wcs</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">_plot_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span> <span class="s1">&#39;norm&#39;</span><span class="p">,</span> <span class="n">wcs</span><span class="o">=</span><span class="n">wcs</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+            <span class="k">if</span><span class="p">(</span><span class="n">doplots</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+                        <span class="n">fig</span> <span class="o">=</span> <span class="n">_plot_fit</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+                        <span class="n">pdf</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+                        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+                        <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
         <span class="k">return</span></div>
 
@@ -319,7 +396,6 @@
                                             <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
                                   <span class="n">header</span><span class="o">=</span><span class="n">hdr</span><span class="p">)</span>
             <span class="n">hdu</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saved: &#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
 
             <span class="k">return</span>
 
