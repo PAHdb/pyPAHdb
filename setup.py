@@ -46,9 +46,6 @@ class BuildPyCommand(build_py):
         if getenv('TRAVIS') == 'true':
             remote_pkl += '?travis=true'
         local_pkl = 'pypahdb/data/precomputed.pkl'
-        print("\n\nstart environment\n\n")
-        print(remote_pkl)
-        print("\n\nend environment\n\n")
         # honor the --dry-run flag
         if not self.dry_run:
             response = urlopen(remote_pkl)
