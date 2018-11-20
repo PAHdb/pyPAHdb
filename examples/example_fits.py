@@ -6,7 +6,6 @@ Example of using pypahdb to decompose an astronomical PAH spectrum.
 """
 
 import pkg_resources
-import time
 
 from pypahdb.decomposer import Decomposer
 from pypahdb.observation import Observation
@@ -14,10 +13,7 @@ from pypahdb.observation import Observation
 
 if __name__ == '__main__':
 
-    # Track the time elapsed.
-    start = time.perf_counter()
-
-    # The sample data (in FITS format).
+    # Sample data (in FITS format).
     file_path = 'data/sample_data_NGC7023.fits'
     data_file = pkg_resources.resource_filename('pypahdb', file_path)
 
@@ -28,10 +24,7 @@ if __name__ == '__main__':
     pahdb_fit = Decomposer(obs.spectrum)
 
     # Write the results to file.
-    # The save_pdf is not run by default as it takes a lot of CPU time
-    # pahdb_fit.save_pdf('NGC7023_pypahdb_fits_example.pdf')
+    # doplots is disabled due to significant CPU overhead
+    pahdb_fit.save_pdf('NGC7023_pypahdb_fits_example.pdf',
+                       header=obs.header, doplots=False)
     pahdb_fit.save_fits('NGC7023_pypahdb_fits_example.fits', header=obs.header)
-
-    # Print the time elapsed.
-    end = time.perf_counter()
-    print('Time elapsed: ', end - start, 'seconds.')

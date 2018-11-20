@@ -1,4 +1,5 @@
 from os import path
+from os import getenv
 from setuptools import setup, find_packages
 from setuptools.command.build_py import build_py
 import versioneer
@@ -42,6 +43,8 @@ with open(path.join(here, 'requirements.txt')) as requirements_file:
 class BuildPyCommand(build_py):
     def run(self):
         remote_pkl = 'https://www.astrochemistry.org/pahdb/pypahdb/pickle.php'
+        if getenv('TRAVIS') is 'true':
+            remote_pkl += '?travis=true
         local_pkl = 'pypahdb/data/precomputed.pkl'
         # honor the --dry-run flag
         if not self.dry_run:

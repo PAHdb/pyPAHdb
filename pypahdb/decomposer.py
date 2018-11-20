@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from astropy.io import fits
+from astropy.wcs import WCS
 from matplotlib.backends.backend_pdf import PdfPages
 
 from pypahdb.decomposer_base import DecomposerBase
@@ -36,24 +37,72 @@ class Decomposer(DecomposerBase):
         """
         DecomposerBase.__init__(self, spectrum)
 
-    def save_pdf(self, filename):
-        """Saves a PDF summary of the fit with parameter breakdowns."""
+    def save_pdf(self, filename, header="", domaps=True, doplots=True):
+        """Saves a PDF summary of the fit results."""
 
         def smart_round(value, style="0.1"):
             """Rounds a float nicely, returning a string."""
             tmp = decimal.Decimal(value).quantize(decimal.Decimal(style))
             return str(tmp)
 
-        def _plot_pahdb_fit(i, j):
-            """Plots a pyPAHdb fit and save to a PDF.
+        def _plot_map(im, title, wcs=None):
+            """Plots a pyPAHdb map and save to a PDF.
 
-            Note:
-                Designed to accept (i,j) because it will later be adjusted to
-                make plots for spectral cubes (outputting a multipage PDF.)
+            Notes:
+                None.
 
             Args:
-                i (int): Pixel coordiante (abscissa).
+                im (numpy): The map to plot
+                title (string): The title
+
+            Keywords:
+                wcs (wcs.wcs): wcs (defaults to None).
+
+            Returns:
+                fig (matplotlib.figure.Figure): object containing the plot.
+
+            """
+            fig = plt.figure(figsize=(8, 11))
+            if isinstance(wcs, WCS):
+                ax = fig.add_subplot(111, projection=wcs)
+            else:
+                ax = fig.add_subplot(111)
+            ax.grid('on', color='black')
+            ax.minorticks_on()
+            ax.xaxis.set_tick_params(direction='in',
+                                     which='both',
+                                     bottom=True,
+                                     top=True,
+                                     left=True,
+                                     right=True)
+            ax.yaxis.set_tick_params(direction='in',
+                                     which='both',
+                                     bottom=True,
+                                     top=True,
+                                     left=True,
+                                     right=True)
+            fig.subplots_adjust(left=0.2)
+            plt.imshow(im, origin='lower', cmap='viridis',
+                       interpolation='nearest')
+            ax.set_xlabel(r"Ra [$^{\circ}$ ' '']")
+            ax.set_ylabel(r"Dec [$^{\circ}$ ' '']")
+            cbar = plt.colorbar(shrink=0.4)
+            cbar.set_label(title)
+            return fig
+
+        def _plot_fit(i, j):
+            """Plots a pypahdb fit and save to a PDF.
+
+            Notes:
+                None.
+
+            Args:
+                i (int): Pixel coordinate (abscissa).
                 j (int): Pixel coordinate (ordinate).
+
+            Keywords:
+                domaps (bool): Save maps to PDF (defaults to True)
+                doplots (bool): Save plots to PDF (defaults to True)
 
             Returns:
                 fig (matplotlib.figure.Figure): object containing the plot.
@@ -131,17 +180,45 @@ class Decomposer(DecomposerBase):
 
         with PdfPages(filename) as pdf:
             d = pdf.infodict()
-            d['Title'] = 'pyPAHdb Result Summary'
-            d['Author'] = 'pyPAHdb'
-            d['Subject'] = 'Summary of pyPAHdb PAH database Decomposition'
-            d['Keywords'] = 'pyPAHdb PAH database'
-            for i in range(self.spectrum.ordinate.shape[1]):
-                for j in range(self.spectrum.ordinate.shape[2]):
-                    fig = _plot_pahdb_fit(i, j)
-                    pdf.savefig(fig)
-                    plt.close(fig)
-                    plt.gcf().clear()
-        print('Saved: ', filename)
+            d['Title'] = 'pypahdb Result Summary'
+            d['Author'] = 'pypahdb'
+            d['Subject'] = 'Summary of pypahdb PAH database Decomposition'
+            d['Keywords'] = 'pypahdb PAH database'
+            if(domaps is True):
+                if isinstance(header, fits.header.Header):
+                    hdr = copy.deepcopy(header)
+                    hdr['NAXIS'] = 2
+                    cards = ['NAXIS3', 'PC3_3', 'CRPIX3',
+                             'CRVAL3', 'CTYPE3',
+                             'CUNIT3', 'PS3_0', 'PS3_1']
+                    for c in cards:
+                        if c in hdr:
+                            del hdr[c]
+                    wcs = WCS(hdr)
+                else:
+                    wcs = None
+                fig = _plot_map(self.ionized_fraction,
+                                'ionization fraction', wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                plt.gcf().clear()
+                fig = _plot_map(self.large_fraction,
+                                'large fraction', wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                plt.gcf().clear()
+                fig = _plot_map(self.norm, 'norm', wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                plt.gcf().clear()
+
+            if(doplots):
+                for i in range(self.spectrum.ordinate.shape[1]):
+                    for j in range(self.spectrum.ordinate.shape[2]):
+                        fig = _plot_fit(i, j)
+                        pdf.savefig(fig)
+                        plt.close(fig)
+                        plt.gcf().clear()
 
         return
 
@@ -166,7 +243,6 @@ class Decomposer(DecomposerBase):
                                             self.norm), axis=0),
                                   header=hdr)
             hdu.writeto(filename, overwrite=True)
-            print('Saved: ', filename)
 
             return
 
