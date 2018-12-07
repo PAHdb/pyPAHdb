@@ -47,7 +47,7 @@
 \OBJTYPE = 'TargetFixedSingle'  / Target Type
 |   WAVELENGTH    |      FLUX       |
 |      real       |      real       |
-|       um        |       Jy        |
+|       um        |       MJy/sr    |
          5.24282    50.91855118879033
          5.2738     53.0818267675778
          5.30479    55.46148169840347
