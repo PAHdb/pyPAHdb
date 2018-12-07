@@ -178,17 +178,11 @@ presented in the figure above and is as follows:
     components have been removed from the spectrum. The class uses a
     fall-through try-except chain to attempt to read the given
     filename using the facilities provided by ``astropy.io``. The
-    spectroscopic data is stored as a class attribute as a
-    ``Spectrum`` object, which holds the data in terms of abscissa and
-    ordinate values using ``numpy`` arrays. The units associated with
-    the abscissa and ordinate values are, in the case of a FITS file,
-    determined from the accompanying header, which itself is also
-    stored as a class attribute. The spectral coordinate system is
-    interpreted from FITS header keywords. The ``Spectrum`` class is
-    implemented in ``spectrum.py`` and provides functionality to
-    convert between different coordinate representations. Below is
-    example Python code demonstrating the use of the class. The file
-    ``sample_data_NGC7023-NW-PAHs.txt`` in this demonstration can be
+    spectroscopic data is stored as a ``specutils.Spectrum1D``
+    object. The ``Spectrum1D`` class provides functionality to convert
+    between different coordinate representations. Below is example
+    Python code demonstrating the use of the class. The file
+    ``sample_data_NGC7023.tbl`` in this demonstration can be
     found in the ``examples`` directory that is part of the pyPAHdb
     package. The output of the following code-block is shown in the
     flowchart.
@@ -198,20 +192,18 @@ presented in the figure above and is as follows:
     import matplotlib.pyplot as plt
     from pypahdb.observation import Observation
 
-    filename = 'sample_data_NGC7023-NW-PAHs.txt'
+    filename = 'sample_data_NGC7023.tbl'
     obs = Observation(filename)
     s = obs.spectrum
-    plt.plot(s.abscissa, s.ordinate[:,0,0])
-    plt.ylabel(s.units['ordinate']['str'])
-    plt.xlabel(s.units['abscissa']['str'])
+    plt.plot(s.spectral_axis, s.flux,0,0,:])
     plt.show()
 
 (2) Decompose the observed PAH emission into contributions from
     different PAH subclasses, here charge and size. This functionality
     is provided by the class ``Decomposer``, which is implemented in
-    ``decomposer.py``. The class takes as input a ``Spectrum`` object,
-    of which it creates a deep copy and calls its
-    ``spectrum.convertunitsto`` method to convert the abscissa units
+    ``decomposer.py``. The class takes as input a ``Spectrum1D`` object,
+    of which it creates a deep copy and calls the
+    ``Unit.to` method to convert the abscissa units
     to wavenumber. Subsequently, a pre-computed ``numpy`` matrix of
     highly oversampled PAH emission spectra stored as a ``pickle`` is
     loaded from file. Utilizing ``numpy.interp``, each of the PAH
@@ -237,10 +229,8 @@ presented in the figure above and is as follows:
 
     result = Decomposer(obs.spectrum)
     s = result.spectrum
-    plt.plot(s.abscissa, s.ordinate[:,0,0], 'x')
-    plt.ylabel(s.units['ordinate']['str'])
-    plt.xlabel(s.units['abscissa']['str'])
-    plt.plot(s.abscissa, result.fit[:,0,0])
+    plt.plot(s.spectral_axis, s.flux[0,0,:], 'x')
+    plt.plot(s.spectral_axis, result.fit[:,0,0])
     plt.show()
 
 (3) Produce output to file given a ``Decomposer`` object. Previously
@@ -261,4 +251,4 @@ presented in the figure above and is as follows:
 
     result.save_pdf('NGC7023_pypahdb.pdf')
     result.save_fits('NGC7023_pypahdb.fits', header=obs.header)
-    
+

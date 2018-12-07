@@ -13,16 +13,17 @@ import numpy as np
 from astropy.io import ascii
 from astropy.io import fits
 
-from pypahdb.spectrum import Spectrum
+from astropy import units as u
+from specutils import Spectrum1D
 
 
 class Observation(object):
     """Creates an Observation object.
 
-    Currently reads ASCII data and Spitzer-IRS data cubes.
+    Currently reads IPAC tables and Spitzer-IRS data cubes.
 
     Attributes:
-        spectrum (spectrum): contains loaded spectrum
+        spectrum (specutils.Spectrum1D): contains loaded spectrum
     """
 
     def __init__(self, file_path):
@@ -45,17 +46,12 @@ class Observation(object):
                     # self.wcs = wcs.WCS(hdu[0].header, naxis=2)
                     h0 = self.header['PS3_0']
                     h1 = self.header['PS3_1']
-                    abscissa_unit = hdu[h0].columns[h1].name + ' [' + \
-                        hdu[h0].columns[h1].unit + ']'
-                    ordinate_unit = self.header['BUNIT']
 
-                    # Create spectrum object.
-                    self.spectrum = \
-                        Spectrum(hdu[h0].data[h1],
-                                 hdu[0].data,
-                                 np.zeros(hdu[0].data.shape),
-                                 {'abscissa': {'str': abscissa_unit},
-                                  'ordinate': {'str': ordinate_unit}})
+                    # Create Spectrum1D object.
+                    flux = hdu[0].data.T * u.Unit(self.header['BUNIT'])
+                    wave = hdu[h0].data[h1] * u.Unit(hdu[h0].columns[h1].unit)
+                    self.spectrum = Spectrum1D(flux, spectral_axis=wave)
+
                     return None
         except FileNotFoundError as e:
             raise(e)
@@ -68,16 +64,20 @@ class Observation(object):
 
         try:
             data = ascii.read(self.file_path)
-            self.header = fits.header.Header()
-            self.spectrum = \
-                Spectrum(np.array(data[data.colnames[0]]),
-                         np.array(data[data.colnames[1]]),
-                         np.zeros(len(data[data.colnames[0]])),
-                         {'abscissa': {'str': 'wavelength [micron]'},
-                          'ordinate': {'str': 'surface brightness [MJy/sr]'}})
+            # Always work as if spectrum is a cube
+            flux = np.reshape(data['FLUX'].quantity,
+                              (1, 1, )+data['FLUX'].quantity.shape)
+            # Create Spectrum1D object.
+            wave = data['WAVELENGTH'].quantity
+            self.spectrum = Spectrum1D(flux, spectral_axis=wave)
+            str = ''
+            for card in data.meta['keywords'].keys():
+                value = data.meta['keywords'][card]['value']
+                str += "%-8s=%71s" % (card, value)
+            self.header = fits.header.Header.fromstring(str)
             return None
         except Exception as e:
             print(e)
             pass
 
-        raise OSError(self.file_path + ": File-format not recognized")
+        raise OSError(self.file_path + ": Format not recognized")

@@ -13,8 +13,8 @@ from pypahdb.observation import Observation
 
 if __name__ == '__main__':
 
-    # The sample data (simple, delimited ASCII .txt file).
-    file_path = 'data/sample_data_NGC7023-NW-PAHs.txt'
+    # The sample data (IPAC table).
+    file_path = 'data/sample_data_NGC7023.tbl'
     data_file = pkg_resources.resource_filename('pypahdb', file_path)
 
     # Construct an Observation object.
@@ -24,5 +24,5 @@ if __name__ == '__main__':
     pahdb_fit = Decomposer(obs.spectrum)
 
     # Save the fit to disk, both as a PDF and FITS file.
-    pahdb_fit.save_pdf('NGC7023_pypahdb_txt_example.pdf', domaps=False)
-    pahdb_fit.save_fits('NGC7023_pypahdb_txt_example.fits')
+    pahdb_fit.save_pdf('NGC7023_pypahdb_tbl_example.pdf', domaps=False)
+    pahdb_fit.save_fits('NGC7023_pypahdb_tbl_example.fits', header=obs.header)

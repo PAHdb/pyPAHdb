@@ -15,7 +15,8 @@ A paper describing pypahdb was presented at
 
 This software requires:
 
-``python``
+``python3``
+``specutils``
 ``scipy``
 ``astropy``
 

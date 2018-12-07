@@ -16,7 +16,7 @@ class SpectrumTestCase(unittest.TestCase):
 
     def test_read_ascii(self):
         """Can we create an instance of Observation from an ASCII file?"""
-        file_name = 'data/sample_data_NGC7023.dat'
+        file_name = 'data/sample_data_NGC7023.tbl'
         file_path = pkg_resources.resource_filename('pypahdb', file_name)
 
         self.assertIsInstance(Observation(file_path), Observation)

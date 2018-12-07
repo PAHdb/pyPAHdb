@@ -1,3 +1,4 @@
 scipy
 astropy
+specutils
 matplotlib

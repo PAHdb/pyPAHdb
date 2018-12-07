@@ -19,7 +19,7 @@ class DecomposerTestCase(unittest.TestCase):
     def setUp(self):
         import pkg_resources
         import tempfile
-        file_name = 'data/sample_data_NGC7023.dat'
+        file_name = 'data/sample_data_NGC7023.tbl'
         file_path = pkg_resources.resource_filename('pypahdb', file_name)
         self.observation = Observation(file_path)
         self.decomposer = Decomposer(self.observation.spectrum)

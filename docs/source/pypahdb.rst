@@ -38,16 +38,6 @@ pypahdb.observation module
     :show-inheritance:
     :noindex:
 
-pypahdb.spectrum module
------------------------
-
-.. automodule:: pypahdb.spectrum
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :noindex:
-
-
 Module contents
 ---------------
 

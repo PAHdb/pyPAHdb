@@ -8,9 +8,7 @@ This file is part of pypahdb - see the module docs for more
 information.
 
 """
-
 import copy
-import decimal
 import time
 
 import matplotlib.gridspec as gridspec
@@ -21,6 +19,7 @@ from astropy.io import fits
 from astropy.wcs import WCS
 from matplotlib.backends.backend_pdf import PdfPages
 
+import pypahdb
 from pypahdb.decomposer_base import DecomposerBase
 
 
@@ -33,17 +32,12 @@ class Decomposer(DecomposerBase):
         Inherits from the DecomposerBase class of decomposer_base.py.
 
         Args:
-            spectrum (pypahdb.spectrum.Spectrum): The data to fit/decompose.
+            spectrum (specutils.Spectrum1D): The data to fit/decompose.
         """
         DecomposerBase.__init__(self, spectrum)
 
     def save_pdf(self, filename, header="", domaps=True, doplots=True):
         """Saves a PDF summary of the fit results."""
-
-        def smart_round(value, style="0.1"):
-            """Rounds a float nicely, returning a string."""
-            tmp = decimal.Decimal(value).quantize(decimal.Decimal(style))
-            return str(tmp)
 
         def _plot_map(im, title, wcs=None):
             """Plots a pyPAHdb map and save to a PDF.
@@ -108,6 +102,10 @@ class Decomposer(DecomposerBase):
                 fig (matplotlib.figure.Figure): object containing the plot.
 
             """
+            # Enable quantity_support
+            from astropy.visualization import quantity_support
+            quantity_support()
+
             # Create figure, shared axes.
             fig = plt.figure(figsize=(8, 11))
             gs = gridspec.GridSpec(4, 1, height_ratios=[2, 1, 2, 2])
@@ -118,17 +116,15 @@ class Decomposer(DecomposerBase):
             ax3 = fig.add_subplot(gs[3], sharex=ax0)
 
             # Common quantities for clarity.
-            abscissa = self.spectrum.abscissa
+            abscissa = self.spectrum.spectral_axis
             charge = self.charge
 
             # ax0 -- Best fit.
-            data = self.spectrum.ordinate[:, i, j]
+            data = self.spectrum.flux.T[:, i, j]
             model = self.fit[:, i, j]
             ax0.plot(abscissa, data, 'kx', ms=5, mew=0.5, label='input')
             ax0.plot(abscissa, model, label='fit', color='red')
-            norm_val = self.norm[i][j]
-            norm_str = smart_round(norm_val, style="0.1")
-            norm_str = '$norm$=' + norm_str
+            norm_str = "$norm$=%-7.2f" % (self.norm[i][j])
             ax0.text(0.025, 0.9, norm_str, ha='left', va='center',
                      transform=ax0.transAxes)
 
@@ -144,9 +140,7 @@ class Decomposer(DecomposerBase):
                      label='large', lw=1, color='purple')
             ax2.plot(abscissa, self.size['small'][:, i, j],
                      label='small', lw=1, color='crimson')
-            size_frac = self.large_fraction[i][j]
-            size_str = smart_round(size_frac, style="0.01")
-            size_str = '$f_{large}$=' + size_str
+            size_str = "$f_{large}$=%3.1f" % (self.large_fraction[i][j])
             ax2.text(0.025, 0.9, size_str, ha='left', va='center',
                      transform=ax2.transAxes)
 
@@ -158,16 +152,9 @@ class Decomposer(DecomposerBase):
                      label='neutral', lw=1, color='green')
             ax3.plot(abscissa, charge['cation'][:, i, j],
                      label='cation', lw=1, color='blue')
-            ion_frac = self.ionized_fraction[i][j]
-            ion_str = smart_round(ion_frac, "0.01")
-            ion_str = '$f_{ionized}$=' + ion_str
+            ion_str = "$f_{ionized}$=%3.1f" % (self.ionized_fraction[i][j])
             ax3.text(0.025, 0.9, ion_str, ha='left', va='center',
                      transform=ax3.transAxes)
-
-            # Plot labels.
-            ylabel = self.spectrum.units['ordinate']['str']
-            fig.text(0.02, 0.5, ylabel, va='center', rotation='vertical')
-            ax3.set_xlabel(self.spectrum.units['abscissa']['str'])
 
             # Set tick parameters and add legends to all axes.
             for ax in (ax0, ax1, ax2, ax3):
@@ -213,8 +200,9 @@ class Decomposer(DecomposerBase):
                 plt.gcf().clear()
 
             if(doplots):
-                for i in range(self.spectrum.ordinate.shape[1]):
-                    for j in range(self.spectrum.ordinate.shape[2]):
+                ordinate = self.spectrum.flux.T
+                for i in range(ordinate.shape[1]):
+                    for j in range(ordinate.shape[2]):
                         fig = _plot_fit(i, j)
                         pdf.savefig(fig)
                         plt.close(fig)
@@ -229,7 +217,7 @@ class Decomposer(DecomposerBase):
             """Writes the FITS file to disk, with header."""
             hdr['DATE'] = time.strftime("%Y-%m-%dT%H:%m:%S")
             hdr['SOFTWARE'] = "pypahdb"
-            hdr['SOFT_VER'] = "0.5.0.a1"
+            hdr['SOFT_VER'] = pypahdb.__version__
             hdr['COMMENT'] = "This file contains results from a pypahdb fit"
             hdr['COMMENT'] = "Visit https://github.com/pahdb/pypahdb/ " \
                 "for more information on pypahdb"
@@ -238,11 +226,11 @@ class Decomposer(DecomposerBase):
             hdr['COMMENT'] = "The 3rd plane contains the norm"
 
             # write results to fits-file
-            hdu = fits.PrimaryHDU(np.stack((self.ionized_fraction,
-                                            self.large_fraction,
-                                            self.norm), axis=0),
+            hdu = fits.PrimaryHDU(np.stack((self.ionized_fraction.value,
+                                            self.large_fraction.value,
+                                            self.norm.value), axis=0),
                                   header=hdr)
-            hdu.writeto(filename, overwrite=True)
+            hdu.writeto(filename, overwrite=True, output_verify='fix')
 
             return
 

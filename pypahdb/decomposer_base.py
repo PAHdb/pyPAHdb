@@ -10,12 +10,13 @@ This file is part of pypahdb - see the module docs for more
 information.
 """
 
-import copy
 import multiprocessing
 import pickle
 import platform
 import pkg_resources
 from functools import partial
+from astropy import units as u
+from specutils import Spectrum1D
 
 import numpy as np
 from scipy import optimize
@@ -65,14 +66,14 @@ class DecomposerBase(object):
     """Fits and decomposes a spectrum.
 
     Attributes:
-       spectrum: The spectrum to fit and decompose.
+       spectrum: A spectrum to fit and decompose.
     """
 
     def __init__(self, spectrum):
         """Construct a decomposer object.
 
         Args:
-            spectrum (spectrum.Spectrum): The spectrum to fit and decompose.
+            spectrum (specutil.Spectrum1D): The spectrum to fit and decompose.
         """
         self._yfit = None
         self._ionized_fraction = None
@@ -80,12 +81,23 @@ class DecomposerBase(object):
         self._charge = None
         self._size = None
 
-        # Make a deep copy in case spectrum gets altered outside self
-        self.spectrum = copy.deepcopy(spectrum)
+        # Check if spectrum is a Spectrum1D
+        if not isinstance(spectrum, Spectrum1D):
+            print("spectrum is not a specutils.Spectrum1D")
+            return None
 
-        # Convert units of spectrum to wavenumber and flux density
-        self.spectrum.convertunitsto(aunits='wavenumbers',
-                                     ounits='flux density')
+        self.spectrum = spectrum
+
+        # Convert units of spectrum to wavenumber and flux (density)
+        abscissa = self.spectrum.spectral_axis.to(1.0 / u.cm,
+                                                  equivalencies=u.spectral())
+        try:
+            ordinate = self.spectrum.flux.to(u.Unit("MJy/sr"),
+                                             equivalencies=u.spectral()).T
+        except u.UnitConversionError:
+            ordinate = self.spectrum.flux.to(u.Unit("Jy"),
+                                             equivalencies=u.spectral()).T
+            pass
 
         # Retrieve the precomputed data
         # Raise error if file is not found?
@@ -103,7 +115,7 @@ class DecomposerBase(object):
         # Linearly interpolate the precomputed spectra onto the
         # frequency grid of the input spectrum
         decomposer_interp = partial(_decomposer_interp,
-                                    x=self.spectrum.abscissa,
+                                    x=abscissa,
                                     xp=self._precomputed['abscissa'])
         pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
         self._matrix = pool.map(decomposer_interp,
@@ -117,9 +129,8 @@ class DecomposerBase(object):
         pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
 
         # For clarity, define a few quantities.
-        ordd = self.spectrum.ordinate
-        n_elements_yz = ordd.shape[1] * ordd.shape[2]
-        pool_shape = np.reshape(ordd, (ordd.shape[0], n_elements_yz))
+        n_elements_yz = ordinate.shape[1] * ordinate.shape[2]
+        pool_shape = np.reshape(ordinate, (ordinate.shape[0], n_elements_yz))
 
         # Perform the fit.
         yfit = pool.map(decomposer_nnls, pool_shape.T)
@@ -127,17 +138,20 @@ class DecomposerBase(object):
         pool.join()
 
         # Determine the weights and norm.
-        new_shape = (ordd.shape[1:] + (self._matrix.shape[1],))
+        new_shape = (ordinate.shape[1:] + (self._matrix.shape[1],))
         self._weights, self.norm = list(zip(*yfit))
         self._weights = \
             np.transpose(np.reshape(self._weights, new_shape), (2, 0, 1))
-        self.norm = np.reshape(self.norm, (ordd.shape[2], ordd.shape[1])).T
+        self.norm = np.reshape(self.norm,
+                               (ordinate.shape[2],
+                                ordinate.shape[1])).T
+        self.norm *= u.dimensionless_unscaled
 
     def _fit(self):
         """Return the fit.
 
         Returns:
-            self._yfit (ndarray): PAHdb total fit.
+            self._yfit (quantity.Quantity): PAHdb total fit.
         """
 
         # Lazy Instantiation
@@ -151,7 +165,7 @@ class DecomposerBase(object):
                 pool = multiprocessing.Pool(processes=n_cpus - 1)
 
                 # Convenience defintions.
-                ordd = self.spectrum.ordinate
+                ordinate = self.spectrum.flux.T
                 wt_elements_yz = \
                     self._weights.shape[1] * self._weights.shape[2]
                 wt_shape = np.reshape(self._weights,
@@ -163,23 +177,25 @@ class DecomposerBase(object):
                 pool.join()
 
                 # Reshape the results.
-                new_shape = (ordd.shape[1:] + (ordd.shape[0],))
+                new_shape = (ordinate.shape[1:] + (ordinate.shape[0],))
                 self._yfit = \
                     np.transpose(np.reshape(self._yfit, new_shape), (2, 0, 1))
 
             else:
-                self._yfit = np.zeros(self.spectrum.ordinate.shape)
-                for i in range(self.spectrum.ordinate.shape[1]):
-                    for j in range(self.spectrum.ordinate.shape[2]):
-                        self._yfit[:, i, j] = \
-                            self._matrix.dot(self._weights[:, i, j])
+                ordinate = self.spectrum.flux.T
+                self._yfit = np.zeros(ordinate.shape) * self.spectrum.unit
+                for i in range(ordinate.shape[1]):
+                    for j in range(ordinate.shape[2]):
+                        spec = self._matrix.dot(self._weights[:, i, j])
+                        self._yfit[:, i, j] = spec * self.spectrum.unit
+
         return self._yfit
 
     def _get_ionized_fraction(self):
         """Return the ionized fraction.
 
         Returns:
-            self._ionized_fraction (ndarray): Ion fraction of fit.
+            self._ionized_fraction (quantity.Quantity): Ion fraction of fit.
         """
 
         # Lazy Instantiation
@@ -189,6 +205,7 @@ class DecomposerBase(object):
             charge_matrix = self._precomputed['properties']['charge']
             ions = (charge_matrix > 0).astype(float)[:, None, None]
             self._ionized_fraction = np.sum(self._weights * ions, axis=0)
+            self._ionized_fraction *= u.dimensionless_unscaled
 
             nonzero = np.nonzero(self._ionized_fraction)
 
@@ -204,7 +221,7 @@ class DecomposerBase(object):
         """Return the large fraction.
 
         Returns:
-            self._large_fraction (ndarray): Large fraction of fit.
+            self._large_fraction (quantity.Quantity): Large fraction of fit.
         """
 
         # Lazy Instantiation
@@ -214,6 +231,7 @@ class DecomposerBase(object):
             size_matrix = self._precomputed['properties']['size']
             large = (size_matrix > 40).astype(float)[:, None, None]
             self._large_fraction = np.sum(self._weights * large, axis=0)
+            self._large_fraction *= u.dimensionless_unscaled
 
             nonzero = np.nonzero(self._large_fraction)
 
@@ -229,8 +247,11 @@ class DecomposerBase(object):
         """Return the spectral charge breakdown.
 
         Returns:
-            self._charge (ndarray): Associative array with keys
+            self._charge (dictionary): Associative array with keys
                 'anion', 'neutral' and 'cation'
+
+        Todo:
+            self._charge should be a Spectrum1D-object
         """
 
         # Lazy Instantiation
@@ -259,15 +280,19 @@ class DecomposerBase(object):
 
                 # Map the charge arrays.
                 anion = pool.map(decomposer_anion, new_dims.T)
+                anion *= self.spectrum.flux.unit
                 neutral = pool.map(decomposer_neutral, new_dims.T)
+                neutral *= self.spectrum.flux.unit
                 cation = pool.map(decomposer_cation, new_dims.T)
+                cation *= self.spectrum.flux.unit
 
                 pool.close()
                 pool.join()
 
                 # Reshape the charge arrays.
-                interior = (self.spectrum.ordinate.shape[1:] +
-                            (self.spectrum.ordinate.shape[0],))
+                ordinate = self.spectrum.flux.T
+                interior = (ordinate.shape[1:] +
+                            (ordinate.shape[0],))
                 new_anion = \
                     np.transpose(np.reshape(anion, interior), (2, 0, 1))
                 new_neut = \
@@ -280,15 +305,18 @@ class DecomposerBase(object):
                                 'cation': new_cat}
 
             else:
-                ord_shape = self.spectrum.ordinate.shape
-                self._charge = {'anion': np.zeros(ord_shape),
-                                'neutral': np.zeros(ord_shape),
-                                'cation': np.zeros(ord_shape)}
+                ordinate = self.spectrum.flux.T
+                self._charge = {'anion': np.zeros(ordinate.shape),
+                                'neutral': np.zeros(ordinate.shape),
+                                'cation': np.zeros(ordinate.shape)}
+                self._charge['anion'] *= self.spectrum.flux.unit
+                self._charge['neutral'] *= self.spectrum.flux.unit
+                self._charge['cation'] *= self.spectrum.flux.unit
 
                 charge_matrix = self._precomputed['properties']['charge']
 
-                for i in range(self.spectrum.ordinate.shape[1]):
-                    for j in range(self.spectrum.ordinate.shape[2]):
+                for i in range(ordinate.shape[1]):
+                    for j in range(ordinate.shape[2]):
 
                         # Charge weights.
                         wt_anion = self._weights[:, i, j] * \
@@ -300,8 +328,11 @@ class DecomposerBase(object):
 
                         # Compute dot product.
                         dot_wt_anion = self._matrix.dot(wt_anion)
+                        dot_wt_anion *= self.spectrum.flux.unit
                         dot_wt_neut = self._matrix.dot(wt_neut)
+                        dot_wt_neut *= self.spectrum.flux.unit
                         dot_wt_cat = self._matrix.dot(wt_cat)
+                        dot_wt_cat *= self.spectrum.flux.unit
 
                         # Fill arrays.
                         self._charge['anion'][:, i, j] = dot_wt_anion
@@ -314,8 +345,11 @@ class DecomposerBase(object):
         """Return the spectral size breakdown.
 
         Returns:
-            self._size (ndarray): Associative array with keys
+            self._size (dictionary): Associative array with keys
                 'large', 'small'
+
+        Todo:
+            self._charge should be a Spectrum1D-object
         """
 
         # Lazy Instantiation
@@ -345,23 +379,27 @@ class DecomposerBase(object):
                 pool.join()
 
                 # Reshape the outputs.
-                ordd = self.spectrum.ordinate
-                ord_shape_yz = (ordd.shape[1:] + (ordd.shape[0],))
+                ordinate = self.spectrum.flux.T
+                ord_shape_yz = (ordinate.shape[1:] + (ordinate.shape[0],))
                 new_large = \
                     np.transpose(np.reshape(large, ord_shape_yz), (2, 0, 1))
                 new_small = \
                     np.transpose(np.reshape(small, ord_shape_yz), (2, 0, 1))
 
-                self._size = {'large': new_large,
-                              'small': new_small}
+                self._size = {'large': new_large * self.spectrum.flux.unit,
+                              'small': new_small * self.spectrum.flux.unit}
 
             else:
-                self._size = {'large': np.zeros(self.spectrum.ordinate.shape),
-                              'small': np.zeros(self.spectrum.ordinate.shape)}
+                ordinate = self.spectrum.flux.T
+                self._size = {'large': np.zeros(ordinate.shape),
+                              'small': np.zeros(ordinate.shape)}
+                self._size['large'] *= self.spectrum.flux.unit
+                self._size['small'] *= self.spectrum.flux.unit
+
                 size_matrix = self._precomputed['properties']['size']
 
-                for i in range(self.spectrum.ordinate.shape[1]):
-                    for j in range(self.spectrum.ordinate.shape[2]):
+                for i in range(ordinate.shape[1]):
+                    for j in range(ordinate.shape[2]):
 
                         large_wt = self._weights[:, i, j] * \
                             (size_matrix > 40).astype(float)
@@ -369,7 +407,9 @@ class DecomposerBase(object):
                             (size_matrix <= 40).astype(float)
 
                         large_amount = self._matrix.dot(large_wt)
+                        large_amount *= self.spectrum.flux.unit
                         small_amount = self._matrix.dot(small_wt)
+                        small_amount *= self.spectrum.flux.unit
 
                         self._size['large'][:, i, j] = large_amount
                         self._size['small'][:, i, j] = small_amount
