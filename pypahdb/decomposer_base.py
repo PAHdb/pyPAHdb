@@ -183,11 +183,14 @@ class DecomposerBase(object):
 
             else:
                 ordinate = self.spectrum.flux.T
-                self._yfit = np.zeros(ordinate.shape) * self.spectrum.unit
+                self._yfit = np.zeros(ordinate.shape)
                 for i in range(ordinate.shape[1]):
                     for j in range(ordinate.shape[2]):
-                        spec = self._matrix.dot(self._weights[:, i, j])
-                        self._yfit[:, i, j] = spec * self.spectrum.unit
+                        self._yfit[:, i, j] = \
+                            self._matrix.dot(self._weights[:, i, j])
+
+            # Set the units
+            self._yfit *= self.spectrum.flux.unit
 
         return self._yfit
 
@@ -280,11 +283,8 @@ class DecomposerBase(object):
 
                 # Map the charge arrays.
                 anion = pool.map(decomposer_anion, new_dims.T)
-                anion *= self.spectrum.flux.unit
                 neutral = pool.map(decomposer_neutral, new_dims.T)
-                neutral *= self.spectrum.flux.unit
                 cation = pool.map(decomposer_cation, new_dims.T)
-                cation *= self.spectrum.flux.unit
 
                 pool.close()
                 pool.join()
@@ -309,9 +309,6 @@ class DecomposerBase(object):
                 self._charge = {'anion': np.zeros(ordinate.shape),
                                 'neutral': np.zeros(ordinate.shape),
                                 'cation': np.zeros(ordinate.shape)}
-                self._charge['anion'] *= self.spectrum.flux.unit
-                self._charge['neutral'] *= self.spectrum.flux.unit
-                self._charge['cation'] *= self.spectrum.flux.unit
 
                 charge_matrix = self._precomputed['properties']['charge']
 
@@ -328,16 +325,18 @@ class DecomposerBase(object):
 
                         # Compute dot product.
                         dot_wt_anion = self._matrix.dot(wt_anion)
-                        dot_wt_anion *= self.spectrum.flux.unit
                         dot_wt_neut = self._matrix.dot(wt_neut)
-                        dot_wt_neut *= self.spectrum.flux.unit
                         dot_wt_cat = self._matrix.dot(wt_cat)
-                        dot_wt_cat *= self.spectrum.flux.unit
 
                         # Fill arrays.
                         self._charge['anion'][:, i, j] = dot_wt_anion
                         self._charge['neutral'][:, i, j] = dot_wt_neut
                         self._charge['cation'][:, i, j] = dot_wt_cat
+
+            # Set the units
+            self._charge['anion'] *= self.spectrum.flux.unit
+            self._charge['neutral'] *= self.spectrum.flux.unit
+            self._charge['cation'] *= self.spectrum.flux.unit
 
         return self._charge
 
@@ -386,15 +385,13 @@ class DecomposerBase(object):
                 new_small = \
                     np.transpose(np.reshape(small, ord_shape_yz), (2, 0, 1))
 
-                self._size = {'large': new_large * self.spectrum.flux.unit,
-                              'small': new_small * self.spectrum.flux.unit}
+                self._size = {'large': new_large,
+                              'small': new_small}
 
             else:
                 ordinate = self.spectrum.flux.T
                 self._size = {'large': np.zeros(ordinate.shape),
                               'small': np.zeros(ordinate.shape)}
-                self._size['large'] *= self.spectrum.flux.unit
-                self._size['small'] *= self.spectrum.flux.unit
 
                 size_matrix = self._precomputed['properties']['size']
 
@@ -407,12 +404,14 @@ class DecomposerBase(object):
                             (size_matrix <= 40).astype(float)
 
                         large_amount = self._matrix.dot(large_wt)
-                        large_amount *= self.spectrum.flux.unit
                         small_amount = self._matrix.dot(small_wt)
-                        small_amount *= self.spectrum.flux.unit
 
                         self._size['large'][:, i, j] = large_amount
                         self._size['small'][:, i, j] = small_amount
+
+            # Set the units
+            self._size['large'] *= self.spectrum.flux.unit
+            self._size['small'] *= self.spectrum.flux.unit
 
         return self._size
 
