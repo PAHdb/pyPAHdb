@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pypahdb.decomposer_base &mdash; pyPAHdb 0.6.1.post18+g6c5b44b documentation</title>
+  <title>pypahdb.decomposer_base &mdash; pyPAHdb 0.6.1.post19+g06721e2 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                0.6.1.post18+g6c5b44b
+                0.6.1.post19+g06721e2
               </div>
             
           
@@ -336,11 +336,14 @@
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">ordinate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">T</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">unit</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
                     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
-                        <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">spec</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">unit</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> \
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+
+            <span class="c1"># Set the units</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span>
 
@@ -433,11 +436,8 @@
 
                 <span class="c1"># Map the charge arrays.</span>
                 <span class="n">anion</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">decomposer_anion</span><span class="p">,</span> <span class="n">new_dims</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-                <span class="n">anion</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
                 <span class="n">neutral</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">decomposer_neutral</span><span class="p">,</span> <span class="n">new_dims</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-                <span class="n">neutral</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
                 <span class="n">cation</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">decomposer_cation</span><span class="p">,</span> <span class="n">new_dims</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-                <span class="n">cation</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
 
                 <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
                 <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
@@ -462,9 +462,6 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;anion&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
                                 <span class="s1">&#39;neutral&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
                                 <span class="s1">&#39;cation&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">)}</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;anion&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;neutral&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;cation&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
 
                 <span class="n">charge_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;charge&#39;</span><span class="p">]</span>
 
@@ -481,16 +478,18 @@
 
                         <span class="c1"># Compute dot product.</span>
                         <span class="n">dot_wt_anion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">wt_anion</span><span class="p">)</span>
-                        <span class="n">dot_wt_anion</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
                         <span class="n">dot_wt_neut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">wt_neut</span><span class="p">)</span>
-                        <span class="n">dot_wt_neut</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
                         <span class="n">dot_wt_cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">wt_cat</span><span class="p">)</span>
-                        <span class="n">dot_wt_cat</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
 
                         <span class="c1"># Fill arrays.</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;anion&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dot_wt_anion</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;neutral&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dot_wt_neut</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;cation&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dot_wt_cat</span>
+
+            <span class="c1"># Set the units</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;anion&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;neutral&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;cation&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span>
 
@@ -539,15 +538,13 @@
                 <span class="n">new_small</span> <span class="o">=</span> \
                     <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">small</span><span class="p">,</span> <span class="n">ord_shape_yz</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;large&#39;</span><span class="p">:</span> <span class="n">new_large</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
-                              <span class="s1">&#39;small&#39;</span><span class="p">:</span> <span class="n">new_small</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span><span class="p">}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;large&#39;</span><span class="p">:</span> <span class="n">new_large</span><span class="p">,</span>
+                              <span class="s1">&#39;small&#39;</span><span class="p">:</span> <span class="n">new_small</span><span class="p">}</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">ordinate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">T</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;large&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
                               <span class="s1">&#39;small&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">)}</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">[</span><span class="s1">&#39;large&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">[</span><span class="s1">&#39;small&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
 
                 <span class="n">size_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">]</span>
 
@@ -560,12 +557,14 @@
                             <span class="p">(</span><span class="n">size_matrix</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 
                         <span class="n">large_amount</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">large_wt</span><span class="p">)</span>
-                        <span class="n">large_amount</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
                         <span class="n">small_amount</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">small_wt</span><span class="p">)</span>
-                        <span class="n">small_amount</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
 
                         <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">[</span><span class="s1">&#39;large&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">large_amount</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">[</span><span class="s1">&#39;small&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">small_amount</span>
+
+            <span class="c1"># Set the units</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">[</span><span class="s1">&#39;large&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">[</span><span class="s1">&#39;small&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span>
 
