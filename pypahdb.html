@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pypahdb package &mdash; pyPAHdb 0.6.1.post16+g4c7f583 documentation</title>
+  <title>pypahdb package &mdash; pyPAHdb 0.6.1.post17+g1b87b72 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.6.1.post16+g4c7f583
+                0.6.1.post17+g1b87b72
               </div>
             
           
@@ -98,7 +98,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#pypahdb-decomposer-module">pypahdb.decomposer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pypahdb-decomposer-base-module">pypahdb.decomposer_base module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pypahdb-observation-module">pypahdb.observation module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pypahdb-spectrum-module">pypahdb.spectrum module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
@@ -195,7 +194,6 @@
 <li class="toctree-l2"><a class="reference internal" href="pypahdb.tests.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pypahdb.tests.html#module-pypahdb.tests.test_decomposer">pypahdb.tests.test_decomposer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pypahdb.tests.html#module-pypahdb.tests.test_observation">pypahdb.tests.test_observation module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pypahdb.tests.html#module-pypahdb.tests.test_spectrum">pypahdb.tests.test_spectrum module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pypahdb.tests.html#module-pypahdb.tests">Module contents</a></li>
 </ul>
 </li>
@@ -247,7 +245,7 @@ information.</p>
 <p>Fits and decomposes a spectrum.</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
-<dd>spectrum: The spectrum to fit and decompose.</dd>
+<dd>spectrum: A spectrum to fit and decompose.</dd>
 </dl>
 <dl class="attribute">
 <dt>
@@ -256,10 +254,12 @@ information.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
 <dd><dl class="first last docutils">
-<dt>self._charge (ndarray): Associative array with keys</dt>
+<dt>self._charge (dictionary): Associative array with keys</dt>
 <dd>‘anion’, ‘neutral’ and ‘cation’</dd>
 </dl>
 </dd>
+<dt>Todo:</dt>
+<dd>self._charge should be a Spectrum1D-object</dd>
 </dl>
 </dd></dl>
 
@@ -269,7 +269,7 @@ information.</p>
 <dd><p>Return the fit.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
-<dd>self._yfit (ndarray): PAHdb total fit.</dd>
+<dd>self._yfit (quantity.Quantity): PAHdb total fit.</dd>
 </dl>
 </dd></dl>
 
@@ -279,7 +279,7 @@ information.</p>
 <dd><p>Return the ionized fraction.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
-<dd>self._ionized_fraction (ndarray): Ion fraction of fit.</dd>
+<dd>self._ionized_fraction (quantity.Quantity): Ion fraction of fit.</dd>
 </dl>
 </dd></dl>
 
@@ -289,7 +289,7 @@ information.</p>
 <dd><p>Return the large fraction.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
-<dd>self._large_fraction (ndarray): Large fraction of fit.</dd>
+<dd>self._large_fraction (quantity.Quantity): Large fraction of fit.</dd>
 </dl>
 </dd></dl>
 
@@ -300,10 +300,12 @@ information.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
 <dd><dl class="first last docutils">
-<dt>self._size (ndarray): Associative array with keys</dt>
+<dt>self._size (dictionary): Associative array with keys</dt>
 <dd>‘large’, ‘small’</dd>
 </dl>
 </dd>
+<dt>Todo:</dt>
+<dd>self._charge should be a Spectrum1D-object</dd>
 </dl>
 </dd></dl>
 
@@ -321,45 +323,11 @@ information.</p>
 <em class="property">class </em><code class="descclassname">pypahdb.observation.</code><code class="descname">Observation</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/observation.html#Observation"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Creates an Observation object.</p>
-<p>Currently reads ASCII data and Spitzer-IRS data cubes.</p>
+<p>Currently reads IPAC tables and Spitzer-IRS data cubes.</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
-<dd>spectrum (spectrum): contains loaded spectrum</dd>
+<dd>spectrum (specutils.Spectrum1D): contains loaded spectrum</dd>
 </dl>
-</dd></dl>
-
-</div>
-<div class="section" id="pypahdb-spectrum-module">
-<h2>pypahdb.spectrum module<a class="headerlink" href="#pypahdb-spectrum-module" title="Permalink to this headline">¶</a></h2>
-<p>spectrum.py</p>
-<p>Holds a spectrum.</p>
-<p>This file is part of pypahdb - see the module docs for more
-information.</p>
-<dl class="class">
-<dt>
-<em class="property">class </em><code class="descclassname">pypahdb.spectrum.</code><code class="descname">Spectrum</code><span class="sig-paren">(</span><em>abscissa</em>, <em>ordinate</em>, <em>uncertainties</em>, <em>units</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/spectrum.html#Spectrum"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Create a spectrum object.</p>
-<dl class="docutils">
-<dt>Attributes:</dt>
-<dd>abscissa (numpy.ndarray): The abscissa values.
-ordinate (numpy.ndarray): The ordinate values.
-uncertainties (numpy.ndarray): Uncertainties on the ordinate.
-units (list): The units.</dd>
-</dl>
-<dl class="method">
-<dt>
-<code class="descname">convertunitsto</code><span class="sig-paren">(</span><em>**keywords</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/spectrum.html#Spectrum.convertunitsto"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Convert units.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>aunits (str): The new abscissa units.
-ounits (str): The new ordinate units.</dd>
-<dt>Returns:</dt>
-<dd>Nothing.</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </div>

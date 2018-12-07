@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pypahdb.tests.test_observation &mdash; pyPAHdb 0.6.1.post16+g4c7f583 documentation</title>
+  <title>pypahdb.tests.test_observation &mdash; pyPAHdb 0.6.1.post17+g1b87b72 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                0.6.1.post16+g4c7f583
+                0.6.1.post17+g1b87b72
               </div>
             
           
@@ -169,7 +169,7 @@
 
 <div class="viewcode-block" id="SpectrumTestCase.test_read_ascii"><a class="viewcode-back" href="../../../pypahdb.tests.html#pypahdb.tests.test_observation.SpectrumTestCase.test_read_ascii">[docs]</a>    <span class="k">def</span> <span class="nf">test_read_ascii</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Can we create an instance of Observation from an ASCII file?&quot;&quot;&quot;</span>
-        <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;data/sample_data_NGC7023.dat&#39;</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;data/sample_data_NGC7023.tbl&#39;</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">Observation</span><span class="p">(</span><span class="n">file_path</span><span class="p">),</span> <span class="n">Observation</span><span class="p">)</span></div>

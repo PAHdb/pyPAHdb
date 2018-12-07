@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; pyPAHdb 0.6.1.post16+g4c7f583 documentation</title>
+  <title>Introduction &mdash; pyPAHdb 0.6.1.post17+g1b87b72 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.6.1.post16+g4c7f583
+                0.6.1.post17+g1b87b72
               </div>
             
           
@@ -359,17 +359,11 @@ the responsibility of the user to ensure all non-PAH emission
 components have been removed from the spectrum. The class uses a
 fall-through try-except chain to attempt to read the given
 filename using the facilities provided by <code class="docutils literal notranslate"><span class="pre">astropy.io</span></code>. The
-spectroscopic data is stored as a class attribute as a
-<code class="docutils literal notranslate"><span class="pre">Spectrum</span></code> object, which holds the data in terms of abscissa and
-ordinate values using <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays. The units associated with
-the abscissa and ordinate values are, in the case of a FITS file,
-determined from the accompanying header, which itself is also
-stored as a class attribute. The spectral coordinate system is
-interpreted from FITS header keywords. The <code class="docutils literal notranslate"><span class="pre">Spectrum</span></code> class is
-implemented in <code class="docutils literal notranslate"><span class="pre">spectrum.py</span></code> and provides functionality to
-convert between different coordinate representations. Below is
-example Python code demonstrating the use of the class. The file
-<code class="docutils literal notranslate"><span class="pre">sample_data_NGC7023-NW-PAHs.txt</span></code> in this demonstration can be
+spectroscopic data is stored as a <code class="docutils literal notranslate"><span class="pre">specutils.Spectrum1D</span></code>
+object. The <code class="docutils literal notranslate"><span class="pre">Spectrum1D</span></code> class provides functionality to convert
+between different coordinate representations. Below is example
+Python code demonstrating the use of the class. The file
+<code class="docutils literal notranslate"><span class="pre">sample_data_NGC7023.tbl</span></code> in this demonstration can be
 found in the <code class="docutils literal notranslate"><span class="pre">examples</span></code> directory that is part of the pyPAHdb
 package. The output of the following code-block is shown in the
 flowchart.</li>
@@ -377,12 +371,10 @@ flowchart.</li>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">pypahdb.observation</span> <span class="kn">import</span> <span class="n">Observation</span>
 
-<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;sample_data_NGC7023-NW-PAHs.txt&#39;</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;sample_data_NGC7023.tbl&#39;</span>
 <span class="n">obs</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">spectrum</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">ordinate</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">units</span><span class="p">[</span><span class="s1">&#39;ordinate&#39;</span><span class="p">][</span><span class="s1">&#39;str&#39;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">units</span><span class="p">[</span><span class="s1">&#39;abscissa&#39;</span><span class="p">][</span><span class="s1">&#39;str&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">spectral_axis</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">flux</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,:])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -390,10 +382,10 @@ flowchart.</li>
 <li>Decompose the observed PAH emission into contributions from
 different PAH subclasses, here charge and size. This functionality
 is provided by the class <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code>, which is implemented in
-<code class="docutils literal notranslate"><span class="pre">decomposer.py</span></code>. The class takes as input a <code class="docutils literal notranslate"><span class="pre">Spectrum</span></code> object,
-of which it creates a deep copy and calls its
-<code class="docutils literal notranslate"><span class="pre">spectrum.convertunitsto</span></code> method to convert the abscissa units
-to wavenumber. Subsequently, a pre-computed <code class="docutils literal notranslate"><span class="pre">numpy</span></code> matrix of
+<code class="docutils literal notranslate"><span class="pre">decomposer.py</span></code>. The class takes as input a <code class="docutils literal notranslate"><span class="pre">Spectrum1D</span></code> object,
+of which it creates a deep copy and calls the
+<code class="docutils literal notranslate"><span class="pre">Unit.to`</span> <span class="pre">method</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">the</span> <span class="pre">abscissa</span> <span class="pre">units</span>
+<span class="pre">to</span> <span class="pre">wavenumber.</span> <span class="pre">Subsequently,</span> <span class="pre">a</span> <span class="pre">pre-computed</span> <span class="pre">``numpy</span></code> matrix of
 highly oversampled PAH emission spectra stored as a <code class="docutils literal notranslate"><span class="pre">pickle</span></code> is
 loaded from file. Utilizing <code class="docutils literal notranslate"><span class="pre">numpy.interp</span></code>, each of the PAH
 emission spectra, represented by a single column in the
@@ -416,10 +408,8 @@ output of the code-block is shown in the flowchart.</li>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">Decomposer</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">spectrum</span><span class="p">)</span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">spectrum</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">ordinate</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">units</span><span class="p">[</span><span class="s1">&#39;ordinate&#39;</span><span class="p">][</span><span class="s1">&#39;str&#39;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">units</span><span class="p">[</span><span class="s1">&#39;abscissa&#39;</span><span class="p">][</span><span class="s1">&#39;str&#39;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">fit</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">spectral_axis</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,:],</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">spectral_axis</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">fit</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
