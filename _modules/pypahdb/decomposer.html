@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pypahdb.decomposer &mdash; pyPAHdb 0.6.1.post20+g4bef73b documentation</title>
+  <title>pypahdb.decomposer &mdash; pyPAHdb 0.6.1.post21+g43dcbc8 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.6.1.post20+g4bef73b
+                0.6.1.post21+g43dcbc8
               </div>
             
           
@@ -331,11 +331,13 @@
                     <span class="n">hdr</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
                     <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;NAXIS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
                     <span class="n">cards</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NAXIS3&#39;</span><span class="p">,</span> <span class="s1">&#39;PC3_3&#39;</span><span class="p">,</span> <span class="s1">&#39;CRPIX3&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;CRVAL3&#39;</span><span class="p">,</span> <span class="s1">&#39;CTYPE3&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;CUNIT3&#39;</span><span class="p">,</span> <span class="s1">&#39;PS3_0&#39;</span><span class="p">,</span> <span class="s1">&#39;PS3_1&#39;</span><span class="p">]</span>
+                             <span class="s1">&#39;CRVAL3&#39;</span><span class="p">,</span> <span class="s1">&#39;CTYPE3&#39;</span><span class="p">,</span> <span class="s1">&#39;CDELT3&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;CUNIT3&#39;</span><span class="p">,</span> <span class="s1">&#39;PS3_0&#39;</span><span class="p">,</span> <span class="s1">&#39;PS3_1&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;WCSAXES&#39;</span><span class="p">]</span>
                     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cards</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span><span class="p">:</span>
                             <span class="k">del</span> <span class="n">hdr</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+
                     <span class="n">wcs</span> <span class="o">=</span> <span class="n">WCS</span><span class="p">(</span><span class="n">hdr</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">wcs</span> <span class="o">=</span> <span class="kc">None</span>
