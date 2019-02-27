@@ -38,42 +38,45 @@ class Observation(object):
         try:
             with fits.open(self.file_path) as hdu:
                 for h in hdu:
-                  hdu_keys = list(h.header.keys())
+                    hdu_keys = list(h.header.keys())
 
-                  # use the wcs definitions for coordinate three
-                  # lookup table
-                  if 'PS3_0' in hdu_keys and 'PS3_1' in hdu_keys:
-                      self.header = h.header
+                    # use the wcs definitions for coordinate three
+                    # lookup table
+                    if 'PS3_0' in hdu_keys and 'PS3_1' in hdu_keys:
+                        self.header = h.header
 
-                      # Create WCS object
-                      # self.wcs = wcs.WCS(hdu[0].header, naxis=2)
+                        # Create WCS object
+                        # self.wcs = wcs.WCS(hdu[0].header, naxis=2)
 
-                      h0 = self.header['PS3_0']
-                      h1 = self.header['PS3_1']
+                        h0 = self.header['PS3_0']
+                        h1 = self.header['PS3_1']
 
-                      # Create Spectrum1D object.
-                      flux = h.data.T * u.Unit(h.header['BUNIT'])
-                      wave = hdu[h0].data[h1] * u.Unit(hdu[h0].columns[h1].unit)
-                      self.spectrum = Spectrum1D(flux, spectral_axis=wave)
+                        # Create Spectrum1D object.
+                        flux = h.data.T * u.Unit(h.header['BUNIT'])
+                        wave = hdu[h0].data[h1] * \
+                            u.Unit(hdu[h0].columns[h1].unit)
+                        self.spectrum = Spectrum1D(flux, spectral_axis=wave)
 
-                      return None
+                        return None
 
-                  # use the wcs definitions for coordinate three
-                  # linear
-                  if 'CDELT3' in hdu_keys:
+                    # use the wcs definitions for coordinate three
+                    # linear
+                    if 'CDELT3' in hdu_keys:
 
-                      self.header = h.header
+                        self.header = h.header
 
-                      # Create WCS object
-                      # self.wcs = wcs.WCS(hdu[0].header, naxis=2)
+                        # Create WCS object
+                        # self.wcs = wcs.WCS(hdu[0].header, naxis=2)
 
-                      # Create Spectrum1D object.
-                      flux = h.data.T * u.Unit('Jy') # u.Unit(self.header['BUNIT'])
-                      wave = (h.header['CRVAL3'] + h.header['CDELT3'] *
-                              np.arange(0, h.header['NAXIS3'])) * u.Unit(h.header['CUNIT3'])
-                      self.spectrum = Spectrum1D(flux, spectral_axis=wave)
+                        # Create Spectrum1D object
+                        # u.Unit(self.header['BUNIT'])
+                        flux = h.data.T * u.Unit('Jy')
+                        wave = (h.header['CRVAL3'] + h.header['CDELT3'] *
+                                np.arange(0, h.header['NAXIS3'])) * \
+                            u.Unit(h.header['CUNIT3'])
+                        self.spectrum = Spectrum1D(flux, spectral_axis=wave)
 
-                      return None
+                        return None
 
         except FileNotFoundError as e:
             raise(e)
