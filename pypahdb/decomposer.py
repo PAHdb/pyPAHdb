@@ -176,11 +176,13 @@ class Decomposer(DecomposerBase):
                     hdr = copy.deepcopy(header)
                     hdr['NAXIS'] = 2
                     cards = ['NAXIS3', 'PC3_3', 'CRPIX3',
-                             'CRVAL3', 'CTYPE3',
-                             'CUNIT3', 'PS3_0', 'PS3_1']
+                             'CRVAL3', 'CTYPE3', 'CDELT3',
+                             'CUNIT3', 'PS3_0', 'PS3_1',
+                             'WCSAXES']
                     for c in cards:
                         if c in hdr:
                             del hdr[c]
+
                     wcs = WCS(hdr)
                 else:
                     wcs = None

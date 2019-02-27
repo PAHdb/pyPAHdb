@@ -37,22 +37,44 @@ class Observation(object):
 
         try:
             with fits.open(self.file_path) as hdu:
-                hdu_keys = hdu[0].header.keys()
+                for h in hdu:
+                  hdu_keys = list(h.header.keys())
 
-                # use the wcs definitions for coordinate three,
-                # either via linear scale or lookup table
-                if 'PS3_0' in hdu_keys and 'PS3_1' in hdu_keys:
-                    self.header = hdu[0].header
-                    # self.wcs = wcs.WCS(hdu[0].header, naxis=2)
-                    h0 = self.header['PS3_0']
-                    h1 = self.header['PS3_1']
+                  # use the wcs definitions for coordinate three
+                  # lookup table
+                  if 'PS3_0' in hdu_keys and 'PS3_1' in hdu_keys:
+                      self.header = h.header
 
-                    # Create Spectrum1D object.
-                    flux = hdu[0].data.T * u.Unit(self.header['BUNIT'])
-                    wave = hdu[h0].data[h1] * u.Unit(hdu[h0].columns[h1].unit)
-                    self.spectrum = Spectrum1D(flux, spectral_axis=wave)
+                      # Create WCS object
+                      # self.wcs = wcs.WCS(hdu[0].header, naxis=2)
 
-                    return None
+                      h0 = self.header['PS3_0']
+                      h1 = self.header['PS3_1']
+
+                      # Create Spectrum1D object.
+                      flux = h.data.T * u.Unit(h.header['BUNIT'])
+                      wave = hdu[h0].data[h1] * u.Unit(hdu[h0].columns[h1].unit)
+                      self.spectrum = Spectrum1D(flux, spectral_axis=wave)
+
+                      return None
+
+                  # use the wcs definitions for coordinate three
+                  # linear
+                  if 'CDELT3' in hdu_keys:
+
+                      self.header = h.header
+
+                      # Create WCS object
+                      # self.wcs = wcs.WCS(hdu[0].header, naxis=2)
+
+                      # Create Spectrum1D object.
+                      flux = h.data.T * u.Unit('Jy') # u.Unit(self.header['BUNIT'])
+                      wave = (h.header['CRVAL3'] + h.header['CDELT3'] *
+                              np.arange(0, h.header['NAXIS3'])) * u.Unit(h.header['CUNIT3'])
+                      self.spectrum = Spectrum1D(flux, spectral_axis=wave)
+
+                      return None
+
         except FileNotFoundError as e:
             raise(e)
         except OSError:
