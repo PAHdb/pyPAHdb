@@ -1,4 +1,7 @@
-Tutorial series: using pyPAHdb to analyze astronomical spectra
+.. sectnum::
+   :start: 5
+
+Tutorials
 ==============================================================
 
 .. toctree::

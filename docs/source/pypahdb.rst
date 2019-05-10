@@ -1,4 +1,4 @@
-pypahdb package
+API
 ===============
 
 Subpackages

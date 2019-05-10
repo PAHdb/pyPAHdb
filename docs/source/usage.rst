@@ -1,3 +1,6 @@
+.. sectnum::
+   :start: 4
+
 =====
 Usage
 =====
