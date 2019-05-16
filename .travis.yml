@@ -22,7 +22,7 @@ env:
 
 script:
   - cd  # Change path to $HOME.
-  - coverage run --source pypahdb --omit *pypahdb/_version.py,*pypahdb/tests/* -m pytest --pyargs pypahdb.tests  # Run the tests and check for test coverage.
+  - coverage run --source pypahdb --omit *pypahdb/_version.py,*pypahdb/tests/* -m pytest  # Run the tests and check for test coverage.
   - coverage report -m  # Generate test coverage report.
   - codecov  # Upload the report to codecov.
   - cd $TRAVIS_BUILD_DIR  # Change path back to $TRAVIS_BUILD_DIR.
