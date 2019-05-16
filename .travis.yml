@@ -26,7 +26,7 @@ script:
   - coverage report -m  # Generate test coverage report.
   - codecov  # Upload the report to codecov.
   - cd $TRAVIS_BUILD_DIR  # Change path back to $TRAVIS_BUILD_DIR.
-  - flake8 --exclude versioneer.py,docs/source/tutorial*.py  # Enforce code style.
+  - flake8 --exclude versioneer.py,docs/*  # Enforce code style.
   - make -C docs html  # Build the documentation.
   - set -e
   - doctr deploy --built-docs docs/build/html .  # Publish the documentation.
