@@ -39,7 +39,6 @@ Issues, comments and suggestions may be submitted through `https://github.com/PA
    design
    installation
    usage
-   tutorials
    pypahdb
    release-history
 
