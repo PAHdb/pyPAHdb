@@ -71,14 +71,6 @@ spectra.
    | Handle uncertainties|          | ✓                |
    +---------------------+----------+------------------+
 
-
-.. [#] *AmesPAHdbPythonSuite*: `github.com/PAHdb/AmesPAHdbPythonSuite
-       <https://github.com/PAHdb/AmesPAHdbPythonSuite>`_
-
-.. [#] *AmesPAHdbIDLSuite*: `github.com/PAHdb/AmesPAHdbIDLSuite
-       <https://github.com/PAHdb/AmesPAHdbIDLSuite>`_
-
-
 .. pypahdb analyzes spectroscopic observations (including spectral maps)
 .. and characterizes the PAH emission using a database-fitting approach,
 .. providing the PAH ionization and size fractions.
@@ -137,3 +129,11 @@ when using pypahdb:
   IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", *The
   Astrophysical Journal Supplement Series*, **XXX**, 201X *(in
   preparation)*
+
+---------
+
+.. [#] *AmesPAHdbPythonSuite*: `github.com/PAHdb/AmesPAHdbPythonSuite
+       <https://github.com/PAHdb/AmesPAHdbPythonSuite>`_
+
+.. [#] *AmesPAHdbIDLSuite*: `github.com/PAHdb/AmesPAHdbIDLSuite
+       <https://github.com/PAHdb/AmesPAHdbIDLSuite>`_

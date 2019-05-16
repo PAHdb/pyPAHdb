@@ -14,6 +14,9 @@ The package is imported with the following statement:
 
     import pypahdb
 
+Flowchart
+-----------------
+
 .. figure:: figures/fig_flowchart.png
    :align: center
 
@@ -113,3 +116,10 @@ presented in the figure above and is as follows:
     result.save_pdf('NGC7023_pypahdb.pdf')
     result.save_fits('NGC7023_pypahdb.fits', header=obs.header)
 
+
+
+
+Supported data formats
+-----------------------
+
+Presently, pypahdb supports IPAC tables and Spitzer FITS files.
