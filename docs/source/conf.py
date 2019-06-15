@@ -40,6 +40,8 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'matplotlib.sphinxext.plot_directive',
+    'sphinx.ext.graphviz',
+    'sphinx.ext.inheritance_diagram',
 ]
 #    'IPython.sphinxext.ipython_directive',
 #    'IPython.sphinxext.ipython_console_highlighting',

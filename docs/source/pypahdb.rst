@@ -1,21 +1,27 @@
 API
 ===============
 
+
 Submodules
 ----------
 
-pypahdb.decomposer module
--------------------------
+.. inheritance-diagram:: pypahdb.decomposer_base pypahdb.decomposer
+.. inheritance-diagram:: pypahdb.observation
 
-.. automodule:: pypahdb.decomposer
-    :members:
-    :undoc-members:
-    :show-inheritance:
+|
 
 pypahdb.decomposer\_base module
 -------------------------------
 
 .. automodule:: pypahdb.decomposer_base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pypahdb.decomposer module
+-------------------------
+
+.. automodule:: pypahdb.decomposer
     :members:
     :undoc-members:
     :show-inheritance:
