@@ -14,6 +14,7 @@ install:
   - pip install -v .
   # Install extra requirements for running tests and building docs.
   - pip install -r requirements-dev.txt
+  - sudo apt-get install graphviz
 
 env:
   global:
