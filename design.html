@@ -8,10 +8,12 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; pyPAHdb 0.6.1.post22+gb102fad documentation</title>
+  <title>2 Design &mdash; pyPAHdb  documentation</title>
   
 
   
+  
+    <link rel="shortcut icon" href="_static/touch-icon-310x310.png"/>
   
   
   
@@ -33,10 +35,12 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation" href="installation.html" />
-    <link rel="prev" title="Welcome to pypahdb’s documentation!" href="index.html" /> 
+    <link rel="next" title="3 Installation" href="installation.html" />
+    <link rel="prev" title="1 Background" href="background.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -59,10 +63,6 @@
           
             
             
-              <div class="version">
-                0.6.1.post22+gb102fad
-              </div>
-            
           
 
           
@@ -84,18 +84,36 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#academic-references">Academic references</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pypahdb-background">pypahdb background</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="background.html"><span class="sectnum">1</span> Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="background.html#purpose"><span class="sectnum">1.1</span> Purpose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#features"><span class="sectnum">1.2</span> Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#academic-references"><span class="sectnum">1.3</span> Academic references</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorial series: using pyPAHdb to analyze astronomical spectra</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release-history.html">Release History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pypahdb.html">pypahdb package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><span class="sectnum">2</span> Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#flowchart"><span class="sectnum">2.1</span> Flowchart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supported-data-formats"><span class="sectnum">2.2</span> Supported data formats</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html"><span class="sectnum">3</span> Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><span class="sectnum">4</span> Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#details"><span class="sectnum">4.1</span> Details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypahdb.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypahdb.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pypahdb.html#module-pypahdb.decomposer_base">pypahdb.decomposer_base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pypahdb.html#module-pypahdb.decomposer">pypahdb.decomposer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pypahdb.html#module-pypahdb.observation">pypahdb.observation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pypahdb.html#module-pypahdb">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="release-history.html">Release History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release-history.html#v0-6-1-2018-10-12">v0.6.1 (2018-10-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-history.html#v0-6-0-2018-08-15">v0.6.0 (2018-08-15)</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -117,7 +135,7 @@
 
       <div class="wy-nav-content">
         
-        <div class="rst-content">
+        <div class="rst-content style-external-links">
         
           
 
@@ -141,19 +159,26 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Introduction</li>
+      <li><span class="sectnum">2</span> Design</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
-          
         
       </li>
     
   </ul>
 
+  
+  <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
+      
+        <a href="installation.html" class="btn btn-neutral float-right" title="3 Installation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="background.html" class="btn btn-neutral float-left" title="1 Background" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+  </div>
   
   <hr/>
 </div>
@@ -184,157 +209,8 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>The pypahdb Python package is being developed as part of the awarded
-<a class="reference external" href="https://www.jwst.nasa.gov/">James Webb Space Telescope</a> (<em>JWST</em>)
-Early Release Science (ERS) program “Radiative Feedback from Massive
-Stars as Traced by Multiband Imaging and Spectroscopic Mosaics”
-(<a class="reference external" href="http://jwst-ism.org/">program website</a>; ID: 1288). The program is
-coordinated by an international “Core team” of 19 scientists and
-supported by 119 “science collaborators”. pypahdb is developed by the
-<a class="reference external" href="https://www.astrochemistry.org/pahdb/">NASA Ames PAH IR Spectroscopic Database</a> team, asscociated with the
-<a class="reference external" href="https://www.astrochemistry.org">Astrophysics &amp; Astrochemistry Laboratory</a> at <a class="reference external" href="https://www.nasa.gov/centers/ames">NASA Ames Research Center</a>.</p>
-<p>The NASA Ames PAH IR Spectroscopic Database and pypahdb are being
-supported through a directed Work Package at NASA Ames titled:
-<em>“Laboratory Astrophysics – The NASA Ames PAH IR Spectroscopic
-Database”</em>.</p>
-<p>pypahdb is used to characterize emission from one of the most
-prevalent types of organic molecules in space, namely polycyclic
-aromatic hydrocarbons (PAHs). It leverages the detailed studies of
-organic molecules done at the NASA Ames Research Center. pypahdb is a
-streamlined Python version of the NASA Ames PAH IR Spectroscopic
-Database’s (PAHdb; <a class="reference external" href="https://www.astrochemistry.org/pahdb">www.astrochemistry.org/pahdb</a>) suite of IDL tools. PAHdb has
-been extensively used to analyze and interpret the PAH signature from
-a plethora of emission sources, ranging from solar-system objects to
-entire galaxies. pypahdb decomposes astronomical PAH emission spectra
-into contributing PAH sub-classes in terms of charge and size using a
-database-fitting technique. The inputs for the fit are spectra
-constructed using the spectroscopic libraries of PAHdb and take into
-account the detailed photo-physics of the PAH excitation/emission
-process.</p>
-<div class="section" id="academic-references">
-<h2>Academic references<a class="headerlink" href="#academic-references" title="Permalink to this headline">¶</a></h2>
-<p>You are kindly asked to consider the following references for citation
-when using pypahdb:</p>
-<blockquote>
-<div><p>Shannon, M.J., Boersma, C., “ORGANIC MOLECULES IN SPACE: INSIGHTS
-FROM THE NASA AMES MOLECULAR DATABASE IN THE ERA OF THE JAMES WEBB
-SPACE TELESCOPE”, 2018, <em>SciPy</em>, 99
-<a class="reference external" href="https://dx.doi.org/10.25080/majora-4af1f417-00f">https://doi.org/10.25080/majora-4af1f417-00f</a> — <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/bibtex">BibTeX</a> -
-<a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/ris">RIS</a></p>
-<p>C.W. Bauschlicher, Jr., A. Ricca, C. Boersma, L.J. Allamandola, “THE
-NASA AMES PAH IR SPECTROSCOPIC DATABASE: COMPUTATIONAL VERSION 3.00
-WITH UPDATED CONTENT AND THE INTRODUCTION OF MULTIPLE SCALING
-FACTORS”, <em>The Astrophysical Journal Supplement Series</em>, <strong>234</strong>,
-32, 2018, <a class="reference external" href="https://dx.doi.org/10.3847/1538-4365/aaa019">https://doi.org/10.3847/1538-4365/aaa019</a> — <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.3847~1538-4365~aaa019/bibtex">BibTeX</a> -
-<a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.3847~1538-4365~aaa019/ris">RIS</a></p>
-<p>C. Boersma, C.W. Bauschlicher, Jr., A. Ricca,
-A.L. Mattioda, J. Cami, E. Peeters, F. S&amp;#225;nchez de
-Armas, G. Puerta Saborido, D.M. Hudgins, and L.J. Allamandola, “THE
-NASA AMES PAH IR SPECTROSCOPIC DATABASE VERSION 2.00: UPDATED
-CONTENT, WEBSITE AND ON/OFFLINE TOOLS”, <em>The Astrophysical Journal
-Supplement Series</em>, <strong>211</strong>, 8, 2014,
-<a class="reference external" href="https://dx.doi.org/10.1088/0067-0049/211/1/8">https://doi.org/10.1088/0067-0049/211/1/8</a> — <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~211~1~8/bibtex">BibTeX</a>
-- <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~211~1~8/ris">RIS</a></p>
-<p>C.W. Bauschlicher, Jr., C. Boersma, A. Ricca,
-A.L. Mattioda, J. Cami, E. Peeters, F. S&amp;#225;nchez de
-Armas, G. Puerta Saborido, D.M. Hudgins, and L.J. Allamandola, “THE
-NASA AMES PAH IR SPECTROSCOPIC DATABASE: THE COMPUTED SPECTRA”, <em>The
-Astrophysical Journal Supplement Series</em>, <strong>189</strong>, 341, 2010,
-<a class="reference external" href="http://dx.doi.org/10.1088/0067-0049/189/2/341">https://doi.org/10.1088/0067-0049/189/2/341</a> — <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~189~2~341/bibtex">BibTeX</a> -
-<a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~189~2~341/ris">RIS</a></p>
-<p>Mattioda, A. L., Hudgins, D. M., Boersma, C., Ricca, A., Peeters,
-E., Cami, J., S&amp;#225;nchez de Armas, F., Puerta Saborido, G.,
-Bauschlicher, C. W., J., and Allamandola, L. J. “THE NASA AMES PAH
-IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA”, <em>The
-Astrophysical Journal Supplement Series</em>, <strong>XXX</strong>, 201X <em>(in
-preparation)</em></p>
-</div></blockquote>
-</div>
-<div class="section" id="pypahdb-background">
-<h2>pypahdb background<a class="headerlink" href="#pypahdb-background" title="Permalink to this headline">¶</a></h2>
-<p>The purpose of pyPAHdb is to derive astronomical parameters directly
-from <em>JWST</em> observations, but the tool is not limited to <em>JWST</em>
-observations alone. pypahdb is the light version of a full suite of
-Python software tools<a class="footnote-reference" href="#id3" id="id1">[1]</a> that is currently being developed, which
-is an analog of the off-line IDL tools<a class="footnote-reference" href="#id4" id="id2">[2]</a>. A feature comparison is
-presented in the table below. pyPAHdb will enable PAH experts and
-non-experts alike to analyze and interpret astronomical PAH emission
-spectra.</p>
-<table class="docutils footnote" frame="void" id="id3" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><em>AmesPAHdbPythonSuite</em>: <a class="reference external" href="https://github.com/PAHdb/AmesPAHdbPythonSuite">github.com/PAHdb/AmesPAHdbPythonSuite</a></td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id4" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><em>AmesPAHdbIDLSuite</em>: <a class="reference external" href="https://github.com/PAHdb/AmesPAHdbIDLSuite">github.com/PAHdb/AmesPAHdbIDLSuite</a></td></tr>
-</tbody>
-</table>
-<table border="1" class="docutils" id="id5">
-<caption><span class="caption-text">Feature comparison between pyPAHdb and the full suites of
-        off-line IDL/Python tools. Note: NNLS stands for
-        non-negative least squares; FWHM for full-width at
-        half-maximum of an emission profile; “uncertainties” in
-        this context refers to handling observational spectroscopic
-        uncertainties.</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="43%" />
-<col width="20%" />
-<col width="37%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">&#160;</th>
-<th class="head">pyPAHdb</th>
-<th class="head">IDL/Python tools</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>Included molecules.</td>
-<td>Fixed</td>
-<td>User defined</td>
-</tr>
-<tr class="row-odd"><td>Excitation energy</td>
-<td>Fixed</td>
-<td>User defined</td>
-</tr>
-<tr class="row-even"><td>Emission profile</td>
-<td>Fixed</td>
-<td>Selectable</td>
-</tr>
-<tr class="row-odd"><td>FWHM</td>
-<td>Fixed</td>
-<td>User defined</td>
-</tr>
-<tr class="row-even"><td>Band redshift</td>
-<td>Fixed</td>
-<td>User defined</td>
-</tr>
-<tr class="row-odd"><td>Emission model</td>
-<td>Fixed</td>
-<td>Selectable</td>
-</tr>
-<tr class="row-even"><td>NNLS</td>
-<td>✓</td>
-<td>✓</td>
-</tr>
-<tr class="row-odd"><td>Class breakdown</td>
-<td>✓</td>
-<td>✓</td>
-</tr>
-<tr class="row-even"><td>Parallelization</td>
-<td>✓</td>
-<td>✓</td>
-</tr>
-<tr class="row-odd"><td>Handle uncertainties</td>
-<td>&#160;</td>
-<td>✓</td>
-</tr>
-</tbody>
-</table>
+<div class="section" id="design">
+<h1><span class="sectnum">2</span> Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h1>
 <p>pypahdb analyzes spectroscopic observations (including spectral maps)
 and characterizes the PAH emission using a database-fitting approach,
 providing the PAH ionization and size fractions.</p>
@@ -342,7 +218,9 @@ providing the PAH ionization and size fractions.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pypahdb</span>
 </pre></div>
 </div>
-<div class="figure align-center" id="id6">
+<div class="section" id="flowchart">
+<h2><span class="sectnum">2.1</span> Flowchart<a class="headerlink" href="#flowchart" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id1">
 <img alt="_images/fig_flowchart.png" src="_images/fig_flowchart.png" />
 <p class="caption"><span class="caption-text">pypahdb flowchart. (1) Astronomical spectroscopic data is loaded,
 whether loaded rom FITS or ASCII files. (2) An over-sampled
@@ -354,12 +232,12 @@ individual PAH molecule to the total fit. As a result, we obtain a
 breakdown of the model fit in terms of PAH charge and size. (3) The
 results are written to disk as a single FITS file and as a PDF
 summarizing the results (one page per pixel, if a spectral cube is
-provided as input).</span></p>
+provided as input).</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <p>The general program methodology is encapsulated in the flowchart
 presented in the figure above and is as follows:</p>
 <ol class="arabic simple">
-<li>Read-in a file containing spectroscopic PAH observations of an
+<li><p>Read-in a file containing spectroscopic PAH observations of an
 astronomical object. This functionality is provided by the class
 <code class="docutils literal notranslate"><span class="pre">Observation</span></code>, which is implemented in <code class="docutils literal notranslate"><span class="pre">observation.py</span></code>. It is
 the responsibility of the user to ensure all non-PAH emission
@@ -373,7 +251,7 @@ Python code demonstrating the use of the class. The file
 <code class="docutils literal notranslate"><span class="pre">sample_data_NGC7023.tbl</span></code> in this demonstration can be
 found in the <code class="docutils literal notranslate"><span class="pre">examples</span></code> directory that is part of the pyPAHdb
 package. The output of the following code-block is shown in the
-flowchart.</li>
+flowchart.</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">pypahdb.observation</span> <span class="kn">import</span> <span class="n">Observation</span>
@@ -386,7 +264,7 @@ flowchart.</li>
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>Decompose the observed PAH emission into contributions from
+<li><p>Decompose the observed PAH emission into contributions from
 different PAH subclasses, here charge and size. This functionality
 is provided by the class <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code>, which is implemented in
 <code class="docutils literal notranslate"><span class="pre">decomposer.py</span></code>. The class takes as input a <code class="docutils literal notranslate"><span class="pre">Spectrum1D</span></code> object,
@@ -409,7 +287,7 @@ input spectrum represents a spectral cube and where possible, the
 calculations are parallelized across each pixel using, again, the
 <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> package. Below is example code demonstrating
 the use of the class and extends the previous code-block. The
-output of the code-block is shown in the flowchart.</li>
+output of the code-block is shown in the flowchart.</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pypahdb.decomposer</span> <span class="kn">import</span> <span class="n">Decomposer</span>
 
@@ -421,7 +299,7 @@ output of the code-block is shown in the flowchart.</li>
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
-<li>Produce output to file given a <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> object. Previously
+<li><p>Produce output to file given a <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> object. Previously
 stored within the <code class="docutils literal notranslate"><span class="pre">Writer</span></code> class, this functionality is now
 contained within <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> itself. The output serves to
 summarize the results from the <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> class so that a user
@@ -433,12 +311,16 @@ results. The class will attempt to incorporate relevant
 information from any (FITS) header provided. Below is example code
 demonstrating the use of the class, which extends the previous
 code-block. The size breakdown part of the generated PDF output is
-shown in the flowchart.</li>
+shown in the flowchart.</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb.pdf&#39;</span><span class="p">)</span>
 <span class="n">result</span><span class="o">.</span><span class="n">save_fits</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb.fits&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">obs</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="supported-data-formats">
+<h2><span class="sectnum">2.2</span> Supported data formats<a class="headerlink" href="#supported-data-formats" title="Permalink to this headline">¶</a></h2>
+<p>Presently, pypahdb supports IPAC tables and Spitzer FITS files.</p>
 </div>
 </div>
 
@@ -450,10 +332,10 @@ shown in the flowchart.</li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="3 Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to pypahdb’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="background.html" class="btn btn-neutral float-left" title="1 Background" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -462,7 +344,7 @@ shown in the flowchart.</li>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, The NASA Ames PAH IR Spectroscopic Database Team
+        &copy; Copyright 2018, Dr. Christiaan Boersma and Dr. Matthew J. Shannon
 
     </p>
   </div>

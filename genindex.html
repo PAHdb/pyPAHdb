@@ -9,10 +9,12 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; pyPAHdb 0.6.1.post22+gb102fad documentation</title>
+  <title>Index &mdash; pyPAHdb  documentation</title>
   
 
   
+  
+    <link rel="shortcut icon" href="_static/touch-icon-310x310.png"/>
   
   
   
@@ -34,6 +36,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -58,10 +62,6 @@
           
             
             
-              <div class="version">
-                0.6.1.post22+gb102fad
-              </div>
-            
           
 
           
@@ -83,14 +83,36 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorial series: using pyPAHdb to analyze astronomical spectra</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release-history.html">Release History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pypahdb.html">pypahdb package</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="background.html"><span class="sectnum">1</span> Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="background.html#purpose"><span class="sectnum">1.1</span> Purpose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#features"><span class="sectnum">1.2</span> Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#academic-references"><span class="sectnum">1.3</span> Academic references</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="design.html"><span class="sectnum">2</span> Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="design.html#flowchart"><span class="sectnum">2.1</span> Flowchart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#supported-data-formats"><span class="sectnum">2.2</span> Supported data formats</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html"><span class="sectnum">3</span> Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><span class="sectnum">4</span> Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#details"><span class="sectnum">4.1</span> Details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypahdb.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypahdb.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pypahdb.html#module-pypahdb.decomposer_base">pypahdb.decomposer_base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pypahdb.html#module-pypahdb.decomposer">pypahdb.decomposer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pypahdb.html#module-pypahdb.observation">pypahdb.observation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pypahdb.html#module-pypahdb">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="release-history.html">Release History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release-history.html#v0-6-1-2018-10-12">v0.6.1 (2018-10-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-history.html#v0-6-0-2018-08-15">v0.6.0 (2018-08-15)</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -112,7 +134,7 @@
 
       <div class="wy-nav-content">
         
-        <div class="rst-content">
+        <div class="rst-content style-external-links">
         
           
 
@@ -157,16 +179,64 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#D"><strong>D</strong></a>
+ <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#S"><strong>S</strong></a>
- | <a href="#T"><strong>T</strong></a>
  
 </div>
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pypahdb.html#pypahdb.decomposer_base.DecomposerBase.charge">charge() (pypahdb.decomposer_base.DecomposerBase property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase">DecomposerTestCase (class in pypahdb.tests.test_decomposer)</a>
+      <li><a href="pypahdb.html#pypahdb.decomposer.Decomposer">Decomposer (class in pypahdb.decomposer)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pypahdb.html#pypahdb.decomposer_base.DecomposerBase">DecomposerBase (class in pypahdb.decomposer_base)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pypahdb.html#pypahdb.decomposer_base.DecomposerBase.fit">fit() (pypahdb.decomposer_base.DecomposerBase property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pypahdb.html#pypahdb.decomposer_base.DecomposerBase.ionized_fraction">ionized_fraction() (pypahdb.decomposer_base.DecomposerBase property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pypahdb.html#pypahdb.decomposer_base.DecomposerBase.large_fraction">large_fraction() (pypahdb.decomposer_base.DecomposerBase property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pypahdb.html#pypahdb.observation.Observation">Observation (class in pypahdb.observation)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -174,13 +244,15 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pypahdb.tests.html#module-pypahdb.tests">pypahdb.tests (module)</a>
+      <li><a href="pypahdb.html#module-pypahdb">pypahdb (module)</a>
+</li>
+      <li><a href="pypahdb.html#module-pypahdb.decomposer">pypahdb.decomposer (module)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pypahdb.tests.html#module-pypahdb.tests.test_decomposer">pypahdb.tests.test_decomposer (module)</a>
+      <li><a href="pypahdb.html#module-pypahdb.decomposer_base">pypahdb.decomposer_base (module)</a>
 </li>
-      <li><a href="pypahdb.tests.html#module-pypahdb.tests.test_observation">pypahdb.tests.test_observation (module)</a>
+      <li><a href="pypahdb.html#module-pypahdb.observation">pypahdb.observation (module)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -188,39 +260,13 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase.setUp">setUp() (pypahdb.tests.test_decomposer.DecomposerTestCase method)</a>
+      <li><a href="pypahdb.html#pypahdb.decomposer.Decomposer.save_fits">save_fits() (pypahdb.decomposer.Decomposer method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_observation.SpectrumTestCase">SpectrumTestCase (class in pypahdb.tests.test_observation)</a>
+      <li><a href="pypahdb.html#pypahdb.decomposer.Decomposer.save_pdf">save_pdf() (pypahdb.decomposer.Decomposer method)</a>
 </li>
-  </ul></td>
-</tr></table>
-
-<h2 id="T">T</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase.test_do_fits">test_do_fits() (pypahdb.tests.test_decomposer.DecomposerTestCase method)</a>
-</li>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase.test_do_pdf">test_do_pdf() (pypahdb.tests.test_decomposer.DecomposerTestCase method)</a>
-</li>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_charge">test_has_charge() (pypahdb.tests.test_decomposer.DecomposerTestCase method)</a>
-</li>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_fit">test_has_fit() (pypahdb.tests.test_decomposer.DecomposerTestCase method)</a>
-</li>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_ionized_fraction">test_has_ionized_fraction() (pypahdb.tests.test_decomposer.DecomposerTestCase method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_large_fraction">test_has_large_fraction() (pypahdb.tests.test_decomposer.DecomposerTestCase method)</a>
-</li>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase.test_has_size">test_has_size() (pypahdb.tests.test_decomposer.DecomposerTestCase method)</a>
-</li>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_decomposer.DecomposerTestCase.test_is_instance">test_is_instance() (pypahdb.tests.test_decomposer.DecomposerTestCase method)</a>
-</li>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_observation.SpectrumTestCase.test_read_ascii">test_read_ascii() (pypahdb.tests.test_observation.SpectrumTestCase method)</a>
-</li>
-      <li><a href="pypahdb.tests.html#pypahdb.tests.test_observation.SpectrumTestCase.test_read_fits">test_read_fits() (pypahdb.tests.test_observation.SpectrumTestCase method)</a>
+      <li><a href="pypahdb.html#pypahdb.decomposer_base.DecomposerBase.size">size() (pypahdb.decomposer_base.DecomposerBase property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -237,7 +283,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, The NASA Ames PAH IR Spectroscopic Database Team
+        &copy; Copyright 2018, Dr. Christiaan Boersma and Dr. Matthew J. Shannon
 
     </p>
   </div>

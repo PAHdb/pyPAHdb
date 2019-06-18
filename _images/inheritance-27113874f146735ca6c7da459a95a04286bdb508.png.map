@@ -1,0 +1,4 @@
+<map id="inheritanceddbc615b91" name="inheritanceddbc615b91">
+<area shape="rect" id="node1" href="#pypahdb.decomposer.Decomposer" target="_top" title="Extends the DecomposerBase class to write to disk (PDF, FITS)." alt="" coords="371,5,617,31"/>
+<area shape="rect" id="node2" href="#pypahdb.decomposer_base.DecomposerBase" target="_top" title="Fits and decomposes a spectrum." alt="" coords="5,5,323,31"/>
+</map>
