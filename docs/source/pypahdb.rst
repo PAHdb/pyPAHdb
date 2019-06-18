@@ -1,24 +1,14 @@
-pypahdb package
+API
 ===============
 
-Subpackages
------------
-
-.. toctree::
-
-    pypahdb.tests
 
 Submodules
 ----------
 
-pypahdb.decomposer module
--------------------------
+.. inheritance-diagram:: pypahdb.decomposer_base pypahdb.decomposer
+.. inheritance-diagram:: pypahdb.observation
 
-.. automodule:: pypahdb.decomposer
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :noindex:
+|
 
 pypahdb.decomposer\_base module
 -------------------------------
@@ -27,7 +17,14 @@ pypahdb.decomposer\_base module
     :members:
     :undoc-members:
     :show-inheritance:
-    :noindex:
+
+pypahdb.decomposer module
+-------------------------
+
+.. automodule:: pypahdb.decomposer
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 pypahdb.observation module
 --------------------------
@@ -36,7 +33,7 @@ pypahdb.observation module
     :members:
     :undoc-members:
     :show-inheritance:
-    :noindex:
+
 
 Module contents
 ---------------
@@ -45,4 +42,3 @@ Module contents
     :members:
     :undoc-members:
     :show-inheritance:
-    :noindex:
