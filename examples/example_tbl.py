@@ -14,7 +14,7 @@ from pypahdb.observation import Observation
 if __name__ == '__main__':
 
     # The sample data (IPAC table).
-    file_path = 'data/sample_data_NGC7023.tbl'
+    file_path = 'resources/sample_data_NGC7023.tbl'
     data_file = pkg_resources.resource_filename('pypahdb', file_path)
 
     # Construct an Observation object.

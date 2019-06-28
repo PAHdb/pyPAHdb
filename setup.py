@@ -45,7 +45,7 @@ class BuildPyCommand(build_py):
         remote_pkl = 'https://www.astrochemistry.org/pahdb/pypahdb/pickle.php'
         if getenv('TRAVIS') == 'true':
             remote_pkl += '?travis=true'
-        local_pkl = 'pypahdb/data/precomputed.pkl'
+        local_pkl = 'pypahdb/resources/precomputed.pkl'
         # honor the --dry-run flag
         if not self.dry_run:
             response = urlopen(remote_pkl)
@@ -181,7 +181,7 @@ setup(
     # MANIFEST.in as well.
     include_package_data=True,
     package_data={  # Optional
-        'pypahdb': ['data/*'],
+        'pypahdb': ['resources/*'],
     },
 
     # Although 'package_data' is the preferred approach, in some case you may

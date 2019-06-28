@@ -47,6 +47,11 @@ More examples can be found in the
 Documentation can be found at
 [www.astrochemistry.org/pahdb/pypahdb](https://www.astrochemistry.org/pahdb/pypahdb).
 
+Briefly, the methodology of pyPAHdb can be summarized in the following flowchart, consisting of three steps:
+(1) Astronomical spectroscopic data is loaded, whether loaded rom FITS or ASCII files. (2) An over-sampled pre-computed matrix of PAH spectra is loaded and interpolated onto the wavelength grid of the astronomical observations. Database-fitting is performed using non-negative least-squares (NNLS), which yields the contribution of an individual PAH molecule to the total fit. As a result, we obtain a breakdown of the model fit in terms of PAH charge and size. (3) The results are written to disk as a single FITS file and as a PDF summarizing the results (one page per pixel, if a spectral cube is provided as input)
+
+![Flowchart](docs/source/figures/fig_flowchart.png)
+
 ## Background
 
 The pypahdb Python package is being developed as part of the awarded

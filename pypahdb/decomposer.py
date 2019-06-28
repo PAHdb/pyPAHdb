@@ -213,10 +213,20 @@ class Decomposer(DecomposerBase):
         return
 
     def save_fits(self, filename, header=""):
-        """Saves a FITS file of the pyPAHdb fit/breakdown."""
+        """Saves a FITS file of the pyPAHdb fit/breakdown.
+
+        Args:
+            filename (str): FITS path to save to.
+            header (str): Optional, header for the FITS file.
+        """
 
         def _fits_to_disk(hdr, filename):
-            """Writes the FITS file to disk, with header."""
+            """Writes the FITS file to disk, with header.
+
+            Args:
+                hdr (fits.header.Header): FITS header.
+                filename (str): Path of FITS file to be saved.
+            """
             hdr['DATE'] = time.strftime("%Y-%m-%dT%H:%m:%S")
             hdr['SOFTWARE'] = "pypahdb"
             hdr['SOFT_VER'] = pypahdb.__version__

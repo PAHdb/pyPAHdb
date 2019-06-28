@@ -100,8 +100,8 @@ class DecomposerBase(object):
             pass
 
         # Retrieve the precomputed data
-        # Raise error if file is not found?
-        file_name = 'data/precomputed.pkl'
+        # Raise error if file is not found
+        file_name = 'resources/precomputed.pkl'
         file_path = pkg_resources.resource_filename('pypahdb', file_name)
         with open(file_path, 'rb') as f:
             try:
