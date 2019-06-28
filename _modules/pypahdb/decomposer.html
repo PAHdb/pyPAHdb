@@ -390,10 +390,20 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="Decomposer.save_fits"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.save_fits">[docs]</a>    <span class="k">def</span> <span class="nf">save_fits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Saves a FITS file of the pyPAHdb fit/breakdown.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Saves a FITS file of the pyPAHdb fit/breakdown.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): FITS path to save to.</span>
+<span class="sd">            header (str): Optional, header for the FITS file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">def</span> <span class="nf">_fits_to_disk</span><span class="p">(</span><span class="n">hdr</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Writes the FITS file to disk, with header.&quot;&quot;&quot;</span>
+            <span class="sd">&quot;&quot;&quot;Writes the FITS file to disk, with header.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                hdr (fits.header.Header): FITS header.</span>
+<span class="sd">                filename (str): Path of FITS file to be saved.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;DATE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%m:%S&quot;</span><span class="p">)</span>
             <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;SOFTWARE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;pypahdb&quot;</span>
             <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;SOFT_VER&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pypahdb</span><span class="o">.</span><span class="n">__version__</span>
