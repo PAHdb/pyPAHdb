@@ -32,7 +32,7 @@ model using the following parameters:
 
 Additional information can be found at the NASA Ames PAH IR
 Spectroscopic Database website, which is located at
-www.astrochemistry.org/pahdb
+https://www.astrochemistry.org/pahdb
 
 You are kindly asked to consider the following references for citation
 when using pypahdb:
@@ -53,9 +53,9 @@ when using pypahdb:
     * C. Boersma, C.W. Bauschlicher, Jr., A. Ricca, A.L. Mattioda,
       J. Cami, E. Peeters, F. Sanchez de Armas, G. Puerta Saborido,
       D.M. Hudgins, and L.J. Allamandola, "THE NASA AMES PAH IR
-      SPECTROSCOPIC DATABASE VERSION 2.00: UPDATED CONTENT, WEBSITE AND
-      ON/OFFLINE TOOLS", The Astrophysical Journal Supplement Series,
-      https://doi.org/211, 8, 2014 10.1088/0067-0049/211/1/8
+      SPECTROSCOPIC DATABASE VERSION 2.00: UPDATED CONTENT, WEBSITE
+      AND ON/OFFLINE TOOLS", The Astrophysical Journal Supplement
+      Series, 211, 8, 2014 https://doi.org/10.1088/0067-0049/211/1/8
 
     * Mattioda, A. L., Hudgins, D. M., Boersma, C., Ricca, A.,
       Peeters, E., Cami, J., Sanchez de Armas, F., Puerta Saborido,
