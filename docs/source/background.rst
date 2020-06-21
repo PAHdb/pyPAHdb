@@ -86,20 +86,14 @@ when using pypahdb:
   FROM THE NASA AMES MOLECULAR DATABASE IN THE ERA OF THE JAMES WEBB
   SPACE TELESCOPE", 2018, *SciPy*, 99
   `https://doi.org/10.25080/majora-4af1f417-00f
-  <https://dx.doi.org/10.25080/majora-4af1f417-00f>`__ — `BibTeX
-  <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/bibtex>`__ -
-  `RIS
-  <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/ris>`__
+  <https://dx.doi.org/10.25080/majora-4af1f417-00f>`__
 
   C.W. Bauschlicher, Jr., A. Ricca, C. Boersma, L.J. Allamandola, "THE
   NASA AMES PAH IR SPECTROSCOPIC DATABASE: COMPUTATIONAL VERSION 3.00
   WITH UPDATED CONTENT AND THE INTRODUCTION OF MULTIPLE SCALING
   FACTORS", *The Astrophysical Journal Supplement Series*, **234**,
   32, 2018, `https://doi.org/10.3847/1538-4365/aaa019
-  <https://dx.doi.org/10.3847/1538-4365/aaa019>`__ — `BibTeX
-  <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.3847~1538-4365~aaa019/bibtex>`__ -
-  `RIS
-  <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.3847~1538-4365~aaa019/ris>`__
+  <https://dx.doi.org/10.3847/1538-4365/aaa019>`__
 
   C. Boersma, C.W. Bauschlicher, Jr., A. Ricca,
   A.L. Mattioda, J. Cami, E. Peeters, F. S&#225;nchez de
@@ -108,9 +102,7 @@ when using pypahdb:
   CONTENT, WEBSITE AND ON/OFFLINE TOOLS", *The Astrophysical Journal
   Supplement Series*, **211**, 8, 2014,
   `https://doi.org/10.1088/0067-0049/211/1/8
-  <https://dx.doi.org/10.1088/0067-0049/211/1/8>`__ — `BibTeX
-  <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~211~1~8/bibtex>`__
-  - `RIS <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~211~1~8/ris>`__
+  <https://dx.doi.org/10.1088/0067-0049/211/1/8>`__
 
   C.W. Bauschlicher, Jr., C. Boersma, A. Ricca,
   A.L. Mattioda, J. Cami, E. Peeters, F. S&#225;nchez de
@@ -118,17 +110,14 @@ when using pypahdb:
   NASA AMES PAH IR SPECTROSCOPIC DATABASE: THE COMPUTED SPECTRA", *The
   Astrophysical Journal Supplement Series*, **189**, 341, 2010,
   `https://doi.org/10.1088/0067-0049/189/2/341
-  <http://dx.doi.org/10.1088/0067-0049/189/2/341>`__ — `BibTeX
-  <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~189~2~341/bibtex>`__ -
-  `RIS
-  <https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~189~2~341/ris>`__
+  <http://dx.doi.org/10.1088/0067-0049/189/2/341>`__
 
   Mattioda, A. L., Hudgins, D. M., Boersma, C., Ricca, A., Peeters,
   E., Cami, J., S&#225;nchez de Armas, F., Puerta Saborido, G.,
   Bauschlicher, C. W., J., and Allamandola, L. J. "THE NASA AMES PAH
   IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", *The
-  Astrophysical Journal Supplement Series*, **XXX**, 201X *(in
-  preparation)*
+  Astrophysical Journal Supplement Series*, **XXX**, 202X *(under
+  review)*
 
 ---------
 
