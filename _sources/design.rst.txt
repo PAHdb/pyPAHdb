@@ -59,7 +59,7 @@ presented in the figure above and is as follows:
     filename = 'sample_data_NGC7023.tbl'
     obs = Observation(filename)
     s = obs.spectrum
-    plt.plot(s.spectral_axis, s.flux,0,0,:])
+    plt.plot(s.spectral_axis, s.flux[0,0,:])
     plt.show()
 
 (2) Decompose the observed PAH emission into contributions from

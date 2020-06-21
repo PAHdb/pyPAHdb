@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,6 +11,12 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
   
     <link rel="shortcut icon" href="_static/touch-icon-310x310.png"/>
   
@@ -19,24 +24,21 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Release History" href="release-history.html" />
@@ -54,7 +56,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> pyPAHdb
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pyPAHdb
           
 
           
@@ -77,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -119,6 +122,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -157,7 +161,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>API</li>
     
@@ -190,13 +194,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -213,11 +217,11 @@
 <h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-<div class="graphviz"><img src="_images/inheritance-27113874f146735ca6c7da459a95a04286bdb508.png" alt="Inheritance diagram of pypahdb.decomposer_base, pypahdb.decomposer" usemap="#inheritanceddbc615b91" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="_images/inheritance-b11d61a0e72e0e5ad9d378934a7e75ce59e67bac.png" alt="Inheritance diagram of pypahdb.decomposer_base, pypahdb.decomposer" usemap="#inheritanceddbc615b91" class="inheritance graphviz" /></div>
 <map id="inheritanceddbc615b91" name="inheritanceddbc615b91">
 <area shape="rect" id="node1" href="#pypahdb.decomposer.Decomposer" target="_top" title="Extends the DecomposerBase class to write to disk (PDF, FITS)." alt="" coords="371,5,617,31"/>
 <area shape="rect" id="node2" href="#pypahdb.decomposer_base.DecomposerBase" target="_top" title="Fits and decomposes a spectrum." alt="" coords="5,5,323,31"/>
-</map><div class="graphviz"><img src="_images/inheritance-6938b60dfa61caa8ebd97b55b7f556350a9b1cbd.png" alt="Inheritance diagram of pypahdb.observation" usemap="#inheritance67e7419fc1" class="inheritance graphviz" /></div>
+</map><div class="graphviz"><img src="_images/inheritance-8ee137bafab22e16c743ffc0bbdb0b804eab6f8a.png" alt="Inheritance diagram of pypahdb.observation" usemap="#inheritance67e7419fc1" class="inheritance graphviz" /></div>
 <map id="inheritance67e7419fc1" name="inheritance67e7419fc1">
 <area shape="rect" id="node1" href="#pypahdb.observation.Observation" target="_top" title="Creates an Observation object." alt="" coords="5,5,243,31"/>
 </map><div class="line-block">
@@ -232,16 +236,16 @@ PAH emission spectra, an input spectrum is fitted and decomposed into
 contributing PAH subclasses using a NNLS-approach.</p>
 <p>This file is part of pypahdb - see the module docs for more
 information.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="pypahdb.decomposer_base.DecomposerBase">
-<em class="property">class </em><code class="sig-prename descclassname">pypahdb.decomposer_base.</code><code class="sig-name descname">DecomposerBase</code><span class="sig-paren">(</span><em class="sig-param">spectrum</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<em class="property">class </em><code class="sig-prename descclassname">pypahdb.decomposer_base.</code><code class="sig-name descname">DecomposerBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spectrum</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Fits and decomposes a spectrum.</p>
 <dl class="simple">
 <dt>Attributes:</dt><dd><p>spectrum: A spectrum to fit and decompose.</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="pypahdb.decomposer_base.DecomposerBase.charge">
 <em class="property">property </em><code class="sig-name descname">charge</code><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.charge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the spectral charge breakdown.</p>
@@ -256,7 +260,7 @@ information.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pypahdb.decomposer_base.DecomposerBase.fit">
 <em class="property">property </em><code class="sig-name descname">fit</code><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the fit.</p>
@@ -266,7 +270,7 @@ information.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pypahdb.decomposer_base.DecomposerBase.ionized_fraction">
 <em class="property">property </em><code class="sig-name descname">ionized_fraction</code><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.ionized_fraction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the ionized fraction.</p>
@@ -276,7 +280,7 @@ information.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pypahdb.decomposer_base.DecomposerBase.large_fraction">
 <em class="property">property </em><code class="sig-name descname">large_fraction</code><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.large_fraction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the large fraction.</p>
@@ -286,7 +290,7 @@ information.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pypahdb.decomposer_base.DecomposerBase.size">
 <em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the spectral size breakdown.</p>
@@ -311,14 +315,14 @@ information.</p>
 disk.</p>
 <p>This file is part of pypahdb - see the module docs for more
 information.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="pypahdb.decomposer.Decomposer">
-<em class="property">class </em><code class="sig-prename descclassname">pypahdb.decomposer.</code><code class="sig-name descname">Decomposer</code><span class="sig-paren">(</span><em class="sig-param">spectrum</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pypahdb.decomposer.</code><code class="sig-name descname">Decomposer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spectrum</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pypahdb.decomposer_base.DecomposerBase" title="pypahdb.decomposer_base.DecomposerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">pypahdb.decomposer_base.DecomposerBase</span></code></a></p>
 <p>Extends the DecomposerBase class to write to disk (PDF, FITS).</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pypahdb.decomposer.Decomposer.save_fits">
-<code class="sig-name descname">save_fits</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">header=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.save_fits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.save_fits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">save_fits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">header</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.save_fits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.save_fits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves a FITS file of the pyPAHdb fit/breakdown.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>filename (str): FITS path to save to.
@@ -327,9 +331,9 @@ header (str): Optional, header for the FITS file.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pypahdb.decomposer.Decomposer.save_pdf">
-<code class="sig-name descname">save_pdf</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">header=''</em>, <em class="sig-param">domaps=True</em>, <em class="sig-param">doplots=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.save_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.save_pdf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">save_pdf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">header</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">domaps</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">doplots</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.save_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.save_pdf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves a PDF summary of the fit results.</p>
 </dd></dl>
 
@@ -342,10 +346,10 @@ header (str): Optional, header for the FITS file.</p>
 <p>Holds and astronomical observation.</p>
 <p>This file is part of pypahdb - see the module docs for more
 information.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="pypahdb.observation.Observation">
-<em class="property">class </em><code class="sig-prename descclassname">pypahdb.observation.</code><code class="sig-name descname">Observation</code><span class="sig-paren">(</span><em class="sig-param">file_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/observation.html#Observation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.observation.Observation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<em class="property">class </em><code class="sig-prename descclassname">pypahdb.observation.</code><code class="sig-name descname">Observation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_path</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/observation.html#Observation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypahdb.observation.Observation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Creates an Observation object.</p>
 <p>Currently reads IPAC tables and Spitzer-IRS data cubes.</p>
 <dl class="simple">
@@ -442,11 +446,19 @@ preparation)</p></li>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2018, Dr. Christiaan Boersma and Dr. Matthew J. Shannon
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -457,7 +469,6 @@ preparation)</p></li>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

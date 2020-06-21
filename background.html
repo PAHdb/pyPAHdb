@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,6 +11,12 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
   
     <link rel="shortcut icon" href="_static/touch-icon-310x310.png"/>
   
@@ -19,24 +24,21 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="2 Design" href="design.html" />
@@ -54,7 +56,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> pyPAHdb
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pyPAHdb
           
 
           
@@ -77,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -119,6 +122,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -157,7 +161,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li><span class="sectnum">1</span> Background</li>
     
@@ -190,13 +194,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -308,35 +312,31 @@ when using pypahdb:</p>
 <div><p>Shannon, M.J., Boersma, C., “ORGANIC MOLECULES IN SPACE: INSIGHTS
 FROM THE NASA AMES MOLECULAR DATABASE IN THE ERA OF THE JAMES WEBB
 SPACE TELESCOPE”, 2018, <em>SciPy</em>, 99
-<a class="reference external" href="https://dx.doi.org/10.25080/majora-4af1f417-00f">https://doi.org/10.25080/majora-4af1f417-00f</a> — <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/bibtex">BibTeX</a> -
-<a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.25080~majora-4af1f417-00f/ris">RIS</a></p>
+<a class="reference external" href="https://dx.doi.org/10.25080/majora-4af1f417-00f">https://doi.org/10.25080/majora-4af1f417-00f</a></p>
 <p>C.W. Bauschlicher, Jr., A. Ricca, C. Boersma, L.J. Allamandola, “THE
 NASA AMES PAH IR SPECTROSCOPIC DATABASE: COMPUTATIONAL VERSION 3.00
 WITH UPDATED CONTENT AND THE INTRODUCTION OF MULTIPLE SCALING
 FACTORS”, <em>The Astrophysical Journal Supplement Series</em>, <strong>234</strong>,
-32, 2018, <a class="reference external" href="https://dx.doi.org/10.3847/1538-4365/aaa019">https://doi.org/10.3847/1538-4365/aaa019</a> — <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.3847~1538-4365~aaa019/bibtex">BibTeX</a> -
-<a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.3847~1538-4365~aaa019/ris">RIS</a></p>
+32, 2018, <a class="reference external" href="https://dx.doi.org/10.3847/1538-4365/aaa019">https://doi.org/10.3847/1538-4365/aaa019</a></p>
 <p>C. Boersma, C.W. Bauschlicher, Jr., A. Ricca,
 A.L. Mattioda, J. Cami, E. Peeters, F. S&amp;#225;nchez de
 Armas, G. Puerta Saborido, D.M. Hudgins, and L.J. Allamandola, “THE
 NASA AMES PAH IR SPECTROSCOPIC DATABASE VERSION 2.00: UPDATED
 CONTENT, WEBSITE AND ON/OFFLINE TOOLS”, <em>The Astrophysical Journal
 Supplement Series</em>, <strong>211</strong>, 8, 2014,
-<a class="reference external" href="https://dx.doi.org/10.1088/0067-0049/211/1/8">https://doi.org/10.1088/0067-0049/211/1/8</a> — <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~211~1~8/bibtex">BibTeX</a>
-- <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~211~1~8/ris">RIS</a></p>
+<a class="reference external" href="https://dx.doi.org/10.1088/0067-0049/211/1/8">https://doi.org/10.1088/0067-0049/211/1/8</a></p>
 <p>C.W. Bauschlicher, Jr., C. Boersma, A. Ricca,
 A.L. Mattioda, J. Cami, E. Peeters, F. S&amp;#225;nchez de
 Armas, G. Puerta Saborido, D.M. Hudgins, and L.J. Allamandola, “THE
 NASA AMES PAH IR SPECTROSCOPIC DATABASE: THE COMPUTED SPECTRA”, <em>The
 Astrophysical Journal Supplement Series</em>, <strong>189</strong>, 341, 2010,
-<a class="reference external" href="http://dx.doi.org/10.1088/0067-0049/189/2/341">https://doi.org/10.1088/0067-0049/189/2/341</a> — <a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~189~2~341/bibtex">BibTeX</a> -
-<a class="reference external" href="https://www.astrochemistry.org/pahdb/theoretical/3.00/data/reference/10.1088~0067-0049~189~2~341/ris">RIS</a></p>
+<a class="reference external" href="http://dx.doi.org/10.1088/0067-0049/189/2/341">https://doi.org/10.1088/0067-0049/189/2/341</a></p>
 <p>Mattioda, A. L., Hudgins, D. M., Boersma, C., Ricca, A., Peeters,
 E., Cami, J., S&amp;#225;nchez de Armas, F., Puerta Saborido, G.,
 Bauschlicher, C. W., J., and Allamandola, L. J. “THE NASA AMES PAH
 IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA”, <em>The
-Astrophysical Journal Supplement Series</em>, <strong>XXX</strong>, 201X <em>(in
-preparation)</em></p>
+Astrophysical Journal Supplement Series</em>, <strong>XXX</strong>, 202X <em>(under
+review)</em></p>
 </div></blockquote>
 <hr class="docutils" />
 <dl class="footnote brackets">
@@ -370,11 +370,19 @@ preparation)</em></p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2018, Dr. Christiaan Boersma and Dr. Matthew J. Shannon
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -385,7 +393,6 @@ preparation)</em></p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
