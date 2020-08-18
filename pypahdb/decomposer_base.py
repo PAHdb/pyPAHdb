@@ -116,7 +116,7 @@ class DecomposerBase(object):
         # frequency grid of the input spectrum
         decomposer_interp = partial(_decomposer_interp,
                                     x=abscissa,
-                                    xp=self._precomputed['abscissa'])
+                                    xp=self._precomputed['abscissa'] / u.cm)
         pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
         self._matrix = pool.map(decomposer_interp,
                                 self._precomputed['matrix'].T)
