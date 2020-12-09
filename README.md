@@ -213,6 +213,7 @@ repository](https://github.com/pahdb/pypahdb/tags).
 
 * **Christiaan Boersma** - *Initial work* - [PAHdb](https://github.com/pahdb)
 * **Matthew J. Shannon** - *Initial work* - [PAHdb](https://github.com/pahdb)
+* **Alexandros Maragkoudakis**
 
 See also the list of [contributors](AUTHORS.md) who participated
 in this project.
