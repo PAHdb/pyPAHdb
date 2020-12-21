@@ -11,6 +11,69 @@ A paper describing pypahdb was presented at
 [SciPy2018](https://scipy2018.scipy.org) and can be found using
 [https://doi.org/10.25080/Majora-4af1f417-00f](https://doi.org/10.25080/Majora-4af1f417-00f).
 
+## Features
+pypahdb is the light version of a full suite of [Python software tools](https://github.com/PAHdb/AmesPAHdbPythonSuite) that is currently being developed, which is an analog of the off-line [IDL tools](https://github.com/PAHdb/AmesPAHdbIDLSuite). A feature comparison is presented in the table below.
+
+<div class="wy-table-responsive"><table class="docutils align-default" id="id5">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 20%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>pyPAHdb</p></th>
+<th class="head"><p>IDL/Python tools</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Included molecules.</p></td>
+<td><p>Fixed</p></td>
+<td><p>User defined</p></td>
+</tr>
+<tr class="row-odd"><td><p>Excitation energy</p></td>
+<td><p>Fixed</p></td>
+<td><p>User defined</p></td>
+</tr>
+<tr class="row-even"><td><p>Emission profile</p></td>
+<td><p>Fixed</p></td>
+<td><p>Selectable</p></td>
+</tr>
+<tr class="row-odd"><td><p>FWHM<a href="#FWHM"> [1]</a></p></td>
+<td><p>Fixed</p></td>
+<td><p>User defined</p></td>
+</tr>
+<tr class="row-even"><td><p>Band redshift</p></td>
+<td><p>Fixed</p></td>
+<td><p>User defined</p></td>
+</tr>
+<tr class="row-odd"><td><p>Emission model</p></td>
+<td><p>Fixed</p></td>
+<td><p>Selectable</p></td>
+</tr>
+<tr class="row-even"><td><p>NNLS <a href="#NNLS">[2]</a></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p>Class breakdown</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p>Parallelization</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p>Handle uncertainties <a href="#UNC">[3]</a></p></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+</tbody>
+</table></div>
+
+<p id="FWHM">[1] FWHM: full-width at half-maximum of an emission profile.</p>
+<p id="NNLS">[2] NNLS: non-negative least squares.</p>
+<p id="unc">[3] In this context refers to handling observational spectroscopic uncertainties .</p>
+
 ## Requirements
 
 This software requires:
@@ -27,17 +90,23 @@ pypahdb can be directly installed from the
 
 ``pip install git+git://github.com/PAHdb/pyPAHdb.git``
 
+## Supported data formats
+Presently, pypahdb supports ASCII tables and Spitzer FITS files.
+
 ## Examples
 
 ```python
-# import the pypahdb package
-import pypahdb
+from pypahdb.decomposer import Decomposer
+from pypahdb.observation import Observation
+
 # read-in a fits-file containing an astronomical observation
-observation = pypahdb.Observation('/path/to/observation.fits')
+observation = Observation('/path/to/observation.fits')
 # run the decomposer on the spectral data in observation.fits
-result = pypahdb.Decomposer(observation.spectrum)
+result = Decomposer(observation.spectrum)
 # Save result to fits-file
-result.save_fits("/path/to/myresult.fits", header=observation.header)
+result.save_fits('/path/to/myresult.fits', header=observation.header)
+# Save a PDF summary of the fit results
+result.save_pdf('/path/to/figure.pdf')
 ```
 More examples can be found in the
 [examples](examples)-directory.
@@ -45,10 +114,10 @@ More examples can be found in the
 ## Documentation
 
 Documentation can be found at
-[www.astrochemistry.org/pahdb/pypahdb](https://www.astrochemistry.org/pahdb/pypahdb).
+[https://pahdb.github.io/pyPAHdb/](https://pahdb.github.io/pyPAHdb/).
 
 Briefly, the methodology of pyPAHdb can be summarized in the following flowchart, consisting of three steps:
-(1) Astronomical spectroscopic data is loaded, whether loaded rom FITS or ASCII files. (2) An over-sampled pre-computed matrix of PAH spectra is loaded and interpolated onto the wavelength grid of the astronomical observations. Database-fitting is performed using non-negative least-squares (NNLS), which yields the contribution of an individual PAH molecule to the total fit. As a result, we obtain a breakdown of the model fit in terms of PAH charge and size. (3) The results are written to disk as a single FITS file and as a PDF summarizing the results (one page per pixel, if a spectral cube is provided as input)
+(1) Astronomical spectroscopic data is loaded, whether loaded from FITS or ASCII files. (2) An over-sampled pre-computed matrix of PAH spectra is loaded and interpolated onto the wavelength grid of the astronomical observations. Database-fitting is performed using non-negative least-squares (NNLS), which yields the contribution of an individual PAH molecule to the total fit. As a result, we obtain a breakdown of the model fit in terms of PAH charge and size. (3) The results are written to disk as a single FITS file and as a PDF summarizing the results (one page per pixel, if a spectral cube is provided as input)
 
 ![Flowchart](docs/source/figures/fig_flowchart.png)
 
@@ -117,12 +186,18 @@ when using pypahdb:
       ON/OFFLINE TOOLS", The Astrophysical Journal Supplement Series,
       https://doi.org/211, 8, 2014 10.1088/0067-0049/211/1/8
 
+    * C.W. Bauschlicher, Jr., C. Boersma, A. Ricca, A.L. Mattioda, 
+      J. Cami, E. Peeters, F. S&#225;nchez de Armas, G. Puerta Saborido, 
+      D.M. Hudgins, and L.J. Allamandola, “THE NASA AMES PAH IR 
+      SPECTROSCOPIC DATABASE: THE COMPUTED SPECTRA”, The Astrophysical 
+      Journal Supplement Series, 189, 341, 2010, 
+      https://doi.org/10.1088/0067-0049/189/2/341
+      
     * Mattioda, A. L., Hudgins, D. M., Boersma, C., Ricca, A.,
       Peeters, E., Cami, J., Sanchez de Armas, F., Puerta Saborido,
       G., Bauschlicher, C. W., J., and Allamandola, L. J. "THE NASA
       AMES PAH IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", The
-      Astrophysical Journal Supplement Series, XXX, 201X (in
-      preparation)
+      Astrophysical Journal Supplement Series, XXX, 202X (under review)
 
 ## Contributing
 
@@ -138,8 +213,9 @@ repository](https://github.com/pahdb/pypahdb/tags).
 
 * **Christiaan Boersma** - *Initial work* - [PAHdb](https://github.com/pahdb)
 * **Matthew J. Shannon** - *Initial work* - [PAHdb](https://github.com/pahdb)
+* **Alexandros Maragkoudakis**
 
-See also the list of [contributors](CONTRIBUTORS) who participated
+See also the list of [contributors](AUTHORS.md) who participated
 in this project.
 
 ## License
