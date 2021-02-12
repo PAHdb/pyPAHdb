@@ -16,7 +16,7 @@ as ``examples/example_tbl.py``. We use the bundled sample spectrum, ``sample_dat
     from pypahdb.observation import Observation
 
     # A provided sample data file (in FITS format).
-    file_path = 'data/sample_data_NGC7023.tbl'
+    file_path = 'resources/sample_data_NGC7023.tbl'
     data_file = pkg_resources.resource_filename('pypahdb', file_path)
 
     # Construct an Observation object.
@@ -47,7 +47,7 @@ included in the package.
     from pypahdb.observation import Observation
 
     # A provided sample data file (in FITS format).
-    file_path = 'data/sample_data_NGC7023.tbl'
+    file_path = 'resources/sample_data_NGC7023.tbl'
     data_file = pkg_resources.resource_filename('pypahdb', file_path)
 
 The included example IPAC table, ``sample_data_NGC7023.tbl``, contains an
