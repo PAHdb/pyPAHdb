@@ -14,65 +14,23 @@ A paper describing pypahdb was presented at
 ## Features
 pypahdb is the light version of a full suite of [Python software tools](https://github.com/PAHdb/AmesPAHdbPythonSuite) that is currently being developed, which is an analog of the off-line [IDL tools](https://github.com/PAHdb/AmesPAHdbIDLSuite). A feature comparison is presented in the table below.
 
-<div class="wy-table-responsive"><table class="docutils align-default" id="id5">
-<colgroup>
-<col style="width: 43%">
-<col style="width: 20%">
-<col style="width: 37%">
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"></th>
-<th class="head"><p>pyPAHdb</p></th>
-<th class="head"><p>IDL/Python tools</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Included molecules.</p></td>
-<td><p>Fixed</p></td>
-<td><p>User defined</p></td>
-</tr>
-<tr class="row-odd"><td><p>Excitation energy</p></td>
-<td><p>Fixed</p></td>
-<td><p>User defined</p></td>
-</tr>
-<tr class="row-even"><td><p>Emission profile</p></td>
-<td><p>Fixed</p></td>
-<td><p>Selectable</p></td>
-</tr>
-<tr class="row-odd"><td><p>FWHM<a href="#FWHM"> [1]</a></p></td>
-<td><p>Fixed</p></td>
-<td><p>User defined</p></td>
-</tr>
-<tr class="row-even"><td><p>Band redshift</p></td>
-<td><p>Fixed</p></td>
-<td><p>User defined</p></td>
-</tr>
-<tr class="row-odd"><td><p>Emission model</p></td>
-<td><p>Fixed</p></td>
-<td><p>Selectable</p></td>
-</tr>
-<tr class="row-even"><td><p>NNLS <a href="#NNLS">[2]</a></p></td>
-<td><p>✓</p></td>
-<td><p>✓</p></td>
-</tr>
-<tr class="row-odd"><td><p>Class breakdown</p></td>
-<td><p>✓</p></td>
-<td><p>✓</p></td>
-</tr>
-<tr class="row-even"><td><p>Parallelization</p></td>
-<td><p>✓</p></td>
-<td><p>✓</p></td>
-</tr>
-<tr class="row-odd"><td><p>Handle uncertainties <a href="#UNC">[3]</a></p></td>
-<td></td>
-<td><p>✓</p></td>
-</tr>
-</tbody>
-</table></div>
 
-<p id="FWHM">[1] FWHM: full-width at half-maximum of an emission profile.</p>
-<p id="NNLS">[2] NNLS: non-negative least squares.</p>
-<p id="unc">[3] In this context refers to handling observational spectroscopic uncertainties .</p>
+|                         | pyPAHdb  | IDL/Python tools |
+|-------------------------|----------|------------------|
+| Included molecules.     | Fixed    | User defined     |
+| Excitation energy       | Fixed    | User defined     |
+| Emission profile        | Fixed    | Selectable       |
+| FWHM [1]                | Fixed    | User defined     |
+| Band redshift           | Fixed    | User defined     |
+| Emission model          | Fixed    | Selectable       |
+| NNLS [2]                | ✓        | ✓                |
+| Class breakdown         | ✓        | ✓                |
+| Parallelization         | ✓        | ✓                |
+| Handle uncertainties [3]|          | ✓                |
+
+[1] FWHM: full-width at half-maximum of an emission profile.\
+[2] NNLS: non-negative least squares.\
+[3] In this context refers to handling observational spectroscopic uncertainties.
 
 ## Requirements
 
@@ -197,7 +155,8 @@ when using pypahdb:
       Peeters, E., Cami, J., Sanchez de Armas, F., Puerta Saborido,
       G., Bauschlicher, C. W., J., and Allamandola, L. J. "THE NASA
       AMES PAH IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", The
-      Astrophysical Journal Supplement Series, XXX, 202X (under review)
+      Astrophysical Journal Supplement Series, 251, 22, 2020, 
+      https://doi.org/10.3847/1538-4365/abc2c8
 
 ## Contributing
 

@@ -67,7 +67,7 @@ presented in the figure above and is as follows:
     is provided by the class ``Decomposer``, which is implemented in
     ``decomposer.py``. The class takes as input a ``Spectrum1D`` object,
     of which it creates a deep copy and calls the
-    ``Unit.to` method to convert the abscissa units
+    ``Unit.to`` method to convert the abscissa units
     to wavenumber. Subsequently, a pre-computed ``numpy`` matrix of
     highly oversampled PAH emission spectra stored as a ``pickle`` is
     loaded from file. Utilizing ``numpy.interp``, each of the PAH
