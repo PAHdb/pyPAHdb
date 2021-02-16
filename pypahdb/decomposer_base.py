@@ -12,7 +12,6 @@ information.
 
 import multiprocessing
 import pickle
-import platform
 import pkg_resources
 from functools import partial
 from astropy import units as u
@@ -156,38 +155,27 @@ class DecomposerBase(object):
 
         # Lazy Instantiation
         if self._yfit is None:
-            ############################################
-            # on MacOS np.dot() is not thread safe ... #
-            ############################################
-            if platform.system() != "Darwin":
-                decomposer_fit = partial(_decomposer_fit, m=self._matrix)
-                n_cpus = multiprocessing.cpu_count()
-                pool = multiprocessing.Pool(processes=n_cpus - 1)
 
-                # Convenience defintions.
-                ordinate = self.spectrum.flux.T
-                wt_elements_yz = \
-                    self._weights.shape[1] * self._weights.shape[2]
-                wt_shape = np.reshape(self._weights,
-                                      (self._weights.shape[0], wt_elements_yz))
+            decomposer_fit = partial(_decomposer_fit, m=self._matrix)
+            n_cpus = multiprocessing.cpu_count()
+            pool = multiprocessing.Pool(processes=n_cpus - 1)
 
-                # Perform fit.
-                self._yfit = pool.map(decomposer_fit, wt_shape.T)
-                pool.close()
-                pool.join()
+            # Convenience defintions.
+            ordinate = self.spectrum.flux.T
+            wt_elements_yz = \
+                self._weights.shape[1] * self._weights.shape[2]
+            wt_shape = np.reshape(self._weights,
+                                  (self._weights.shape[0], wt_elements_yz))
 
-                # Reshape the results.
-                new_shape = (ordinate.shape[1:] + (ordinate.shape[0],))
-                self._yfit = \
-                    np.transpose(np.reshape(self._yfit, new_shape), (2, 0, 1))
+            # Perform fit.
+            self._yfit = pool.map(decomposer_fit, wt_shape.T)
+            pool.close()
+            pool.join()
 
-            else:
-                ordinate = self.spectrum.flux.T
-                self._yfit = np.zeros(ordinate.shape)
-                for i in range(ordinate.shape[1]):
-                    for j in range(ordinate.shape[2]):
-                        self._yfit[:, i, j] = \
-                            self._matrix.dot(self._weights[:, i, j])
+            # Reshape the results.
+            new_shape = (ordinate.shape[1:] + (ordinate.shape[0],))
+            self._yfit = \
+                np.transpose(np.reshape(self._yfit, new_shape), (2, 0, 1))
 
             # Set the units
             self._yfit *= self.spectrum.flux.unit
