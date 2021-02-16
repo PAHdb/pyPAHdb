@@ -197,7 +197,6 @@
 
 <span class="kn">import</span> <span class="nn">multiprocessing</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">pkg_resources</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
@@ -341,38 +340,27 @@
 
         <span class="c1"># Lazy Instantiation</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1">############################################</span>
-            <span class="c1"># on MacOS np.dot() is not thread safe ... #</span>
-            <span class="c1">############################################</span>
-            <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;Darwin&quot;</span><span class="p">:</span>
-                <span class="n">decomposer_fit</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_fit</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">)</span>
-                <span class="n">n_cpus</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
-                <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">n_cpus</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
-                <span class="c1"># Convenience defintions.</span>
-                <span class="n">ordinate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">T</span>
-                <span class="n">wt_elements_yz</span> <span class="o">=</span> \
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-                <span class="n">wt_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">,</span>
-                                      <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wt_elements_yz</span><span class="p">))</span>
+            <span class="n">decomposer_fit</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_fit</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">)</span>
+            <span class="n">n_cpus</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+            <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">n_cpus</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
-                <span class="c1"># Perform fit.</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">decomposer_fit</span><span class="p">,</span> <span class="n">wt_shape</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-                <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-                <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+            <span class="c1"># Convenience defintions.</span>
+            <span class="n">ordinate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">wt_elements_yz</span> <span class="o">=</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">wt_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">,</span>
+                                  <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wt_elements_yz</span><span class="p">))</span>
 
-                <span class="c1"># Reshape the results.</span>
-                <span class="n">new_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> \
-                    <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span><span class="p">,</span> <span class="n">new_shape</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="c1"># Perform fit.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">decomposer_fit</span><span class="p">,</span> <span class="n">wt_shape</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">ordinate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">T</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> \
-                            <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+            <span class="c1"># Reshape the results.</span>
+            <span class="n">new_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> \
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span><span class="p">,</span> <span class="n">new_shape</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
             <span class="c1"># Set the units</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
