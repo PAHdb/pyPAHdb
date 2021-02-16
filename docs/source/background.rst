@@ -116,8 +116,9 @@ when using pypahdb:
   E., Cami, J., S&#225;nchez de Armas, F., Puerta Saborido, G.,
   Bauschlicher, C. W., J., and Allamandola, L. J. "THE NASA AMES PAH
   IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", *The
-  Astrophysical Journal Supplement Series*, **XXX**, 202X *(under
-  review)*
+  Astrophysical Journal Supplement Series*, 251, 22, 2020,
+  https://doi.org/10.3847/1538-4365/abc2c8
+
 
 ---------
 
