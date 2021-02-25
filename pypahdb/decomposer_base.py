@@ -247,79 +247,46 @@ class DecomposerBase(object):
 
         # Lazy Instantiation
         if self._charge is None:
-            ############################################
-            # on MacOS np.dot() is not thread safe ... #
-            ############################################
-            if platform.system() != "Darwin":
-                decomposer_anion = \
-                    partial(_decomposer_anion, m=self._matrix,
-                            p=self._precomputed['properties']['charge'])
-                decomposer_neutral = \
-                    partial(_decomposer_neutral, m=self._matrix,
-                            p=self._precomputed['properties']['charge'])
-                decomposer_cation = \
-                    partial(_decomposer_cation, m=self._matrix,
-                            p=self._precomputed['properties']['charge'])
+            decomposer_anion = \
+                partial(_decomposer_anion, m=self._matrix,
+                        p=self._precomputed['properties']['charge'])
+            decomposer_neutral = \
+                partial(_decomposer_neutral, m=self._matrix,
+                        p=self._precomputed['properties']['charge'])
+            decomposer_cation = \
+                partial(_decomposer_cation, m=self._matrix,
+                        p=self._precomputed['properties']['charge'])
 
-                n_cpus = multiprocessing.cpu_count()
-                pool = multiprocessing.Pool(processes=n_cpus - 1)
+            n_cpus = multiprocessing.cpu_count()
+            pool = multiprocessing.Pool(processes=n_cpus - 1)
 
-                # Conveniences for below.
-                wt_shape_yz = self._weights.shape[1] * self._weights.shape[2]
-                new_dims = np.reshape(self._weights,
-                                      (self._weights.shape[0], wt_shape_yz))
+            # Conveniences for below.
+            wt_shape_yz = self._weights.shape[1] * self._weights.shape[2]
+            new_dims = np.reshape(self._weights,
+                                  (self._weights.shape[0], wt_shape_yz))
 
-                # Map the charge arrays.
-                anion = pool.map(decomposer_anion, new_dims.T)
-                neutral = pool.map(decomposer_neutral, new_dims.T)
-                cation = pool.map(decomposer_cation, new_dims.T)
+            # Map the charge arrays.
+            anion = pool.map(decomposer_anion, new_dims.T)
+            neutral = pool.map(decomposer_neutral, new_dims.T)
+            cation = pool.map(decomposer_cation, new_dims.T)
 
-                pool.close()
-                pool.join()
+            pool.close()
+            pool.join()
 
-                # Reshape the charge arrays.
-                ordinate = self.spectrum.flux.T
-                interior = (ordinate.shape[1:] +
-                            (ordinate.shape[0],))
-                new_anion = \
-                    np.transpose(np.reshape(anion, interior), (2, 0, 1))
-                new_neut = \
-                    np.transpose(np.reshape(neutral, interior), (2, 0, 1))
-                new_cat = \
-                    np.transpose(np.reshape(cation, interior), (2, 0, 1))
+            # Reshape the charge arrays.
+            ordinate = self.spectrum.flux.T
+            interior = (ordinate.shape[1:] +
+                        (ordinate.shape[0],))
+            new_anion = \
+                np.transpose(np.reshape(anion, interior), (2, 0, 1))
+            new_neut = \
+                np.transpose(np.reshape(neutral, interior), (2, 0, 1))
+            new_cat = \
+                np.transpose(np.reshape(cation, interior), (2, 0, 1))
 
-                self._charge = {'anion': new_anion,
-                                'neutral': new_neut,
-                                'cation': new_cat}
-
-            else:
-                ordinate = self.spectrum.flux.T
-                self._charge = {'anion': np.zeros(ordinate.shape),
-                                'neutral': np.zeros(ordinate.shape),
-                                'cation': np.zeros(ordinate.shape)}
-
-                charge_matrix = self._precomputed['properties']['charge']
-
-                for i in range(ordinate.shape[1]):
-                    for j in range(ordinate.shape[2]):
-
-                        # Charge weights.
-                        wt_anion = self._weights[:, i, j] * \
-                            (charge_matrix < 0).astype(float)
-                        wt_neut = self._weights[:, i, j] * \
-                            (charge_matrix == 0).astype(float)
-                        wt_cat = self._weights[:, i, j] * \
-                            (charge_matrix > 0).astype(float)
-
-                        # Compute dot product.
-                        dot_wt_anion = self._matrix.dot(wt_anion)
-                        dot_wt_neut = self._matrix.dot(wt_neut)
-                        dot_wt_cat = self._matrix.dot(wt_cat)
-
-                        # Fill arrays.
-                        self._charge['anion'][:, i, j] = dot_wt_anion
-                        self._charge['neutral'][:, i, j] = dot_wt_neut
-                        self._charge['cation'][:, i, j] = dot_wt_cat
+            self._charge = {'anion': new_anion,
+                            'neutral': new_neut,
+                            'cation': new_cat}
 
             # Set the units
             self._charge['anion'] *= self.spectrum.flux.unit
@@ -341,62 +308,36 @@ class DecomposerBase(object):
 
         # Lazy Instantiation
         if self._size is None:
-            ############################################
-            # on MacOS np.dot() is not thread safe ... #
-            ############################################
-            if platform.system() != "Darwin":
-                decomposer_large = \
-                    partial(_decomposer_large, m=self._matrix,
-                            p=self._precomputed['properties']['size'])
-                decomposer_small = \
-                    partial(_decomposer_small, m=self._matrix,
-                            p=self._precomputed['properties']['size'])
+            decomposer_large = \
+                partial(_decomposer_large, m=self._matrix,
+                        p=self._precomputed['properties']['size'])
+            decomposer_small = \
+                partial(_decomposer_small, m=self._matrix,
+                        p=self._precomputed['properties']['size'])
 
-                # Create pool.
-                n_cpus = multiprocessing.cpu_count()
-                pool = multiprocessing.Pool(processes=n_cpus - 1)
+            # Create pool.
+            n_cpus = multiprocessing.cpu_count()
+            pool = multiprocessing.Pool(processes=n_cpus - 1)
 
-                # Using weights, map for large, small PAHs.
-                wt_shape_yz = self._weights.shape[1] * self._weights.shape[2]
-                new_shape = np.reshape(self._weights,
-                                       (self._weights.shape[0], wt_shape_yz))
-                large = pool.map(decomposer_large, new_shape.T)
-                small = pool.map(decomposer_small, new_shape.T)
-                pool.close()
-                pool.join()
+            # Using weights, map for large, small PAHs.
+            wt_shape_yz = self._weights.shape[1] * self._weights.shape[2]
+            new_shape = np.reshape(self._weights,
+                                   (self._weights.shape[0], wt_shape_yz))
+            large = pool.map(decomposer_large, new_shape.T)
+            small = pool.map(decomposer_small, new_shape.T)
+            pool.close()
+            pool.join()
 
-                # Reshape the outputs.
-                ordinate = self.spectrum.flux.T
-                ord_shape_yz = (ordinate.shape[1:] + (ordinate.shape[0],))
-                new_large = \
-                    np.transpose(np.reshape(large, ord_shape_yz), (2, 0, 1))
-                new_small = \
-                    np.transpose(np.reshape(small, ord_shape_yz), (2, 0, 1))
+            # Reshape the outputs.
+            ordinate = self.spectrum.flux.T
+            ord_shape_yz = (ordinate.shape[1:] + (ordinate.shape[0],))
+            new_large = \
+                np.transpose(np.reshape(large, ord_shape_yz), (2, 0, 1))
+            new_small = \
+                np.transpose(np.reshape(small, ord_shape_yz), (2, 0, 1))
 
-                self._size = {'large': new_large,
-                              'small': new_small}
-
-            else:
-                ordinate = self.spectrum.flux.T
-                self._size = {'large': np.zeros(ordinate.shape),
-                              'small': np.zeros(ordinate.shape)}
-
-                size_matrix = self._precomputed['properties']['size']
-
-                for i in range(ordinate.shape[1]):
-                    for j in range(ordinate.shape[2]):
-
-                        large_wt = self._weights[:, i, j] * \
-                            (size_matrix > 40).astype(float)
-                        small_wt = self._weights[:, i, j] * \
-                            (size_matrix <= 40).astype(float)
-
-                        large_amount = self._matrix.dot(large_wt)
-                        small_amount = self._matrix.dot(small_wt)
-
-                        self._size['large'][:, i, j] = large_amount
-                        self._size['small'][:, i, j] = small_amount
-
+            self._size = {'large': new_large,
+                          'small': new_small}
             # Set the units
             self._size['large'] *= self.spectrum.flux.unit
             self._size['small'] *= self.spectrum.flux.unit
