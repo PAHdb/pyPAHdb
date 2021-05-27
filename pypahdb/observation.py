@@ -8,11 +8,15 @@ This file is part of pypahdb - see the module docs for more
 information.
 """
 
+import warnings
+
 import numpy as np
 
 from astropy.io import ascii
 from astropy.io import fits
 
+from astropy.io.registry import IORegistryError
+from astropy.io.fits.verify import VerifyWarning
 from astropy import units as u
 from specutils import Spectrum1D
 
@@ -20,7 +24,7 @@ from specutils import Spectrum1D
 class Observation(object):
     """Creates an Observation object.
 
-    Currently reads IPAC tables and Spitzer-IRS data cubes.
+    Reads IPAC tables, Spitzer-IRS data cubes, and JWST spectra.
 
     Attributes:
         spectrum (specutils.Spectrum1D): contains loaded spectrum
@@ -34,6 +38,21 @@ class Observation(object):
 
         """
         self.file_path = file_path
+
+        try:
+            # Supress warning when Spectrum1D cannot load the file.
+            warnings.simplefilter('ignore', category=VerifyWarning)
+
+            self.spectrum = Spectrum1D.read(self.file_path)
+
+            return None
+        except FileNotFoundError as e:
+            raise(e)
+        except (OSError, IORegistryError):
+            # Because Spectrum1D raises a generic OSError when the
+            # file cannot be read, we have to catch OSError here and pass
+            # so that we can try and read it directly as FITS or ASCII.
+            pass
 
         try:
             with fits.open(self.file_path) as hdu:
