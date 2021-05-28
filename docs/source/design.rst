@@ -122,4 +122,4 @@ presented in the figure above and is as follows:
 Supported data formats
 -----------------------
 
-Presently, pypahdb supports IPAC tables and Spitzer FITS files.
+pypahdb supports IPAC tables, Spitzer FITS files, and JWST FITS files.
