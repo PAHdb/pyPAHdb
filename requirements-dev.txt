@@ -9,6 +9,7 @@ sphinx
 # These are dependencies of various sphinx extensions for documentation.
 ipython
 matplotlib
+nbconvert==5.6.1
 nbsphinx
 numpydoc
 sphinx-copybutton
