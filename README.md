@@ -49,7 +49,7 @@ pypahdb can be directly installed from the
 ``pip install git+git://github.com/PAHdb/pyPAHdb.git``
 
 ## Supported data formats
-Presently, pypahdb supports ASCII tables and Spitzer FITS files.
+pypahdb supports IPAC tables, Spitzer FITS files and JWST FITS files.
 
 ## Examples
 
