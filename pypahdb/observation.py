@@ -97,8 +97,6 @@ class Observation(object):
 
                         return None
 
-        except FileNotFoundError as e:
-            raise(e)
         except OSError:
             # Because astropy.io.fits.open raises a generic OSError
             # when the file header is missing the END card (which
