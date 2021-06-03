@@ -285,8 +285,6 @@
 
                         <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
             <span class="c1"># Because astropy.io.fits.open raises a generic OSError</span>
             <span class="c1"># when the file header is missing the END card (which</span>
