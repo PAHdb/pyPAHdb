@@ -124,8 +124,8 @@ class Decomposer(DecomposerBase):
             model = self.fit[:, i, j]
             ax0.plot(abscissa, data, 'kx', ms=5, mew=0.5, label='input')
             ax0.plot(abscissa, model, label='fit', color='red')
-            norm_str = "$norm$=%-7.2f" % (self.norm[i][j])
-            ax0.text(0.025, 0.9, norm_str, ha='left', va='center',
+            error_str = "$error$=%-4.2f" % (self.error[i][j])
+            ax0.text(0.025, 0.9, error_str, ha='left', va='center',
                      transform=ax0.transAxes)
 
             # ax1 -- Residuals.
@@ -196,7 +196,7 @@ class Decomposer(DecomposerBase):
                 pdf.savefig(fig)
                 plt.close(fig)
                 plt.gcf().clear()
-                fig = _plot_map(self.norm, 'norm', wcs=wcs)
+                fig = _plot_map(self.error, 'error', wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
                 plt.gcf().clear()
@@ -235,12 +235,12 @@ class Decomposer(DecomposerBase):
                 "for more information on pypahdb"
             hdr['COMMENT'] = "The 1st plane contains the ionized fraction"
             hdr['COMMENT'] = "The 2nd plane contains the large fraction"
-            hdr['COMMENT'] = "The 3rd plane contains the norm"
+            hdr['COMMENT'] = "The 3rd plane contains the error"
 
             # write results to fits-file
             hdu = fits.PrimaryHDU(np.stack((self.ionized_fraction.value,
                                             self.large_fraction.value,
-                                            self.norm.value), axis=0),
+                                            self.error.value), axis=0),
                                   header=hdr)
             hdu.writeto(filename, overwrite=True, output_verify='fix')
 
