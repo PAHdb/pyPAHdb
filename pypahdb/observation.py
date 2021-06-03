@@ -45,6 +45,13 @@ class Observation(object):
 
             self.spectrum = Spectrum1D.read(self.file_path)
 
+            # Always work as if spectrum is a cube.
+            if len(self.spectrum.flux.shape) == 1:
+                self.spectrum = Spectrum1D(
+                    flux=np.reshape(self.spectrum.flux,
+                                    (1, 1, )+self.spectrum.flux.shape),
+                    spectral_axis=self.spectrum.spectral_axis)
+
             return None
         except FileNotFoundError as e:
             raise(e)
