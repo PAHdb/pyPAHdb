@@ -189,15 +189,17 @@ class DecomposerBase(object):
         if self._yerror is None:
 
             # Convert units of spectral_axis to wavenumber.
-            abscissa = self.spectrum.spectral_axis.to(1.0 / u.cm,
-                                                      equivalencies=u.spectral())
+            abscissa = self.spectrum.spectral_axis.to(
+                        1.0 / u.cm, equivalencies=u.spectral())
+
             # Convenience defintion.
             ordinate = self.spectrum.flux.T
 
-            # Use the Trapezium rule to integrated the absolute of the residual and
-            # the observations.
+            # Use the Trapezium rule to integrated the absolute of the residual
+            # and the observations.
             self._yerror = np.trapz(np.abs(
-                self.fit - ordinate), x=abscissa, axis=0) / np.trapz(ordinate, x=abscissa, axis=0)
+                self.fit - ordinate), x=abscissa, axis=0) / \
+                np.trapz(ordinate, x=abscissa, axis=0)
 
             # Set the units.
             self._yerror *= u.dimensionless_unscaled
@@ -269,12 +271,15 @@ class DecomposerBase(object):
 
         # Lazy Instantiation
         if self._charge is None:
-            decomposer_anion = partial(_decomposer_anion, m=self._matrix,
-                                       p=self._precomputed['properties']['charge'])
-            decomposer_neutral = partial(_decomposer_neutral, m=self._matrix,
-                                         p=self._precomputed['properties']['charge'])
-            decomposer_cation = partial(_decomposer_cation, m=self._matrix,
-                                        p=self._precomputed['properties']['charge'])
+            decomposer_anion = \
+                partial(_decomposer_anion, m=self._matrix,
+                        p=self._precomputed['properties']['charge'])
+            decomposer_neutral = \
+                partial(_decomposer_neutral, m=self._matrix,
+                        p=self._precomputed['properties']['charge'])
+            decomposer_cation = \
+                partial(_decomposer_cation, m=self._matrix,
+                        p=self._precomputed['properties']['charge'])
 
             n_cpus = multiprocessing.cpu_count()
             pool = multiprocessing.Pool(processes=n_cpus - 1)
@@ -324,10 +329,12 @@ class DecomposerBase(object):
 
         # Lazy Instantiation
         if self._size is None:
-            decomposer_large = partial(_decomposer_large, m=self._matrix,
-                                       p=self._precomputed['properties']['size'])
-            decomposer_small = partial(_decomposer_small, m=self._matrix,
-                                       p=self._precomputed['properties']['size'])
+            decomposer_large = \
+                partial(_decomposer_large, m=self._matrix,
+                        p=self._precomputed['properties']['size'])
+            decomposer_small = \
+                partial(_decomposer_small, m=self._matrix,
+                        p=self._precomputed['properties']['size'])
 
             # Create pool.
             n_cpus = multiprocessing.cpu_count()
