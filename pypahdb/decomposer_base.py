@@ -197,9 +197,20 @@ class DecomposerBase(object):
 
             # Use the Trapezium rule to integrated the absolute of the residual
             # and the observations.
-            self._yerror = np.trapz(np.abs(
-                self.fit - ordinate), x=abscissa, axis=0) / \
-                np.trapz(ordinate, x=abscissa, axis=0)
+            abs_residual = np.trapz(np.abs(
+                self.fit - ordinate), x=abscissa, axis=0)
+
+            total = np.trapz(ordinate, x=abscissa, axis=0)
+
+            # initialize result to NaN
+            self._yerror = np.empty(ordinate.shape[1:])
+            self._yerror.fill(np.nan)
+
+            # avoid divide by zero.
+            nonzero = np.nonzero(total)
+
+            # calculate the error.
+            self._yerror[nonzero] = abs_residual[nonzero] / total[nonzero]
 
             # Set the units.
             self._yerror *= u.dimensionless_unscaled
