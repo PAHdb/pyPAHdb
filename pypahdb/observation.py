@@ -131,4 +131,6 @@ class Observation(object):
             print(e)
             pass
 
+        # Like astropy.io we simply raise a generic OSError when
+        # we fail to read the file.
         raise OSError(self.file_path + ": Format not recognized")
