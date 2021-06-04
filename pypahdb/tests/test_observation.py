@@ -35,6 +35,19 @@ class SpectrumTestCase(unittest.TestCase):
 
         assert isinstance(Observation(file_path), Observation)
 
+    def test_file_not_found(self):
+        """Can we detect file not found?"""
+        file_path = 'file_does_not_exist'
+
+        self.assertRaises(FileNotFoundError, Observation, file_path)
+
+    def test_file_malformed(self):
+        """Can we detect when a file is malformed?"""
+        file_name = 'resources/sample_malformed.fits'
+        file_path = pkg_resources.resource_filename('pypahdb', file_name)
+
+        self.assertRaises(OSError, Observation, file_path)
+
 
 if __name__ == '__main__':
     unittest.main()
