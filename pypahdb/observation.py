@@ -117,6 +117,7 @@ class Observation(object):
             flux = np.reshape(data['FLUX'].quantity,
                               (1, 1, )+data['FLUX'].quantity.shape)
             # Create Spectrum1D object.
+            for name in data.colnames: data.rename_column(name, name.upper())
             wave = data['WAVELENGTH'].quantity
             self.spectrum = Spectrum1D(flux, spectral_axis=wave)
             str = ''
