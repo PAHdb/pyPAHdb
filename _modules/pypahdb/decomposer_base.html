@@ -385,9 +385,20 @@
 
             <span class="c1"># Use the Trapezium rule to integrated the absolute of the residual</span>
             <span class="c1"># and the observations.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">fit</span> <span class="o">-</span> <span class="n">ordinate</span><span class="p">),</span> <span class="n">x</span><span class="o">=</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> \
-                <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">ordinate</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">abs_residual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fit</span> <span class="o">-</span> <span class="n">ordinate</span><span class="p">),</span> <span class="n">x</span><span class="o">=</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="n">total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">ordinate</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="c1"># initialize result to NaN</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+            <span class="c1"># avoid divide by zero.</span>
+            <span class="n">nonzero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+
+            <span class="c1"># calculate the error.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">=</span> <span class="n">abs_residual</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span>
 
             <span class="c1"># Set the units.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span> <span class="o">*=</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
