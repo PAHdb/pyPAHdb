@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# pypahdb documentation build configuration file, created by
+# Pypahdb documentation build configuration file, created by
 # sphinx-quickstart on Thu Jun 28 12:35:56 2018.
 #
 # This file is execfile()d with the current directory set to its
@@ -21,6 +21,7 @@
 # sys.path.insert(0, os.path.abspath('../..'))
 import pypahdb
 import sphinx_rtd_theme
+import time
 
 # -- General configuration ------------------------------------------------
 
@@ -72,9 +73,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'pyPAHdb'
-copyright = '2018, Dr. Christiaan Boersma and Dr. Matthew J. Shannon'
-author = 'Dr. Christiaan Boersma and Dr. Matthew J. Shannon'
+project = 'pypahdb'
+author = 'Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis'
+copyright = '2018-' + time.strftime('%Y') + ' ⸺ ' + author
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -184,8 +185,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'pypahdb.tex', u'pypahdb Documentation',
-     u'Christiaan Boersma and Matthew J. Shannon', 'manual'),
+    (master_doc, 'pypahdb.tex', u'Pypahdb Documentation',
+     author, 'manual'),
 ]
 
 
@@ -194,7 +195,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'pypahdb', u'pypahdb Documentation',
+    (master_doc, 'pypahdb', u'Pypahdb Documentation',
      [author], 1)
 ]
 

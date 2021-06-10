@@ -14,25 +14,25 @@ Database".
 
 pypahdb uses a precomputed matrix of theoretically calculated PAH
 emission spectra from version 3.00 of the library of computed
-spectra. This matrix has been constructed from a collection of
-"astronomical" PAHs, which meet the following critera and include the
-fullerenes C60 and C70:
+spectra and is downloaded when installing the package. This matrix has
+been constructed from a collection of "astronomical" PAHs, which meet
+the following critera and include the fullerenes C₆₀ and C₇₀:
 
        'magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c>20 hydrogen>0'
 
 The PAH emission spectra have been calculated employing a PAH emission
-model using the following parameters:
+model with the following parameters:
 
 * A calculated vibrational temperature upon the absorption of a 7 eV
-  photon
+  photon.
 * A calculated integrated band intensity after following the entire
-  emission cascade
-* A redshift of 15 /cm to mimic *some* anharmonic effect
-* A Gaussian emission profile with a FWHM of 15 /cm
+  emission cascade.
+* A redshift of 15 cm⁻¹ to mimic *some* anharmonic effect.
+* A Gaussian emission profile with a FWHM of 15 cm⁻¹.
 
 Additional information can be found at the NASA Ames PAH IR
 Spectroscopic Database website, which is located at
-https://www.astrochemistry.org/pahdb
+https://www.astrochemistry.org/pahdb/
 
 You are kindly asked to consider the following references for citation
 when using pypahdb:
@@ -63,7 +63,6 @@ when using pypahdb:
       AMES PAH IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", The
       Astrophysical Journal Supplement Series, 251, 22, 2020,
       https://doi.org/10.3847/1538-4365/abc2c8
-
 """
 
 from ._version import get_versions

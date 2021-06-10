@@ -7,16 +7,16 @@ Background
 Purpose
 ---------
 
-pypahdb is used to characterize emission from one of the most
+Pypahdb is used to characterize emission from one of the most
 prevalent types of organic molecules in space, namely polycyclic
 aromatic hydrocarbons (PAHs). It leverages the detailed studies of
-organic molecules done at the NASA Ames Research Center. pypahdb is a
+organic molecules done at the NASA Ames Research Center. Pypahdb is a
 streamlined Python version of the NASA Ames PAH IR Spectroscopic
-Database's (PAHdb; `www.astrochemistry.org/pahdb
-<https://www.astrochemistry.org/pahdb>`_) suite of IDL tools. PAHdb has
-been extensively used to analyze and interpret the PAH signature from
-a plethora of emission sources, ranging from solar-system objects to
-entire galaxies. pypahdb decomposes astronomical PAH emission spectra
+Database's (PAHdb; `www.astrochemistry.org/pahdb/
+<https://www.astrochemistry.org/pahdb/>`_) suite of IDL and Python tools.
+PAHdb has been extensively used to analyze and interpret the PAH signature
+from a plethora of emission sources, ranging from solar-system objects to
+entire galaxies. Pypahdb decomposes astronomical PAH emission spectra
 into contributing PAH sub-classes in terms of charge and size using a
 database-fitting technique. The inputs for the fit are spectra
 constructed using the spectroscopic libraries of PAHdb and take into
@@ -26,29 +26,27 @@ process.
 Features
 ------------------
 
-The purpose of pyPAHdb is to derive astronomical parameters directly
+The purpose of pypahdb is to derive astronomical parameters directly
 from *JWST* observations, but the tool is not limited to *JWST*
-observations alone. pypahdb is the light version of a full suite of
-Python software tools\ [#]_ that is currently being developed, which
-is an analog of the off-line IDL tools\ [#]_. A feature comparison is
-presented in the table below. pyPAHdb will enable PAH experts and
-non-experts alike to analyze and interpret astronomical PAH emission
-spectra.
+observations alone. Pypahdb is the light version of a full suite of
+Python software tools\ [#]_ that is an analog of the off-line IDL tools\ [#]_.
+A feature comparison is presented in the table below. Pypahdb will enable PAH
+experts and non-experts alike to analyze and interpret astronomical PAH
+emission spectra.
 
 .. raw:: latex
 
    \setlength{\tablewidth}{0.7\textwidth}
 
 
-.. table:: Feature comparison between pyPAHdb and the full suites of
-           off-line IDL/Python tools. Note: NNLS stands for
-           non-negative least squares; FWHM for full-width at
-           half-maximum of an emission profile; "uncertainties" in
-           this context refers to handling observational spectroscopic
-           uncertainties.
+.. table:: Feature comparison between pypahdb and the full suites of
+           IDL/Python tools. Notes: NNLS=non-negative least-squares;
+           NNLC=non-negative least-chi-squared; FWHM= full-width at
+           half-maximum of a line profile; Uncertainties=handling
+           observational spectroscopic uncertainties.
 
    +---------------------+----------+------------------+
-   |                     | pyPAHdb  | IDL/Python tools |
+   |                     | Pypahdb  | IDL/Python Tools |
    +=====================+==========+==================+
    | Included molecules. | Fixed    | User defined     |
    +---------------------+----------+------------------+
@@ -64,16 +62,18 @@ spectra.
    +---------------------+----------+------------------+
    | NNLS                | ✓        | ✓                |
    +---------------------+----------+------------------+
+   | NNLC                |          | ✓                |
+   +---------------------+----------+------------------+
    | Class breakdown     | ✓        | ✓                |
    +---------------------+----------+------------------+
    | Parallelization     | ✓        | ✓                |
    +---------------------+----------+------------------+
-   | Handle uncertainties|          | ✓                |
+   | Uncertainties       |          | ✓                |
    +---------------------+----------+------------------+
 
-.. pypahdb analyzes spectroscopic observations (including spectral maps)
+.. Pypahdb analyzes spectroscopic observations (including spectral maps)
 .. and characterizes the PAH emission using a database-fitting approach,
-.. providing the PAH ionization and size fractions.
+.. providing the PAH ionization and small/large fractions.
 
 
 Academic references
@@ -117,7 +117,8 @@ when using pypahdb:
   Bauschlicher, C. W., J., and Allamandola, L. J. "THE NASA AMES PAH
   IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", *The
   Astrophysical Journal Supplement Series*, 251, 22, 2020,
-  https://doi.org/10.3847/1538-4365/abc2c8
+  `https://doi.org/10.3847/1538-4365/abc2c8
+  <http://dx.doi.org/10.3847/1538-4365/abc2c8>`__
 
 
 ---------

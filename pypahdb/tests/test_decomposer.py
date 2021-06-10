@@ -14,7 +14,7 @@ from pypahdb.decomposer import Decomposer
 
 
 class DecomposerTestCase(unittest.TestCase):
-    """Unit tests for `decomposer.py`"""
+    """Unit tests for `decomposer.py`."""
 
     def setUp(self):
         import pkg_resources

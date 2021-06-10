@@ -5,9 +5,9 @@
 Usage
 =====
 
-Sample code for using pypahdb is shown below and is included in the pypahdb package
-as ``examples/example_tbl.py``. The example uses the bundled  spectrum,
-``sample_data_NGC7023.tbl``.
+Sample code demonstrating the use of pypahdb is shown below, which has been
+ included in the pypahdb package as ``examples/example_tbl.py``. The example
+ makes use of  the bundled ``sample_data_NGC7023.tbl`` spectrum.
 
 .. code-block:: python
 
@@ -16,29 +16,32 @@ as ``examples/example_tbl.py``. The example uses the bundled  spectrum,
     from pypahdb.decomposer import Decomposer
     from pypahdb.observation import Observation
 
-    # A provided sample data file (in FITS format).
-    file_path = 'resources/sample_data_NGC7023.tbl'
-    data_file = pkg_resources.resource_filename('pypahdb', file_path)
 
-    # Construct an Observation object.
-    obs = Observation(data_file)
+    if __name__ == '__main__':
 
-    # Pass the Observation's spectrum to Decomposer, which performs the fit.
-    pahdb_fit = Decomposer(obs.spectrum)
+        # The sample data (IPAC table).
+        file_path = 'resources/sample_data_NGC7023.tbl'
+        data_file = pkg_resources.resource_filename('pypahdb', file_path)
 
-    # Write the fit to file.
-    pahdb_fit.save_pdf('NGC7023_pypahdb.pdf')
-    pahdb_fit.save_fits('NGC7023_pypahdb.fits', header=obs.header)
+        # Construct an Observation object.
+        obs = Observation(data_file)
+
+        # Pass the Observation's spectrum to Decomposer, which performs the fit.
+        pahdb_fit = Decomposer(obs.spectrum)
+
+        # Save the fit to disk, both as a PDF and FITS file.
+        pahdb_fit.save_pdf('NGC7023_pypahdb_tbl_example.pdf', domaps=False)
+        pahdb_fit.save_fits('NGC7023_pypahdb_tbl_example.fits', header=obs.header)
 
 
 Details
 ---------
 
-Let's briefly explore what the code presented above is doing.
+Let's briefly explore what the code above is doing.
 
-We begin by importing the ``Decomposer`` and ``Observation`` classes from pypahdb. The
-``pkg_resources`` package is used to dynamically load the sample data, since it's 
-included in the package.
+First the ``Decomposer`` and ``Observation`` classes are imported from
+pypahdb. The``pkg_resources`` package is used to locate and load the
+provided sample data.
 
 .. code-block:: python
 
@@ -47,41 +50,48 @@ included in the package.
     from pypahdb.decomposer import Decomposer
     from pypahdb.observation import Observation
 
-    # A provided sample data file (in FITS format).
-    file_path = 'resources/sample_data_NGC7023.tbl'
-    data_file = pkg_resources.resource_filename('pypahdb', file_path)
 
-The included example IPAC table, ``sample_data_NGC7023.tbl``, contains an
-astronomical spectrum, as shown below:
+    if __name__ == '__main__':
+
+        # The sample data (IPAC table).
+        file_path = 'resources/sample_data_NGC7023.tbl'
+        data_file = pkg_resources.resource_filename('pypahdb', file_path)
+
+
+
+The included example IPAC table, ``sample_data_NGC7023.tbl``, contains the
+astronomical PAH spectrum shown below:
 
 .. image:: figures/ngc7023_spectrum.png
    :align: center
 
-The file is parsed into an ``Observation`` object by instantiating it, passing the path
-to the file as its only argument:
+The file is read with the ``Observation`` class by instantiating it and passing
+the path as its argument:
 
 .. code-block:: python
 
     # Construct an Observation object.
     obs = Observation(data_file)
 
-Note that this file needn't necessarily be an IPAC table (.tbl), but could also be a
-YAAR FITS file (.fits). The Observation construction above is the same in either case.
+Note that that the ``Observation`` class is able to handle a variety of
+file-formats, not just IPAC tables.
 
-The actual decomposition is performed by creating the ``Decomposer`` instance. We pass ``obs.spectrum`` as its only positional argument, since the decomposition only requires the x-y (paired) data, and none of the associated metadata.
-
+The decomposition is performed by creating a ``Decomposer``-instance and
+passing it ``obs.spectrum`` as its only positional argument.
 .. code-block:: python
 
     # Pass the Observation's spectrum to Decomposer, which performs the fit.
     pahdb_fit = Decomposer(obs.spectrum)
 
-The ``Decomposer`` object has methods for producing output from the fitting process, namely ``save_pdf`` and ``save_fits``. They each require a positional argument containing the desired output filename.
+The ``Decomposer`` class has two methods for producing output. On for saving
+to PDF; ``save_pdf``, the other for saving to FITS, ``save_fits``. Both
+methods require the filename to write to as their first positional argument.
 
 .. code-block:: python
 
-    # Write the fit to file.
-    pahdb_fit.save_pdf('NGC7023_pypahdb.pdf')
-    pahdb_fit.save_fits('NGC7023_pypahdb.fits', header=obs.header)
+    # Save the fit to disk, both as a PDF and FITS file.
+    pahdb_fit.save_pdf('NGC7023_pypahdb_tbl_example.pdf', domaps=False)
+    pahdb_fit.save_fits('NGC7023_pypahdb_tbl_example.fits', header=obs.header)
 
-We explicitly pass ``header=obs.header`` into the ``save_fits`` method, but you can
-choose an arbitrary header to be associated with this FITS file if needed (i.e., if you wanted to customize the header).
+Note that ``header=obs.header`` is explicitely passed to ``save_fits``, but
+can be set arbitrary, i.e., it is possible to provide a customized the header.

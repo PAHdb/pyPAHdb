@@ -4,7 +4,8 @@ decomposer_base.py
 
 Using a precomputed matrix of theoretically calculated
 PAH emission spectra, an input spectrum is fitted and decomposed into
-contributing PAH subclasses using a NNLS-approach.
+contributing PAH subclasses using a non-negative least-squares (NNLS)
+approach.
 
 This file is part of pypahdb - see the module docs for more
 information.
@@ -22,47 +23,48 @@ from scipy import optimize
 
 
 def _decomposer_anion(w, m=None, p=None):
-    """Do the actual anion decomposition for multiprocessing"""
+    """Do the anion decomposition in multiprocessing."""
     return m.dot(w * (p < 0).astype(float))
 
 
 def _decomposer_neutral(w, m=None, p=None):
-    """Do the actual neutral decomposition for multiprocessing"""
+    """Do the neutral decomposition in multiprocessing."""
     return m.dot(w * (p == 0).astype(float))
 
 
 def _decomposer_cation(w, m=None, p=None):
-    """Do the actual cation decomposition for multiprocessing"""
+    """Do the cation decomposition in multiprocessing."""
     return m.dot(w * (p > 0).astype(float))
 
 
 def _decomposer_large(w, m=None, p=None):
-    """Do the actual large decomposition for multiprocessing"""
+    """Do the actual large decomposition in multiprocessing."""
     return m.dot(w * (p > 40).astype(float))
 
 
 def _decomposer_small(w, m=None, p=None):
-    """Do the actual small decomposition for multiprocessing"""
+    """Do the small decomposition in multiprocessing."""
     return m.dot(w * (p <= 40).astype(float))
 
 
 def _decomposer_fit(w, m=None):
-    """Do the actual matrix manipulation for multiprocessing"""
+    """Do the matrix manipulation to obtain the total fit in
+    multiprocessing."""
     return m.dot(w)
 
 
 def _decomposer_interp(fp, x=None, xp=None):
-    """Do the actual interpolation for multiprocessing"""
+    """Do the grid interpolation in multiprocessing."""
     return np.interp(x, xp, fp)
 
 
 def _decomposer_nnls(y, m=None):
-    """Do the actual nnls for multiprocessing"""
+    """Do the NNLS in multiprocessing."""
     return optimize.nnls(m, y)
 
 
 class DecomposerBase(object):
-    """Fits and decomposes a spectrum.
+    """Fit and decompose spectrum.
 
     Attributes:
        spectrum: A spectrum to fit and decompose.
@@ -74,6 +76,7 @@ class DecomposerBase(object):
         Args:
             spectrum (specutil.Spectrum1D): The spectrum to fit and decompose.
         """
+
         self._yfit = None
         self._yerror = None
         self._ionized_fraction = None
@@ -99,8 +102,8 @@ class DecomposerBase(object):
                                              equivalencies=u.spectral()).T
             pass
 
-        # Retrieve the precomputed data
-        # Raise error if file is not found.
+        # Retrieve the precomputed data and raise error if file is
+        # not found.
         file_name = 'resources/precomputed.pkl'
         file_path = pkg_resources.resource_filename('pypahdb', file_name)
         with open(file_path, 'rb') as f:
@@ -110,13 +113,13 @@ class DecomposerBase(object):
                 print('Python 3 is required for pypahdb.')
                 raise(e)
 
-        # Deal with having no map; have a threshold when to do in for loop?
-
         # Linearly interpolate the precomputed spectra onto the
         # frequency grid of the input spectrum.
         decomposer_interp = partial(_decomposer_interp,
                                     x=abscissa,
                                     xp=self._precomputed['abscissa'] / u.cm)
+
+        # Create multiprocessing pool.
         pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
         self._matrix = pool.map(decomposer_interp,
                                 self._precomputed['matrix'].T)
@@ -137,7 +140,7 @@ class DecomposerBase(object):
         pool.close()
         pool.join()
 
-        # Reshape the results.
+        # Reshape results.
         new_shape = (ordinate.shape[1:] + (self._matrix.shape[1],))
         self._weights = \
             np.transpose(np.reshape(self._weights, new_shape), (2, 0, 1))
@@ -146,13 +149,15 @@ class DecomposerBase(object):
         """Return the fit.
 
         Returns:
-            self._yfit (quantity.Quantity): PAHdb total fit.
+            self._yfit (quantity.Quantity): The fit.
         """
 
-        # Lazy Instantiation
+        # Lazy Instantiation.
         if self._yfit is None:
 
             decomposer_fit = partial(_decomposer_fit, m=self._matrix)
+
+            # Create multiprocessing pool.
             n_cpus = multiprocessing.cpu_count()
             pool = multiprocessing.Pool(processes=n_cpus - 1)
 
@@ -163,26 +168,26 @@ class DecomposerBase(object):
             wt_shape = np.reshape(self._weights,
                                   (self._weights.shape[0], wt_elements_yz))
 
-            # Perform fit.
+            # Perform the fit.
             self._yfit = pool.map(decomposer_fit, wt_shape.T)
             pool.close()
             pool.join()
 
-            # Reshape the results.
+            # Reshape results.
             new_shape = (ordinate.shape[1:] + (ordinate.shape[0],))
             self._yfit = \
                 np.transpose(np.reshape(self._yfit, new_shape), (2, 0, 1))
 
-            # Set the units
+            # Set units.
             self._yfit *= self.spectrum.flux.unit
 
         return self._yfit
 
     def _error(self):
-        """Return the error.
+        """Return the error as ∫|residual|dν / ∫observation dν.
 
         Returns:
-            self._yerror (quantity.Quantity): PAHdb error.
+            self._yerror (quantity.Quantity): The fit error.
         """
 
         # Lazy Instantiation.
@@ -190,29 +195,29 @@ class DecomposerBase(object):
 
             # Convert units of spectral_axis to wavenumber.
             abscissa = self.spectrum.spectral_axis.to(
-                        1.0 / u.cm, equivalencies=u.spectral())
+                1.0 / u.cm, equivalencies=u.spectral())
 
             # Convenience defintion.
             ordinate = self.spectrum.flux.T
 
-            # Use the Trapezium rule to integrated the absolute of the residual
+            # Use Trapezium rule to integrated the absolute of the residual
             # and the observations.
             abs_residual = np.trapz(np.abs(
                 self.fit - ordinate), x=abscissa, axis=0)
 
             total = np.trapz(ordinate, x=abscissa, axis=0)
 
-            # initialize result to NaN
+            # Initialize result to NaN.
             self._yerror = np.empty(ordinate.shape[1:])
             self._yerror.fill(np.nan)
 
-            # avoid divide by zero.
+            # Avoid division by -zero-.
             nonzero = np.nonzero(total)
 
-            # calculate the error.
+            # Calculate the error.
             self._yerror[nonzero] = abs_residual[nonzero] / total[nonzero]
 
-            # Set the units.
+            # Set units.
             self._yerror *= u.dimensionless_unscaled
 
         return self._yerror
@@ -221,10 +226,11 @@ class DecomposerBase(object):
         """Return the ionized fraction.
 
         Returns:
-            self._ionized_fraction (quantity.Quantity): Ion fraction of fit.
+            self._ionized_fraction (quantity.Quantity): Ionized fraction from
+            fit.
         """
 
-        # Lazy Instantiation
+        # Lazy Instantiation.
         if self._ionized_fraction is None:
 
             # Compute ionized fraction.
@@ -247,10 +253,10 @@ class DecomposerBase(object):
         """Return the large fraction.
 
         Returns:
-            self._large_fraction (quantity.Quantity): Large fraction of fit.
+            self._large_fraction (quantity.Quantity): Large fraction from fit.
         """
 
-        # Lazy Instantiation
+        # Lazy Instantiation.
         if self._large_fraction is None:
 
             # Compute large fraction.
@@ -270,18 +276,18 @@ class DecomposerBase(object):
         return self._large_fraction
 
     def _get_charge(self):
-        """Return the spectral charge breakdown.
+        """Return the spectral charge breakdown from fit.
 
         Returns:
-            self._charge (dictionary): Associative array with keys
-                'anion', 'neutral' and 'cation'
-
-        Todo:
-            self._charge should be a Spectrum1D-object
+            self._charge (dictionary): Dictionary with keys
+            'anion', 'neutral' and 'cation'.
         """
 
-        # Lazy Instantiation
+        # TODO: Should self._charge be a Spectrum1D-object?
+
+        # Lazy Instantiation.
         if self._charge is None:
+
             decomposer_anion = \
                 partial(_decomposer_anion, m=self._matrix,
                         p=self._precomputed['properties']['charge'])
@@ -292,10 +298,11 @@ class DecomposerBase(object):
                 partial(_decomposer_cation, m=self._matrix,
                         p=self._precomputed['properties']['charge'])
 
+            # Create multiprocessing pool.
             n_cpus = multiprocessing.cpu_count()
             pool = multiprocessing.Pool(processes=n_cpus - 1)
 
-            # Conveniences for below.
+            # Convenience definitions.
             wt_shape_yz = self._weights.shape[1] * self._weights.shape[2]
             new_dims = np.reshape(self._weights,
                                   (self._weights.shape[0], wt_shape_yz))
@@ -308,10 +315,11 @@ class DecomposerBase(object):
             pool.close()
             pool.join()
 
-            # Reshape the charge arrays.
+            # Reshape results.
             ordinate = self.spectrum.flux.T
             interior = (ordinate.shape[1:] +
                         (ordinate.shape[0],))
+
             new_anion = np.transpose(np.reshape(anion, interior), (2, 0, 1))
             new_neut = np.transpose(np.reshape(neutral, interior), (2, 0, 1))
             new_cat = np.transpose(np.reshape(cation, interior), (2, 0, 1))
@@ -320,7 +328,7 @@ class DecomposerBase(object):
                             'neutral': new_neut,
                             'cation': new_cat}
 
-            # Set the units
+            # Set units.
             self._charge['anion'] *= self.spectrum.flux.unit
             self._charge['neutral'] *= self.spectrum.flux.unit
             self._charge['cation'] *= self.spectrum.flux.unit
@@ -328,17 +336,16 @@ class DecomposerBase(object):
         return self._charge
 
     def _get_size(self):
-        """Return the spectral size breakdown.
+        """Return the spectral size breakdown from fit.
 
         Returns:
-            self._size (dictionary): Associative array with keys
-                'large', 'small'
-
-        Todo:
-            self._charge should be a Spectrum1D-object
+            self._size (dictionary): Dictionary with keys
+            'large', 'small'.
         """
 
-        # Lazy Instantiation
+        # TODO: Should self._charge be a Spectrum1D-object?
+
+        # Lazy Instantiation.
         if self._size is None:
             decomposer_large = \
                 partial(_decomposer_large, m=self._matrix,
@@ -347,7 +354,7 @@ class DecomposerBase(object):
                 partial(_decomposer_small, m=self._matrix,
                         p=self._precomputed['properties']['size'])
 
-            # Create pool.
+            # Create multiprocessing pool.
             n_cpus = multiprocessing.cpu_count()
             pool = multiprocessing.Pool(processes=n_cpus - 1)
 
@@ -360,7 +367,7 @@ class DecomposerBase(object):
             pool.close()
             pool.join()
 
-            # Reshape the outputs.
+            # Reshape results.
             ordinate = self.spectrum.flux.T
             ord_shape_yz = (ordinate.shape[1:] + (ordinate.shape[0],))
             new_large = np.transpose(np.reshape(
@@ -370,26 +377,26 @@ class DecomposerBase(object):
 
             self._size = {'large': new_large,
                           'small': new_small}
-            # Set the units
+            # Set units.
             self._size['large'] *= self.spectrum.flux.unit
             self._size['small'] *= self.spectrum.flux.unit
 
         return self._size
 
-    # Make fit a property for easy access
+    # Make fit a property.
     fit = property(_fit)
 
-    # Make error a property for easy access
+    # Make error a property.
     error = property(_error)
 
-    # Make ionized_fraction a property for easy access
+    # Make ionized_fraction a property.
     ionized_fraction = property(_get_ionized_fraction)
 
-    # Make large_fraction a property for easy access
+    # Make large_fraction a property.
     large_fraction = property(_get_large_fraction)
 
-    # Make charge a property for easy access
+    # Make charge a property.
     charge = property(_get_charge)
 
-    # Make size a property for easy access
+    # Make size a property for.
     size = property(_get_size)

@@ -12,7 +12,7 @@ from pypahdb.observation import Observation
 
 
 class SpectrumTestCase(unittest.TestCase):
-    """Unit tests for `observation.py`"""
+    """Unit tests for `observation.py`."""
 
     def test_read_spectrum1d(self):
         """Can we create an instance of Observation from a Spectrum1D file?"""

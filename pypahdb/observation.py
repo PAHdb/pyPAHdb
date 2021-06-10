@@ -2,7 +2,7 @@
 """
 observation.py
 
-Holds and astronomical observation.
+Manages reading an astronomical observation from file.
 
 This file is part of pypahdb - see the module docs for more
 information.
@@ -27,7 +27,7 @@ class Observation(object):
     Reads IPAC tables, Spitzer-IRS data cubes, and JWST spectra.
 
     Attributes:
-        spectrum (specutils.Spectrum1D): contains loaded spectrum
+        spectrum (specutils.Spectrum1D): contains loaded spectrum.
     """
 
     def __init__(self, file_path):
@@ -35,9 +35,10 @@ class Observation(object):
 
         Args:
             file_path (str): String of file to load.
-
         """
         self.file_path = file_path
+
+        # TODO: implement try-except block for reading in pyPAHFit results
 
         try:
             # Supress warning when Spectrum1D cannot load the file.
@@ -66,12 +67,12 @@ class Observation(object):
                 for h in hdu:
                     hdu_keys = list(h.header.keys())
 
-                    # use the wcs definitions for coordinate three
-                    # lookup table
+                    # Use the WCS definitions for coordinate three
+                    # lookup table.
                     if 'PS3_0' in hdu_keys and 'PS3_1' in hdu_keys:
                         self.header = h.header
 
-                        # Create WCS object
+                        # Create WCS object.
                         # self.wcs = wcs.WCS(hdu[0].header, naxis=2)
 
                         h0 = self.header['PS3_0']
@@ -85,8 +86,8 @@ class Observation(object):
 
                         return None
 
-                    # use the wcs definitions for coordinate three
-                    # linear
+                    # Use the WCS definitions for coordinate three
+                    # linear.
                     if 'CDELT3' in hdu_keys:
 
                         self.header = h.header
@@ -113,7 +114,7 @@ class Observation(object):
 
         try:
             data = ascii.read(self.file_path)
-            # Always work as if spectrum is a cube
+            # Always work as if spectrum is a cube.
             flux = np.reshape(data['FLUX'].quantity,
                               (1, 1, )+data['FLUX'].quantity.shape)
             # Create Spectrum1D object.
@@ -131,6 +132,6 @@ class Observation(object):
             print(e)
             pass
 
-        # Like astropy.io we simply raise a generic OSError when
+        # Like astropy.io we, simply raise a generic OSError when
         # we fail to read the file.
         raise OSError(self.file_path + ": Format not recognized")
