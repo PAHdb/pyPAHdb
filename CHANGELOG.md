@@ -1,3 +1,4 @@
+2021-06-10 Cleaned/updated/improved docstrings and documentation. Expanded/added FITS-keywords and PDF-properties to (better) reflect software used and its origin. [Christiaan.Boersma@nasa.gov]
 2021-06-04 Add docstring for when we return a generic OSError. [Christiaan.Boersma@nasa.gov]
 2021-06-04 Add unittest to verify exception handling. [Christiaan.Boersma@nasa.gov]
 2021-06-03 Avoid dividing by zero when computing errors. Capitalize column names when reasding ascii files. [Christiaan.Boersma@nasa.gov]
