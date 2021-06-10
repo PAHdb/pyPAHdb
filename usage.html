@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>4 Usage &mdash; pyPAHdb  documentation</title>
+  <title>4 Usage &mdash; pypahdb  documentation</title>
   
 
   
@@ -62,7 +62,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> pyPAHdb
+            <a href="index.html" class="icon icon-home"> pypahdb
           
 
           
@@ -138,7 +138,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">pyPAHdb</a>
+          <a href="index.html">pypahdb</a>
         
       </nav>
 
@@ -223,69 +223,81 @@
 </style>
 <section id="usage">
 <h1><span class="sectnum">4</span> Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
-<p>Sample code for using pypahdb is shown below and is included in the pypahdb package
-as <code class="docutils literal notranslate"><span class="pre">examples/example_tbl.py</span></code>. The example uses the bundled  spectrum,
-<code class="docutils literal notranslate"><span class="pre">sample_data_NGC7023.tbl</span></code>.</p>
+<dl class="simple">
+<dt>Sample code demonstrating the use of pypahdb is shown below, which has been</dt><dd><p>included in the pypahdb package as <code class="docutils literal notranslate"><span class="pre">examples/example_tbl.py</span></code>. The example
+makes use of  the bundled <code class="docutils literal notranslate"><span class="pre">sample_data_NGC7023.tbl</span></code> spectrum.</p>
+</dd>
+</dl>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pkg_resources</span>
 
 <span class="kn">from</span> <span class="nn">pypahdb.decomposer</span> <span class="kn">import</span> <span class="n">Decomposer</span>
 <span class="kn">from</span> <span class="nn">pypahdb.observation</span> <span class="kn">import</span> <span class="n">Observation</span>
 
-<span class="c1"># A provided sample data file (in FITS format).</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;resources/sample_data_NGC7023.tbl&#39;</span>
-<span class="n">data_file</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
 
-<span class="c1"># Construct an Observation object.</span>
-<span class="n">obs</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
 
-<span class="c1"># Pass the Observation&#39;s spectrum to Decomposer, which performs the fit.</span>
-<span class="n">pahdb_fit</span> <span class="o">=</span> <span class="n">Decomposer</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">spectrum</span><span class="p">)</span>
+    <span class="c1"># The sample data (IPAC table).</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;resources/sample_data_NGC7023.tbl&#39;</span>
+    <span class="n">data_file</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
 
-<span class="c1"># Write the fit to file.</span>
-<span class="n">pahdb_fit</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb.pdf&#39;</span><span class="p">)</span>
-<span class="n">pahdb_fit</span><span class="o">.</span><span class="n">save_fits</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb.fits&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">obs</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+    <span class="c1"># Construct an Observation object.</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
+
+    <span class="c1"># Pass the Observation&#39;s spectrum to Decomposer, which performs the fit.</span>
+    <span class="n">pahdb_fit</span> <span class="o">=</span> <span class="n">Decomposer</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">spectrum</span><span class="p">)</span>
+
+    <span class="c1"># Save the fit to disk, both as a PDF and FITS file.</span>
+    <span class="n">pahdb_fit</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb_tbl_example.pdf&#39;</span><span class="p">,</span> <span class="n">domaps</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">pahdb_fit</span><span class="o">.</span><span class="n">save_fits</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb_tbl_example.fits&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">obs</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="details">
 <h2><span class="sectnum">4.1</span> Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
-<p>Let’s briefly explore what the code presented above is doing.</p>
-<p>We begin by importing the <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> and <code class="docutils literal notranslate"><span class="pre">Observation</span></code> classes from pypahdb. The
-<code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> package is used to dynamically load the sample data, since it’s
-included in the package.</p>
+<p>Let’s briefly explore what the code above is doing.</p>
+<p>First the <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> and <code class="docutils literal notranslate"><span class="pre">Observation</span></code> classes are imported from
+pypahdb. The``pkg_resources`` package is used to locate and load the
+provided sample data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pkg_resources</span>
 
 <span class="kn">from</span> <span class="nn">pypahdb.decomposer</span> <span class="kn">import</span> <span class="n">Decomposer</span>
 <span class="kn">from</span> <span class="nn">pypahdb.observation</span> <span class="kn">import</span> <span class="n">Observation</span>
 
-<span class="c1"># A provided sample data file (in FITS format).</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;resources/sample_data_NGC7023.tbl&#39;</span>
-<span class="n">data_file</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="c1"># The sample data (IPAC table).</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;resources/sample_data_NGC7023.tbl&#39;</span>
+    <span class="n">data_file</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The included example IPAC table, <code class="docutils literal notranslate"><span class="pre">sample_data_NGC7023.tbl</span></code>, contains an
-astronomical spectrum, as shown below:</p>
+<p>The included example IPAC table, <code class="docutils literal notranslate"><span class="pre">sample_data_NGC7023.tbl</span></code>, contains the
+astronomical PAH spectrum shown below:</p>
 <img alt="_images/ngc7023_spectrum.png" class="align-center" src="_images/ngc7023_spectrum.png" />
-<p>The file is parsed into an <code class="docutils literal notranslate"><span class="pre">Observation</span></code> object by instantiating it, passing the path
-to the file as its only argument:</p>
+<p>The file is read with the <code class="docutils literal notranslate"><span class="pre">Observation</span></code> class by instantiating it and passing
+the path as its argument:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construct an Observation object.</span>
 <span class="n">obs</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Note that this file needn’t necessarily be an IPAC table (.tbl), but could also be a
-YAAR FITS file (.fits). The Observation construction above is the same in either case.</p>
-<p>The actual decomposition is performed by creating the <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> instance. We pass <code class="docutils literal notranslate"><span class="pre">obs.spectrum</span></code> as its only positional argument, since the decomposition only requires the x-y (paired) data, and none of the associated metadata.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pass the Observation&#39;s spectrum to Decomposer, which performs the fit.</span>
-<span class="n">pahdb_fit</span> <span class="o">=</span> <span class="n">Decomposer</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">spectrum</span><span class="p">)</span>
+<p>Note that that the <code class="docutils literal notranslate"><span class="pre">Observation</span></code> class is able to handle a variety of
+file-formats, not just IPAC tables.</p>
+<p>The decomposition is performed by creating a <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code>-instance and
+passing it <code class="docutils literal notranslate"><span class="pre">obs.spectrum</span></code> as its only positional argument.
+.. code-block:: python</p>
+<blockquote>
+<div><p># Pass the Observation’s spectrum to Decomposer, which performs the fit.
+pahdb_fit = Decomposer(obs.spectrum)</p>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> class has two methods for producing output. On for saving
+to PDF; <code class="docutils literal notranslate"><span class="pre">save_pdf</span></code>, the other for saving to FITS, <code class="docutils literal notranslate"><span class="pre">save_fits</span></code>. Both
+methods require the filename to write to as their first positional argument.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the fit to disk, both as a PDF and FITS file.</span>
+<span class="n">pahdb_fit</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb_tbl_example.pdf&#39;</span><span class="p">,</span> <span class="n">domaps</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">pahdb_fit</span><span class="o">.</span><span class="n">save_fits</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb_tbl_example.fits&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">obs</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> object has methods for producing output from the fitting process, namely <code class="docutils literal notranslate"><span class="pre">save_pdf</span></code> and <code class="docutils literal notranslate"><span class="pre">save_fits</span></code>. They each require a positional argument containing the desired output filename.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write the fit to file.</span>
-<span class="n">pahdb_fit</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb.pdf&#39;</span><span class="p">)</span>
-<span class="n">pahdb_fit</span><span class="o">.</span><span class="n">save_fits</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb.fits&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">obs</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>We explicitly pass <code class="docutils literal notranslate"><span class="pre">header=obs.header</span></code> into the <code class="docutils literal notranslate"><span class="pre">save_fits</span></code> method, but you can
-choose an arbitrary header to be associated with this FITS file if needed (i.e., if you wanted to customize the header).</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">header=obs.header</span></code> is explicitely passed to <code class="docutils literal notranslate"><span class="pre">save_fits</span></code>, but
+can be set arbitrary, i.e., it is possible to provide a customized the header.</p>
 </section>
 </section>
 
@@ -303,7 +315,7 @@ choose an arbitrary header to be associated with this FITS file if needed (i.e.,
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2018, Dr. Christiaan Boersma and Dr. Matthew J. Shannon.
+        &#169; Copyright 2018-2021 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.
 
     </p>
   </div>

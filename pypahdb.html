@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>API &mdash; pyPAHdb  documentation</title>
+  <title>API &mdash; pypahdb  documentation</title>
   
 
   
@@ -62,7 +62,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> pyPAHdb
+            <a href="index.html" class="icon icon-home"> pypahdb
           
 
           
@@ -138,7 +138,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">pyPAHdb</a>
+          <a href="index.html">pypahdb</a>
         
       </nav>
 
@@ -225,10 +225,10 @@
 <h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-<div class="graphviz"><img src="_images/inheritance-b11d61a0e72e0e5ad9d378934a7e75ce59e67bac.png" alt="Inheritance diagram of pypahdb.decomposer_base, pypahdb.decomposer" usemap="#inheritanceddbc615b91" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="_images/inheritance-009d9e8f1146de9a7bed79e415776eb5bbded554.png" alt="Inheritance diagram of pypahdb.decomposer_base, pypahdb.decomposer" usemap="#inheritanceddbc615b91" class="inheritance graphviz" /></div>
 <map id="inheritanceddbc615b91" name="inheritanceddbc615b91">
-<area shape="rect" id="node1" href="#pypahdb.decomposer.Decomposer" target="_top" title="Extends the DecomposerBase class to write to disk (PDF, FITS)." alt="" coords="371,5,617,31"/>
-<area shape="rect" id="node2" href="#pypahdb.decomposer_base.DecomposerBase" target="_top" title="Fits and decomposes a spectrum." alt="" coords="5,5,323,31"/>
+<area shape="rect" id="node1" href="#pypahdb.decomposer.Decomposer" target="_top" title="Extends DecomposerBase to write results to disk (PDF, FITS)." alt="" coords="371,5,617,31"/>
+<area shape="rect" id="node2" href="#pypahdb.decomposer_base.DecomposerBase" target="_top" title="Fit and decompose spectrum." alt="" coords="5,5,323,31"/>
 </map><div class="graphviz"><img src="_images/inheritance-8ee137bafab22e16c743ffc0bbdb0b804eab6f8a.png" alt="Inheritance diagram of pypahdb.observation" usemap="#inheritance67e7419fc1" class="inheritance graphviz" /></div>
 <map id="inheritance67e7419fc1" name="inheritance67e7419fc1">
 <area shape="rect" id="node1" href="#pypahdb.observation.Observation" target="_top" title="Creates an Observation object." alt="" coords="5,5,243,31"/>
@@ -241,14 +241,15 @@
 <p>decomposer_base.py</p>
 <p>Using a precomputed matrix of theoretically calculated
 PAH emission spectra, an input spectrum is fitted and decomposed into
-contributing PAH subclasses using a NNLS-approach.</p>
+contributing PAH subclasses using a non-negative least-squares (NNLS)
+approach.</p>
 <p>This file is part of pypahdb - see the module docs for more
 information.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer_base.</span></span><span class="sig-name descname"><span class="pre">DecomposerBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Fits and decomposes a spectrum.</p>
+<p>Fit and decompose spectrum.</p>
 <dl class="simple">
 <dt>Attributes:</dt><dd><p>spectrum: A spectrum to fit and decompose.</p>
 </dd>
@@ -256,14 +257,10 @@ information.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.charge">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">charge</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.charge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the spectral charge breakdown.</p>
+<dd><p>Return the spectral charge breakdown from fit.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>self._charge (dictionary): Associative array with keys</dt><dd><p>‘anion’, ‘neutral’ and ‘cation’</p>
-</dd>
-</dl>
-</dd>
-<dt>Todo:</dt><dd><p>self._charge should be a Spectrum1D-object</p>
+<dt>Returns:</dt><dd><p>self._charge (dictionary): Dictionary with keys
+‘anion’, ‘neutral’ and ‘cation’.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -271,9 +268,9 @@ information.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.error">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.error" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the error.</p>
+<dd><p>Return the error as ∫|residual|dν / ∫observation dν.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._yerror (quantity.Quantity): PAHdb error.</p>
+<dt>Returns:</dt><dd><p>self._yerror (quantity.Quantity): The fit error.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -283,7 +280,7 @@ information.</p>
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">fit</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the fit.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._yfit (quantity.Quantity): PAHdb total fit.</p>
+<dt>Returns:</dt><dd><p>self._yfit (quantity.Quantity): The fit.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -293,7 +290,8 @@ information.</p>
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">ionized_fraction</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.ionized_fraction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the ionized fraction.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._ionized_fraction (quantity.Quantity): Ion fraction of fit.</p>
+<dt>Returns:</dt><dd><p>self._ionized_fraction (quantity.Quantity): Ionized fraction from
+fit.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -303,7 +301,7 @@ information.</p>
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">large_fraction</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.large_fraction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the large fraction.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._large_fraction (quantity.Quantity): Large fraction of fit.</p>
+<dt>Returns:</dt><dd><p>self._large_fraction (quantity.Quantity): Large fraction from fit.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -311,14 +309,10 @@ information.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.size">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the spectral size breakdown.</p>
+<dd><p>Return the spectral size breakdown from fit.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>self._size (dictionary): Associative array with keys</dt><dd><p>‘large’, ‘small’</p>
-</dd>
-</dl>
-</dd>
-<dt>Todo:</dt><dd><p>self._charge should be a Spectrum1D-object</p>
+<dt>Returns:</dt><dd><p>self._size (dictionary): Dictionary with keys
+‘large’, ‘small’.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -329,21 +323,20 @@ information.</p>
 <section id="module-pypahdb.decomposer">
 <span id="pypahdb-decomposer-module"></span><h2>pypahdb.decomposer module<a class="headerlink" href="#module-pypahdb.decomposer" title="Permalink to this headline">¶</a></h2>
 <p>decomposer.py</p>
-<p>Subclassing DecomposerBase to add support for writting results to
-disk.</p>
+<p>Subclass of DecomposerBase for writting results to disk.</p>
 <p>This file is part of pypahdb - see the module docs for more
 information.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer.</span></span><span class="sig-name descname"><span class="pre">Decomposer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pypahdb.decomposer_base.DecomposerBase" title="pypahdb.decomposer_base.DecomposerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">pypahdb.decomposer_base.DecomposerBase</span></code></a></p>
-<p>Extends the DecomposerBase class to write to disk (PDF, FITS).</p>
+<p>Extends DecomposerBase to write results to disk (PDF, FITS).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer.save_fits">
 <span class="sig-name descname"><span class="pre">save_fits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.save_fits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.save_fits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Saves a FITS file of the pyPAHdb fit/breakdown.</p>
+<dd><p>Save FITS file summary of the fit results.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>filename (str): FITS path to save to.
+<dt>Args:</dt><dd><p>filename (str): Path to save to.
 header (str): Optional, header for the FITS file.</p>
 </dd>
 </dl>
@@ -352,7 +345,19 @@ header (str): Optional, header for the FITS file.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer.save_pdf">
 <span class="sig-name descname"><span class="pre">save_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doplots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.save_pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.save_pdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Saves a PDF summary of the fit results.</p>
+<dd><p>Save a PDF summary of the fit results.</p>
+<dl class="simple">
+<dt>Notes:</dt><dd><p>None.</p>
+</dd>
+<dt>Args:</dt><dd><p>filename (str): Path to save to.
+header (str): Optional, header data.</p>
+</dd>
+<dt>Keywords:</dt><dd><p>domaps (bool): Save maps to PDF (defaults to True).
+doplots (bool): Save plots to PDF (defaults to True).</p>
+</dd>
+<dt>Returns:</dt><dd><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -361,7 +366,7 @@ header (str): Optional, header for the FITS file.</p>
 <section id="module-pypahdb.observation">
 <span id="pypahdb-observation-module"></span><h2>pypahdb.observation module<a class="headerlink" href="#module-pypahdb.observation" title="Permalink to this headline">¶</a></h2>
 <p>observation.py</p>
-<p>Holds and astronomical observation.</p>
+<p>Manages reading an astronomical observation from file.</p>
 <p>This file is part of pypahdb - see the module docs for more
 information.</p>
 <dl class="py class">
@@ -371,7 +376,7 @@ information.</p>
 <p>Creates an Observation object.</p>
 <p>Reads IPAC tables, Spitzer-IRS data cubes, and JWST spectra.</p>
 <dl class="simple">
-<dt>Attributes:</dt><dd><p>spectrum (specutils.Spectrum1D): contains loaded spectrum</p>
+<dt>Attributes:</dt><dd><p>spectrum (specutils.Spectrum1D): contains loaded spectrum.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -393,25 +398,25 @@ supported through a directed Work Package at NASA Ames titled:
 Database”.</p>
 <p>pypahdb uses a precomputed matrix of theoretically calculated PAH
 emission spectra from version 3.00 of the library of computed
-spectra. This matrix has been constructed from a collection of
-“astronomical” PAHs, which meet the following critera and include the
-fullerenes C60 and C70:</p>
+spectra and is downloaded when installing the package. This matrix has
+been constructed from a collection of “astronomical” PAHs, which meet
+the following critera and include the fullerenes C₆₀ and C₇₀:</p>
 <blockquote>
 <div><p>‘magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c&gt;20 hydrogen&gt;0’</p>
 </div></blockquote>
 <p>The PAH emission spectra have been calculated employing a PAH emission
-model using the following parameters:</p>
+model with the following parameters:</p>
 <ul class="simple">
 <li><p>A calculated vibrational temperature upon the absorption of a 7 eV
-photon</p></li>
+photon.</p></li>
 <li><p>A calculated integrated band intensity after following the entire
-emission cascade</p></li>
-<li><p>A redshift of 15 /cm to mimic <em>some</em> anharmonic effect</p></li>
-<li><p>A Gaussian emission profile with a FWHM of 15 /cm</p></li>
+emission cascade.</p></li>
+<li><p>A redshift of 15 cm⁻¹ to mimic <em>some</em> anharmonic effect.</p></li>
+<li><p>A Gaussian emission profile with a FWHM of 15 cm⁻¹.</p></li>
 </ul>
 <p>Additional information can be found at the NASA Ames PAH IR
 Spectroscopic Database website, which is located at
-<a class="reference external" href="https://www.astrochemistry.org/pahdb">https://www.astrochemistry.org/pahdb</a></p>
+<a class="reference external" href="https://www.astrochemistry.org/pahdb/">https://www.astrochemistry.org/pahdb/</a></p>
 <p>You are kindly asked to consider the following references for citation
 when using pypahdb:</p>
 <blockquote>
@@ -458,7 +463,7 @@ Astrophysical Journal Supplement Series, 251, 22, 2020,
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2018, Dr. Christiaan Boersma and Dr. Matthew J. Shannon.
+        &#169; Copyright 2018-2021 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.
 
     </p>
   </div>

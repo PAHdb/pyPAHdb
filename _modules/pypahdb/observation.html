@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pypahdb.observation &mdash; pyPAHdb  documentation</title>
+  <title>pypahdb.observation &mdash; pypahdb  documentation</title>
   
 
   
@@ -59,7 +59,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> pyPAHdb
+            <a href="../../index.html" class="icon icon-home"> pypahdb
           
 
           
@@ -135,7 +135,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">pyPAHdb</a>
+          <a href="../../index.html">pypahdb</a>
         
       </nav>
 
@@ -190,7 +190,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">observation.py</span>
 
-<span class="sd">Holds and astronomical observation.</span>
+<span class="sd">Manages reading an astronomical observation from file.</span>
 
 <span class="sd">This file is part of pypahdb - see the module docs for more</span>
 <span class="sd">information.</span>
@@ -215,7 +215,7 @@
 <span class="sd">    Reads IPAC tables, Spitzer-IRS data cubes, and JWST spectra.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        spectrum (specutils.Spectrum1D): contains loaded spectrum</span>
+<span class="sd">        spectrum (specutils.Spectrum1D): contains loaded spectrum.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
@@ -223,9 +223,10 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            file_path (str): String of file to load.</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">=</span> <span class="n">file_path</span>
+
+        <span class="c1"># TODO: implement try-except block for reading in pyPAHFit results</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Supress warning when Spectrum1D cannot load the file.</span>
@@ -254,12 +255,12 @@
                 <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">hdu</span><span class="p">:</span>
                     <span class="n">hdu_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-                    <span class="c1"># use the wcs definitions for coordinate three</span>
-                    <span class="c1"># lookup table</span>
+                    <span class="c1"># Use the WCS definitions for coordinate three</span>
+                    <span class="c1"># lookup table.</span>
                     <span class="k">if</span> <span class="s1">&#39;PS3_0&#39;</span> <span class="ow">in</span> <span class="n">hdu_keys</span> <span class="ow">and</span> <span class="s1">&#39;PS3_1&#39;</span> <span class="ow">in</span> <span class="n">hdu_keys</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span>
 
-                        <span class="c1"># Create WCS object</span>
+                        <span class="c1"># Create WCS object.</span>
                         <span class="c1"># self.wcs = wcs.WCS(hdu[0].header, naxis=2)</span>
 
                         <span class="n">h0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;PS3_0&#39;</span><span class="p">]</span>
@@ -273,8 +274,8 @@
 
                         <span class="k">return</span> <span class="kc">None</span>
 
-                    <span class="c1"># use the wcs definitions for coordinate three</span>
-                    <span class="c1"># linear</span>
+                    <span class="c1"># Use the WCS definitions for coordinate three</span>
+                    <span class="c1"># linear.</span>
                     <span class="k">if</span> <span class="s1">&#39;CDELT3&#39;</span> <span class="ow">in</span> <span class="n">hdu_keys</span><span class="p">:</span>
 
                         <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span>
@@ -301,7 +302,7 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span>
-            <span class="c1"># Always work as if spectrum is a cube</span>
+            <span class="c1"># Always work as if spectrum is a cube.</span>
             <span class="n">flux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;FLUX&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
                               <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">)</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;FLUX&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="c1"># Create Spectrum1D object.</span>
@@ -319,7 +320,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">pass</span>
 
-        <span class="c1"># Like astropy.io we simply raise a generic OSError when</span>
+        <span class="c1"># Like astropy.io we, simply raise a generic OSError when</span>
         <span class="c1"># we fail to read the file.</span>
         <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">+</span> <span class="s2">&quot;: Format not recognized&quot;</span><span class="p">)</span></div>
 </pre></div>
@@ -333,7 +334,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2018, Dr. Christiaan Boersma and Dr. Matthew J. Shannon.
+        &#169; Copyright 2018-2021 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.
 
     </p>
   </div>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pypahdb.decomposer_base &mdash; pyPAHdb  documentation</title>
+  <title>pypahdb.decomposer_base &mdash; pypahdb  documentation</title>
   
 
   
@@ -59,7 +59,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> pyPAHdb
+            <a href="../../index.html" class="icon icon-home"> pypahdb
           
 
           
@@ -135,7 +135,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">pyPAHdb</a>
+          <a href="../../index.html">pypahdb</a>
         
       </nav>
 
@@ -192,7 +192,8 @@
 
 <span class="sd">Using a precomputed matrix of theoretically calculated</span>
 <span class="sd">PAH emission spectra, an input spectrum is fitted and decomposed into</span>
-<span class="sd">contributing PAH subclasses using a NNLS-approach.</span>
+<span class="sd">contributing PAH subclasses using a non-negative least-squares (NNLS)</span>
+<span class="sd">approach.</span>
 
 <span class="sd">This file is part of pypahdb - see the module docs for more</span>
 <span class="sd">information.</span>
@@ -210,47 +211,48 @@
 
 
 <span class="k">def</span> <span class="nf">_decomposer_anion</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Do the actual anion decomposition for multiprocessing&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Do the anion decomposition in multiprocessing.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">_decomposer_neutral</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Do the actual neutral decomposition for multiprocessing&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Do the neutral decomposition in multiprocessing.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">_decomposer_cation</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Do the actual cation decomposition for multiprocessing&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Do the cation decomposition in multiprocessing.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">_decomposer_large</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Do the actual large decomposition for multiprocessing&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Do the actual large decomposition in multiprocessing.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">_decomposer_small</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Do the actual small decomposition for multiprocessing&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Do the small decomposition in multiprocessing.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">_decomposer_fit</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Do the actual matrix manipulation for multiprocessing&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Do the matrix manipulation to obtain the total fit in</span>
+<span class="sd">    multiprocessing.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_decomposer_interp</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Do the actual interpolation for multiprocessing&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Do the grid interpolation in multiprocessing.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_decomposer_nnls</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Do the actual nnls for multiprocessing&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Do the NNLS in multiprocessing.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">optimize</span><span class="o">.</span><span class="n">nnls</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="DecomposerBase"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer_base.DecomposerBase">[docs]</a><span class="k">class</span> <span class="nc">DecomposerBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Fits and decomposes a spectrum.</span>
+    <span class="sd">&quot;&quot;&quot;Fit and decompose spectrum.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">       spectrum: A spectrum to fit and decompose.</span>
@@ -262,6 +264,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            spectrum (specutil.Spectrum1D): The spectrum to fit and decompose.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ionized_fraction</span> <span class="o">=</span> <span class="kc">None</span>
@@ -287,8 +290,8 @@
                                              <span class="n">equivalencies</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">spectral</span><span class="p">())</span><span class="o">.</span><span class="n">T</span>
             <span class="k">pass</span>
 
-        <span class="c1"># Retrieve the precomputed data</span>
-        <span class="c1"># Raise error if file is not found.</span>
+        <span class="c1"># Retrieve the precomputed data and raise error if file is</span>
+        <span class="c1"># not found.</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;resources/precomputed.pkl&#39;</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -298,13 +301,13 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Python 3 is required for pypahdb.&#39;</span><span class="p">)</span>
                 <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-        <span class="c1"># Deal with having no map; have a threshold when to do in for loop?</span>
-
         <span class="c1"># Linearly interpolate the precomputed spectra onto the</span>
         <span class="c1"># frequency grid of the input spectrum.</span>
         <span class="n">decomposer_interp</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_interp</span><span class="p">,</span>
                                     <span class="n">x</span><span class="o">=</span><span class="n">abscissa</span><span class="p">,</span>
                                     <span class="n">xp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;abscissa&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+
+        <span class="c1"># Create multiprocessing pool.</span>
         <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">decomposer_interp</span><span class="p">,</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;matrix&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
@@ -325,7 +328,7 @@
         <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 
-        <span class="c1"># Reshape the results.</span>
+        <span class="c1"># Reshape results.</span>
         <span class="n">new_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">=</span> \
             <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">,</span> <span class="n">new_shape</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -334,13 +337,15 @@
         <span class="sd">&quot;&quot;&quot;Return the fit.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self._yfit (quantity.Quantity): PAHdb total fit.</span>
+<span class="sd">            self._yfit (quantity.Quantity): The fit.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># Lazy Instantiation</span>
+        <span class="c1"># Lazy Instantiation.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 
             <span class="n">decomposer_fit</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_fit</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">)</span>
+
+            <span class="c1"># Create multiprocessing pool.</span>
             <span class="n">n_cpus</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
             <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">n_cpus</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -351,26 +356,26 @@
             <span class="n">wt_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">,</span>
                                   <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wt_elements_yz</span><span class="p">))</span>
 
-            <span class="c1"># Perform fit.</span>
+            <span class="c1"># Perform the fit.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">decomposer_fit</span><span class="p">,</span> <span class="n">wt_shape</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
             <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 
-            <span class="c1"># Reshape the results.</span>
+            <span class="c1"># Reshape results.</span>
             <span class="n">new_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> \
                 <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span><span class="p">,</span> <span class="n">new_shape</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-            <span class="c1"># Set the units</span>
+            <span class="c1"># Set units.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span>
 
     <span class="k">def</span> <span class="nf">_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the error.</span>
+        <span class="sd">&quot;&quot;&quot;Return the error as ∫|residual|dν / ∫observation dν.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self._yerror (quantity.Quantity): PAHdb error.</span>
+<span class="sd">            self._yerror (quantity.Quantity): The fit error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Lazy Instantiation.</span>
@@ -378,29 +383,29 @@
 
             <span class="c1"># Convert units of spectral_axis to wavenumber.</span>
             <span class="n">abscissa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">spectral_axis</span><span class="o">.</span><span class="n">to</span><span class="p">(</span>
-                        <span class="mf">1.0</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">spectral</span><span class="p">())</span>
+                <span class="mf">1.0</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">spectral</span><span class="p">())</span>
 
             <span class="c1"># Convenience defintion.</span>
             <span class="n">ordinate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">T</span>
 
-            <span class="c1"># Use the Trapezium rule to integrated the absolute of the residual</span>
+            <span class="c1"># Use Trapezium rule to integrated the absolute of the residual</span>
             <span class="c1"># and the observations.</span>
             <span class="n">abs_residual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">fit</span> <span class="o">-</span> <span class="n">ordinate</span><span class="p">),</span> <span class="n">x</span><span class="o">=</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
             <span class="n">total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">ordinate</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-            <span class="c1"># initialize result to NaN</span>
+            <span class="c1"># Initialize result to NaN.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
 
-            <span class="c1"># avoid divide by zero.</span>
+            <span class="c1"># Avoid division by -zero-.</span>
             <span class="n">nonzero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
 
-            <span class="c1"># calculate the error.</span>
+            <span class="c1"># Calculate the error.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">=</span> <span class="n">abs_residual</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span>
 
-            <span class="c1"># Set the units.</span>
+            <span class="c1"># Set units.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span> <span class="o">*=</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span>
@@ -409,10 +414,11 @@
         <span class="sd">&quot;&quot;&quot;Return the ionized fraction.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self._ionized_fraction (quantity.Quantity): Ion fraction of fit.</span>
+<span class="sd">            self._ionized_fraction (quantity.Quantity): Ionized fraction from</span>
+<span class="sd">            fit.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># Lazy Instantiation</span>
+        <span class="c1"># Lazy Instantiation.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ionized_fraction</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 
             <span class="c1"># Compute ionized fraction.</span>
@@ -435,10 +441,10 @@
         <span class="sd">&quot;&quot;&quot;Return the large fraction.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self._large_fraction (quantity.Quantity): Large fraction of fit.</span>
+<span class="sd">            self._large_fraction (quantity.Quantity): Large fraction from fit.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># Lazy Instantiation</span>
+        <span class="c1"># Lazy Instantiation.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_large_fraction</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 
             <span class="c1"># Compute large fraction.</span>
@@ -458,18 +464,18 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_large_fraction</span>
 
     <span class="k">def</span> <span class="nf">_get_charge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the spectral charge breakdown.</span>
+        <span class="sd">&quot;&quot;&quot;Return the spectral charge breakdown from fit.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self._charge (dictionary): Associative array with keys</span>
-<span class="sd">                &#39;anion&#39;, &#39;neutral&#39; and &#39;cation&#39;</span>
-
-<span class="sd">        Todo:</span>
-<span class="sd">            self._charge should be a Spectrum1D-object</span>
+<span class="sd">            self._charge (dictionary): Dictionary with keys</span>
+<span class="sd">            &#39;anion&#39;, &#39;neutral&#39; and &#39;cation&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># Lazy Instantiation</span>
+        <span class="c1"># TODO: Should self._charge be a Spectrum1D-object?</span>
+
+        <span class="c1"># Lazy Instantiation.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
             <span class="n">decomposer_anion</span> <span class="o">=</span> \
                 <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_anion</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
                         <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;charge&#39;</span><span class="p">])</span>
@@ -480,10 +486,11 @@
                 <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_cation</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
                         <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;charge&#39;</span><span class="p">])</span>
 
+            <span class="c1"># Create multiprocessing pool.</span>
             <span class="n">n_cpus</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
             <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">n_cpus</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
-            <span class="c1"># Conveniences for below.</span>
+            <span class="c1"># Convenience definitions.</span>
             <span class="n">wt_shape_yz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
             <span class="n">new_dims</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">,</span>
                                   <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wt_shape_yz</span><span class="p">))</span>
@@ -496,10 +503,11 @@
             <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 
-            <span class="c1"># Reshape the charge arrays.</span>
+            <span class="c1"># Reshape results.</span>
             <span class="n">ordinate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">T</span>
             <span class="n">interior</span> <span class="o">=</span> <span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span>
                         <span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
+
             <span class="n">new_anion</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">anion</span><span class="p">,</span> <span class="n">interior</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
             <span class="n">new_neut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">neutral</span><span class="p">,</span> <span class="n">interior</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
             <span class="n">new_cat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">cation</span><span class="p">,</span> <span class="n">interior</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -508,7 +516,7 @@
                             <span class="s1">&#39;neutral&#39;</span><span class="p">:</span> <span class="n">new_neut</span><span class="p">,</span>
                             <span class="s1">&#39;cation&#39;</span><span class="p">:</span> <span class="n">new_cat</span><span class="p">}</span>
 
-            <span class="c1"># Set the units</span>
+            <span class="c1"># Set units.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;anion&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;neutral&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span><span class="p">[</span><span class="s1">&#39;cation&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
@@ -516,17 +524,16 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span>
 
     <span class="k">def</span> <span class="nf">_get_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the spectral size breakdown.</span>
+        <span class="sd">&quot;&quot;&quot;Return the spectral size breakdown from fit.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self._size (dictionary): Associative array with keys</span>
-<span class="sd">                &#39;large&#39;, &#39;small&#39;</span>
-
-<span class="sd">        Todo:</span>
-<span class="sd">            self._charge should be a Spectrum1D-object</span>
+<span class="sd">            self._size (dictionary): Dictionary with keys</span>
+<span class="sd">            &#39;large&#39;, &#39;small&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># Lazy Instantiation</span>
+        <span class="c1"># TODO: Should self._charge be a Spectrum1D-object?</span>
+
+        <span class="c1"># Lazy Instantiation.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">decomposer_large</span> <span class="o">=</span> \
                 <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_large</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
@@ -535,7 +542,7 @@
                 <span class="n">partial</span><span class="p">(</span><span class="n">_decomposer_small</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
                         <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">])</span>
 
-            <span class="c1"># Create pool.</span>
+            <span class="c1"># Create multiprocessing pool.</span>
             <span class="n">n_cpus</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
             <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">n_cpus</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -548,7 +555,7 @@
             <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 
-            <span class="c1"># Reshape the outputs.</span>
+            <span class="c1"># Reshape results.</span>
             <span class="n">ordinate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">T</span>
             <span class="n">ord_shape_yz</span> <span class="o">=</span> <span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
             <span class="n">new_large</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
@@ -558,28 +565,28 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;large&#39;</span><span class="p">:</span> <span class="n">new_large</span><span class="p">,</span>
                           <span class="s1">&#39;small&#39;</span><span class="p">:</span> <span class="n">new_small</span><span class="p">}</span>
-            <span class="c1"># Set the units</span>
+            <span class="c1"># Set units.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">[</span><span class="s1">&#39;large&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">[</span><span class="s1">&#39;small&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">unit</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span>
 
-    <span class="c1"># Make fit a property for easy access</span>
+    <span class="c1"># Make fit a property.</span>
     <span class="n">fit</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_fit</span><span class="p">)</span>
 
-    <span class="c1"># Make error a property for easy access</span>
+    <span class="c1"># Make error a property.</span>
     <span class="n">error</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_error</span><span class="p">)</span>
 
-    <span class="c1"># Make ionized_fraction a property for easy access</span>
+    <span class="c1"># Make ionized_fraction a property.</span>
     <span class="n">ionized_fraction</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_ionized_fraction</span><span class="p">)</span>
 
-    <span class="c1"># Make large_fraction a property for easy access</span>
+    <span class="c1"># Make large_fraction a property.</span>
     <span class="n">large_fraction</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_large_fraction</span><span class="p">)</span>
 
-    <span class="c1"># Make charge a property for easy access</span>
+    <span class="c1"># Make charge a property.</span>
     <span class="n">charge</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_charge</span><span class="p">)</span>
 
-    <span class="c1"># Make size a property for easy access</span>
+    <span class="c1"># Make size a property for.</span>
     <span class="n">size</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_size</span><span class="p">)</span></div>
 </pre></div>
 
@@ -592,7 +599,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2018, Dr. Christiaan Boersma and Dr. Matthew J. Shannon.
+        &#169; Copyright 2018-2021 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.
 
     </p>
   </div>
