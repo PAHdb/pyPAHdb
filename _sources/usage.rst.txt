@@ -6,8 +6,8 @@ Usage
 =====
 
 Sample code demonstrating the use of pypahdb is shown below, which has been
- included in the pypahdb package as ``examples/example_tbl.py``. The example
- makes use of  the bundled ``sample_data_NGC7023.tbl`` spectrum.
+included in the pypahdb package as ``examples/example_tbl.py``. The example
+makes use of  the bundled ``sample_data_NGC7023.tbl`` spectrum.
 
 .. code-block:: python
 

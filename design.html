@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>2 Design &mdash; pypahdb  documentation</title>
@@ -221,7 +220,7 @@
     text-align: unset;
 }
 </style>
-<section id="design">
+<div class="section" id="design">
 <h1><span class="sectnum">2</span> Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h1>
 <p>Pypahdb analyzes spectroscopic observations (including spectral maps)
 and characterizes the PAH emission in terms of PAH ionization and size
@@ -230,12 +229,11 @@ fractions using a database-fitting approach.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pypahdb</span>
 </pre></div>
 </div>
-<section id="flowchart">
+<div class="section" id="flowchart">
 <h2><span class="sectnum">2.1</span> Flowchart<a class="headerlink" href="#flowchart" title="Permalink to this headline">¶</a></h2>
-<figure class="align-center" id="id5">
+<div class="figure align-center" id="id5">
 <img alt="_images/fig_flowchart.png" src="_images/fig_flowchart.png" />
-<figcaption>
-<p><span class="caption-text">Pypahdb flowchart. (1) Astronomical spectroscopic data is loaded from
+<p class="caption"><span class="caption-text">Pypahdb flowchart. (1) Astronomical spectroscopic data is loaded from
 FITS or ASCII files. (2) A highly over-sampled pre-computed matrix of
 PAH spectra is loaded and interpolated onto the wavelength grid of the
 astronomical observations. Database-fitting is performed using a
@@ -244,8 +242,7 @@ of an individual PAH molecule. As a result, the fit can be broken down in
 terms of PAH charge and size. (3) The results are written to disk as a
 single FITS file and as a PDF summarizing the results (one page per pixel,
 if a spectral cube is provided as input).</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
-</figcaption>
-</figure>
+</div>
 <p>The general program methodology is encapsulated in the flowchart
 presented in the figure above and is as follows:</p>
 <ol class="arabic simple">
@@ -328,8 +325,8 @@ code-block is shown in the flowchart.</p></li>
 <span class="n">result</span><span class="o">.</span><span class="n">save_fits</span><span class="p">(</span><span class="s1">&#39;NGC7023_pypahdb.fits&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">obs</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="supported-data-formats">
+</div>
+<div class="section" id="supported-data-formats">
 <h2><span class="sectnum">2.2</span> Supported data formats<a class="headerlink" href="#supported-data-formats" title="Permalink to this headline">¶</a></h2>
 <p>Pypahdb supports reading in IPAC tables, <em>Spitzer</em> FITS files, and <em>JWST</em> FITS
 files. Support for reading pahfit<a class="footnote-reference brackets" href="#id3" id="id1">1</a>-files is underway. Pahfit is being
@@ -343,8 +340,8 @@ developed as part of the same <em>JWST</em> ERS Program<a class="footnote-refere
 <dd><p><a class="reference external" href="http://jwst-ism.org/">website</a></p>
 </dd>
 </dl>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
