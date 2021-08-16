@@ -1,6 +1,5 @@
 [![Travis Status](https://img.shields.io/travis/PAHdb/pyPAHdb.svg)](https://travis-ci.org/PAHdb/pyPAHdb) [![Coverage Status]( https://codecov.io/gh/PAHdb/pyPAHdb/graph/badge.svg)](https://codecov.io/gh/PAHdb/pyPAHdb) [![Documentation](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://pahdb.github.io/pyPAHdb/)
 
-
 # pypahdb
 
 pypahdb is a Python package to fit and decompose astronomical PAH
@@ -12,8 +11,8 @@ A paper describing pypahdb was presented at
 [https://doi.org/10.25080/Majora-4af1f417-00f](https://doi.org/10.25080/Majora-4af1f417-00f).
 
 ## Features
-pypahdb is the light version of a full suite of [Python software tools](https://github.com/PAHdb/AmesPAHdbPythonSuite) that is currently being developed, which is an analog of the off-line [IDL tools](https://github.com/PAHdb/AmesPAHdbIDLSuite). A feature comparison is presented in the table below.
 
+pypahdb is the light version of a full suite of [Python software tools](https://github.com/PAHdb/AmesPAHdbPythonSuite) that is currently being developed, which is an analog of the off-line [IDL tools](https://github.com/PAHdb/AmesPAHdbIDLSuite). A feature comparison is presented in the table below.
 
 |                         | pyPAHdb  | IDL/Python tools |
 |-------------------------|----------|------------------|
@@ -49,6 +48,7 @@ pypahdb can be directly installed from the
 ``pip install git+git://github.com/PAHdb/pyPAHdb.git``
 
 ## Supported data formats
+
 pypahdb supports IPAC tables, Spitzer FITS files and JWST FITS files.
 
 ## Examples
@@ -66,6 +66,7 @@ result.save_fits('/path/to/myresult.fits', header=observation.header)
 # Save a PDF summary of the fit results
 result.save_pdf('/path/to/figure.pdf')
 ```
+
 More examples can be found in the
 [examples](examples)-directory.
 
@@ -89,23 +90,26 @@ Stars as Traced by Multiband Imaging and Spectroscopic Mosaics"
 coordinated by an international "Core team" of 19 scientists and
 supported by 119 "science collaborators". pypahdb is developed by the
 [NASA Ames PAH IR Spectroscopic
-Database](https://www.astrochemistry.org/pahdb/) team, asscociated
+Database](https://www.astrochemistry.org/pahdb/) team, associated
 with the [Astrophysics & Astrochemistry
 Laboratory](https://www.astrochemistry.org) at [NASA Ames Research
 Center](https://www.nasa.gov/centers/ames).
 
 The NASA Ames PAH IR Spectroscopic Database and pypahdb are being
 supported through a directed Work Package at NASA Ames titled:
-*"Laboratory Astrophysics – The NASA Ames PAH IR Spectroscopic
+*"Laboratory Astrophysics - The NASA Ames PAH IR Spectroscopic
 Database"*.
 
 pypahdb uses a precomputed matrix of theoretically calculated PAH
 emission spectra from version 3.00 of the library of computed
 spectra. This matrix has been constructed from a collection of
-*"astronomical"* PAHs, which meet the following critera and include
+*"astronomical"* PAHs, which meet the following criteria and include
 the fullerenes C<sub>60</sub> and C<sub>70</sub>:
 
-       'magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c>20 hydrogen>0'
+```IDL
+magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c>20 hydrogen>0'
+```
+
 
 The PAH emission spectra have been calculated employing a PAH emission
 model using the following parameters:
@@ -146,8 +150,8 @@ when using pypahdb:
 
     * C.W. Bauschlicher, Jr., C. Boersma, A. Ricca, A.L. Mattioda, 
       J. Cami, E. Peeters, F. S&#225;nchez de Armas, G. Puerta Saborido, 
-      D.M. Hudgins, and L.J. Allamandola, “THE NASA AMES PAH IR 
-      SPECTROSCOPIC DATABASE: THE COMPUTED SPECTRA”, The Astrophysical 
+      D.M. Hudgins, and L.J. Allamandola, "THE NASA AMES PAH IR 
+      SPECTROSCOPIC DATABASE: THE COMPUTED SPECTRA", The Astrophysical 
       Journal Supplement Series, 189, 341, 2010, 
       https://doi.org/10.1088/0067-0049/189/2/341
       
