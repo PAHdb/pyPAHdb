@@ -1,4 +1,4 @@
-[![Travis Status](https://img.shields.io/travis/PAHdb/pyPAHdb.svg)](https://travis-ci.org/PAHdb/pyPAHdb) [![Coverage Status]( https://codecov.io/gh/PAHdb/pyPAHdb/graph/badge.svg)](https://codecov.io/gh/PAHdb/pyPAHdb) [![Documentation](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://pahdb.github.io/pyPAHdb/)
+[![Travis Status](https://img.shields.io/travis/com/PAHdb/pyPAHdb)](https://app.travis-ci.com/github/PAHdb/pyPAHdb) [![Coverage Status]( https://codecov.io/gh/PAHdb/pyPAHdb/graph/badge.svg)](https://codecov.io/gh/PAHdb/pyPAHdb) [![Documentation](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://pahdb.github.io/pyPAHdb/)
 
 # pypahdb
 
@@ -110,7 +110,6 @@ the fullerenes C<sub>60</sub> and C<sub>70</sub>:
 magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c>20 hydrogen>0'
 ```
 
-
 The PAH emission spectra have been calculated employing a PAH emission
 model using the following parameters:
 
@@ -128,39 +127,39 @@ Spectroscopic Database website, which is located at
 You are kindly asked to consider the following references for citation
 when using pypahdb:
 
-    * M.J. Shannon, and C. Boersma, "ORGANIC MOLECULES IN SPACE:
-      INSIGHTS FROM THE NASA AMES MOLECULAR DATABASE IN THE ERA OF THE
-      JAMES WEBB SPACE TELESCOPE" in Proceedings of the 17th Python in
-      Science Conference, eds. F. Akici, D. Lippa, D. Niederhut, and
-      M. Pacer, 99, 2018, https://doi.org/10.25080/Majora-4af1f417-00f
+* M.J. Shannon, and C. Boersma, "ORGANIC MOLECULES IN SPACE:
+  INSIGHTS FROM THE NASA AMES MOLECULAR DATABASE IN THE ERA OF THE
+  JAMES WEBB SPACE TELESCOPE" in Proceedings of the 17th Python in
+  Science Conference, eds. F. Akici, D. Lippa, D. Niederhut, and
+  M. Pacer, 99, 2018 [https://doi.org/10.25080/Majora-4af1f417-00f](https://doi.org/10.25080/Majora-4af1f417-00f)
 
-    * C.W. Bauschlicher, Jr., A. Ricca, C. Boersma, and
-      L.J. Allamandola, "THE NASA AMES PAH IR SPECTROSCOPIC DATABASE:
-      COMPUTATIONAL VERSION 3.00 WITH UPDATED CONTENT AND THE
-      INTRODUCTION OF MULTIPLE SCALING FACTORS", The Astrophysical
-      Journal Supplement Series, 234, 32, 2018
-      https://doi.org/10.3847/1538-4365/aaa019
+* C.W. Bauschlicher, Jr., A. Ricca, C. Boersma, and
+  L.J. Allamandola, "THE NASA AMES PAH IR SPECTROSCOPIC DATABASE:
+  COMPUTATIONAL VERSION 3.00 WITH UPDATED CONTENT AND THE
+  INTRODUCTION OF MULTIPLE SCALING FACTORS", The Astrophysical
+  Journal Supplement Series, 234, 32, 2018
+  [https://doi.org/10.3847/1538-4365/aaa019](https://doi.org/10.3847/1538-4365/aaa019)
 
-    * C. Boersma, C.W. Bauschlicher, Jr., A. Ricca, A.L. Mattioda,
-      J. Cami, E. Peeters, F. Sanchez de Armas, G. Puerta Saborido,
-      D.M. Hudgins, and L.J. Allamandola, "THE NASA AMES PAH IR
-      SPECTROSCOPIC DATABASE VERSION 2.00: UPDATED CONTENT, WEBSITE AND
-      ON/OFFLINE TOOLS", The Astrophysical Journal Supplement Series,
-      https://doi.org/211, 8, 2014 10.1088/0067-0049/211/1/8
+* C. Boersma, C.W. Bauschlicher, Jr., A. Ricca, A.L. Mattioda,
+  J. Cami, E. Peeters, F. Sanchez de Armas, G. Puerta Saborido,
+  D.M. Hudgins, and L.J. Allamandola, "THE NASA AMES PAH IR
+  SPECTROSCOPIC DATABASE VERSION 2.00: UPDATED CONTENT, WEBSITE AND
+  ON/OFFLINE TOOLS", The Astrophysical Journal Supplement Series, 211, 8, 2014
+  [https://doi.org/10.1088/0067-0049/211/1/8](https://doi.org/10.1088/0067-0049/211/1/8)
 
-    * C.W. Bauschlicher, Jr., C. Boersma, A. Ricca, A.L. Mattioda, 
-      J. Cami, E. Peeters, F. S&#225;nchez de Armas, G. Puerta Saborido, 
-      D.M. Hudgins, and L.J. Allamandola, "THE NASA AMES PAH IR 
-      SPECTROSCOPIC DATABASE: THE COMPUTED SPECTRA", The Astrophysical 
-      Journal Supplement Series, 189, 341, 2010, 
-      https://doi.org/10.1088/0067-0049/189/2/341
-      
-    * Mattioda, A. L., Hudgins, D. M., Boersma, C., Ricca, A.,
-      Peeters, E., Cami, J., Sanchez de Armas, F., Puerta Saborido,
-      G., Bauschlicher, C. W., J., and Allamandola, L. J. "THE NASA
-      AMES PAH IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", The
-      Astrophysical Journal Supplement Series, 251, 22, 2020, 
-      https://doi.org/10.3847/1538-4365/abc2c8
+* C.W. Bauschlicher, Jr., C. Boersma, A. Ricca, A.L. Mattioda,
+  J. Cami, E. Peeters, F. S&#225;nchez de Armas, G. Puerta Saborido,
+  D.M. Hudgins, and L.J. Allamandola, "THE NASA AMES PAH IR
+  SPECTROSCOPIC DATABASE: THE COMPUTED SPECTRA", The Astrophysical
+  Journal Supplement Series, 189, 341, 2010
+  [https://doi.org/10.1088/0067-0049/189/2/341](https://doi.org/10.1088/0067-0049/189/2/341)
+
+* Mattioda, A. L., Hudgins, D. M., Boersma, C., Ricca, A.,
+  Peeters, E., Cami, J., Sanchez de Armas, F., Puerta Saborido,
+  G., Bauschlicher, C. W., J., and Allamandola, L. J. "THE NASA
+  AMES PAH IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", The
+  Astrophysical Journal Supplement Series, 251, 22, 2020
+  [https://doi.org/10.3847/1538-4365/abc2c8](https://doi.org/10.3847/1538-4365/abc2c8)
 
 ## Contributing
 

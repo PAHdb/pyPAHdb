@@ -129,7 +129,6 @@ class Observation(object):
             self.header = fits.header.Header.fromstring(str)
             return None
         except Exception as e:
-            print(e)
             pass
 
         # Like astropy.io we, simply raise a generic OSError when
