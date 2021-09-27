@@ -128,7 +128,7 @@ class Observation(object):
                 str += "%-8s=%71s" % (card, value)
             self.header = fits.header.Header.fromstring(str)
             return None
-        except Exception as e:
+        except Exception:
             pass
 
         # Like astropy.io we, simply raise a generic OSError when
