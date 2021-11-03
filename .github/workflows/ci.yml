@@ -20,6 +20,7 @@ jobs:
       - name: Unit tests and coverage
         run: |
           coverage run --source pypahdb --omit *pypahdb/_version.py,*pypahdb/tests/* -m pytest --pyargs pypahdb.tests
+      - name: Generate coverage report
         run: |
           coverage report -m
           coverage xml
