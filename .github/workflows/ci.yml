@@ -1,0 +1,39 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          sudo apt-get install -y graphviz
+          python -m pip install --upgrade pip
+          pip install -v .
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+      - name: Check code style
+        run: |
+          flake8 --max-line-length=115 --exclude versioneer.py,docs/*
+      - name: Unit tests and coverage
+        run: |
+          coverage run --source pypahdb --omit *pypahdb/_version.py,*pypahdb/tests/* -m pytest --pyargs pypahdb.tests
+        run: |
+          coverage report -m
+          coverage xml
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: coverage.xml
+          fail_ci_if_error: true
+          verbose: true
+      - name: Build documentation
+        run: |
+          make -C docs html
+      - name: Publish documentation
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/build/html
