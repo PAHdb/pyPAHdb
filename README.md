@@ -1,4 +1,4 @@
-[![Travis Status](https://img.shields.io/travis/com/PAHdb/pyPAHdb)](https://app.travis-ci.com/github/PAHdb/pyPAHdb) [![Coverage Status]( https://codecov.io/gh/PAHdb/pyPAHdb/graph/badge.svg)](https://codecov.io/gh/PAHdb/pyPAHdb) [![Documentation](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://pahdb.github.io/pyPAHdb/)
+![Workflow Status](https://github.com/pahdb/pyPAHdb/actions/workflows/ci.yml/badge.svg)[![Coverage Status]( https://codecov.io/gh/PAHdb/pyPAHdb/graph/badge.svg)](https://codecov.io/gh/PAHdb/pyPAHdb) [![Documentation](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://pahdb.github.io/pyPAHdb/)
 
 # pypahdb
 
