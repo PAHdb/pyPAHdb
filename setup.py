@@ -43,8 +43,8 @@ with open(path.join(here, 'requirements.txt')) as requirements_file:
 class BuildPyCommand(build_py):
     def run(self):
         remote_pkl = 'https://www.astrochemistry.org/pahdb/pypahdb/pickle.php'
-        if getenv('TRAVIS') == 'true':
-            remote_pkl += '?travis=true'
+        if getenv('GITHUB_ACTIONS') == 'true':
+            remote_pkl += '?github_actions=true'
         local_pkl = 'pypahdb/resources/precomputed.pkl'
         # honor the --dry-run flag
         if not self.dry_run:

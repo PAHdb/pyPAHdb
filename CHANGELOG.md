@@ -1,3 +1,4 @@
+2021-11-03 Move from Travis CI to GitHub Actions [Christiaan.Boersma@nasa.gov]
 2021-11-03 Fix CI GitHub Actions. [30665870+PAHdb@users.noreply.github.com]
 2021-11-03 Setup CI GitHub Actions [30665870+PAHdb@users.noreply.github.com]
 2021-10-20 Configuring codecov patch thresholds. [Christiaan.Boersma@nasa.gov]
