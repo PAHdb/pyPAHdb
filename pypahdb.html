@@ -149,7 +149,7 @@ approach.</p>
 information.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer_base.</span></span><span class="sig-name descname"><span class="pre">DecomposerBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer_base.</span></span><span class="sig-name descname"><span class="pre">DecomposerBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Fit and decompose spectrum.</p>
 <dl class="simple">
@@ -158,7 +158,7 @@ information.</p>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.charge">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">charge</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.charge" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.charge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the spectral charge breakdown from fit.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>self._charge (dictionary): Dictionary with keys
@@ -169,7 +169,7 @@ information.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.error">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.error" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.error" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the error as ∫|residual|dν / ∫observation dν.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>self._yerror (quantity.Quantity): The fit error.</p>
@@ -179,7 +179,7 @@ information.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.fit">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">fit</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.fit" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fit</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the fit.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>self._yfit (quantity.Quantity): The fit.</p>
@@ -189,7 +189,7 @@ information.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.ionized_fraction">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">ionized_fraction</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.ionized_fraction" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ionized_fraction</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.ionized_fraction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the ionized fraction.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>self._ionized_fraction (quantity.Quantity): Ionized fraction from
@@ -200,7 +200,7 @@ fit.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.large_fraction">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">large_fraction</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.large_fraction" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">large_fraction</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.large_fraction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the large fraction.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>self._large_fraction (quantity.Quantity): Large fraction from fit.</p>
@@ -210,7 +210,7 @@ fit.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.size">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.size" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the spectral size breakdown from fit.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>self._size (dictionary): Dictionary with keys
@@ -230,7 +230,7 @@ fit.</p>
 information.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer.</span></span><span class="sig-name descname"><span class="pre">Decomposer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer.</span></span><span class="sig-name descname"><span class="pre">Decomposer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pypahdb.decomposer_base.DecomposerBase" title="pypahdb.decomposer_base.DecomposerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">pypahdb.decomposer_base.DecomposerBase</span></code></a></p>
 <p>Extends DecomposerBase to write results to disk (PDF, FITS).</p>
 <dl class="py method">
@@ -273,7 +273,7 @@ doplots (bool): Save plots to PDF (defaults to True).</p>
 information.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pypahdb.observation.Observation">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pypahdb.observation.</span></span><span class="sig-name descname"><span class="pre">Observation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/observation.html#Observation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.observation.Observation" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pypahdb.observation.</span></span><span class="sig-name descname"><span class="pre">Observation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/observation.html#Observation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.observation.Observation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Creates an Observation object.</p>
 <p>Reads IPAC tables, Spitzer-IRS data cubes, and JWST spectra.</p>
