@@ -6,6 +6,7 @@ pytest
 sphinx
 # These are dependencies of various sphinx extensions for documentation.
 ipython
+ipython_genutils
 matplotlib
 nbconvert==5.6.1
 nbsphinx
