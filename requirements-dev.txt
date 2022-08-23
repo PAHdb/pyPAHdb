@@ -9,7 +9,7 @@ ipython
 ipython_genutils
 Jinja2==3.0.0
 matplotlib
-nbconvert==5.6.1
+nbconvert==6.5.1
 nbsphinx
 numpydoc
 sphinx-copybutton
