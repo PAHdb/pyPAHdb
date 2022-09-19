@@ -210,7 +210,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;latin1&#39;</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Python 3 is required for pypahdb.&#39;</span><span class="p">)</span>
-                <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
         <span class="c1"># Linearly interpolate the precomputed spectra onto the</span>
         <span class="c1"># frequency grid of the input spectrum.</span>
