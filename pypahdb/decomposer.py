@@ -136,9 +136,13 @@ class Decomposer(DecomposerBase):
 
             # ax0: Best fit.
             data = self.spectrum.flux.T[:, i, j]
+            unc = None
+            if self.spectrum.uncertainty:
+                unc = self.spectrum.uncertainty.quantity.T[:, i, j]
             model = self.fit[:, i, j]
-            ax0.plot(abscissa, data, 'kx', ms=5, mew=0.5, label='input')
-            ax0.plot(abscissa, model, label='fit', color='red')
+            ax0.errorbar(abscissa, data, yerr=unc, marker='x', ms=5, mew=0.5,
+                         lw=0, color='black', ecolor='grey', capsize=2, label='input')
+            ax0.plot(abscissa, model, label='fit', color='red', lw=1.5)
             error_str = "$error$=%-4.2f" % (self.error[i][j])
             ax0.text(0.025, 0.9, error_str, ha='left', va='center',
                      transform=ax0.transAxes)
@@ -150,6 +154,8 @@ class Decomposer(DecomposerBase):
                         zorder=-10, lw=0.5)
 
             # ax2: Size breakdown.
+            ax2.errorbar(abscissa, data, yerr=unc, marker='x', ms=5,
+                         mew=0.5, lw=0, color='black', ecolor='grey', capsize=2, label='input')
             ax2.plot(abscissa, model, color='red', lw=1.5)
             ax2.plot(abscissa, self.size['large'][:, i, j],
                      label='large', lw=1, color='purple')
@@ -159,7 +165,9 @@ class Decomposer(DecomposerBase):
             ax2.text(0.025, 0.9, size_str, ha='left', va='center',
                      transform=ax2.transAxes)
 
-            # ax3: harge breakdown.
+            # ax3: Charge breakdown.
+            ax3.errorbar(abscissa, data, yerr=unc, marker='x', ms=5,
+                         mew=0.5, lw=0, color='black', ecolor='grey', capsize=2, label='input')
             ax3.plot(abscissa, model, color='red', lw=1.5)
             ax3.plot(abscissa, charge['anion'][:, i, j],
                      label='anion', lw=1, color='orange')
@@ -200,7 +208,7 @@ class Decomposer(DecomposerBase):
                 "1288)).\n Visit https://github.com/pahdb/pypahdb/ for more" \
                 "information on pypahdb."
 
-            if(domaps is True):
+            if (domaps is True):
                 if isinstance(header, fits.header.Header):
                     if 'OBJECT' in header:
                         d['Title'] = d['Title'] + ' - ' + header['OBJECT']
@@ -233,7 +241,7 @@ class Decomposer(DecomposerBase):
                 plt.close(fig)
                 plt.gcf().clear()
 
-            if(doplots):
+            if (doplots):
                 ordinate = self.spectrum.flux.T
                 for i in range(ordinate.shape[1]):
                     for j in range(ordinate.shape[2]):

@@ -19,6 +19,7 @@ from astropy.io.registry import IORegistryError
 from astropy.io.fits.verify import VerifyWarning
 from astropy import units as u
 from specutils import Spectrum1D
+from astropy.nddata import StdDevUncertainty
 
 
 class Observation(object):
@@ -121,7 +122,13 @@ class Observation(object):
             for name in data.colnames:
                 data.rename_column(name, name.upper())
             wave = data['WAVELENGTH'].quantity
-            self.spectrum = Spectrum1D(flux, spectral_axis=wave)
+            unc = None
+            if "FLUX_UNCERTAINTY" in data.colnames:
+                unc = StdDevUncertainty(np.reshape(data['FLUX_UNCERTAINTY'].quantity,
+                                                   (1, 1, ) +
+                                                   (data['FLUX_UNCERTAINTY'].quantity.shape)))
+            self.spectrum = Spectrum1D(
+                flux, spectral_axis=wave, uncertainty=unc)
             str = ''
             for card in data.meta['keywords'].keys():
                 value = data.meta['keywords'][card]['value']
