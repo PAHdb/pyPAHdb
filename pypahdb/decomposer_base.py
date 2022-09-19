@@ -111,7 +111,7 @@ class DecomposerBase(object):
                 self._precomputed = pickle.load(f, encoding='latin1')
             except Exception as e:
                 print('Python 3 is required for pypahdb.')
-                raise(e)
+                raise (e)
 
         # Linearly interpolate the precomputed spectra onto the
         # frequency grid of the input spectrum.

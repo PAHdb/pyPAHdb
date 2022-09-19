@@ -56,7 +56,7 @@ class Observation(object):
 
             return None
         except FileNotFoundError as e:
-            raise(e)
+            raise (e)
         except (OSError, IORegistryError):
             # Because Spectrum1D raises a generic OSError when the
             # file cannot be read, we have to catch OSError here and pass
