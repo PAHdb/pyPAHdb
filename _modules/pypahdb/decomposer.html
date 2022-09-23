@@ -377,6 +377,13 @@
                 <span class="s2">&quot;Software used to create this file&quot;</span><span class="p">)</span>
             <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;AUTHOR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. &quot;</span>
                              <span class="s2">&quot;Maragkoudakis&quot;</span><span class="p">,</span> <span class="s2">&quot;Authors of the software&quot;</span><span class="p">)</span>
+            <span class="n">cards</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PC3_3&#39;</span><span class="p">,</span> <span class="s1">&#39;CRPIX3&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;CRVAL3&#39;</span><span class="p">,</span> <span class="s1">&#39;CTYPE3&#39;</span><span class="p">,</span> <span class="s1">&#39;CDELT3&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;CUNIT3&#39;</span><span class="p">,</span> <span class="s1">&#39;PS3_0&#39;</span><span class="p">,</span> <span class="s1">&#39;PS3_1&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;WCSAXES&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cards</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">hdr</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
             <span class="n">comments</span> <span class="o">=</span> <span class="s2">&quot;This file contains results from pypahdb.</span><span class="se">\n</span><span class="s2">&quot;</span> \
                        <span class="s2">&quot;Pypahdb was created as part of the JWST ERS Program &quot;</span> \
                        <span class="s2">&quot;titled &#39;Radiative Feedback from Massive Stars as &quot;</span> \
