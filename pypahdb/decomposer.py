@@ -278,6 +278,13 @@ class Decomposer(DecomposerBase):
                 "Software used to create this file")
             hdr['AUTHOR'] = ("Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. "
                              "Maragkoudakis", "Authors of the software")
+            cards = ['PC3_3', 'CRPIX3',
+                     'CRVAL3', 'CTYPE3', 'CDELT3',
+                     'CUNIT3', 'PS3_0', 'PS3_1',
+                     'WCSAXES']
+            for c in cards:
+                if c in hdr:
+                    del hdr[c]
             comments = "This file contains results from pypahdb.\n" \
                        "Pypahdb was created as part of the JWST ERS Program " \
                        "titled 'Radiative Feedback from Massive Stars as " \
