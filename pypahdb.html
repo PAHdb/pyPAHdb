@@ -19,6 +19,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -61,9 +62,18 @@
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pypahdb.decomposer_base">pypahdb.decomposer_base module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pypahdb.decomposer">pypahdb.decomposer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pypahdb.observation">pypahdb.observation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pypahdb.decomposer_base">pypahdb.decomposer_base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pypahdb.decomposer_base.DecomposerBase"><code class="docutils literal notranslate"><span class="pre">DecomposerBase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pypahdb.decomposer">pypahdb.decomposer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pypahdb.decomposer.Decomposer"><code class="docutils literal notranslate"><span class="pre">Decomposer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pypahdb.observation">pypahdb.observation module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pypahdb.observation.Observation"><code class="docutils literal notranslate"><span class="pre">Observation</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pypahdb">Module contents</a></li>
 </ul>
 </li>
@@ -234,6 +244,38 @@ information.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer.</span></span><span class="sig-name descname"><span class="pre">Decomposer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pypahdb.decomposer_base.DecomposerBase" title="pypahdb.decomposer_base.DecomposerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecomposerBase</span></code></a></p>
 <p>Extends DecomposerBase to write results to disk (PDF, FITS).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer.plot_fit">
+<span class="sig-name descname"><span class="pre">plot_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.plot_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.plot_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots a fit and saves it to a PDF.</p>
+<dl class="simple">
+<dt>Notes:</dt><dd><p>None.</p>
+</dd>
+<dt>Args:</dt><dd><p>i (int): Pixel coordinate (abscissa).
+j (int): Pixel coordinate (ordinate).</p>
+</dd>
+<dt>Returns:</dt><dd><p>fig (matplotlib.figure.Figure): Instance of figure.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer.plot_map">
+<span class="sig-name descname"><span class="pre">plot_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wcs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.plot_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.plot_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots a map.</p>
+<dl class="simple">
+<dt>Notes:</dt><dd><p>None.</p>
+</dd>
+<dt>Args:</dt><dd><p>im (numpy): Image.
+title (string): Image title.</p>
+</dd>
+<dt>Keywords:</dt><dd><p>wcs (wcs.wcs): WCS (defaults to None).</p>
+</dd>
+<dt>Returns:</dt><dd><p>fig (matplotlib.figure.Figure): Instance of figure.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer.save_fits">
 <span class="sig-name descname"><span class="pre">save_fits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.save_fits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.save_fits" title="Permalink to this definition">¶</a></dt>
