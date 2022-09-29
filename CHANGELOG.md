@@ -1,3 +1,4 @@
+2022-09-29 Improve and expose plotting routines [Christiaan.Boersma@nasa.gov]
 2022-09-23 Clean up FITS header before saving [Christiaan.Boersma@nasa.gov]
 2022-09-19 flake8 fixes [Christiaan.Boersma@nasa.gov]
 2022-09-19 Add JWST example [Christiaan.Boersma@nasa.gov]

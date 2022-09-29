@@ -8,6 +8,9 @@ test_spectrum.py: unit tests for class decomposer.
 import unittest
 import os.path
 import numpy as np
+import matplotlib
+
+from astropy.wcs import WCS
 
 from pypahdb.observation import Observation
 from pypahdb.decomposer import Decomposer
@@ -60,6 +63,10 @@ class DecomposerTestCase(unittest.TestCase):
         ofile = os.path.join(self.tmpdir, "result.pdf")
         self.decomposer.save_fits(ofile)
         assert os.path.isfile(ofile)
+
+    def test_plot_map(self):
+        assert isinstance(Decomposer.plot_map(
+            np.ones((1, 1)), "dummy", WCS()), matplotlib.figure.Figure)
 
 
 if __name__ == '__main__':

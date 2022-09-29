@@ -189,7 +189,8 @@ class Decomposer(DecomposerBase):
 
         return
 
-    def plot_map(self, data, title, wcs=None):
+    @staticmethod
+    def plot_map(data, title, wcs=None):
         """Plots a map.
 
         Notes:
@@ -240,7 +241,8 @@ class Decomposer(DecomposerBase):
             for j in range(im.shape[1] - 1):
                 if np.isfinite(im[i, j]):
                     jj = [j, j, j + 1, j + 1, j]
-                    args += [x[ii, jj], y[ii, jj], colors.to_hex(cmap(im[i, j]))]
+                    args += [x[ii, jj], y[ii, jj],
+                             colors.to_hex(cmap(im[i, j]))]
         plt.fill(*tuple(args))
 
         if wcs:
