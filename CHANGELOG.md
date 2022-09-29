@@ -1,3 +1,6 @@
+2022-09-23 Clean up FITS header before saving [Christiaan.Boersma@nasa.gov]
+2022-09-19 flake8 fixes [Christiaan.Boersma@nasa.gov]
+2022-09-19 Add JWST example [Christiaan.Boersma@nasa.gov]
 2022-06-24 Specify docs language [Christiaan.Boersma@nasa.gov]
 2022-05-03 Readding missing requirement [Christiaan.Boersma@nasa.gov]
 2022-05-03 Pinning Jinja2 requirement [Christiaan.Boersma@nasa.gov]

@@ -13,6 +13,8 @@ from datetime import datetime, timezone
 
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
+from matplotlib import cm, colors
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 
 from astropy.io import fits
@@ -55,158 +57,25 @@ class Decomposer(DecomposerBase):
 
         """
 
-        def _plot_map(im, title, wcs=None):
-            """Plots an image and saves it to a PDF.
-
-            Notes:
-                None.
-
-            Args:
-                im (numpy): Image.
-                title (string): Image title.
-
-            Keywords:
-                wcs (wcs.wcs): WCS (defaults to None).
-
-            Returns:
-                fig (matplotlib.figure.Figure): Instance of figure.
-
-            """
-            fig = plt.figure(figsize=(8, 11))
-            if isinstance(wcs, WCS):
-                ax = fig.add_subplot(111, projection=wcs)
-            else:
-                ax = fig.add_subplot(111)
-            ax.grid('on', color='black')
-            ax.minorticks_on()
-            ax.xaxis.set_tick_params(direction='in',
-                                     which='both',
-                                     bottom=True,
-                                     top=True,
-                                     left=True,
-                                     right=True)
-            ax.yaxis.set_tick_params(direction='in',
-                                     which='both',
-                                     bottom=True,
-                                     top=True,
-                                     left=True,
-                                     right=True)
-            fig.subplots_adjust(left=0.2)
-            plt.imshow(im, origin='lower', cmap='viridis',
-                       interpolation='nearest')
-            ax.set_xlabel(r"Ra [$^{\circ}$ ' '']")
-            ax.set_ylabel(r"Dec [$^{\circ}$ ' '']")
-            cbar = plt.colorbar(shrink=0.4)
-            cbar.set_label(title)
-            return fig
-
-        def _plot_fit(i, j):
-            """Plots a fit and saves it to a PDF.
-
-            Notes:
-                None.
-
-            Args:
-                i (int): Pixel coordinate (abscissa).
-                j (int): Pixel coordinate (ordinate).
-
-            Returns:
-                fig (matplotlib.figure.Figure): Instance of figure.
-
-            """
-
-            # Enable quantity_support.
-            from astropy.visualization import quantity_support
-            quantity_support()
-
-            # Create figure on shared axes.
-            fig = plt.figure(figsize=(8, 11))
-            gs = gridspec.GridSpec(4, 1, height_ratios=[2, 1, 2, 2])
-
-            # Add some spacing between axes.
-            gs.update(wspace=0.025, hspace=0.00)
-            ax0 = fig.add_subplot(gs[0])
-            ax1 = fig.add_subplot(gs[1], sharex=ax0)
-            ax2 = fig.add_subplot(gs[2], sharex=ax0)
-            ax3 = fig.add_subplot(gs[3], sharex=ax0)
-
-            # Convenience defintions.
-            abscissa = self.spectrum.spectral_axis
-            charge = self.charge
-
-            # ax0: Best fit.
-            data = self.spectrum.flux.T[:, i, j]
-            unc = None
-            if self.spectrum.uncertainty:
-                unc = self.spectrum.uncertainty.quantity.T[:, i, j]
-            model = self.fit[:, i, j]
-            ax0.errorbar(abscissa, data, yerr=unc, marker='x', ms=5, mew=0.5,
-                         lw=0, color='black', ecolor='grey', capsize=2, label='input')
-            ax0.plot(abscissa, model, label='fit', color='red', lw=1.5)
-            error_str = "$error$=%-4.2f" % (self.error[i][j])
-            ax0.text(0.025, 0.9, error_str, ha='left', va='center',
-                     transform=ax0.transAxes)
-
-            # ax1: Residual.
-            ax1.plot(abscissa, data - model, lw=1,
-                     label='residual', color='black')
-            ax1.axhline(y=0, color='0.5', ls='--', dashes=(12, 16),
-                        zorder=-10, lw=0.5)
-
-            # ax2: Size breakdown.
-            ax2.errorbar(abscissa, data, yerr=unc, marker='x', ms=5,
-                         mew=0.5, lw=0, color='black', ecolor='grey', capsize=2, label='input')
-            ax2.plot(abscissa, model, color='red', lw=1.5)
-            ax2.plot(abscissa, self.size['large'][:, i, j],
-                     label='large', lw=1, color='purple')
-            ax2.plot(abscissa, self.size['small'][:, i, j],
-                     label='small', lw=1, color='crimson')
-            size_str = "$f_{large}$=%3.1f" % (self.large_fraction[i][j])
-            ax2.text(0.025, 0.9, size_str, ha='left', va='center',
-                     transform=ax2.transAxes)
-
-            # ax3: Charge breakdown.
-            ax3.errorbar(abscissa, data, yerr=unc, marker='x', ms=5,
-                         mew=0.5, lw=0, color='black', ecolor='grey', capsize=2, label='input')
-            ax3.plot(abscissa, model, color='red', lw=1.5)
-            ax3.plot(abscissa, charge['anion'][:, i, j],
-                     label='anion', lw=1, color='orange')
-            ax3.plot(abscissa, charge['neutral'][:, i, j],
-                     label='neutral', lw=1, color='green')
-            ax3.plot(abscissa, charge['cation'][:, i, j],
-                     label='cation', lw=1, color='blue')
-            ion_str = "$f_{ionized}$=%3.1f" % (self.ionized_fraction[i][j])
-            ax3.text(0.025, 0.9, ion_str, ha='left', va='center',
-                     transform=ax3.transAxes)
-
-            # Set tick parameters and add legends to axes.
-            for ax in (ax0, ax1, ax2, ax3):
-                ax.tick_params(axis='both', which='both', direction='in',
-                               top=True, right=True)
-                ax.minorticks_on()
-                ax.legend(loc=0, frameon=False)
-
-            return fig
-
         with PdfPages(filename) as pdf:
             d = pdf.infodict()
-            d['Title'] = 'Pypahdb Result Summary'
+            d['Title'] = 'pyPAHdb Results Summary'
             d['Author'] = 'Dr. C. Boersma, Dr. M.J. Shannon, and Dr. A. ' \
                 'Maragkoudakis'
             d['Producer'] = 'NASA Ames Research Center'
             d['Creator'] = "pypahdb v{}(Python {}.{}.{})".format(
                 pypahdb.__version__, sys.version_info.major,
                 sys.version_info.minor, sys.version_info.micro)
-            d['Subject'] = 'Summary of Pypahdb Decomposition'
-            d['Keywords'] = 'pypahdb, PAH, database, ERS, JWST'
+            d['Subject'] = 'Summary of pyPAHdb Decomposition'
+            d['Keywords'] = 'pyPAHdb, PAH, database, ERS, JWST'
             d['CreationDate'] = datetime.now(
                 timezone.utc).strftime("D:%Y%m%d%H%M%S")
-            d['Description'] = "This file contains results from pypahdb.\n" \
-                "pypahdb was created as part of the JWST ERS " \
+            d['Description'] = "This file contains results from pyPAHdb. " \
+                "pyPAHdb was created as part of the JWST ERS " \
                 "Program titled 'Radiative Feedback from Massive Stars as " \
                 "Traced by Multiband Imaging and Spectroscopic Mosaics' (ID " \
-                "1288)).\n Visit https://github.com/pahdb/pypahdb/ for more" \
-                "information on pypahdb."
+                "1288)). Visit https://github.com/pahdb/pypahdb/ for more" \
+                "information."
 
             if (domaps is True):
                 if isinstance(header, fits.header.Header):
@@ -226,18 +95,18 @@ class Decomposer(DecomposerBase):
                     wcs = WCS(hdr)
                 else:
                     wcs = None
-                fig = _plot_map(self.ionized_fraction,
-                                'ionization fraction', wcs=wcs)
-                pdf.savefig(fig)
+                fig = self.plot_map(self.ionized_fraction,
+                                    'ionized fraction', wcs=wcs)
+                pdf.savefig(fig, bbox_inches="tight")
                 plt.close(fig)
                 plt.gcf().clear()
-                fig = _plot_map(self.large_fraction,
-                                'large fraction', wcs=wcs)
-                pdf.savefig(fig)
+                fig = self.plot_map(self.large_fraction,
+                                    'large fraction', wcs=wcs)
+                pdf.savefig(fig, bbox_inches="tight")
                 plt.close(fig)
                 plt.gcf().clear()
-                fig = _plot_map(self.error, 'error', wcs=wcs)
-                pdf.savefig(fig)
+                fig = self.plot_map(self.error, 'error', wcs=wcs)
+                pdf.savefig(fig, bbox_inches="tight")
                 plt.close(fig)
                 plt.gcf().clear()
 
@@ -245,8 +114,8 @@ class Decomposer(DecomposerBase):
                 ordinate = self.spectrum.flux.T
                 for i in range(ordinate.shape[1]):
                     for j in range(ordinate.shape[2]):
-                        fig = _plot_fit(i, j)
-                        pdf.savefig(fig)
+                        fig = self.plot_fit(i, j)
+                        pdf.savefig(fig, bbox_inches="tight")
                         plt.close(fig)
                         plt.gcf().clear()
 
@@ -319,3 +188,234 @@ class Decomposer(DecomposerBase):
         _fits_to_disk(hdr, filename)
 
         return
+
+    def plot_map(self, data, title, wcs=None):
+        """Plots a map.
+
+        Notes:
+            None.
+
+        Args:
+            im (numpy): Image.
+            title (string): Image title.
+
+        Keywords:
+            wcs (wcs.wcs): WCS (defaults to None).
+
+        Returns:
+            fig (matplotlib.figure.Figure): Instance of figure.
+
+        """
+        fig = plt.figure()
+
+        m = np.nanmax(data)
+
+        im = data / m
+
+        cmap = cm.get_cmap("rainbow")
+
+        x, y = np.meshgrid(
+            np.arange(0, im.shape[1]), np.arange(0, im.shape[0]))
+        x = x.astype("float") - 0.5
+        y = y.astype("float") - 0.5
+
+        if wcs:
+            a, d = wcs.pixel_to_world_values(x, y)
+            wcs_proj = wcs.deepcopy()
+            wcs_proj.wcs.pc = [[-1, 0], [0, 1]]
+            x, y = wcs_proj.world_to_pixel_values(a, d)
+            ax = plt.subplot(projection=wcs_proj)
+        else:
+            ax = plt.subplot()
+
+        ax.set_aspect("equal", adjustable="box", anchor="SW")
+        ax.set_facecolor("#000000")
+
+        ax.set_xlim(x.min() - 1, x.max() + 1)
+        ax.set_ylim(y.min() - 1, y.max() + 1)
+
+        args = list()
+        for i in range(im.shape[0] - 1):
+            ii = [i, i + 1, i + 1, i, i]
+            for j in range(im.shape[1] - 1):
+                if np.isfinite(im[i, j]):
+                    jj = [j, j, j + 1, j + 1, j]
+                    args += [x[ii, jj], y[ii, jj], colors.to_hex(cmap(im[i, j]))]
+        plt.fill(*tuple(args))
+
+        if wcs:
+            reverse = x[0, 0] < x[-1, 0]
+            if reverse:
+                ax.invert_xaxis()
+            plt.arrow(
+                0.98,
+                0.02,
+                0.0,
+                0.1,
+                transform=ax.transAxes,
+                width=0.005,
+                color="white",
+            )
+            plt.text(
+                0.84,
+                0.02,
+                "E",
+                transform=ax.transAxes,
+                color="white",
+                horizontalalignment="center",
+                verticalalignment="center",
+            )
+            plt.arrow(
+                0.98,
+                0.02,
+                -0.1,
+                0.0,
+                transform=ax.transAxes,
+                width=0.005,
+                color="white",
+            )
+            plt.text(
+                0.98,
+                0.16,
+                "N",
+                transform=ax.transAxes,
+                color="white",
+                horizontalalignment="center",
+                verticalalignment="center",
+            )
+            x0, y0 = ax.transLimits.inverted().transform((0.075, 0.1))
+            if reverse:
+                x1 = x0 - 1
+            else:
+                x1 = x0 + 1
+            y1 = y0 + 1
+            x = [x0, x1, x1, x0, x0]
+            y = [y0, y0, y1, y1, y0]
+            plt.fill(
+                x, y, hatch=r"\\\\\\\\\/////////", edgecolor="white", facecolor=(1, 1, 1, 0.0)
+            )
+            plt.text(
+                x0 + (x1 - x0) / 2.0,
+                y0 - 0.5,
+                "pixel",
+                color="white",
+                horizontalalignment="center",
+                verticalalignment="top",
+            )
+            x0, y0 = ax.transLimits.inverted().transform((0.25, 0.1))
+            if reverse:
+                x1 = x0 - 1.0 / (3600 * wcs.wcs.cdelt[0])
+            else:
+                x1 = x0 + 1.0 / (3600 * wcs.wcs.cdelt[0])
+            plt.plot([x0, x1], [y0, y0], color="white", linewidth=1.5)
+            plt.text(
+                x0 + (x1 - x0) / 2.0,
+                y0 - 0.5,
+                '1"',
+                color="white",
+                horizontalalignment="center",
+                verticalalignment="top",
+            )
+
+            plt.xlabel("right ascension")
+            plt.ylabel("declination")
+        else:
+            plt.xlabel("pixel [#]")
+            plt.ylabel("pixel [#]")
+
+        colorbar = cm.ScalarMappable(cmap=cmap)
+        colorbar.set_clim(0.0, m)
+        cax = inset_axes(ax, width="2%", height="100%",
+                         loc="center right", borderpad=-1)
+        plt.colorbar(colorbar, cax=cax)
+        cax.set_ylabel(title)
+
+        return fig
+
+    def plot_fit(self, i=0, j=0):
+        """Plots a fit and saves it to a PDF.
+
+        Notes:
+            None.
+
+        Args:
+            i (int): Pixel coordinate (abscissa).
+            j (int): Pixel coordinate (ordinate).
+
+        Returns:
+            fig (matplotlib.figure.Figure): Instance of figure.
+
+        """
+
+        # Enable quantity_support.
+        from astropy.visualization import quantity_support
+        quantity_support()
+
+        # Create figure on shared axes.
+        fig = plt.figure()  # figsize=(8, 11))
+        gs = gridspec.GridSpec(4, 1, height_ratios=[2, 1, 2, 2])
+
+        # Add some spacing between axes.
+        gs.update(wspace=0.025, hspace=0.00)
+        ax0 = fig.add_subplot(gs[0])
+        ax1 = fig.add_subplot(gs[1], sharex=ax0)
+        ax2 = fig.add_subplot(gs[2], sharex=ax0)
+        ax3 = fig.add_subplot(gs[3], sharex=ax0)
+
+        # Convenience defintions.
+        abscissa = self.spectrum.spectral_axis
+        charge = self.charge
+
+        # ax0: Best fit.
+        data = self.spectrum.flux.T[:, i, j]
+        unc = None
+        if self.spectrum.uncertainty:
+            unc = self.spectrum.uncertainty.quantity.T[:, i, j]
+        model = self.fit[:, i, j]
+        ax0.errorbar(abscissa, data, yerr=unc, marker='x', ms=5, mew=0.5,
+                     lw=0, color='black', ecolor='grey', capsize=2, label='input')
+        ax0.plot(abscissa, model, label='fit', color='red', lw=1.5)
+        error_str = "$error$=%-4.2f" % (self.error[i][j])
+        ax0.text(0.025, 0.9, error_str, ha='left', va='center',
+                 transform=ax0.transAxes)
+
+        # ax1: Residual.
+        ax1.plot(abscissa, data - model, lw=1,
+                 label='residual', color='black')
+        ax1.axhline(y=0, color='0.5', ls='--', dashes=(12, 16),
+                    zorder=-10, lw=0.5)
+
+        # ax2: Size breakdown.
+        ax2.errorbar(abscissa, data, yerr=unc, marker='x', ms=5,
+                     mew=0.5, lw=0, color='black', ecolor='grey', capsize=2)
+        ax2.plot(abscissa, model, color='red', lw=1.5)
+        ax2.plot(abscissa, self.size['large'][:, i, j],
+                 label='large', lw=1, color='purple')
+        ax2.plot(abscissa, self.size['small'][:, i, j],
+                 label='small', lw=1, color='crimson')
+        size_str = "$f_{large}$=%3.1f" % (self.large_fraction[i][j])
+        ax2.text(0.025, 0.9, size_str, ha='left', va='center',
+                 transform=ax2.transAxes)
+
+        # ax3: Charge breakdown.
+        ax3.errorbar(abscissa, data, yerr=unc, marker='x', ms=5,
+                     mew=0.5, lw=0, color='black', ecolor='grey', capsize=2)
+        ax3.plot(abscissa, model, color='red', lw=1.5)
+        ax3.plot(abscissa, charge['anion'][:, i, j],
+                 label='anion', lw=1, color='orange')
+        ax3.plot(abscissa, charge['neutral'][:, i, j],
+                 label='neutral', lw=1, color='green')
+        ax3.plot(abscissa, charge['cation'][:, i, j],
+                 label='cation', lw=1, color='blue')
+        ion_str = "$f_{ionized}$=%3.1f" % (self.ionized_fraction[i][j])
+        ax3.text(0.025, 0.9, ion_str, ha='left', va='center',
+                 transform=ax3.transAxes)
+
+        # Set tick parameters and add legends to axes.
+        for ax in (ax0, ax1, ax2, ax3):
+            ax.tick_params(axis='both', which='both', direction='in',
+                           top=True, right=True)
+            ax.minorticks_on()
+            ax.legend(loc=0, frameon=False)
+
+        return fig
