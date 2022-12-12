@@ -167,7 +167,7 @@ class Decomposer(DecomposerBase):
             hdr['COMMENT'] = "1st data plane contains the PAH ionization " \
                 "fraction."
             hdr['COMMENT'] = "2nd data plane contains the PAH large fraction."
-            hdr['COMMENT'] = "3rd data plane contains the error"
+            hdr['COMMENT'] = "3rd data plane contains the error."
 
             # Write results to FITS-file.
             hdu = fits.PrimaryHDU(np.stack((self.ionized_fraction.value,
@@ -216,7 +216,7 @@ class Decomposer(DecomposerBase):
         cmap = cm.get_cmap("rainbow")
 
         x, y = np.meshgrid(
-            np.arange(0, im.shape[1]), np.arange(0, im.shape[0]))
+            np.arange(0, im.shape[1] + 1), np.arange(0, im.shape[0] + 1))
         x = x.astype("float") - 0.5
         y = y.astype("float") - 0.5
 
@@ -236,9 +236,9 @@ class Decomposer(DecomposerBase):
         ax.set_ylim(y.min() - 1, y.max() + 1)
 
         args = list()
-        for i in range(im.shape[0] - 1):
+        for i in range(im.shape[0]):
             ii = [i, i + 1, i + 1, i, i]
-            for j in range(im.shape[1] - 1):
+            for j in range(im.shape[1]):
                 if np.isfinite(im[i, j]):
                     jj = [j, j, j + 1, j + 1, j]
                     args += [x[ii, jj], y[ii, jj],
@@ -375,7 +375,7 @@ class Decomposer(DecomposerBase):
             unc = self.spectrum.uncertainty.quantity.T[:, i, j]
         model = self.fit[:, i, j]
         ax0.errorbar(abscissa, data, yerr=unc, marker='x', ms=5, mew=0.5,
-                     lw=0, color='black', ecolor='grey', capsize=2, label='input')
+                     lw=0, color='black', ecolor='grey', capsize=2, label='input', zorder=0)
         ax0.plot(abscissa, model, label='fit', color='red', lw=1.5)
         error_str = "$error$=%-4.2f" % (self.error[i][j])
         ax0.text(0.025, 0.9, error_str, ha='left', va='center',
@@ -389,7 +389,7 @@ class Decomposer(DecomposerBase):
 
         # ax2: Size breakdown.
         ax2.errorbar(abscissa, data, yerr=unc, marker='x', ms=5,
-                     mew=0.5, lw=0, color='black', ecolor='grey', capsize=2)
+                     mew=0.5, lw=0, color='black', ecolor='grey', capsize=2, zorder=0)
         ax2.plot(abscissa, model, color='red', lw=1.5)
         ax2.plot(abscissa, self.size['large'][:, i, j],
                  label='large', lw=1, color='purple')
@@ -401,7 +401,7 @@ class Decomposer(DecomposerBase):
 
         # ax3: Charge breakdown.
         ax3.errorbar(abscissa, data, yerr=unc, marker='x', ms=5,
-                     mew=0.5, lw=0, color='black', ecolor='grey', capsize=2)
+                     mew=0.5, lw=0, color='black', ecolor='grey', capsize=2, zorder=0)
         ax3.plot(abscissa, model, color='red', lw=1.5)
         ax3.plot(abscissa, charge['anion'][:, i, j],
                  label='anion', lw=1, color='orange')
