@@ -20,7 +20,7 @@ jobs:
           flake8 --max-line-length=115 --exclude versioneer.py,docs/*
       - name: Unit tests and coverage
         run: |
-          coverage run --source pypahdb --omit *pypahdb/_version.py,*pypahdb/tests/* -m pytest --pyargs pypahdb.tests
+          coverage run --source=pypahdb --omit "pypahdb/_version.py","pypahdb/tests/*" -m pytest --pyargs pypahdb.tests
       - name: Generate coverage report
         run: |
           coverage report -m

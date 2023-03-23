@@ -47,7 +47,7 @@ class BuildPyCommand(build_py):
             remote_pkl += '?github_actions=true'
         local_pkl = 'pypahdb/resources/precomputed.pkl'
         # honor the --dry-run flag
-        if not self.dry_run:
+        if not self.dry_run and not path.isfile(local_pkl):
             response = urlopen(remote_pkl)
             with open(path.join(here, local_pkl), 'wb') as f:
                 f.write(response.read())

@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
-from matplotlib import cm, colors
+from matplotlib import cm, colormaps, colors
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 
@@ -213,7 +213,7 @@ class Decomposer(DecomposerBase):
 
         im = data / m
 
-        cmap = cm.get_cmap("rainbow")
+        cmap = colormaps["rainbow"]
 
         x, y = np.meshgrid(
             np.arange(0, im.shape[1] + 1), np.arange(0, im.shape[0] + 1))
