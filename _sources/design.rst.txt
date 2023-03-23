@@ -124,4 +124,4 @@ developed as part of the same *JWST* ERS Program\ [#]_ as pypahdb.
 
 .. [#] `github.com/pahfit/pahfit <https://github.com/pahfit/pahfit>`_
 
-.. [#] `website <http://jwst-ism.org/>`_
+.. [#] `website <http://pdrs4all.org/>`_

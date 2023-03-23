@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API &mdash; pypahdb  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,9 +16,6 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -33,31 +31,35 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> pypahdb
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pypahdb
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="background.html"><span class="sectnum">1</span> Background</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="background.html#purpose"><span class="sectnum">1.1</span> Purpose</a></li>
-<li class="toctree-l2"><a class="reference internal" href="background.html#features"><span class="sectnum">1.2</span> Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="background.html#academic-references"><span class="sectnum">1.3</span> Academic references</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html"><span class="sectnum">1 </span>Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="background.html#purpose"><span class="sectnum">1.1 </span>Purpose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#features"><span class="sectnum">1.2 </span>Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#academic-references"><span class="sectnum">1.3 </span>Academic references</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="design.html"><span class="sectnum">2</span> Design</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="design.html#flowchart"><span class="sectnum">2.1</span> Flowchart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="design.html#supported-data-formats"><span class="sectnum">2.2</span> Supported data formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design.html"><span class="sectnum">2 </span>Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="design.html#flowchart"><span class="sectnum">2.1 </span>Flowchart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#supported-data-formats"><span class="sectnum">2.2 </span>Supported data formats</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html"><span class="sectnum">3</span> Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><span class="sectnum">4</span> Usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#details"><span class="sectnum">4.1</span> Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html"><span class="sectnum">3 </span>Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><span class="sectnum">4 </span>Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#details"><span class="sectnum">4.1 </span>Details</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
@@ -97,7 +99,7 @@
         <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">API</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -110,33 +112,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="api">
+  <section id="api">
 <h1>API<a class="headerlink" href="#api" title="Permalink to this heading">¶</a></h1>
-<div class="section" id="submodules">
+<section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
 <div class="graphviz"><img src="_images/inheritance-009d9e8f1146de9a7bed79e415776eb5bbded554.png" alt="Inheritance diagram of pypahdb.decomposer_base, pypahdb.decomposer" usemap="#inheritanceddbc615b91" class="inheritance graphviz" /></div>
 <map id="inheritanceddbc615b91" name="inheritanceddbc615b91">
@@ -148,8 +126,8 @@
 </map><div class="line-block">
 <div class="line"><br /></div>
 </div>
-</div>
-<div class="section" id="module-pypahdb.decomposer_base">
+</section>
+<section id="module-pypahdb.decomposer_base">
 <span id="pypahdb-decomposer-base-module"></span><h2>pypahdb.decomposer_base module<a class="headerlink" href="#module-pypahdb.decomposer_base" title="Permalink to this heading">¶</a></h2>
 <p>decomposer_base.py</p>
 <p>Using a precomputed matrix of theoretically calculated
@@ -232,8 +210,8 @@ fit.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-pypahdb.decomposer">
+</section>
+<section id="module-pypahdb.decomposer">
 <span id="pypahdb-decomposer-module"></span><h2>pypahdb.decomposer module<a class="headerlink" href="#module-pypahdb.decomposer" title="Permalink to this heading">¶</a></h2>
 <p>decomposer.py</p>
 <p>Subclass of DecomposerBase for writting results to disk.</p>
@@ -307,8 +285,8 @@ doplots (bool): Save plots to PDF (defaults to True).</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-pypahdb.observation">
+</section>
+<section id="module-pypahdb.observation">
 <span id="pypahdb-observation-module"></span><h2>pypahdb.observation module<a class="headerlink" href="#module-pypahdb.observation" title="Permalink to this heading">¶</a></h2>
 <p>observation.py</p>
 <p>Manages reading an astronomical observation from file.</p>
@@ -326,8 +304,8 @@ information.</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-pypahdb">
+</section>
+<section id="module-pypahdb">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pypahdb" title="Permalink to this heading">¶</a></h2>
 <p>The pypahdb Python package is being developed as part of the
 awarded James Webb Space Telescope (JWST) Early Release Science (ERS)
@@ -391,8 +369,8 @@ Astrophysical Journal Supplement Series, 251, 22, 2020,
 <a class="reference external" href="https://doi.org/10.3847/1538-4365/abc2c8">https://doi.org/10.3847/1538-4365/abc2c8</a></p></li>
 </ul>
 </div></blockquote>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -405,7 +383,7 @@ Astrophysical Journal Supplement Series, 251, 22, 2020,
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2022 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.</p>
+    <p>&#169; Copyright 2018-2023 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

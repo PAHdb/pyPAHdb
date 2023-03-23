@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pypahdb Manual &mdash; pypahdb  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,9 +16,6 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -32,31 +30,35 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="#" class="icon icon-home"> pypahdb
+
+          
+          
+          <a href="#" class="icon icon-home">
+            pypahdb
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="background.html"><span class="sectnum">1</span> Background</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="background.html#purpose"><span class="sectnum">1.1</span> Purpose</a></li>
-<li class="toctree-l2"><a class="reference internal" href="background.html#features"><span class="sectnum">1.2</span> Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="background.html#academic-references"><span class="sectnum">1.3</span> Academic references</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html"><span class="sectnum">1 </span>Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="background.html#purpose"><span class="sectnum">1.1 </span>Purpose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#features"><span class="sectnum">1.2 </span>Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#academic-references"><span class="sectnum">1.3 </span>Academic references</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="design.html"><span class="sectnum">2</span> Design</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="design.html#flowchart"><span class="sectnum">2.1</span> Flowchart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="design.html#supported-data-formats"><span class="sectnum">2.2</span> Supported data formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design.html"><span class="sectnum">2 </span>Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="design.html#flowchart"><span class="sectnum">2.1 </span>Flowchart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#supported-data-formats"><span class="sectnum">2.2 </span>Supported data formats</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html"><span class="sectnum">3</span> Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><span class="sectnum">4</span> Usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#details"><span class="sectnum">4.1</span> Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html"><span class="sectnum">3 </span>Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><span class="sectnum">4 </span>Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#details"><span class="sectnum">4.1 </span>Details</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pypahdb.html">API</a><ul>
@@ -96,7 +98,7 @@
         <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home"></a></li>
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Pypahdb Manual</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -108,46 +110,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<img alt="_images/logo%402x.png" class="align-center" src="_images/logo%402x.png" />
+  <img alt="_images/logo%402x.png" class="align-center" src="_images/logo%402x.png" />
 <p><a class="reference external" href="https://www.nasa.gov">NASA</a>: <a class="reference external" href="https://www.nasa.gov/ames">Ames Research Center</a>: <a class="reference external" href="https://astrochemistry.org/">The Astrophysics &amp; Astrochemistry Laboratory</a></p>
-<div class="section" id="pypahdb-manual">
+<section id="pypahdb-manual">
 <h1>Pypahdb Manual<a class="headerlink" href="#pypahdb-manual" title="Permalink to this heading">¶</a></h1>
-<p>The NASA Ames PAH IR Spectroscopic Database <a class="footnote-reference brackets" href="#f1" id="id1">1</a> (PAHdb)
+<p>The NASA Ames PAH IR Spectroscopic Database <a class="footnote-reference brackets" href="#f1" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#f2" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> (PAHdb)
 hosts the world’s foremost collection of infrared (IR) PAH
 spectra. PAHdb’s spectral libraries contain over 4,000 laboratory
 measured and quantum chemically computed PAH spectra. Beyond
-spectroscopic data, PAHdb also provides software tools to work with
-the spectral data. The portal to the data and tools is the PAHdb
+spectroscopic data, PAHdb also provides the models and software tools to work
+with the spectral data. The portal to the data and tools is the PAHdb
 website, which is located at <a class="reference external" href="https://www.astrochemistry.org/pahdb">https://www.astrochemistry.org/pahdb</a>.</p>
 <p>The pypahdb Python package is being developed as part of the awarded
 <a class="reference external" href="https://www.jwst.nasa.gov/">James Webb Space Telescope</a> (<em>JWST</em>)
 Early Release Science (ERS) program “Radiative Feedback from Massive
 Stars as Traced by Multiband Imaging and Spectroscopic Mosaics”
-(<a class="reference external" href="http://jwst-ism.org/">program website</a>; ID: 1288). The program is
+(<a class="reference external" href="http://pdrs4all.org/">program website</a>; ID: 1288). The program is
 coordinated by an international “Core team” of 19 scientists and
 supported by 119 “science collaborators”. Pypahdb is developed by the
 <a class="reference external" href="https://www.astrochemistry.org/pahdb/">NASA Ames PAH IR Spectroscopic Database</a> team, asscociated with the
@@ -157,17 +135,24 @@ supported by 119 “science collaborators”. Pypahdb is developed by the
 <div class="toctree-wrapper compound">
 </div>
 <hr class="docutils" />
-<p><em>Last updated June 2021</em></p>
+<p><em>Last updated March 2023</em></p>
 <p class="rubric">Footnotes</p>
-<dl class="footnote brackets">
-<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Since FY2019 the NASA Ames PAH IR Spectroscopic Database is
-being supported through a directed Work Package at NASA Ames
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="f1" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>From FY2019-2022 the NASA Ames PAH IR Spectroscopic Database was
+supported through a directed Work Package at NASA Ames
 titled: “Laboratory Astrophysics ⸺ The NASA Ames PAH IR
 Spectroscopic Database.”</p>
-</dd>
-</dl>
-</div>
+</aside>
+<aside class="footnote brackets" id="f2" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Since FY2022 the NASA Ames PAH IR Spectroscopic Database is being
+supported through the Laboratory Astrophysics Round 2 directed
+Work Package at NASA Ames.</p>
+</aside>
+</aside>
+</section>
 
 
            </div>
@@ -179,7 +164,7 @@ Spectroscopic Database.”</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2022 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.</p>
+    <p>&#169; Copyright 2018-2023 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
