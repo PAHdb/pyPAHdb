@@ -7,11 +7,12 @@ sphinx
 # These are dependencies of various sphinx extensions for documentation.
 ipython
 ipython_genutils
-Jinja2==3.0.0
+Jinja2
 matplotlib
-nbconvert==5.6.1
+nbconvert
 nbsphinx
 numpydoc
 sphinx-copybutton
-docutils<0.17
+docutils
 sphinx_rtd_theme
+babel==2.11.0

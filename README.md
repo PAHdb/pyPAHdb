@@ -42,14 +42,14 @@ uncertainties.
 
 This software requires:
 
-`python3` `specutils` `scipy` `astropy`
+`python3` `specutils` `scipy` `astropy` `matplotlib`
 
 ## Installation
 
 pyPAHdb can be directly installed from the
 [repository](https://github.com/PAHdb/pyPAHdb) using pip:
 
-`pip install git+git://github.com/PAHdb/pyPAHdb.git`
+`pip install git+https://github.com/PAHdb/pyPAHdb.git`
 
 ## Supported data formats
 
