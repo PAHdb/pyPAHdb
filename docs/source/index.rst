@@ -29,6 +29,11 @@ supported by 119 "science collaborators". Pypahdb is developed by the
 <https://www.astrochemistry.org>`_ at `NASA Ames Research Center
 <https://www.nasa.gov/centers/ames>`_.
 
+
+Please consult the `website <https://www.astrochemistry.org/pahdb/>`_ for
+additional resources and information, and the PAHdb `cookbook
+<https://pahdb.github.io/cookbook>`_ for general usage and examples.
+
 Issues, comments, and suggestions can be submitted through
 `https://github.com/PAHdb/pyPAHdb <https://github.com/PAHdb/pyPAHdb?/>`_.
 
