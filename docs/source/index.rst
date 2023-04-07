@@ -60,6 +60,6 @@ Issues, comments, and suggestions can be submitted through
          titled: "Laboratory Astrophysics ⸺ The NASA Ames PAH IR
          Spectroscopic Database."
 
-.. [#f2] Since FY2022 the NASA Ames PAH IR Spectroscopic Database is being
+.. [#f2] Since FY2023 the NASA Ames PAH IR Spectroscopic Database is being
          supported through the Laboratory Astrophysics Round 2 directed
          Work Package at NASA Ames.
