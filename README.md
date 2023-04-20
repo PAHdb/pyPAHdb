@@ -58,19 +58,21 @@ pyPAHdb supports reading IPAC tables, _Spitzer_ FITS files and _JWST_ FITS files
 ## Examples
 
 ```python
-from pyPAHdb.decomposer import Decomposer
-from pyPAHdb.observation import Observation
+from pypahdb.decomposer import Decomposer
+from pypahdb.observation import Observation
 
-# read-in a file containing an astronomical observation
-observation = Observation('/path/to/observation.ext')
-# run the decomposer on the spectral data in observation.fits
-result = Decomposer(observation.spectrum)
-# display results
-result.plot_fit().show()
-# Save result to fits-file
-result.save_fits('/path/to/myresult.fits', header=observation.header)
-# Save a PDF summary of the fit results
-result.save_pdf('/path/to/figure.pdf')
+# Make sure to run from __main__ context to satisfy multiprocessing
+if __name__ == '__main__':
+    # read-in a file containing an astronomical observation
+    observation = Observation('/path/to/observation.ext')
+    # run the decomposer on the spectral data in observation.fits
+    result = Decomposer(observation.spectrum)
+    # display results
+    result.plot_fit().show()
+    # Save result to fits-file
+    result.save_fits('/path/to/myresult.fits', header=observation.header)
+    # Save a PDF summary of the fit results
+    result.save_pdf('/path/to/figure.pdf')
 ```
 
 More examples can be found in the [examples](examples)-directory.
