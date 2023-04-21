@@ -104,6 +104,10 @@ pygments_style = 'sphinx'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
 
+# Uncomment this if you don't want to verify at all
+tls_verify = False
+
+#tls_cacert = "/path/to/cert"
 
 # -- Options for HTML output ----------------------------------------------
 
