@@ -152,17 +152,29 @@
         <span class="c1"># TODO: implement try-except block for reading in pyPAHFit results</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Supress warning when Spectrum1D cannot load the file.</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">VerifyWarning</span><span class="p">)</span>
+            <span class="c1"># Suppress warning when Spectrum1D cannot load the file.</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">VerifyWarning</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">Spectrum1D</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span>
 
             <span class="c1"># Always work as if spectrum is a cube.</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">Spectrum1D</span><span class="p">(</span>
-                    <span class="n">flux</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="p">,</span>
-                                    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
-                    <span class="n">spectral_axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">spectral_axis</span><span class="p">)</span>
+                    <span class="n">flux</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="p">,</span>
+                        <span class="p">(</span>
+                            <span class="mi">1</span><span class="p">,</span>
+                            <span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                    <span class="p">),</span>
+                    <span class="n">spectral_axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">spectral_axis</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="s2">&quot;header&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">meta</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;header&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">Header</span><span class="p">()</span>
 
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -180,27 +192,25 @@
 
                     <span class="c1"># Use the WCS definitions for coordinate three</span>
                     <span class="c1"># lookup table.</span>
-                    <span class="k">if</span> <span class="s1">&#39;PS3_0&#39;</span> <span class="ow">in</span> <span class="n">hdu_keys</span> <span class="ow">and</span> <span class="s1">&#39;PS3_1&#39;</span> <span class="ow">in</span> <span class="n">hdu_keys</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;PS3_0&quot;</span> <span class="ow">in</span> <span class="n">hdu_keys</span> <span class="ow">and</span> <span class="s2">&quot;PS3_1&quot;</span> <span class="ow">in</span> <span class="n">hdu_keys</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span>
 
                         <span class="c1"># Create WCS object.</span>
                         <span class="c1"># self.wcs = wcs.WCS(hdu[0].header, naxis=2)</span>
 
-                        <span class="n">h0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;PS3_0&#39;</span><span class="p">]</span>
-                        <span class="n">h1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;PS3_1&#39;</span><span class="p">]</span>
+                        <span class="n">h0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;PS3_0&quot;</span><span class="p">]</span>
+                        <span class="n">h1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;PS3_1&quot;</span><span class="p">]</span>
 
                         <span class="c1"># Create Spectrum1D object.</span>
-                        <span class="n">flux</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;BUNIT&#39;</span><span class="p">])</span>
-                        <span class="n">wave</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="n">h0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">h1</span><span class="p">]</span> <span class="o">*</span> \
-                            <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">hdu</span><span class="p">[</span><span class="n">h0</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">h1</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+                        <span class="n">flux</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;BUNIT&quot;</span><span class="p">])</span>
+                        <span class="n">wave</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="n">h0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">h1</span><span class="p">]</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">hdu</span><span class="p">[</span><span class="n">h0</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">h1</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">Spectrum1D</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">spectral_axis</span><span class="o">=</span><span class="n">wave</span><span class="p">)</span>
 
                         <span class="k">return</span> <span class="kc">None</span>
 
                     <span class="c1"># Use the WCS definitions for coordinate three</span>
                     <span class="c1"># linear.</span>
-                    <span class="k">if</span> <span class="s1">&#39;CDELT3&#39;</span> <span class="ow">in</span> <span class="n">hdu_keys</span><span class="p">:</span>
-
+                    <span class="k">if</span> <span class="s2">&quot;CDELT3&quot;</span> <span class="ow">in</span> <span class="n">hdu_keys</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span>
 
                         <span class="c1"># Create WCS object</span>
@@ -208,10 +218,11 @@
 
                         <span class="c1"># Create Spectrum1D object</span>
                         <span class="c1"># u.Unit(self.header[&#39;BUNIT&#39;])</span>
-                        <span class="n">flux</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s1">&#39;Jy&#39;</span><span class="p">)</span>
-                        <span class="n">wave</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;CRVAL3&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;CDELT3&#39;</span><span class="p">]</span> <span class="o">*</span>
-                                <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;NAXIS3&#39;</span><span class="p">]))</span> <span class="o">*</span> \
-                            <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;CUNIT3&#39;</span><span class="p">])</span>
+                        <span class="n">flux</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;Jy&quot;</span><span class="p">)</span>
+                        <span class="n">wave</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;CRVAL3&quot;</span><span class="p">]</span>
+                            <span class="o">+</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;CDELT3&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;NAXIS3&quot;</span><span class="p">])</span>
+                        <span class="p">)</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;CUNIT3&quot;</span><span class="p">])</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">Spectrum1D</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">spectral_axis</span><span class="o">=</span><span class="n">wave</span><span class="p">)</span>
 
                         <span class="k">return</span> <span class="kc">None</span>
@@ -226,22 +237,34 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span>
             <span class="c1"># Always work as if spectrum is a cube.</span>
-            <span class="n">flux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;FLUX&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
-                              <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">)</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;FLUX&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">flux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FLUX&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
+                <span class="p">(</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FLUX&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="c1"># Create Spectrum1D object.</span>
             <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">colnames</span><span class="p">:</span>
                 <span class="n">data</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
-            <span class="n">wave</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;WAVELENGTH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span>
+            <span class="n">wave</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;WAVELENGTH&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span>
             <span class="n">unc</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="s2">&quot;FLUX_UNCERTAINTY&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">colnames</span><span class="p">:</span>
-                <span class="n">unc</span> <span class="o">=</span> <span class="n">StdDevUncertainty</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;FLUX_UNCERTAINTY&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
-                                                   <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span>
-                                                   <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;FLUX_UNCERTAINTY&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">Spectrum1D</span><span class="p">(</span>
-                <span class="n">flux</span><span class="p">,</span> <span class="n">spectral_axis</span><span class="o">=</span><span class="n">wave</span><span class="p">,</span> <span class="n">uncertainty</span><span class="o">=</span><span class="n">unc</span><span class="p">)</span>
-            <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-            <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">][</span><span class="n">card</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+                <span class="n">unc</span> <span class="o">=</span> <span class="n">StdDevUncertainty</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+                        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FLUX_UNCERTAINTY&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
+                        <span class="p">(</span>
+                            <span class="mi">1</span><span class="p">,</span>
+                            <span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="o">+</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;FLUX_UNCERTAINTY&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">Spectrum1D</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">spectral_axis</span><span class="o">=</span><span class="n">wave</span><span class="p">,</span> <span class="n">uncertainty</span><span class="o">=</span><span class="n">unc</span><span class="p">)</span>
+            <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;keywords&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;keywords&quot;</span><span class="p">][</span><span class="n">card</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
                 <span class="nb">str</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">%-8s</span><span class="s2">=</span><span class="si">%71s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
