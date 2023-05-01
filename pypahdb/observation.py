@@ -42,17 +42,29 @@ class Observation(object):
         # TODO: implement try-except block for reading in pyPAHFit results
 
         try:
-            # Supress warning when Spectrum1D cannot load the file.
-            warnings.simplefilter('ignore', category=VerifyWarning)
+            # Suppress warning when Spectrum1D cannot load the file.
+            warnings.simplefilter("ignore", category=VerifyWarning)
 
             self.spectrum = Spectrum1D.read(self.file_path)
 
             # Always work as if spectrum is a cube.
             if len(self.spectrum.flux.shape) == 1:
                 self.spectrum = Spectrum1D(
-                    flux=np.reshape(self.spectrum.flux,
-                                    (1, 1, )+self.spectrum.flux.shape),
-                    spectral_axis=self.spectrum.spectral_axis)
+                    flux=np.reshape(
+                        self.spectrum.flux,
+                        (
+                            1,
+                            1,
+                        )
+                        + self.spectrum.flux.shape,
+                    ),
+                    spectral_axis=self.spectrum.spectral_axis,
+                )
+
+            if "header" in self.spectrum.meta:
+                self.header = self.spectrum.meta["header"]
+            else:
+                self.header = fits.header.Header()
 
             return None
         except FileNotFoundError as e:
@@ -70,27 +82,25 @@ class Observation(object):
 
                     # Use the WCS definitions for coordinate three
                     # lookup table.
-                    if 'PS3_0' in hdu_keys and 'PS3_1' in hdu_keys:
+                    if "PS3_0" in hdu_keys and "PS3_1" in hdu_keys:
                         self.header = h.header
 
                         # Create WCS object.
                         # self.wcs = wcs.WCS(hdu[0].header, naxis=2)
 
-                        h0 = self.header['PS3_0']
-                        h1 = self.header['PS3_1']
+                        h0 = self.header["PS3_0"]
+                        h1 = self.header["PS3_1"]
 
                         # Create Spectrum1D object.
-                        flux = h.data.T * u.Unit(h.header['BUNIT'])
-                        wave = hdu[h0].data[h1] * \
-                            u.Unit(hdu[h0].columns[h1].unit)
+                        flux = h.data.T * u.Unit(h.header["BUNIT"])
+                        wave = hdu[h0].data[h1] * u.Unit(hdu[h0].columns[h1].unit)
                         self.spectrum = Spectrum1D(flux, spectral_axis=wave)
 
                         return None
 
                     # Use the WCS definitions for coordinate three
                     # linear.
-                    if 'CDELT3' in hdu_keys:
-
+                    if "CDELT3" in hdu_keys:
                         self.header = h.header
 
                         # Create WCS object
@@ -98,10 +108,11 @@ class Observation(object):
 
                         # Create Spectrum1D object
                         # u.Unit(self.header['BUNIT'])
-                        flux = h.data.T * u.Unit('Jy')
-                        wave = (h.header['CRVAL3'] + h.header['CDELT3'] *
-                                np.arange(0, h.header['NAXIS3'])) * \
-                            u.Unit(h.header['CUNIT3'])
+                        flux = h.data.T * u.Unit("Jy")
+                        wave = (
+                            h.header["CRVAL3"]
+                            + h.header["CDELT3"] * np.arange(0, h.header["NAXIS3"])
+                        ) * u.Unit(h.header["CUNIT3"])
                         self.spectrum = Spectrum1D(flux, spectral_axis=wave)
 
                         return None
@@ -116,22 +127,34 @@ class Observation(object):
         try:
             data = ascii.read(self.file_path)
             # Always work as if spectrum is a cube.
-            flux = np.reshape(data['FLUX'].quantity,
-                              (1, 1, )+data['FLUX'].quantity.shape)
+            flux = np.reshape(
+                data["FLUX"].quantity,
+                (
+                    1,
+                    1,
+                )
+                + data["FLUX"].quantity.shape,
+            )
             # Create Spectrum1D object.
             for name in data.colnames:
                 data.rename_column(name, name.upper())
-            wave = data['WAVELENGTH'].quantity
+            wave = data["WAVELENGTH"].quantity
             unc = None
             if "FLUX_UNCERTAINTY" in data.colnames:
-                unc = StdDevUncertainty(np.reshape(data['FLUX_UNCERTAINTY'].quantity,
-                                                   (1, 1, ) +
-                                                   (data['FLUX_UNCERTAINTY'].quantity.shape)))
-            self.spectrum = Spectrum1D(
-                flux, spectral_axis=wave, uncertainty=unc)
-            str = ''
-            for card in data.meta['keywords'].keys():
-                value = data.meta['keywords'][card]['value']
+                unc = StdDevUncertainty(
+                    np.reshape(
+                        data["FLUX_UNCERTAINTY"].quantity,
+                        (
+                            1,
+                            1,
+                        )
+                        + (data["FLUX_UNCERTAINTY"].quantity.shape),
+                    )
+                )
+            self.spectrum = Spectrum1D(flux, spectral_axis=wave, uncertainty=unc)
+            str = ""
+            for card in data.meta["keywords"].keys():
+                value = data.meta["keywords"][card]["value"]
                 str += "%-8s=%71s" % (card, value)
             self.header = fits.header.Header.fromstring(str)
             return None
