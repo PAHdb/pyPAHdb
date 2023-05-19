@@ -11,15 +11,12 @@ information.
 import warnings
 
 import numpy as np
-
-from astropy.io import ascii
-from astropy.io import fits
-
-from astropy.io.registry import IORegistryError
-from astropy.io.fits.verify import VerifyWarning
 from astropy import units as u
-from specutils import Spectrum1D
+from astropy.io import ascii, fits
+from astropy.io.fits.verify import VerifyWarning
+from astropy.io.registry import IORegistryError
 from astropy.nddata import StdDevUncertainty
+from specutils import Spectrum1D
 
 
 class Observation(object):

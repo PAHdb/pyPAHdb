@@ -99,8 +99,8 @@ pixel, if a spectral cube is provided as input)
 
 The pyPAHdb Python package is being developed as part of the awarded [James Webb
 Space Telescope](https://www.jwst.nasa.gov/) (_JWST_) Early Release Science
-(ERS) program "Radiative Feedback from Massive Stars as Traced by Multiband
-Imaging and Spectroscopic Mosaics" ([program website](http://pdrs4all.org/); ID:
+(ERS) program "_Radiative Feedback from Massive Stars as Traced by Multiband
+Imaging and Spectroscopic Mosaics_" ([program website](http://pdrs4all.org/); ID:
 1288). The program is coordinated by an international "Core team" of 19
 scientists and supported by 119 "science collaborators". pyPAHdb is developed by
 the [NASA Ames PAH IR Spectroscopic
@@ -108,9 +108,13 @@ Database](https://www.astrochemistry.org/pahdb/) team, associated with the
 [Astrophysics & Astrochemistry Laboratory](https://www.astrochemistry.org) at
 [NASA Ames Research Center](https://www.nasa.gov/centers/ames).
 
-The NASA Ames PAH IR Spectroscopic Database and pyPAHdb are being supported
-through a directed Work Package at NASA Ames titled: _"Laboratory Astrophysics -
-The NASA Ames PAH IR Spectroscopic Database"_.
+Since FY19 the NASA Ames PAH IR Spectroscopic Database and pyPAHdb are being
+supported through a directed Work Package at NASA Ames titled: "_Laboratory
+Astrophysics – The NASA Ames PAH IR Spectroscopic Database_".
+
+Since FY23 the NASA Ames PAH IR Spectroscopic Database and pyPAHdb are being
+supported through the Laboratory Astrophysics Round 2 directed Work Package at
+NASA Ames.
 
 pyPAHdb uses a precomputed matrix of theoretically calculated PAH emission
 spectra from version 3.00 of the library of computed spectra. This matrix has
@@ -118,7 +122,7 @@ been constructed from a collection of _"astronomical"_ PAHs, which meet the
 following criteria and include the fullerenes C<sub>60</sub> and C<sub>70</sub>:
 
 ```IDL
-magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c>20 hydrogen>0'
+magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c>20 hydrogen>0
 ```
 
 The PAH emission spectra have been calculated employing a PAH emission model

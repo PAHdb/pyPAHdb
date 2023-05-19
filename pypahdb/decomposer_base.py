@@ -13,13 +13,13 @@ information.
 
 import multiprocessing
 import pickle
-import pkg_resources
 from functools import partial
-from astropy import units as u
-from specutils import Spectrum1D
 
 import numpy as np
+import pkg_resources
+from astropy import units as u
 from scipy import optimize
+from specutils import Spectrum1D
 
 
 def _decomposer_anion(w, m=None, p=None):
@@ -92,37 +92,37 @@ class DecomposerBase(object):
         self.spectrum = spectrum
 
         # Convert units of spectrum to wavenumber and flux (density).
-        abscissa = self.spectrum.spectral_axis.to(1.0 / u.cm,
-                                                  equivalencies=u.spectral())
+        abscissa = self.spectrum.spectral_axis.to(
+            1.0 / u.cm, equivalencies=u.spectral()
+        )
         try:
-            ordinate = self.spectrum.flux.to(u.Unit("MJy/sr"),
-                                             equivalencies=u.spectral()).T
+            ordinate = self.spectrum.flux.to(
+                u.Unit("MJy/sr"), equivalencies=u.spectral()
+            ).T
         except u.UnitConversionError:
-            ordinate = self.spectrum.flux.to(u.Unit("Jy"),
-                                             equivalencies=u.spectral()).T
+            ordinate = self.spectrum.flux.to(u.Unit("Jy"), equivalencies=u.spectral()).T
             pass
 
         # Retrieve the precomputed data and raise error if file is
         # not found.
-        file_name = 'resources/precomputed.pkl'
-        file_path = pkg_resources.resource_filename('pypahdb', file_name)
-        with open(file_path, 'rb') as f:
+        file_name = "resources/precomputed.pkl"
+        file_path = pkg_resources.resource_filename("pypahdb", file_name)
+        with open(file_path, "rb") as f:
             try:
-                self._precomputed = pickle.load(f, encoding='latin1')
+                self._precomputed = pickle.load(f, encoding="latin1")
             except Exception as e:
-                print('Python 3 is required for pypahdb.')
+                print("Python 3 is required for pypahdb.")
                 raise (e)
 
         # Linearly interpolate the precomputed spectra onto the
         # frequency grid of the input spectrum.
-        decomposer_interp = partial(_decomposer_interp,
-                                    x=abscissa,
-                                    xp=self._precomputed['abscissa'] / u.cm)
+        decomposer_interp = partial(
+            _decomposer_interp, x=abscissa, xp=self._precomputed["abscissa"] / u.cm
+        )
 
         # Create multiprocessing pool.
         pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
-        self._matrix = pool.map(decomposer_interp,
-                                self._precomputed['matrix'].T)
+        self._matrix = pool.map(decomposer_interp, self._precomputed["matrix"].T)
         pool.close()
         pool.join()
         self._matrix = np.array(self._matrix).T
@@ -135,15 +135,27 @@ class DecomposerBase(object):
         n_elements_yz = ordinate.shape[1] * ordinate.shape[2]
         pool_shape = np.reshape(ordinate, (ordinate.shape[0], n_elements_yz))
 
+        # Avoid fitting -zero- spectra.
+        valid = np.where(np.sum(pool_shape, axis=0) > 0.0)[0]
+        if valid.size == 0:
+            print("spectrum is all zeros.")
+            return None
+
+        self._weights = np.zeros((pool_shape.shape[1], self._matrix.shape[1]))
+
         # Perform the fit.
-        self._weights, _ = list(zip(*pool.map(decomposer_nnls, pool_shape.T)))
+        weights, _ = list(
+            zip(*pool.map(decomposer_nnls, pool_shape[:, valid].T))
+        )
         pool.close()
         pool.join()
 
+        # Update only valid weights.
+        self._weights[valid] = np.array(weights)
+
         # Reshape results.
-        new_shape = (ordinate.shape[1:] + (self._matrix.shape[1],))
-        self._weights = \
-            np.transpose(np.reshape(self._weights, new_shape), (2, 0, 1))
+        new_shape = ordinate.shape[1:] + (self._matrix.shape[1],)
+        self._weights = np.transpose(np.reshape(self._weights, new_shape), (2, 0, 1))
 
     def _fit(self):
         """Return the fit.
@@ -163,10 +175,10 @@ class DecomposerBase(object):
 
             # Convenience defintions.
             ordinate = self.spectrum.flux.T
-            wt_elements_yz = \
-                self._weights.shape[1] * self._weights.shape[2]
-            wt_shape = np.reshape(self._weights,
-                                  (self._weights.shape[0], wt_elements_yz))
+            wt_elements_yz = self._weights.shape[1] * self._weights.shape[2]
+            wt_shape = np.reshape(
+                self._weights, (self._weights.shape[0], wt_elements_yz)
+            )
 
             # Perform the fit.
             self._yfit = pool.map(decomposer_fit, wt_shape.T)
@@ -174,9 +186,8 @@ class DecomposerBase(object):
             pool.join()
 
             # Reshape results.
-            new_shape = (ordinate.shape[1:] + (ordinate.shape[0],))
-            self._yfit = \
-                np.transpose(np.reshape(self._yfit, new_shape), (2, 0, 1))
+            new_shape = ordinate.shape[1:] + (ordinate.shape[0],)
+            self._yfit = np.transpose(np.reshape(self._yfit, new_shape), (2, 0, 1))
 
             # Set units.
             self._yfit *= self.spectrum.flux.unit
@@ -195,15 +206,15 @@ class DecomposerBase(object):
 
             # Convert units of spectral_axis to wavenumber.
             abscissa = self.spectrum.spectral_axis.to(
-                1.0 / u.cm, equivalencies=u.spectral())
+                1.0 / u.cm, equivalencies=u.spectral()
+            )
 
             # Convenience defintion.
             ordinate = self.spectrum.flux.T
 
             # Use Trapezium rule to integrated the absolute of the residual
             # and the observations.
-            abs_residual = np.trapz(np.abs(
-                self.fit - ordinate), x=abscissa, axis=0)
+            abs_residual = np.trapz(np.abs(self.fit - ordinate), x=abscissa, axis=0)
 
             total = np.trapz(ordinate, x=abscissa, axis=0)
 
@@ -234,7 +245,7 @@ class DecomposerBase(object):
         if self._ionized_fraction is None:
 
             # Compute ionized fraction.
-            charge_matrix = self._precomputed['properties']['charge']
+            charge_matrix = self._precomputed["properties"]["charge"]
             ions = (charge_matrix > 0).astype(float)[:, None, None]
             self._ionized_fraction = np.sum(self._weights * ions, axis=0)
             self._ionized_fraction *= u.dimensionless_unscaled
@@ -244,8 +255,9 @@ class DecomposerBase(object):
             # Update ionized fraction.
             neutrals = (charge_matrix == 0).astype(float)[:, None, None]
             neutrals_wt = (np.sum(self._weights * neutrals, axis=0))[nonzero]
-            self._ionized_fraction[nonzero] /= \
+            self._ionized_fraction[nonzero] /= (
                 self._ionized_fraction[nonzero] + neutrals_wt
+            )
 
         return self._ionized_fraction
 
@@ -260,7 +272,7 @@ class DecomposerBase(object):
         if self._large_fraction is None:
 
             # Compute large fraction.
-            size_matrix = self._precomputed['properties']['size']
+            size_matrix = self._precomputed["properties"]["size"]
             large = (size_matrix > 40).astype(float)[:, None, None]
             self._large_fraction = np.sum(self._weights * large, axis=0)
             self._large_fraction *= u.dimensionless_unscaled
@@ -270,8 +282,7 @@ class DecomposerBase(object):
             # Update the large fraction.
             small = (size_matrix <= 40).astype(float)[:, None, None]
             small_wt = (np.sum(self._weights * small, axis=0))[nonzero]
-            self._large_fraction[nonzero] /= \
-                self._large_fraction[nonzero] + small_wt
+            self._large_fraction[nonzero] /= self._large_fraction[nonzero] + small_wt
 
         return self._large_fraction
 
@@ -288,15 +299,21 @@ class DecomposerBase(object):
         # Lazy Instantiation.
         if self._charge is None:
 
-            decomposer_anion = \
-                partial(_decomposer_anion, m=self._matrix,
-                        p=self._precomputed['properties']['charge'])
-            decomposer_neutral = \
-                partial(_decomposer_neutral, m=self._matrix,
-                        p=self._precomputed['properties']['charge'])
-            decomposer_cation = \
-                partial(_decomposer_cation, m=self._matrix,
-                        p=self._precomputed['properties']['charge'])
+            decomposer_anion = partial(
+                _decomposer_anion,
+                m=self._matrix,
+                p=self._precomputed["properties"]["charge"],
+            )
+            decomposer_neutral = partial(
+                _decomposer_neutral,
+                m=self._matrix,
+                p=self._precomputed["properties"]["charge"],
+            )
+            decomposer_cation = partial(
+                _decomposer_cation,
+                m=self._matrix,
+                p=self._precomputed["properties"]["charge"],
+            )
 
             # Create multiprocessing pool.
             n_cpus = multiprocessing.cpu_count()
@@ -304,8 +321,7 @@ class DecomposerBase(object):
 
             # Convenience definitions.
             wt_shape_yz = self._weights.shape[1] * self._weights.shape[2]
-            new_dims = np.reshape(self._weights,
-                                  (self._weights.shape[0], wt_shape_yz))
+            new_dims = np.reshape(self._weights, (self._weights.shape[0], wt_shape_yz))
 
             # Map the charge arrays.
             anion = pool.map(decomposer_anion, new_dims.T)
@@ -317,21 +333,18 @@ class DecomposerBase(object):
 
             # Reshape results.
             ordinate = self.spectrum.flux.T
-            interior = (ordinate.shape[1:] +
-                        (ordinate.shape[0],))
+            interior = ordinate.shape[1:] + (ordinate.shape[0],)
 
             new_anion = np.transpose(np.reshape(anion, interior), (2, 0, 1))
             new_neut = np.transpose(np.reshape(neutral, interior), (2, 0, 1))
             new_cat = np.transpose(np.reshape(cation, interior), (2, 0, 1))
 
-            self._charge = {'anion': new_anion,
-                            'neutral': new_neut,
-                            'cation': new_cat}
+            self._charge = {"anion": new_anion, "neutral": new_neut, "cation": new_cat}
 
             # Set units.
-            self._charge['anion'] *= self.spectrum.flux.unit
-            self._charge['neutral'] *= self.spectrum.flux.unit
-            self._charge['cation'] *= self.spectrum.flux.unit
+            self._charge["anion"] *= self.spectrum.flux.unit
+            self._charge["neutral"] *= self.spectrum.flux.unit
+            self._charge["cation"] *= self.spectrum.flux.unit
 
         return self._charge
 
@@ -347,12 +360,16 @@ class DecomposerBase(object):
 
         # Lazy Instantiation.
         if self._size is None:
-            decomposer_large = \
-                partial(_decomposer_large, m=self._matrix,
-                        p=self._precomputed['properties']['size'])
-            decomposer_small = \
-                partial(_decomposer_small, m=self._matrix,
-                        p=self._precomputed['properties']['size'])
+            decomposer_large = partial(
+                _decomposer_large,
+                m=self._matrix,
+                p=self._precomputed["properties"]["size"],
+            )
+            decomposer_small = partial(
+                _decomposer_small,
+                m=self._matrix,
+                p=self._precomputed["properties"]["size"],
+            )
 
             # Create multiprocessing pool.
             n_cpus = multiprocessing.cpu_count()
@@ -360,8 +377,7 @@ class DecomposerBase(object):
 
             # Using weights, map for large, small PAHs.
             wt_shape_yz = self._weights.shape[1] * self._weights.shape[2]
-            new_shape = np.reshape(self._weights,
-                                   (self._weights.shape[0], wt_shape_yz))
+            new_shape = np.reshape(self._weights, (self._weights.shape[0], wt_shape_yz))
             large = pool.map(decomposer_large, new_shape.T)
             small = pool.map(decomposer_small, new_shape.T)
             pool.close()
@@ -369,17 +385,14 @@ class DecomposerBase(object):
 
             # Reshape results.
             ordinate = self.spectrum.flux.T
-            ord_shape_yz = (ordinate.shape[1:] + (ordinate.shape[0],))
-            new_large = np.transpose(np.reshape(
-                large, ord_shape_yz), (2, 0, 1))
-            new_small = np.transpose(np.reshape(
-                small, ord_shape_yz), (2, 0, 1))
+            ord_shape_yz = ordinate.shape[1:] + (ordinate.shape[0],)
+            new_large = np.transpose(np.reshape(large, ord_shape_yz), (2, 0, 1))
+            new_small = np.transpose(np.reshape(small, ord_shape_yz), (2, 0, 1))
 
-            self._size = {'large': new_large,
-                          'small': new_small}
+            self._size = {"large": new_large, "small": new_small}
             # Set units.
-            self._size['large'] *= self.spectrum.flux.unit
-            self._size['small'] *= self.spectrum.flux.unit
+            self._size["large"] *= self.spectrum.flux.unit
+            self._size["small"] *= self.spectrum.flux.unit
 
         return self._size
 
