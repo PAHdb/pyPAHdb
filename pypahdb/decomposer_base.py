@@ -12,6 +12,7 @@ information.
 """
 
 import multiprocessing
+import os
 import pickle
 from functools import partial
 
@@ -132,6 +133,8 @@ class DecomposerBase(object):
         )
 
         # Create multiprocessing pool.
+        if os.name == "posix":
+            multiprocessing.set_start_method("fork", force=True)
         pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
         self._matrix = pool.map(decomposer_interp, self._precomputed["matrix"].T)
         pool.close()
@@ -164,7 +167,6 @@ class DecomposerBase(object):
 
         # Lazy Instantiation.
         if self._yfit is None:
-
             decomposer_fit = partial(_decomposer_fit, m=self._matrix)
 
             # Create multiprocessing pool.
@@ -204,7 +206,6 @@ class DecomposerBase(object):
 
         # Lazy Instantiation.
         if self._yerror is None:
-
             # Convert units of spectral_axis to wavenumber.
             abscissa = self.spectrum.spectral_axis.to(
                 1.0 / u.cm, equivalencies=u.spectral()
@@ -244,7 +245,6 @@ class DecomposerBase(object):
 
         # Lazy Instantiation.
         if self._ionized_fraction is None:
-
             # Compute ionized fraction.
             charge_matrix = self._precomputed["properties"]["charge"]
             ions = (charge_matrix > 0).astype(float)[:, None, None]
@@ -271,7 +271,6 @@ class DecomposerBase(object):
 
         # Lazy Instantiation.
         if self._large_fraction is None:
-
             # Compute large fraction.
             size_matrix = self._precomputed["properties"]["size"]
             large = (size_matrix > 40).astype(float)[:, None, None]
@@ -299,7 +298,6 @@ class DecomposerBase(object):
 
         # Lazy Instantiation.
         if self._charge is None:
-
             decomposer_anion = partial(
                 _decomposer_anion,
                 m=self._matrix,
