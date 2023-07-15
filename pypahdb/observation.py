@@ -148,16 +148,18 @@ class Observation(object):
                         + (data["FLUX_UNCERTAINTY"].quantity.shape),
                     )
                 )
+
             self.spectrum = Spectrum1D(flux, spectral_axis=wave, uncertainty=unc)
-            str = ""
+
+            hdr = ""
             for card in data.meta["keywords"].keys():
                 value = data.meta["keywords"][card]["value"]
-                str += "%-8s=%71s" % (card, value)
-            self.header = fits.header.Header.fromstring(str)
+                hdr += "%-8s=%71s" % (card, value)
+            self.header = fits.header.Header.fromstring(hdr)
             return None
-        except Exception:
-            pass
+        except Exception as e:
+            print(e)
 
         # Like astropy.io we, simply raise a generic OSError when
         # we fail to read the file.
-        raise OSError(self.file_path + ": Format not recognized")
+        raise OSError(str(self.file_path) + ": Format not recognized")
