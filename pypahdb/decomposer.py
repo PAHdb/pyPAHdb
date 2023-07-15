@@ -108,26 +108,22 @@ class Decomposer(DecomposerBase):
                 else:
                     wcs = None
                 fig = self.plot_map(self.ionized_fraction, "ionized fraction", wcs=wcs)
-                pdf.savefig(fig, bbox_inches="tight")
+                pdf.savefig(fig)
                 plt.close(fig)
-                plt.gcf().clear()
                 fig = self.plot_map(self.large_fraction, "large fraction", wcs=wcs)
-                pdf.savefig(fig, bbox_inches="tight")
+                pdf.savefig(fig)
                 plt.close(fig)
-                plt.gcf().clear()
                 fig = self.plot_map(self.error, "error", wcs=wcs)
-                pdf.savefig(fig, bbox_inches="tight")
+                pdf.savefig(fig)
                 plt.close(fig)
-                plt.gcf().clear()
 
             if doplots:
                 ordinate = self.spectrum.flux.T
                 for i in range(ordinate.shape[1]):
                     for j in range(ordinate.shape[2]):
                         fig = self.plot_fit(i, j)
-                        pdf.savefig(fig, bbox_inches="tight")
+                        pdf.savefig(fig)
                         plt.close(fig)
-                        plt.gcf().clear()
 
         return
 
@@ -240,8 +236,6 @@ class Decomposer(DecomposerBase):
             fig (matplotlib.figure.Figure): Instance of figure.
 
         """
-        fig = plt.figure()
-
         m = np.nanmax(data)
 
         im = data / m
@@ -360,6 +354,9 @@ class Decomposer(DecomposerBase):
             plt.xlabel("pixel [#]")
             plt.ylabel("pixel [#]")
 
+        fig = plt.gcf()
+        fig.set_layout_engine("constrained")
+
         colorbar = cm.ScalarMappable(cmap=cmap)
         colorbar.set_clim(0.0, m)
         cax = inset_axes(
@@ -391,8 +388,8 @@ class Decomposer(DecomposerBase):
         quantity_support()
 
         # Create figure on shared axes.
-        fig = plt.figure()  # figsize=(8, 11))
-        gs = gridspec.GridSpec(4, 1, height_ratios=[2, 1, 2, 2])
+        fig = plt.figure()
+        gs = gridspec.GridSpec(4, 1, height_ratios=[2, 1, 2, 2], figure=fig)
 
         # Add some spacing between axes.
         gs.update(wspace=0.025, hspace=0.00)
@@ -491,5 +488,7 @@ class Decomposer(DecomposerBase):
             )
             ax.minorticks_on()
             ax.legend(loc=0, frameon=False)
+
+        fig.set_layout_engine("constrained")
 
         return fig

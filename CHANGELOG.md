@@ -1,3 +1,7 @@
+2023-07-15 Force multiprocessing using fork on posix systems. [Christiaan.Boersma@nasa.gov]
+2023-07-15 Migrate to importlib, ensure concatination of str, and sort JWST spectrum. [Christiaan.Boersma@nasa.gov]
+2023-06-07 Upgrade workflow actions. [Christiaan.Boersma@nasa.gov]
+2023-05-19 Better accommondate sparse mosaics. [Christiaan.Boersma@nasa.gov]
 2023-05-19 Don't fit -zero- spectra, update README, and code formatting. [Christiaan.Boersma@nasa.gov]
 2023-05-01 Ensure a header when reading through Spectrum1D. [Christiaan.Boersma@nasa.gov]
 2023-04-21 Docs: Workaround for certificate issue at matplotlib.org. [Christiaan.Boersma@nasa.gov]
