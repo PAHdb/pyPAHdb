@@ -258,19 +258,21 @@
                         <span class="o">+</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;FLUX_UNCERTAINTY&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">Spectrum1D</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">spectral_axis</span><span class="o">=</span><span class="n">wave</span><span class="p">,</span> <span class="n">uncertainty</span><span class="o">=</span><span class="n">unc</span><span class="p">)</span>
-            <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+            <span class="n">hdr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
             <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;keywords&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;keywords&quot;</span><span class="p">][</span><span class="n">card</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
-                <span class="nb">str</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">%-8s</span><span class="s2">=</span><span class="si">%71s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+                <span class="n">hdr</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">%-8s</span><span class="s2">=</span><span class="si">%71s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">hdr</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">pass</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
         <span class="c1"># Like astropy.io we, simply raise a generic OSError when</span>
         <span class="c1"># we fail to read the file.</span>
-        <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">+</span> <span class="s2">&quot;: Format not recognized&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: Format not recognized&quot;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
