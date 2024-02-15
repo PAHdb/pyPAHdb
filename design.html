@@ -1,23 +1,25 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2 Design &mdash; pypahdb  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
-      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=4f65f77d" />
+
+  
     <link rel="shortcut icon" href="_static/touch-icon-310x310.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -113,7 +115,7 @@
            <div itemprop="articleBody">
              
   <section id="design">
-<h1><span class="sectnum">2 </span>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<h1><span class="sectnum">2 </span>Design<a class="headerlink" href="#design" title="Link to this heading">¶</a></h1>
 <p>Pypahdb analyzes spectroscopic observations (including spectral maps)
 and characterizes the PAH emission in terms of PAH ionization and size
 fractions using a database-fitting approach.</p>
@@ -122,7 +124,7 @@ fractions using a database-fitting approach.</p>
 </pre></div>
 </div>
 <section id="flowchart">
-<h2><span class="sectnum">2.1 </span>Flowchart<a class="headerlink" href="#flowchart" title="Permalink to this heading">¶</a></h2>
+<h2><span class="sectnum">2.1 </span>Flowchart<a class="headerlink" href="#flowchart" title="Link to this heading">¶</a></h2>
 <figure class="align-center" id="id5">
 <img alt="_images/fig_flowchart.png" src="_images/fig_flowchart.png" />
 <figcaption>
@@ -134,7 +136,7 @@ non-negative least-squares (NNLS) approach, which yields the contribution
 of an individual PAH molecule. As a result, the fit can be broken down in
 terms of PAH charge and size. (3) The results are written to disk as a
 single FITS file and as a PDF summarizing the results (one page per pixel,
-if a spectral cube is provided as input).</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+if a spectral cube is provided as input).</span><a class="headerlink" href="#id5" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>The general program methodology is encapsulated in the flowchart
@@ -221,17 +223,17 @@ code-block is shown in the flowchart.</p></li>
 </div>
 </section>
 <section id="supported-data-formats">
-<h2><span class="sectnum">2.2 </span>Supported data formats<a class="headerlink" href="#supported-data-formats" title="Permalink to this heading">¶</a></h2>
+<h2><span class="sectnum">2.2 </span>Supported data formats<a class="headerlink" href="#supported-data-formats" title="Link to this heading">¶</a></h2>
 <p>Pypahdb supports reading in IPAC tables, <em>Spitzer</em> FITS files, and <em>JWST</em> FITS
 files. Support for reading pahfit<a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>-files is underway. Pahfit is being
 developed as part of the same <em>JWST</em> ERS Program<a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> as pypahdb.</p>
 <hr class="docutils" />
 <aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id3" role="note">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p><a class="reference external" href="https://github.com/pahfit/pahfit">github.com/pahfit/pahfit</a></p>
 </aside>
-<aside class="footnote brackets" id="id4" role="note">
+<aside class="footnote brackets" id="id4" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
 <p><a class="reference external" href="http://pdrs4all.org/">website</a></p>
 </aside>
@@ -250,7 +252,7 @@ developed as part of the same <em>JWST</em> ERS Program<a class="footnote-refere
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2023 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.</p>
+    <p>&#169; Copyright 2018-2024 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

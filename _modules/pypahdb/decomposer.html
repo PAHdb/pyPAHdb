@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pypahdb.decomposer &mdash; pypahdb  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=4f65f77d" />
+
+  
     <link rel="shortcut icon" href="../../_static/touch-icon-310x310.png"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -134,7 +136,9 @@
 <span class="kn">from</span> <span class="nn">pypahdb.decomposer_base</span> <span class="kn">import</span> <span class="n">DecomposerBase</span>
 
 
-<div class="viewcode-block" id="Decomposer"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer">[docs]</a><span class="k">class</span> <span class="nc">Decomposer</span><span class="p">(</span><span class="n">DecomposerBase</span><span class="p">):</span>
+<div class="viewcode-block" id="Decomposer">
+<a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer">[docs]</a>
+<span class="k">class</span> <span class="nc">Decomposer</span><span class="p">(</span><span class="n">DecomposerBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Extends DecomposerBase to write results to disk (PDF, FITS).&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">):</span>
@@ -147,7 +151,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">DecomposerBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Decomposer.save_pdf"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.save_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">save_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">domaps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">doplots</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Decomposer.save_pdf">
+<a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.save_pdf">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">domaps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">doplots</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save a PDF summary of the fit results.</span>
 
 <span class="sd">        Notes:</span>
@@ -237,7 +243,10 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="Decomposer.save_fits"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.save_fits">[docs]</a>    <span class="k">def</span> <span class="nf">save_fits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Decomposer.save_fits">
+<a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.save_fits">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_fits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save FITS file summary of the fit results.</span>
 
 <span class="sd">        Args:</span>
@@ -328,7 +337,10 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="Decomposer.plot_map"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.plot_map">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="Decomposer.plot_map">
+<a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.plot_map">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">plot_map</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">wcs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plots a map.</span>
 
@@ -477,7 +489,10 @@
 
         <span class="k">return</span> <span class="n">fig</span></div>
 
-<div class="viewcode-block" id="Decomposer.plot_fit"><a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.plot_fit">[docs]</a>    <span class="k">def</span> <span class="nf">plot_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Decomposer.plot_fit">
+<a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.plot_fit">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plots a fit and saves it to a PDF.</span>
 
 <span class="sd">        Notes:</span>
@@ -601,7 +616,9 @@
 
         <span class="n">fig</span><span class="o">.</span><span class="n">set_layout_engine</span><span class="p">(</span><span class="s2">&quot;constrained&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">fig</span></div></div>
+        <span class="k">return</span> <span class="n">fig</span></div>
+</div>
+
 </pre></div>
 
            </div>
@@ -611,7 +628,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2023 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.</p>
+    <p>&#169; Copyright 2018-2024 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
