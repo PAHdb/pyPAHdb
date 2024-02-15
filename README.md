@@ -51,6 +51,8 @@ pyPAHdb can be directly installed from the
 
 `pip install git+https://github.com/PAHdb/pyPAHdb.git`
 
+Note that upon first run a pre-computed matrix will be automatically downloaded.
+
 ## Supported data formats
 
 pyPAHdb supports reading IPAC tables, _Spitzer_ FITS files and _JWST_ FITS files.

@@ -1,13 +1,7 @@
-from os import path
-from os import getenv
 from setuptools import setup, find_packages
-from setuptools.command.build_py import build_py
 import versioneer
 
-try:
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import urlopen
+from os import path
 
 """
 NOTE: This file must remain Python 2 compatible for the foreseeable future,
@@ -38,21 +32,6 @@ with open(path.join(here, 'requirements.txt')) as requirements_file:
     # Parse requirements.txt, ignoring any commented-out lines.
     requirements = [line for line in requirements_file.read().splitlines()
                     if not line.startswith('#')]
-
-
-class BuildPyCommand(build_py):
-    def run(self):
-        remote_pkl = 'https://www.astrochemistry.org/pahdb/pypahdb/pickle.php'
-        if getenv('GITHUB_ACTIONS') == 'true':
-            remote_pkl += '?github_actions=true'
-        local_pkl = 'pypahdb/resources/precomputed.pkl'
-        # honor the --dry-run flag
-        if not self.dry_run and not path.isfile(local_pkl):
-            response = urlopen(remote_pkl)
-            with open(path.join(here, local_pkl), 'wb') as f:
-                f.write(response.read())
-        versioneer.get_cmdclass()['build_py'].run(self)
-        build_py.run(self)
 
 # Arguments marked as "Required" below must be included for upload to PyPI.
 # Fields marked as "Optional" may be commented out.
@@ -222,6 +201,5 @@ setup(
 
     # Run custom commands
     cmdclass={  # Optional
-        'build_py': BuildPyCommand,
     },
 )

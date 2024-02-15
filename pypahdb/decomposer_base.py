@@ -15,9 +15,11 @@ import multiprocessing
 import os
 import pickle
 from functools import partial
+from urllib.request import urlretrieve
 
+import importlib_resources
 import numpy as np
-import pkg_resources
+from tqdm import tqdm
 from astropy import units as u
 from scipy import optimize
 from specutils import Spectrum1D
@@ -115,16 +117,38 @@ class DecomposerBase(object):
             print("spectral data is all zeros.")
             return None
 
-        # Retrieve the precomputed data and raise error if file is
-        # not found.
-        file_name = "resources/precomputed.pkl"
-        file_path = pkg_resources.resource_filename("pypahdb", file_name)
-        with open(file_path, "rb") as f:
-            try:
-                self._precomputed = pickle.load(f, encoding="latin1")
-            except Exception as e:
-                print("Python 3 is required for pypahdb.")
-                raise (e)
+        # Download the precomputed data if not present
+        remote_pkl = "https://www.astrochemistry.org/pahdb/pypahdb/pickle.php"
+        if os.getenv("GITHUB_ACTIONS") == "true":
+            remote_pkl += "?github_actions=true"
+        local_pkl = (
+            importlib_resources.files("pypahdb") / "resources/precomputed.pkl"
+        )
+        if not os.path.isfile(local_pkl):
+
+            def hook(t):
+                last_b = [0]
+
+                def inner(b=1, bsize=1, tsize=None):
+                    if tsize is not None:
+                        t.total = tsize
+                    t.update((b - last_b[0]) * bsize)
+                    last_b[0] = b
+                return inner
+
+            print("downloading pre-computed matrix")
+            with tqdm(
+                unit="B",
+                unit_scale=True,
+                leave=True,
+                miniters=1,
+            ) as t:
+                urlretrieve(
+                    remote_pkl, filename=local_pkl, reporthook=hook(t), data=None
+                )
+
+        with open(local_pkl, "rb") as f:
+            self._precomputed = pickle.load(f, encoding="latin1")
 
         # Linearly interpolate the precomputed spectra onto the
         # frequency grid of the input spectrum.

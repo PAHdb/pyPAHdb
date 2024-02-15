@@ -2,3 +2,5 @@ scipy
 astropy
 specutils
 matplotlib
+importlib_resources
+tqdm
