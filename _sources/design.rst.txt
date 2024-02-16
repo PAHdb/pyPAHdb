@@ -1,6 +1,10 @@
 .. sectnum::
    :start: 2
 
+**Please note that what is described here is based on** `Shannon & Boersma
+(2018) <https://doi.org/10.25080/majora-4af1f417-00f>`_ **and some
+implementation details will have changed since then.**
+
 Design
 ============
 
@@ -20,10 +24,10 @@ Flowchart
 .. figure:: figures/fig_flowchart.png
    :align: center
 
-   Pypahdb flowchart. (1) Astronomical spectroscopic data is loaded from 
+   Pypahdb flowchart. (1) Astronomical spectroscopic data is loaded from
    FITS or ASCII files. (2) A highly over-sampled pre-computed matrix of
    PAH spectra is loaded and interpolated onto the wavelength grid of the
-   astronomical observations. Database-fitting is performed using a 
+   astronomical observations. Database-fitting is performed using a
    non-negative least-squares (NNLS) approach, which yields the contribution
    of an individual PAH molecule. As a result, the fit can be broken down in
    terms of PAH charge and size. (3) The results are written to disk as a
