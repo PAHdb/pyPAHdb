@@ -51,7 +51,7 @@ pyPAHdb can be directly installed from the
 
 `pip install git+https://github.com/PAHdb/pyPAHdb.git`
 
-Note that upon first run a pre-computed matrix will be automatically downloaded.
+Note that upon first-run a pickled precomputed matrix will be downloaded from PAHdb's server.
 
 ## Supported data formats
 

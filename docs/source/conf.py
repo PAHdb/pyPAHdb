@@ -105,7 +105,7 @@ pygments_style = 'sphinx'
 todo_include_todos = False
 
 # Uncomment this if you don't want to verify at all
-tls_verify = False
+# tls_verify = False
 
 #tls_cacert = "/path/to/cert"
 

@@ -6,6 +6,7 @@ Example of using pypahdb to decompose an astronomical PAH spectrum.
 """
 
 import importlib_resources
+
 from pypahdb.decomposer import Decomposer
 from pypahdb.observation import Observation
 
