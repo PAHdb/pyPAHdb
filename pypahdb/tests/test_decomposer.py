@@ -20,10 +20,10 @@ class DecomposerTestCase(unittest.TestCase):
     """Unit tests for `decomposer.py`."""
 
     def setUp(self):
-        import pkg_resources
+        import importlib_resources
         import tempfile
         file_name = 'resources/sample_data_NGC7023.tbl'
-        file_path = pkg_resources.resource_filename('pypahdb', file_name)
+        file_path = importlib_resources.files('pypahdb') / file_name
         self.observation = Observation(file_path)
         self.decomposer = Decomposer(self.observation.spectrum)
         self.tmpdir = tempfile.gettempdir()
