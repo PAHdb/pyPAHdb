@@ -60,7 +60,7 @@ class Decomposer(DecomposerBase):
             d = pdf.infodict()
             d["Title"] = "pyPAHdb Results Summary"
             d["Author"] = (
-                "Dr. C. Boersma, Dr. M.J. Shannon, and Dr. A. " "Maragkoudakis"
+                "Dr. C. Boersma, Dr. M.J. Shannon, and Dr. A. Maragkoudakis"
             )
             d["Producer"] = "NASA Ames Research Center"
             d["Creator"] = "pypahdb v{}(Python {}.{}.{})".format(
@@ -158,7 +158,7 @@ class Decomposer(DecomposerBase):
                 "Software used to create this file",
             )
             hdr["AUTHOR"] = (
-                "Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. " "Maragkoudakis",
+                "Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis",
                 "Authors of the software",
             )
             cards = [
@@ -382,11 +382,6 @@ class Decomposer(DecomposerBase):
 
         """
 
-        # Enable quantity_support.
-        from astropy.visualization import quantity_support
-
-        quantity_support()
-
         # Create figure on shared axes.
         fig = plt.figure()
         gs = gridspec.GridSpec(4, 1, height_ratios=[2, 1, 2, 2], figure=fig)
@@ -397,10 +392,18 @@ class Decomposer(DecomposerBase):
         ax1 = fig.add_subplot(gs[1], sharex=ax0)
         ax2 = fig.add_subplot(gs[2], sharex=ax0)
         ax3 = fig.add_subplot(gs[3], sharex=ax0)
+        for ax in [ax0, ax2, ax3]:
+            fmt = ax.yaxis.get_major_formatter()
+            fmt.set_scientific(True)
+            fmt.set_powerlimits((-3, 1))
+        for ax in [ax0, ax1, ax2]:
+            plt.setp(ax.get_xticklabels(), visible=False)
 
-        # Convenience defintions.
+        # Convenience definitions.
         abscissa = self.spectrum.spectral_axis
         charge = self.charge
+        # Check if size of datapoints are too large and change marker size.
+        ms = 5 if len(abscissa) < 1000 else 2
 
         # ax0: Best fit.
         data = self.spectrum.flux.T[:, i, j]
@@ -412,8 +415,8 @@ class Decomposer(DecomposerBase):
             abscissa,
             data,
             yerr=unc,
-            marker="x",
-            ms=5,
+            marker=".",
+            ms=ms,
             mew=0.5,
             lw=0,
             color="black",
@@ -422,12 +425,13 @@ class Decomposer(DecomposerBase):
             label="input",
             zorder=0,
         )
-        ax0.plot(abscissa, model, label="fit", color="red", lw=1.5)
+        ax0.plot(abscissa, model, label="fit", color="tab:red", lw=1.5)
         error_str = "$error$=%-4.2f" % (self.error[i][j])
-        ax0.text(0.025, 0.9, error_str, ha="left", va="center", transform=ax0.transAxes)
+        ax0.text(0.025, 0.88, error_str, ha="left", va="center", transform=ax0.transAxes)
+        ax0.set_ylabel(f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]')
 
         # ax1: Residual.
-        ax1.plot(abscissa, data - model, lw=1, label="residual", color="black")
+        ax1.plot(abscissa, data - model, lw=1, label="residual", color="gray")
         ax1.axhline(y=0, color="0.5", ls="--", dashes=(12, 16), zorder=-10, lw=0.5)
 
         # ax2: Size breakdown.
@@ -435,8 +439,8 @@ class Decomposer(DecomposerBase):
             abscissa,
             data,
             yerr=unc,
-            marker="x",
-            ms=5,
+            marker=".",
+            ms=ms,
             mew=0.5,
             lw=0,
             color="black",
@@ -444,23 +448,24 @@ class Decomposer(DecomposerBase):
             capsize=2,
             zorder=0,
         )
-        ax2.plot(abscissa, model, color="red", lw=1.5)
+        ax2.plot(abscissa, model, color="tab:red", lw=1.5)
         ax2.plot(
-            abscissa, self.size["large"][:, i, j], label="large", lw=1, color="purple"
+            abscissa, self.size["large"][:, i, j], label="large", lw=1, color="tab:green"
         )
         ax2.plot(
-            abscissa, self.size["small"][:, i, j], label="small", lw=1, color="crimson"
+            abscissa, self.size["small"][:, i, j], label="small", lw=1, color="tab:blue"
         )
         size_str = "$f_{large}$=%3.1f" % (self.large_fraction[i][j])
-        ax2.text(0.025, 0.9, size_str, ha="left", va="center", transform=ax2.transAxes)
+        ax2.text(0.025, 0.88, size_str, ha="left", va="center", transform=ax2.transAxes)
+        ax2.set_ylabel(f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]')
 
         # ax3: Charge breakdown.
         ax3.errorbar(
             abscissa,
             data,
             yerr=unc,
-            marker="x",
-            ms=5,
+            marker=".",
+            ms=ms,
             mew=0.5,
             lw=0,
             color="black",
@@ -470,16 +475,18 @@ class Decomposer(DecomposerBase):
         )
         ax3.plot(abscissa, model, color="red", lw=1.5)
         ax3.plot(
-            abscissa, charge["anion"][:, i, j], label="anion", lw=1, color="orange"
+            abscissa, charge["anion"][:, i, j], label="anion", lw=1, color="tab:orange"
         )
         ax3.plot(
-            abscissa, charge["neutral"][:, i, j], label="neutral", lw=1, color="green"
+            abscissa, charge["neutral"][:, i, j], label="neutral", lw=1, color="tab:cyan"
         )
         ax3.plot(
-            abscissa, charge["cation"][:, i, j], label="cation", lw=1, color="blue"
+            abscissa, charge["cation"][:, i, j], label="cation", lw=1, color="tab:purple"
         )
         ion_str = "$f_{ionized}$=%3.1f" % (self.ionized_fraction[i][j])
-        ax3.text(0.025, 0.9, ion_str, ha="left", va="center", transform=ax3.transAxes)
+        ax3.text(0.025, 0.88, ion_str, ha="left", va="center", transform=ax3.transAxes)
+        ax3.set_xlabel(f'{self.spectrum.meta["colnames"][0]} [{self.spectrum.spectral_axis.unit}]')
+        ax3.set_ylabel(f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]')
 
         # Set tick parameters and add legends to axes.
         for ax in (ax0, ax1, ax2, ax3):

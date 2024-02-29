@@ -43,6 +43,7 @@ class Observation(object):
             warnings.simplefilter("ignore", category=VerifyWarning)
 
             self.spectrum = Spectrum1D.read(self.file_path)
+            self.spectrum.meta['colnames'] = 3 * ["",]
 
             # Always work as if spectrum is a cube.
             if len(self.spectrum.flux.shape) == 1:
@@ -92,6 +93,7 @@ class Observation(object):
                         flux = h.data.T * u.Unit(h.header["BUNIT"])
                         wave = hdu[h0].data[h1] * u.Unit(hdu[h0].columns[h1].unit)
                         self.spectrum = Spectrum1D(flux, spectral_axis=wave)
+                        self.spectrum.meta['colnames'] = 3 * ["",]
 
                         return None
 
@@ -125,31 +127,30 @@ class Observation(object):
             data = ascii.read(self.file_path)
             # Always work as if spectrum is a cube.
             flux = np.reshape(
-                data["FLUX"].quantity,
+                data[data.colnames[1]].quantity,
                 (
                     1,
                     1,
                 )
-                + data["FLUX"].quantity.shape,
+                + data[data.colnames[1]].quantity.shape,
             )
             # Create Spectrum1D object.
-            for name in data.colnames:
-                data.rename_column(name, name.upper())
-            wave = data["WAVELENGTH"].quantity
+            wave = data[data.colnames[0]].quantity
             unc = None
-            if "FLUX_UNCERTAINTY" in data.colnames:
+            if len(data.colnames) > 2:
                 unc = StdDevUncertainty(
                     np.reshape(
-                        data["FLUX_UNCERTAINTY"].quantity,
+                        data[data.colnames[2]].quantity,
                         (
                             1,
                             1,
                         )
-                        + (data["FLUX_UNCERTAINTY"].quantity.shape),
+                        + (data[data.colnames[2]].quantity.shape),
                     )
                 )
 
             self.spectrum = Spectrum1D(flux, spectral_axis=wave, uncertainty=unc)
+            self.spectrum.meta['colnames'] = data.colnames
 
             hdr = ""
             for card in data.meta["keywords"].keys():
