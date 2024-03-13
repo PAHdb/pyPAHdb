@@ -21,7 +21,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 import pypahdb
-from pypahdb.decomposer_base import DecomposerBase
+from pypahdb.decomposer_base import DecomposerBase, SMALL_SIZE, MEDIUM_SIZE
 
 
 class Decomposer(DecomposerBase):
@@ -36,6 +36,9 @@ class Decomposer(DecomposerBase):
             spectrum (specutils.Spectrum1D): The data to fit/decompose.
         """
         DecomposerBase.__init__(self, spectrum)
+        self.large_fraction = self.size_fraction[0]
+        self.medium_fraction = self.size_fraction[1]
+        self.small_fraction = self.size_fraction[2]
 
     def save_pdf(self, filename, header="", domaps=True, doplots=True):
         """Save a PDF summary of the fit results.
@@ -107,10 +110,16 @@ class Decomposer(DecomposerBase):
                     wcs = WCS(hdr)
                 else:
                     wcs = None
-                fig = self.plot_map(self.ionized_fraction, "ionized fraction", wcs=wcs)
+                fig = self.plot_map(self.ionized_fraction, "n$_{{cation}}$/n$_{{neutral}}$", wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.large_fraction, "large fraction", wcs=wcs)
+                fig = self.plot_map(self.large_fraction, f"large fraction (N$_{{C}}$ > {MEDIUM_SIZE})", wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                fig = self.plot_map(self.medium_fraction, f"medium fraction ({SMALL_SIZE} < N$_{{C}}$ ≤ {MEDIUM_SIZE})", wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                fig = self.plot_map(self.small_fraction, f"small fraction (N$_{{C}}$ ≤ {SMALL_SIZE})", wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
                 fig = self.plot_map(self.error, "error", wcs=wcs)
@@ -187,9 +196,11 @@ class Decomposer(DecomposerBase):
             for line in comments.split("\n"):
                 for chunk in [line[i: i + 72] for i in range(0, len(line), 72)]:
                     hdr["COMMENT"] = chunk
-            hdr["COMMENT"] = "1st data plane contains the PAH ionization " "fraction."
+            hdr["COMMENT"] = "1st data plane contains the PAH ionization fraction."
             hdr["COMMENT"] = "2nd data plane contains the PAH large fraction."
-            hdr["COMMENT"] = "3rd data plane contains the error."
+            hdr["COMMENT"] = "3rd data plane contains the PAH medium fraction."
+            hdr["COMMENT"] = "4th data plane contains the PAH small fraction."
+            hdr["COMMENT"] = "5th data plane contains the error."
 
             # Write results to FITS-file.
             hdu = fits.PrimaryHDU(
@@ -197,6 +208,8 @@ class Decomposer(DecomposerBase):
                     (
                         self.ionized_fraction.value,
                         self.large_fraction.value,
+                        self.medium_fraction.value,
+                        self.small_fraction.value,
                         self.error.value,
                     ),
                     axis=0,
@@ -450,7 +463,10 @@ class Decomposer(DecomposerBase):
         )
         ax2.plot(abscissa, model, color="tab:red", lw=1.5)
         ax2.plot(
-            abscissa, self.size["large"][:, i, j], label="large", lw=1, color="tab:green"
+            abscissa, self.size["large"][:, i, j], label="large", lw=1, color="tab:orange"
+        )
+        ax2.plot(
+            abscissa, self.size["medium"][:, i, j], label="medium", lw=1, color="tab:green"
         )
         ax2.plot(
             abscissa, self.size["small"][:, i, j], label="small", lw=1, color="tab:blue"
@@ -483,7 +499,7 @@ class Decomposer(DecomposerBase):
         ax3.plot(
             abscissa, charge["cation"][:, i, j], label="cation", lw=1, color="tab:purple"
         )
-        ion_str = "$f_{ionized}$=%3.1f" % (self.ionized_fraction[i][j])
+        ion_str = "$n_{cation}/n_{neutral}$=%3.1f" % (self.ionized_fraction[i][j])
         ax3.text(0.025, 0.88, ion_str, ha="left", va="center", transform=ax3.transAxes)
         ax3.set_xlabel(f'{self.spectrum.meta["colnames"][0]} [{self.spectrum.spectral_axis.unit}]')
         ax3.set_ylabel(f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]')

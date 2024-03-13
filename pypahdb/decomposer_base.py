@@ -24,6 +24,9 @@ from astropy import units as u
 from scipy import optimize
 from specutils import Spectrum1D
 
+SMALL_SIZE = 50
+MEDIUM_SIZE = 70
+
 
 def _decomposer_anion(w, m=None, p=None):
     """Do the anion decomposition in multiprocessing."""
@@ -42,12 +45,17 @@ def _decomposer_cation(w, m=None, p=None):
 
 def _decomposer_large(w, m=None, p=None):
     """Do the actual large decomposition in multiprocessing."""
-    return m.dot(w * (p > 40).astype(float))
+    return m.dot(w * (p > MEDIUM_SIZE).astype(float))
+
+
+def _decomposer_medium(w, m=None, p=None):
+    """Do the actual large decomposition in multiprocessing."""
+    return m.dot(w * ((p > SMALL_SIZE) & (p <= MEDIUM_SIZE)).astype(float))
 
 
 def _decomposer_small(w, m=None, p=None):
     """Do the small decomposition in multiprocessing."""
-    return m.dot(w * (p <= 40).astype(float))
+    return m.dot(w * (p <= 50).astype(float))
 
 
 def _decomposer_fit(w, m=None):
@@ -84,7 +92,7 @@ class DecomposerBase(object):
         self._yfit = None
         self._yerror = None
         self._ionized_fraction = None
-        self._large_fraction = None
+        self._size_fraction = None
         self._charge = None
         self._size = None
 
@@ -289,35 +297,45 @@ class DecomposerBase(object):
             # Update ionized fraction.
             neutrals = (charge_matrix == 0).astype(float)[:, None, None]
             neutrals_wt = (np.sum(self._weights * neutrals, axis=0))[nonzero]
-            self._ionized_fraction[nonzero] /= (
-                self._ionized_fraction[nonzero] + neutrals_wt
-            )
+            self._ionized_fraction[nonzero] /= neutrals_wt
 
         return self._ionized_fraction
 
-    def _get_large_fraction(self):
-        """Return the large fraction.
+    def _get_size_fraction(self):
+        """Return the size fraction.
 
         Returns:
-            self._large_fraction (quantity.Quantity): Large fraction from fit.
+            self._size_fraction (quantity.Quantity): Size fractions from fit.
         """
 
         # Lazy Instantiation.
-        if self._large_fraction is None:
+        if self._size_fraction is None:
             # Compute large fraction.
             size_matrix = self._precomputed["properties"]["size"]
-            large = (size_matrix > 40).astype(float)[:, None, None]
+            large = (size_matrix > MEDIUM_SIZE).astype(float)[:, None, None]
             self._large_fraction = np.sum(self._weights * large, axis=0)
             self._large_fraction *= u.dimensionless_unscaled
 
             nonzero = np.nonzero(self._large_fraction)
 
-            # Update the large fraction.
-            small = (size_matrix <= 40).astype(float)[:, None, None]
-            small_wt = (np.sum(self._weights * small, axis=0))[nonzero]
-            self._large_fraction[nonzero] /= self._large_fraction[nonzero] + small_wt
+            # Compute medium fraction between 50 and 70.
+            medium = ((size_matrix > SMALL_SIZE) & (size_matrix <= MEDIUM_SIZE)).astype(float)[:, None, None]
+            self._medium_fraction = np.sum(self._weights * medium, axis=0)
+            self._medium_fraction *= u.dimensionless_unscaled
 
-        return self._large_fraction
+            # Compute small fraction between 20 and 50.
+            small = (size_matrix <= SMALL_SIZE).astype(float)[:, None, None]
+            self._small_fraction = (np.sum(self._weights * small, axis=0))
+            self._small_fraction *= u.dimensionless_unscaled
+
+            size_sum = self._large_fraction[nonzero] + self._medium_fraction[nonzero] + self._small_fraction[nonzero]
+
+            # Update the size fractions.
+            self._large_fraction[nonzero] /= size_sum
+            self._medium_fraction[nonzero] /= size_sum
+            self._small_fraction[nonzero] /= size_sum
+
+        return self._large_fraction, self._medium_fraction, self._small_fraction
 
     def _get_charge(self):
         """Return the spectral charge breakdown from fit.
@@ -388,7 +406,7 @@ class DecomposerBase(object):
 
         Returns:
             self._size (dictionary): Dictionary with keys
-            'large', 'small'.
+            'large', 'medium', 'small'.
         """
 
         # TODO: Should self._size be a Spectrum1D-object?
@@ -397,6 +415,11 @@ class DecomposerBase(object):
         if self._size is None:
             decomposer_large = partial(
                 _decomposer_large,
+                m=self._matrix,
+                p=self._precomputed["properties"]["size"],
+            )
+            decomposer_medium = partial(
+                _decomposer_medium,
                 m=self._matrix,
                 p=self._precomputed["properties"]["size"],
             )
@@ -416,6 +439,7 @@ class DecomposerBase(object):
             ordinate = self.spectrum.flux.T
             mappings = {
                 "small": decomposer_small,
+                "medium": decomposer_medium,
                 "large": decomposer_large,
             }
 
@@ -451,7 +475,7 @@ class DecomposerBase(object):
     ionized_fraction = property(_get_ionized_fraction)
 
     # Make large_fraction a property.
-    large_fraction = property(_get_large_fraction)
+    size_fraction = property(_get_size_fraction)
 
     # Make charge a property.
     charge = property(_get_charge)
