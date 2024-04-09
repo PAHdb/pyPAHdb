@@ -165,14 +165,23 @@ class DecomposerBase(object):
         pool.join()
         self._matrix = np.array(self._matrix).T
 
+        # Copy and normalize the matrix.
+        m = self._matrix.copy()
+        scl = m.max()
+        m /= scl
+
         # Setup the fitter.
-        decomposer_nnls = partial(_decomposer_nnls, m=self._matrix)
+        decomposer_nnls = partial(_decomposer_nnls, m=m)
         pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
 
         # Perform the fit.
         weights, _ = list(zip(*pool.map(decomposer_nnls, pool_shape[:, self._mask].T)))
         pool.close()
         pool.join()
+
+        # Rescale weights.
+        weights = np.array(weights)
+        weights /= scl
 
         # Set weights.
         self._weights = np.zeros((pool_shape.shape[1], self._matrix.shape[1]))
