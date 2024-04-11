@@ -159,6 +159,17 @@ information.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.charge_fractions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge_fractions</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.charge_fractions" title="Link to this definition">¶</a></dt>
+<dd><p>Return the charge fraction.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>self._charge_fraction (dict): Fraction of neutral,
+cation and anion PAHs from fit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.error">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.error" title="Link to this definition">¶</a></dt>
 <dd><p>Return the error as ∫|residual|dν / ∫observation dν.</p>
@@ -179,22 +190,11 @@ information.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.ionized_fraction">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ionized_fraction</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.ionized_fraction" title="Link to this definition">¶</a></dt>
-<dd><p>Return the ionized fraction.</p>
+<dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.nc">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nc</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.nc" title="Link to this definition">¶</a></dt>
+<dd><p>Return the average number of carbon atoms.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._ionized_fraction (quantity.Quantity): Ionized fraction from
-fit.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.large_fraction">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">large_fraction</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.large_fraction" title="Link to this definition">¶</a></dt>
-<dd><p>Return the large fraction.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>self._large_fraction (quantity.Quantity): Large fraction from fit.</p>
+<dt>Returns:</dt><dd><p>self._nc (quantity.Quantity): Average number of carbon atoms</p>
 </dd>
 </dl>
 </dd></dl>
@@ -205,7 +205,17 @@ fit.</p>
 <dd><p>Return the spectral size breakdown from fit.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>self._size (dictionary): Dictionary with keys
-‘large’, ‘small’.</p>
+‘large’, ‘medium’, ‘small’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.size_fractions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size_fractions</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.size_fractions" title="Link to this definition">¶</a></dt>
+<dd><p>Return the size fraction.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>self._size_fractions (dict): Size fractions from fit.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -224,6 +234,12 @@ information.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer.</span></span><span class="sig-name descname"><span class="pre">Decomposer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pypahdb.decomposer_base.DecomposerBase" title="pypahdb.decomposer_base.DecomposerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecomposerBase</span></code></a></p>
 <p>Extends DecomposerBase to write results to disk (PDF, FITS).</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer.cation_neutral_ratio">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cation_neutral_ratio</span></span><a class="headerlink" href="#pypahdb.decomposer.Decomposer.cation_neutral_ratio" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate the cation neutral ratio if it is not already calculated and return it.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer.plot_fit">
 <span class="sig-name descname"><span class="pre">plot_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.plot_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.plot_fit" title="Link to this definition">¶</a></dt>

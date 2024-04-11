@@ -136,6 +136,9 @@
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span>
 <span class="kn">from</span> <span class="nn">specutils</span> <span class="kn">import</span> <span class="n">Spectrum1D</span>
 
+<span class="n">SMALL_SIZE</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">MEDIUM_SIZE</span> <span class="o">=</span> <span class="mi">70</span>
+
 
 <span class="k">def</span> <span class="nf">_decomposer_anion</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Do the anion decomposition in multiprocessing.&quot;&quot;&quot;</span>
@@ -154,12 +157,17 @@
 
 <span class="k">def</span> <span class="nf">_decomposer_large</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Do the actual large decomposition in multiprocessing.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="n">MEDIUM_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_decomposer_medium</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Do the actual large decomposition in multiprocessing.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">((</span><span class="n">p</span> <span class="o">&gt;</span> <span class="n">SMALL_SIZE</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;=</span> <span class="n">MEDIUM_SIZE</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">_decomposer_small</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Do the small decomposition in multiprocessing.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">_decomposer_fit</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -197,10 +205,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_mask</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_yfit</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_ionized_fraction</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_large_fraction</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_charge_fractions</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size_fractions</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_charge</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nc</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Check if spectrum is a Spectrum1D.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">Spectrum1D</span><span class="p">):</span>
@@ -382,56 +391,104 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yerror</span>
 
-    <span class="k">def</span> <span class="nf">_get_ionized_fraction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the ionized fraction.</span>
+    <span class="k">def</span> <span class="nf">_get_charge_fractions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the charge fraction.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self._ionized_fraction (quantity.Quantity): Ionized fraction from</span>
-<span class="sd">            fit.</span>
+<span class="sd">            self._charge_fraction (dict): Fraction of neutral,</span>
+<span class="sd">            cation and anion PAHs from fit.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Lazy Instantiation.</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ionized_fraction</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_charge_fractions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Compute ionized fraction.</span>
             <span class="n">charge_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;charge&quot;</span><span class="p">]</span>
-            <span class="n">ions</span> <span class="o">=</span> <span class="p">(</span><span class="n">charge_matrix</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_ionized_fraction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">ions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_ionized_fraction</span> <span class="o">*=</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
-
-            <span class="n">nonzero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ionized_fraction</span><span class="p">)</span>
-
-            <span class="c1"># Update ionized fraction.</span>
             <span class="n">neutrals</span> <span class="o">=</span> <span class="p">(</span><span class="n">charge_matrix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
-            <span class="n">neutrals_wt</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">neutrals</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))[</span><span class="n">nonzero</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_ionized_fraction</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">/=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_ionized_fraction</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">+</span> <span class="n">neutrals_wt</span>
-            <span class="p">)</span>
+            <span class="n">cations</span> <span class="o">=</span> <span class="p">(</span><span class="n">charge_matrix</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">anions</span> <span class="o">=</span> <span class="p">(</span><span class="n">charge_matrix</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">neutral_fraction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">neutrals</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">cation_fraction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">cations</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">anion_fraction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">anions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">neutral_fraction</span> <span class="o">*=</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+            <span class="n">cation_fraction</span> <span class="o">*=</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+            <span class="n">anion_fraction</span> <span class="o">*=</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ionized_fraction</span>
+            <span class="n">charge_sum</span> <span class="o">=</span> <span class="n">neutral_fraction</span> <span class="o">+</span> <span class="n">cation_fraction</span> <span class="o">+</span> <span class="n">anion_fraction</span>
+            <span class="n">nonzero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">charge_sum</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_large_fraction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the large fraction.</span>
+            <span class="n">neutral_fraction</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">/=</span> <span class="n">charge_sum</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span>
+            <span class="n">cation_fraction</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">/=</span> <span class="n">charge_sum</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span>
+            <span class="n">anion_fraction</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">/=</span> <span class="n">charge_sum</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span>
+
+            <span class="c1"># Make dictionary of charge fractions.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_charge_fractions</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;neutral&quot;</span><span class="p">:</span> <span class="n">neutral_fraction</span><span class="p">,</span>
+                <span class="s2">&quot;cation&quot;</span><span class="p">:</span> <span class="n">cation_fraction</span><span class="p">,</span>
+                <span class="s2">&quot;anion&quot;</span><span class="p">:</span> <span class="n">anion_fraction</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_charge_fractions</span>
+
+    <span class="k">def</span> <span class="nf">_get_average_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the average number of carbon atoms.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self._large_fraction (quantity.Quantity): Large fraction from fit.</span>
+<span class="sd">            self._nc (quantity.Quantity): Average number of carbon atoms</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Lazy Instantiation.</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_large_fraction</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">size_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;size&quot;</span><span class="p">]</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">size_array</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">size</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">nc_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">nonzero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">nc_sum</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nc</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">/</span> <span class="n">nc_sum</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nc</span> <span class="o">*=</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nc</span>
+
+    <span class="k">def</span> <span class="nf">_get_size_fractions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the size fraction.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            self._size_fractions (dict): Size fractions from fit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Lazy Instantiation.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size_fractions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Compute large fraction.</span>
             <span class="n">size_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;size&quot;</span><span class="p">]</span>
-            <span class="n">large</span> <span class="o">=</span> <span class="p">(</span><span class="n">size_matrix</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_large_fraction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">large</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_large_fraction</span> <span class="o">*=</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+            <span class="n">large</span> <span class="o">=</span> <span class="p">(</span><span class="n">size_matrix</span> <span class="o">&gt;</span> <span class="n">MEDIUM_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">large_fraction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">large</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">large_fraction</span> <span class="o">*=</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
 
-            <span class="n">nonzero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_large_fraction</span><span class="p">)</span>
+            <span class="c1"># Compute medium fraction between 50 and 70.</span>
+            <span class="n">medium</span> <span class="o">=</span> <span class="p">((</span><span class="n">size_matrix</span> <span class="o">&gt;</span> <span class="n">SMALL_SIZE</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">size_matrix</span> <span class="o">&lt;=</span> <span class="n">MEDIUM_SIZE</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">medium_fraction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">medium</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">medium_fraction</span> <span class="o">*=</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
 
-            <span class="c1"># Update the large fraction.</span>
-            <span class="n">small</span> <span class="o">=</span> <span class="p">(</span><span class="n">size_matrix</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
-            <span class="n">small_wt</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">small</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))[</span><span class="n">nonzero</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_large_fraction</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_large_fraction</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">+</span> <span class="n">small_wt</span>
+            <span class="c1"># Compute small fraction between 20 and 50.</span>
+            <span class="n">small</span> <span class="o">=</span> <span class="p">(</span><span class="n">size_matrix</span> <span class="o">&lt;=</span> <span class="n">SMALL_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">small_fraction</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">small</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+            <span class="n">small_fraction</span> <span class="o">*=</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_large_fraction</span>
+            <span class="n">size_sum</span> <span class="o">=</span> <span class="n">large_fraction</span> <span class="o">+</span> <span class="n">medium_fraction</span> <span class="o">+</span> <span class="n">small_fraction</span>
+            <span class="n">nonzero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">size_sum</span><span class="p">)</span>
+
+            <span class="c1"># Update the size fractions.</span>
+            <span class="n">large_fraction</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">/=</span> <span class="n">size_sum</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span>
+            <span class="n">medium_fraction</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">/=</span> <span class="n">size_sum</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span>
+            <span class="n">small_fraction</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span> <span class="o">/=</span> <span class="n">size_sum</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span>
+
+            <span class="c1"># Make dictionary of size fractions.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_size_fractions</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;large&quot;</span><span class="p">:</span> <span class="n">large_fraction</span><span class="p">,</span>
+                <span class="s2">&quot;medium&quot;</span><span class="p">:</span> <span class="n">medium_fraction</span><span class="p">,</span>
+                <span class="s2">&quot;small&quot;</span><span class="p">:</span> <span class="n">small_fraction</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size_fractions</span>
 
     <span class="k">def</span> <span class="nf">_get_charge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the spectral charge breakdown from fit.</span>
@@ -502,7 +559,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            self._size (dictionary): Dictionary with keys</span>
-<span class="sd">            &#39;large&#39;, &#39;small&#39;.</span>
+<span class="sd">            &#39;large&#39;, &#39;medium&#39;, &#39;small&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># TODO: Should self._size be a Spectrum1D-object?</span>
@@ -511,6 +568,11 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">decomposer_large</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
                 <span class="n">_decomposer_large</span><span class="p">,</span>
+                <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
+                <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;size&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="n">decomposer_medium</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+                <span class="n">_decomposer_medium</span><span class="p">,</span>
                 <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">,</span>
                 <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;size&quot;</span><span class="p">],</span>
             <span class="p">)</span>
@@ -530,6 +592,7 @@
             <span class="n">ordinate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">T</span>
             <span class="n">mappings</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">&quot;small&quot;</span><span class="p">:</span> <span class="n">decomposer_small</span><span class="p">,</span>
+                <span class="s2">&quot;medium&quot;</span><span class="p">:</span> <span class="n">decomposer_medium</span><span class="p">,</span>
                 <span class="s2">&quot;large&quot;</span><span class="p">:</span> <span class="n">decomposer_large</span><span class="p">,</span>
             <span class="p">}</span>
 
@@ -561,17 +624,20 @@
     <span class="c1"># Make error a property.</span>
     <span class="n">error</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_error</span><span class="p">)</span>
 
-    <span class="c1"># Make ionized_fraction a property.</span>
-    <span class="n">ionized_fraction</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_ionized_fraction</span><span class="p">)</span>
+    <span class="c1"># Make charge fractions a property.</span>
+    <span class="n">charge_fractions</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_charge_fractions</span><span class="p">)</span>
 
-    <span class="c1"># Make large_fraction a property.</span>
-    <span class="n">large_fraction</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_large_fraction</span><span class="p">)</span>
+    <span class="c1"># Make size fractions a property.</span>
+    <span class="n">size_fractions</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_size_fractions</span><span class="p">)</span>
 
     <span class="c1"># Make charge a property.</span>
     <span class="n">charge</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_charge</span><span class="p">)</span>
 
-    <span class="c1"># Make size a property for.</span>
-    <span class="n">size</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_size</span><span class="p">)</span></div>
+    <span class="c1"># Make size a property.</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_size</span><span class="p">)</span>
+
+    <span class="c1"># Make nc a property.</span>
+    <span class="n">nc</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_average_nc</span><span class="p">)</span></div>
 
 </pre></div>
 
