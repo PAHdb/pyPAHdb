@@ -281,7 +281,7 @@ class DecomposerBase(object):
         """Return the charge fraction.
 
         Returns:
-            self._charge_fraction (quantity.Quantity): Fraction of neutral,
+            self._charge_fraction (dict): Fraction of neutral,
             cation and anion PAHs from fit.
         """
 
@@ -338,7 +338,7 @@ class DecomposerBase(object):
         """Return the size fraction.
 
         Returns:
-            self._size_fractions (quantity.Quantity): Size fractions from fit.
+            self._size_fractions (dict): Size fractions from fit.
         """
 
         # Lazy Instantiation.
@@ -510,10 +510,10 @@ class DecomposerBase(object):
     # Make error a property.
     error = property(_error)
 
-    # Make ionized_fraction a property.
+    # Make charge fractions a property.
     charge_fractions = property(_get_charge_fractions)
 
-    # Make large_fraction a property.
+    # Make size fractions a property.
     size_fractions = property(_get_size_fractions)
 
     # Make charge a property.

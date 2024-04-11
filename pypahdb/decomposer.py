@@ -126,22 +126,28 @@ class Decomposer(DecomposerBase):
                 fig = self.plot_map(self.nc, "average PAH size (N$_{{C}}$)", wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.charge_fractions['neutral'], f"PAH neutral fraction", wcs=wcs)
+                fig = self.plot_map(self.charge_fractions['neutral'], "PAH neutral fraction", wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.charge_fractions['cation'], f"PAH cation fraction", wcs=wcs)
+                fig = self.plot_map(self.charge_fractions['cation'], "PAH cation fraction", wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.charge_fractions['anion'], f"PAH anion fraction", wcs=wcs)
+                fig = self.plot_map(self.charge_fractions['anion'], "PAH anion fraction", wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.size_fractions['large'], f"large PAH fraction (N$_{{C}}$ > {MEDIUM_SIZE})", wcs=wcs)
+                fig = self.plot_map(self.size_fractions['large'],
+                                    f"large PAH fraction (N$_{{C}}$ > {MEDIUM_SIZE})",
+                                    wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.size_fractions['medium'], f"medium PAH fraction ({SMALL_SIZE} < N$_{{C}}$ ≤ {MEDIUM_SIZE})", wcs=wcs)
+                fig = self.plot_map(self.size_fractions['medium'],
+                                    f"medium PAH fraction ({SMALL_SIZE} < N$_{{C}}$ ≤ {MEDIUM_SIZE})",
+                                    wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.size_fractions['small'], f"small PAH fraction (N$_{{C}}$ ≤ {SMALL_SIZE})", wcs=wcs)
+                fig = self.plot_map(self.size_fractions['small'],
+                                    f"small PAH fraction (N$_{{C}}$ ≤ {SMALL_SIZE})",
+                                    wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
                 fig = self.plot_map(self.error, "error", wcs=wcs)
@@ -523,7 +529,8 @@ class Decomposer(DecomposerBase):
         ax3.plot(
             abscissa, charge["cation"][:, i, j], label="cation", lw=1, color="tab:purple"
         )
-        cnr_str = "$n_{cation}/n_{neutral}$=%3.1f" % (self.charge_fractions['cation'][i][j]/self.charge_fractions['neutral'][i][j])
+        cnr_str = ("$n_{cation}/n_{neutral}$=%3.1f" %
+                   (self.charge_fractions['cation'][i][j]/self.charge_fractions['neutral'][i][j]))
         ax3.text(0.025, 0.88, cnr_str, ha="left", va="center", transform=ax3.transAxes)
         ax3.set_xlabel(f'{self.spectrum.meta["colnames"][0]} [{self.spectrum.spectral_axis.unit}]')
         ax3.set_ylabel(f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]')
