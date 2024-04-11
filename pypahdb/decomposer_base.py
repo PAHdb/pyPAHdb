@@ -24,6 +24,9 @@ from astropy import units as u
 from scipy import optimize
 from specutils import Spectrum1D
 
+SMALL_SIZE = 50
+MEDIUM_SIZE = 70
+
 
 def _decomposer_anion(w, m=None, p=None):
     """Do the anion decomposition in multiprocessing."""
@@ -42,12 +45,17 @@ def _decomposer_cation(w, m=None, p=None):
 
 def _decomposer_large(w, m=None, p=None):
     """Do the actual large decomposition in multiprocessing."""
-    return m.dot(w * (p > 40).astype(float))
+    return m.dot(w * (p > MEDIUM_SIZE).astype(float))
+
+
+def _decomposer_medium(w, m=None, p=None):
+    """Do the actual large decomposition in multiprocessing."""
+    return m.dot(w * ((p > SMALL_SIZE) & (p <= MEDIUM_SIZE)).astype(float))
 
 
 def _decomposer_small(w, m=None, p=None):
     """Do the small decomposition in multiprocessing."""
-    return m.dot(w * (p <= 40).astype(float))
+    return m.dot(w * (p <= 50).astype(float))
 
 
 def _decomposer_fit(w, m=None):
@@ -83,10 +91,11 @@ class DecomposerBase(object):
         self._mask = None
         self._yfit = None
         self._yerror = None
-        self._ionized_fraction = None
-        self._large_fraction = None
+        self._charge_fractions = None
+        self._size_fractions = None
         self._charge = None
         self._size = None
+        self._nc = None
 
         # Check if spectrum is a Spectrum1D.
         if not isinstance(spectrum, Spectrum1D):
@@ -268,56 +277,104 @@ class DecomposerBase(object):
 
         return self._yerror
 
-    def _get_ionized_fraction(self):
-        """Return the ionized fraction.
+    def _get_charge_fractions(self):
+        """Return the charge fraction.
 
         Returns:
-            self._ionized_fraction (quantity.Quantity): Ionized fraction from
-            fit.
+            self._charge_fraction (dict): Fraction of neutral,
+            cation and anion PAHs from fit.
         """
 
         # Lazy Instantiation.
-        if self._ionized_fraction is None:
+        if self._charge_fractions is None:
             # Compute ionized fraction.
             charge_matrix = self._precomputed["properties"]["charge"]
-            ions = (charge_matrix > 0).astype(float)[:, None, None]
-            self._ionized_fraction = np.sum(self._weights * ions, axis=0)
-            self._ionized_fraction *= u.dimensionless_unscaled
-
-            nonzero = np.nonzero(self._ionized_fraction)
-
-            # Update ionized fraction.
             neutrals = (charge_matrix == 0).astype(float)[:, None, None]
-            neutrals_wt = (np.sum(self._weights * neutrals, axis=0))[nonzero]
-            self._ionized_fraction[nonzero] /= (
-                self._ionized_fraction[nonzero] + neutrals_wt
-            )
+            cations = (charge_matrix > 0).astype(float)[:, None, None]
+            anions = (charge_matrix < 0).astype(float)[:, None, None]
+            neutral_fraction = np.sum(self._weights * neutrals, axis=0)
+            cation_fraction = np.sum(self._weights * cations, axis=0)
+            anion_fraction = np.sum(self._weights * anions, axis=0)
+            neutral_fraction *= u.dimensionless_unscaled
+            cation_fraction *= u.dimensionless_unscaled
+            anion_fraction *= u.dimensionless_unscaled
 
-        return self._ionized_fraction
+            charge_sum = neutral_fraction + cation_fraction + anion_fraction
+            nonzero = np.nonzero(charge_sum)
 
-    def _get_large_fraction(self):
-        """Return the large fraction.
+            neutral_fraction[nonzero] /= charge_sum[nonzero]
+            cation_fraction[nonzero] /= charge_sum[nonzero]
+            anion_fraction[nonzero] /= charge_sum[nonzero]
+
+            # Make dictionary of charge fractions.
+            self._charge_fractions = {
+                "neutral": neutral_fraction,
+                "cation": cation_fraction,
+                "anion": anion_fraction,
+            }
+
+        return self._charge_fractions
+
+    def _get_average_nc(self):
+        """Return the average number of carbon atoms.
 
         Returns:
-            self._large_fraction (quantity.Quantity): Large fraction from fit.
+            self._nc (quantity.Quantity): Average number of carbon atoms
         """
 
         # Lazy Instantiation.
-        if self._large_fraction is None:
+        if self._nc is None:
+            size_array = self._precomputed["properties"]["size"]
+            size = size_array.astype(float)[:, None, None]
+            self._nc = np.sum(self._weights * size, axis=0)
+            nc_sum = np.sum(self._weights, axis=0)
+            nonzero = np.nonzero(nc_sum)
+            self._nc[nonzero] / nc_sum[nonzero]
+            self._nc *= u.dimensionless_unscaled
+
+        return self._nc
+
+    def _get_size_fractions(self):
+        """Return the size fraction.
+
+        Returns:
+            self._size_fractions (dict): Size fractions from fit.
+        """
+
+        # Lazy Instantiation.
+        if self._size_fractions is None:
             # Compute large fraction.
             size_matrix = self._precomputed["properties"]["size"]
-            large = (size_matrix > 40).astype(float)[:, None, None]
-            self._large_fraction = np.sum(self._weights * large, axis=0)
-            self._large_fraction *= u.dimensionless_unscaled
+            large = (size_matrix > MEDIUM_SIZE).astype(float)[:, None, None]
+            large_fraction = np.sum(self._weights * large, axis=0)
+            large_fraction *= u.dimensionless_unscaled
 
-            nonzero = np.nonzero(self._large_fraction)
+            # Compute medium fraction between 50 and 70.
+            medium = ((size_matrix > SMALL_SIZE) & (size_matrix <= MEDIUM_SIZE)).astype(float)[:, None, None]
+            medium_fraction = np.sum(self._weights * medium, axis=0)
+            medium_fraction *= u.dimensionless_unscaled
 
-            # Update the large fraction.
-            small = (size_matrix <= 40).astype(float)[:, None, None]
-            small_wt = (np.sum(self._weights * small, axis=0))[nonzero]
-            self._large_fraction[nonzero] /= self._large_fraction[nonzero] + small_wt
+            # Compute small fraction between 20 and 50.
+            small = (size_matrix <= SMALL_SIZE).astype(float)[:, None, None]
+            small_fraction = (np.sum(self._weights * small, axis=0))
+            small_fraction *= u.dimensionless_unscaled
 
-        return self._large_fraction
+            size_sum = large_fraction + medium_fraction + small_fraction
+            nonzero = np.nonzero(size_sum)
+
+            # Update the size fractions.
+            large_fraction[nonzero] /= size_sum[nonzero]
+            medium_fraction[nonzero] /= size_sum[nonzero]
+            small_fraction[nonzero] /= size_sum[nonzero]
+
+            # Make dictionary of size fractions.
+            self._size_fractions = {
+                "large": large_fraction,
+                "medium": medium_fraction,
+                "small": small_fraction,
+            }
+
+        return self._size_fractions
 
     def _get_charge(self):
         """Return the spectral charge breakdown from fit.
@@ -388,7 +445,7 @@ class DecomposerBase(object):
 
         Returns:
             self._size (dictionary): Dictionary with keys
-            'large', 'small'.
+            'large', 'medium', 'small'.
         """
 
         # TODO: Should self._size be a Spectrum1D-object?
@@ -397,6 +454,11 @@ class DecomposerBase(object):
         if self._size is None:
             decomposer_large = partial(
                 _decomposer_large,
+                m=self._matrix,
+                p=self._precomputed["properties"]["size"],
+            )
+            decomposer_medium = partial(
+                _decomposer_medium,
                 m=self._matrix,
                 p=self._precomputed["properties"]["size"],
             )
@@ -416,6 +478,7 @@ class DecomposerBase(object):
             ordinate = self.spectrum.flux.T
             mappings = {
                 "small": decomposer_small,
+                "medium": decomposer_medium,
                 "large": decomposer_large,
             }
 
@@ -447,14 +510,17 @@ class DecomposerBase(object):
     # Make error a property.
     error = property(_error)
 
-    # Make ionized_fraction a property.
-    ionized_fraction = property(_get_ionized_fraction)
+    # Make charge fractions a property.
+    charge_fractions = property(_get_charge_fractions)
 
-    # Make large_fraction a property.
-    large_fraction = property(_get_large_fraction)
+    # Make size fractions a property.
+    size_fractions = property(_get_size_fractions)
 
     # Make charge a property.
     charge = property(_get_charge)
 
-    # Make size a property for.
+    # Make size a property.
     size = property(_get_size)
+
+    # Make nc a property.
+    nc = property(_get_average_nc)

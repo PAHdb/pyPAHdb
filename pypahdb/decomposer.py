@@ -21,7 +21,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 import pypahdb
-from pypahdb.decomposer_base import DecomposerBase
+from pypahdb.decomposer_base import DecomposerBase, SMALL_SIZE, MEDIUM_SIZE
 
 
 class Decomposer(DecomposerBase):
@@ -36,6 +36,18 @@ class Decomposer(DecomposerBase):
             spectrum (specutils.Spectrum1D): The data to fit/decompose.
         """
         DecomposerBase.__init__(self, spectrum)
+        self._cation_neutral_ratio = None
+
+    def _get_cation_neutral_ratio(self):
+        """
+        Calculate the cation neutral ratio if it is not already calculated and return it.
+        """
+        if self._cation_neutral_ratio is None:
+            self._cation_neutral_ratio = self.charge_fractions['cation']
+            nonzero = np.nonzero(self.charge_fractions['neutral'])
+            self._cation_neutral_ratio[nonzero] /= self.charge_fractions['neutral'][nonzero]
+
+        return self._cation_neutral_ratio
 
     def save_pdf(self, filename, header="", domaps=True, doplots=True):
         """Save a PDF summary of the fit results.
@@ -107,10 +119,35 @@ class Decomposer(DecomposerBase):
                     wcs = WCS(hdr)
                 else:
                     wcs = None
-                fig = self.plot_map(self.ionized_fraction, "ionized fraction", wcs=wcs)
+
+                fig = self.plot_map(self.cation_neutral_ratio.value, "n$_{{cation}}$/n$_{{neutral}}$", wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.large_fraction, "large fraction", wcs=wcs)
+                fig = self.plot_map(self.nc, "average PAH size (N$_{{C}}$)", wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                fig = self.plot_map(self.charge_fractions['neutral'], "PAH neutral fraction", wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                fig = self.plot_map(self.charge_fractions['cation'], "PAH cation fraction", wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                fig = self.plot_map(self.charge_fractions['anion'], "PAH anion fraction", wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                fig = self.plot_map(self.size_fractions['large'],
+                                    f"large PAH fraction (N$_{{C}}$ > {MEDIUM_SIZE})",
+                                    wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                fig = self.plot_map(self.size_fractions['medium'],
+                                    f"medium PAH fraction ({SMALL_SIZE} < N$_{{C}}$ ≤ {MEDIUM_SIZE})",
+                                    wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                fig = self.plot_map(self.size_fractions['small'],
+                                    f"small PAH fraction (N$_{{C}}$ ≤ {SMALL_SIZE})",
+                                    wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
                 fig = self.plot_map(self.error, "error", wcs=wcs)
@@ -187,23 +224,29 @@ class Decomposer(DecomposerBase):
             for line in comments.split("\n"):
                 for chunk in [line[i: i + 72] for i in range(0, len(line), 72)]:
                     hdr["COMMENT"] = chunk
-            hdr["COMMENT"] = "1st data plane contains the PAH ionization " "fraction."
-            hdr["COMMENT"] = "2nd data plane contains the PAH large fraction."
-            hdr["COMMENT"] = "3rd data plane contains the error."
+            hdr["COMMENT"] = "1st extension has the PAH neutral fraction."
+            hdr["COMMENT"] = "2nd extension has the PAH cation fraction."
+            hdr["COMMENT"] = "3rd extension has the PAH anion fraction."
+            hdr["COMMENT"] = "4th extension has the PAH large fraction."
+            hdr["COMMENT"] = "5th extension has the PAH medium fraction."
+            hdr["COMMENT"] = "6th extension has the PAH small fraction."
+            hdr["COMMENT"] = "7th extension has the error."
+            hdr["COMMENT"] = "8th extension has the cation to neutral PAH ratio."
+            hdr["COMMENT"] = "9th extension has the average Nc."
 
-            # Write results to FITS-file.
-            hdu = fits.PrimaryHDU(
-                np.stack(
-                    (
-                        self.ionized_fraction.value,
-                        self.large_fraction.value,
-                        self.error.value,
-                    ),
-                    axis=0,
-                ),
-                header=hdr,
-            )
-            hdu.writeto(filename, overwrite=True, output_verify="fix")
+            # Write results to FITS-file with multiple extension.
+            primary_hdu = fits.PrimaryHDU(header=hdr)
+            hdulist = fits.HDUList([primary_hdu])
+
+            for key, value in self.charge_fractions.items():
+                hdulist.append(fits.ImageHDU(data=value.value, name=key.upper()))
+            for key, value in self.size_fractions.items():
+                hdulist.append(fits.ImageHDU(data=value.value, name=key.upper()))
+            hdulist.append(fits.ImageHDU(data=self.error.value, name="ERROR"))
+            hdulist.append(fits.ImageHDU(data=self.nc.value, name="NC"))
+            hdulist.append(fits.ImageHDU(data=self.cation_neutral_ratio.value, name="CATION_NEUTRAL_RATIO"))
+
+            hdulist.writeto(filename, overwrite=True, output_verify="fix")
 
             return
 
@@ -450,12 +493,15 @@ class Decomposer(DecomposerBase):
         )
         ax2.plot(abscissa, model, color="tab:red", lw=1.5)
         ax2.plot(
-            abscissa, self.size["large"][:, i, j], label="large", lw=1, color="tab:green"
+            abscissa, self.size["large"][:, i, j], label="large", lw=1, color="tab:orange"
+        )
+        ax2.plot(
+            abscissa, self.size["medium"][:, i, j], label="medium", lw=1, color="tab:green"
         )
         ax2.plot(
             abscissa, self.size["small"][:, i, j], label="small", lw=1, color="tab:blue"
         )
-        size_str = "$f_{large}$=%3.1f" % (self.large_fraction[i][j])
+        size_str = "$f_{large}$=%3.1f" % (self.size_fractions['large'][i][j])
         ax2.text(0.025, 0.88, size_str, ha="left", va="center", transform=ax2.transAxes)
         ax2.set_ylabel(f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]')
 
@@ -483,8 +529,9 @@ class Decomposer(DecomposerBase):
         ax3.plot(
             abscissa, charge["cation"][:, i, j], label="cation", lw=1, color="tab:purple"
         )
-        ion_str = "$f_{ionized}$=%3.1f" % (self.ionized_fraction[i][j])
-        ax3.text(0.025, 0.88, ion_str, ha="left", va="center", transform=ax3.transAxes)
+        cnr_str = ("$n_{cation}/n_{neutral}$=%3.1f" %
+                   (self.charge_fractions['cation'][i][j]/self.charge_fractions['neutral'][i][j]))
+        ax3.text(0.025, 0.88, cnr_str, ha="left", va="center", transform=ax3.transAxes)
         ax3.set_xlabel(f'{self.spectrum.meta["colnames"][0]} [{self.spectrum.spectral_axis.unit}]')
         ax3.set_ylabel(f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]')
 
@@ -499,3 +546,6 @@ class Decomposer(DecomposerBase):
         fig.set_layout_engine("constrained")
 
         return fig
+
+    # Make a cation to neutral ratio property.
+    cation_neutral_ratio = property(_get_cation_neutral_ratio)

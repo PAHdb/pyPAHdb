@@ -11,6 +11,7 @@ import numpy as np
 import matplotlib
 
 from astropy.wcs import WCS
+from astropy import units as u
 
 from pypahdb.observation import Observation
 from pypahdb.decomposer import Decomposer
@@ -36,13 +37,13 @@ class DecomposerTestCase(unittest.TestCase):
         """Can we create a fit?"""
         assert isinstance(self.decomposer.fit, np.ndarray)
 
-    def test_has_ionized_fraction(self):
-        """Can we create an ionized fraction?"""
-        assert isinstance(self.decomposer.ionized_fraction, np.ndarray)
+    def test_has_charge_fractions(self):
+        """Can we create an charge fractions?"""
+        assert isinstance(self.decomposer.charge_fractions, dict)
 
-    def test_has_large_fraction(self):
-        """Can we calculate a large fraction?"""
-        assert isinstance(self.decomposer.large_fraction, np.ndarray)
+    def test_has_size_fractions(self):
+        """Can we calculate a size fractions?"""
+        assert isinstance(self.decomposer.size_fractions, dict)
 
     def test_has_charge(self):
         """Can we generate a charge results?"""
@@ -51,6 +52,10 @@ class DecomposerTestCase(unittest.TestCase):
     def test_has_size(self):
         """Can we generate a size results?"""
         assert isinstance(self.decomposer.size, dict)
+
+    def test_has_nc(self):
+        """Can we generate an nc results?"""
+        assert isinstance(self.decomposer.nc, u.quantity.Quantity)
 
     def test_do_pdf(self):
         """Can we output a PDF?"""
