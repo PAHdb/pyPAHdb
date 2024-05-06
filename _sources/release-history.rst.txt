@@ -2,6 +2,12 @@
 Release History
 ===============
 
+v1.0 (2024-05-06)
+-----------------
+
+This is the version 1.0 milestone release of pypahdb that has been
+tested and validated against actual JWST data.
+
 v0.6.1 (2018-10-12)
 -------------------
 
