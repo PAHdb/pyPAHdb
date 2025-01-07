@@ -130,9 +130,7 @@ class DecomposerBase(object):
         remote_pkl = "https://www.astrochemistry.org/pahdb/pypahdb/pickle.php"
         if os.getenv("GITHUB_ACTIONS") == "true":
             remote_pkl += "?github_actions=true"
-        local_pkl = (
-            importlib_resources.files("pypahdb") / "resources/precomputed.pkl"
-        )
+        local_pkl = importlib_resources.files("pypahdb") / "resources/precomputed.pkl"
         if not os.path.isfile(local_pkl):
 
             def hook(t):
@@ -143,6 +141,7 @@ class DecomposerBase(object):
                         t.total = tsize
                     t.update((b - last_b[0]) * bsize)
                     last_b[0] = b
+
                 return inner
 
             print("downloading pre-computed matrix")
@@ -324,12 +323,17 @@ class DecomposerBase(object):
 
         # Lazy Instantiation.
         if self._nc is None:
+            # Compute average number of carbon atoms.
+            self._nc = np.zeros(self._weights.shape[1:])
             size_array = self._precomputed["properties"]["size"]
             size = size_array.astype(float)[:, None, None]
-            self._nc = np.sum(self._weights * size, axis=0)
             nc_sum = np.sum(self._weights, axis=0)
-            nonzero = np.nonzero(nc_sum)
-            self._nc[nonzero] / nc_sum[nonzero]
+            np.divide(
+                np.sum(self._weights * size, axis=0),
+                nc_sum,
+                out=self._nc,
+                where=nc_sum != 0,
+            )
             self._nc *= u.dimensionless_unscaled
 
         return self._nc
@@ -350,13 +354,15 @@ class DecomposerBase(object):
             large_fraction *= u.dimensionless_unscaled
 
             # Compute medium fraction between 50 and 70.
-            medium = ((size_matrix > SMALL_SIZE) & (size_matrix <= MEDIUM_SIZE)).astype(float)[:, None, None]
+            medium = ((size_matrix > SMALL_SIZE) & (size_matrix <= MEDIUM_SIZE)).astype(
+                float
+            )[:, None, None]
             medium_fraction = np.sum(self._weights * medium, axis=0)
             medium_fraction *= u.dimensionless_unscaled
 
             # Compute small fraction between 20 and 50.
             small = (size_matrix <= SMALL_SIZE).astype(float)[:, None, None]
-            small_fraction = (np.sum(self._weights * small, axis=0))
+            small_fraction = np.sum(self._weights * small, axis=0)
             small_fraction *= u.dimensionless_unscaled
 
             size_sum = large_fraction + medium_fraction + small_fraction
