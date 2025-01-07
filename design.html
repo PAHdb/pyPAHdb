@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2 Design &mdash; pypahdb  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
@@ -17,6 +17,8 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=5929fcd5"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
@@ -119,16 +121,16 @@
 (2018)</a> <strong>and some
 implementation details will have changed since then.</strong></p>
 <section id="design">
-<h1><span class="sectnum">2 </span>Design<a class="headerlink" href="#design" title="Link to this heading">¶</a></h1>
+<h1><span class="sectnum">2 </span>Design<a class="headerlink" href="#design" title="Link to this heading"></a></h1>
 <p>Pypahdb analyzes spectroscopic observations (including spectral maps)
 and characterizes the PAH emission in terms of PAH ionization and size
 fractions using a database-fitting approach.</p>
 <p>The pypahdb package is imported with the following statement:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pypahdb</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pypahdb</span>
 </pre></div>
 </div>
 <section id="flowchart">
-<h2><span class="sectnum">2.1 </span>Flowchart<a class="headerlink" href="#flowchart" title="Link to this heading">¶</a></h2>
+<h2><span class="sectnum">2.1 </span>Flowchart<a class="headerlink" href="#flowchart" title="Link to this heading"></a></h2>
 <figure class="align-center" id="id5">
 <img alt="_images/fig_flowchart.png" src="_images/fig_flowchart.png" />
 <figcaption>
@@ -140,7 +142,7 @@ non-negative least-squares (NNLS) approach, which yields the contribution
 of an individual PAH molecule. As a result, the fit can be broken down in
 terms of PAH charge and size. (3) The results are written to disk as a
 single FITS file and as a PDF summarizing the results (one page per pixel,
-if a spectral cube is provided as input).</span><a class="headerlink" href="#id5" title="Link to this image">¶</a></p>
+if a spectral cube is provided as input).</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>The general program methodology is encapsulated in the flowchart
@@ -161,10 +163,10 @@ Python code demonstrating the use of the class. The file
 pypahdb package. The output of the demonstration code is shown in the
 flowchart.</p></li>
 </ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pkg_resources</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pkg_resources</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">pypahdb.observation</span> <span class="kn">import</span> <span class="n">Observation</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pypahdb.observation</span><span class="w"> </span><span class="kn">import</span> <span class="n">Observation</span>
 
 <span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;resources/sample_data_NGC7023.tbl&#39;</span>
 <span class="n">data_file</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;pypahdb&#39;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
@@ -202,7 +204,7 @@ parallelized across each pixel using, again, the
 the use of the <code class="docutils literal notranslate"><span class="pre">Decomposer</span></code> and extends the previous code-block. The
 output from the code-block is shown in the flowchart.</p></li>
 </ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pypahdb.decomposer</span> <span class="kn">import</span> <span class="n">Decomposer</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pypahdb.decomposer</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decomposer</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">Decomposer</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">spectrum</span><span class="p">)</span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">spectrum</span>
@@ -227,7 +229,7 @@ code-block is shown in the flowchart.</p></li>
 </div>
 </section>
 <section id="supported-data-formats">
-<h2><span class="sectnum">2.2 </span>Supported data formats<a class="headerlink" href="#supported-data-formats" title="Link to this heading">¶</a></h2>
+<h2><span class="sectnum">2.2 </span>Supported data formats<a class="headerlink" href="#supported-data-formats" title="Link to this heading"></a></h2>
 <p>Pypahdb supports reading in IPAC tables, <em>Spitzer</em> FITS files, and <em>JWST</em> FITS
 files. Support for reading pahfit<a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>-files is underway. Pahfit is being
 developed as part of the same <em>JWST</em> ERS Program<a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> as pypahdb.</p>
@@ -256,7 +258,7 @@ developed as part of the same <em>JWST</em> ERS Program<a class="footnote-refere
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2024 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.</p>
+    <p>&#169; Copyright 2018-2025 ⸺ Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
