@@ -43,9 +43,11 @@ class Decomposer(DecomposerBase):
         Calculate the cation neutral ratio if it is not already calculated and return it.
         """
         if self._cation_neutral_ratio is None:
-            self._cation_neutral_ratio = self.charge_fractions['cation']
-            nonzero = np.nonzero(self.charge_fractions['neutral'])
-            self._cation_neutral_ratio[nonzero] /= self.charge_fractions['neutral'][nonzero]
+            self._cation_neutral_ratio = self.charge_fractions["cation"].copy()
+            nonzero = np.nonzero(self.charge_fractions["neutral"])
+            self._cation_neutral_ratio[nonzero] /= self.charge_fractions["neutral"][
+                nonzero
+            ]
 
         return self._cation_neutral_ratio
 
@@ -71,9 +73,7 @@ class Decomposer(DecomposerBase):
         with PdfPages(filename) as pdf:
             d = pdf.infodict()
             d["Title"] = "pyPAHdb Results Summary"
-            d["Author"] = (
-                "Dr. C. Boersma, Dr. M.J. Shannon, and Dr. A. Maragkoudakis"
-            )
+            d["Author"] = "Dr. C. Boersma, Dr. M.J. Shannon, and Dr. A. Maragkoudakis"
             d["Producer"] = "NASA Ames Research Center"
             d["Creator"] = "pypahdb v{}(Python {}.{}.{})".format(
                 pypahdb.__version__,
@@ -120,34 +120,50 @@ class Decomposer(DecomposerBase):
                 else:
                     wcs = None
 
-                fig = self.plot_map(self.cation_neutral_ratio.value, "n$_{{cation}}$/n$_{{neutral}}$", wcs=wcs)
+                fig = self.plot_map(
+                    self.cation_neutral_ratio.value,
+                    "n$_{{cation}}$/n$_{{neutral}}$",
+                    wcs=wcs,
+                )
                 pdf.savefig(fig)
                 plt.close(fig)
                 fig = self.plot_map(self.nc, "average PAH size (N$_{{C}}$)", wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.charge_fractions['neutral'], "PAH neutral fraction", wcs=wcs)
+                fig = self.plot_map(
+                    self.charge_fractions["neutral"], "PAH neutral fraction", wcs=wcs
+                )
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.charge_fractions['cation'], "PAH cation fraction", wcs=wcs)
+                fig = self.plot_map(
+                    self.charge_fractions["cation"], "PAH cation fraction", wcs=wcs
+                )
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.charge_fractions['anion'], "PAH anion fraction", wcs=wcs)
+                fig = self.plot_map(
+                    self.charge_fractions["anion"], "PAH anion fraction", wcs=wcs
+                )
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.size_fractions['large'],
-                                    f"large PAH fraction (N$_{{C}}$ > {MEDIUM_SIZE})",
-                                    wcs=wcs)
+                fig = self.plot_map(
+                    self.size_fractions["large"],
+                    f"large PAH fraction (N$_{{C}}$ > {MEDIUM_SIZE})",
+                    wcs=wcs,
+                )
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.size_fractions['medium'],
-                                    f"medium PAH fraction ({SMALL_SIZE} < N$_{{C}}$ ≤ {MEDIUM_SIZE})",
-                                    wcs=wcs)
+                fig = self.plot_map(
+                    self.size_fractions["medium"],
+                    f"medium PAH fraction ({SMALL_SIZE} < N$_{{C}}$ ≤ {MEDIUM_SIZE})",
+                    wcs=wcs,
+                )
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.size_fractions['small'],
-                                    f"small PAH fraction (N$_{{C}}$ ≤ {SMALL_SIZE})",
-                                    wcs=wcs)
+                fig = self.plot_map(
+                    self.size_fractions["small"],
+                    f"small PAH fraction (N$_{{C}}$ ≤ {SMALL_SIZE})",
+                    wcs=wcs,
+                )
                 pdf.savefig(fig)
                 plt.close(fig)
                 fig = self.plot_map(self.error, "error", wcs=wcs)
@@ -244,7 +260,11 @@ class Decomposer(DecomposerBase):
                 hdulist.append(fits.ImageHDU(data=value.value, name=key.upper()))
             hdulist.append(fits.ImageHDU(data=self.error.value, name="ERROR"))
             hdulist.append(fits.ImageHDU(data=self.nc.value, name="NC"))
-            hdulist.append(fits.ImageHDU(data=self.cation_neutral_ratio.value, name="CATION_NEUTRAL_RATIO"))
+            hdulist.append(
+                fits.ImageHDU(
+                    data=self.cation_neutral_ratio.value, name="CATION_NEUTRAL_RATIO"
+                )
+            )
 
             hdulist.writeto(filename, overwrite=True, output_verify="fix")
 
@@ -470,8 +490,12 @@ class Decomposer(DecomposerBase):
         )
         ax0.plot(abscissa, model, label="fit", color="tab:red", lw=1.5)
         error_str = "$error$=%-4.2f" % (self.error[i][j])
-        ax0.text(0.025, 0.88, error_str, ha="left", va="center", transform=ax0.transAxes)
-        ax0.set_ylabel(f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]')
+        ax0.text(
+            0.025, 0.88, error_str, ha="left", va="center", transform=ax0.transAxes
+        )
+        ax0.set_ylabel(
+            f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]'
+        )
 
         # ax1: Residual.
         ax1.plot(abscissa, data - model, lw=1, label="residual", color="gray")
@@ -493,17 +517,27 @@ class Decomposer(DecomposerBase):
         )
         ax2.plot(abscissa, model, color="tab:red", lw=1.5)
         ax2.plot(
-            abscissa, self.size["large"][:, i, j], label="large", lw=1, color="tab:orange"
+            abscissa,
+            self.size["large"][:, i, j],
+            label="large",
+            lw=1,
+            color="tab:orange",
         )
         ax2.plot(
-            abscissa, self.size["medium"][:, i, j], label="medium", lw=1, color="tab:green"
+            abscissa,
+            self.size["medium"][:, i, j],
+            label="medium",
+            lw=1,
+            color="tab:green",
         )
         ax2.plot(
             abscissa, self.size["small"][:, i, j], label="small", lw=1, color="tab:blue"
         )
-        size_str = "$f_{large}$=%3.1f" % (self.size_fractions['large'][i][j])
+        size_str = "$f_{large}$=%3.1f" % (self.size_fractions["large"][i][j])
         ax2.text(0.025, 0.88, size_str, ha="left", va="center", transform=ax2.transAxes)
-        ax2.set_ylabel(f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]')
+        ax2.set_ylabel(
+            f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]'
+        )
 
         # ax3: Charge breakdown.
         ax3.errorbar(
@@ -524,16 +558,30 @@ class Decomposer(DecomposerBase):
             abscissa, charge["anion"][:, i, j], label="anion", lw=1, color="tab:orange"
         )
         ax3.plot(
-            abscissa, charge["neutral"][:, i, j], label="neutral", lw=1, color="tab:cyan"
+            abscissa,
+            charge["neutral"][:, i, j],
+            label="neutral",
+            lw=1,
+            color="tab:cyan",
         )
         ax3.plot(
-            abscissa, charge["cation"][:, i, j], label="cation", lw=1, color="tab:purple"
+            abscissa,
+            charge["cation"][:, i, j],
+            label="cation",
+            lw=1,
+            color="tab:purple",
         )
-        cnr_str = ("$n_{cation}/n_{neutral}$=%3.1f" %
-                   (self.charge_fractions['cation'][i][j]/self.charge_fractions['neutral'][i][j]))
+        cnr_str = "$n_{cation}/n_{neutral}$=%3.1f" % (
+            self.charge_fractions["cation"][i][j]
+            / self.charge_fractions["neutral"][i][j]
+        )
         ax3.text(0.025, 0.88, cnr_str, ha="left", va="center", transform=ax3.transAxes)
-        ax3.set_xlabel(f'{self.spectrum.meta["colnames"][0]} [{self.spectrum.spectral_axis.unit}]')
-        ax3.set_ylabel(f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]')
+        ax3.set_xlabel(
+            f'{self.spectrum.meta["colnames"][0]} [{self.spectrum.spectral_axis.unit}]'
+        )
+        ax3.set_ylabel(
+            f'{self.spectrum.meta["colnames"][1]} [{self.spectrum.flux.unit}]'
+        )
 
         # Set tick parameters and add legends to axes.
         for ax in (ax0, ax1, ax2, ax3):
