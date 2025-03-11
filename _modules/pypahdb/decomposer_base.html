@@ -282,8 +282,6 @@
         <span class="p">)</span>
 
         <span class="c1"># Create multiprocessing pool.</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;posix&quot;</span><span class="p">:</span>
-            <span class="n">multiprocessing</span><span class="o">.</span><span class="n">set_start_method</span><span class="p">(</span><span class="s2">&quot;fork&quot;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">decomposer_interp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s2">&quot;matrix&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
         <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
