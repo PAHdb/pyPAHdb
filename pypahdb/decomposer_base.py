@@ -165,8 +165,6 @@ class DecomposerBase(object):
         )
 
         # Create multiprocessing pool.
-        if os.name == "posix":
-            multiprocessing.set_start_method("fork", force=True)
         pool = multiprocessing.Pool(processes=multiprocessing.cpu_count() - 1)
         self._matrix = pool.map(decomposer_interp, self._precomputed["matrix"].T)
         pool.close()
