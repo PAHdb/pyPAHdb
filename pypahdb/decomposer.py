@@ -21,7 +21,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 import pypahdb
-from pypahdb.decomposer_base import DecomposerBase, SMALL_SIZE, MEDIUM_SIZE
+from pypahdb.decomposer_base import MEDIUM_SIZE, SMALL_SIZE, DecomposerBase
 
 
 class Decomposer(DecomposerBase):
@@ -122,31 +122,47 @@ class Decomposer(DecomposerBase):
 
                 fig = self.plot_map(
                     self.cation_neutral_ratio.value,
+                    self.mask,
                     "n$_{{cation}}$/n$_{{neutral}}$",
                     wcs=wcs,
                 )
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.nc, "average PAH size (N$_{{C}}$)", wcs=wcs)
-                pdf.savefig(fig)
-                plt.close(fig)
                 fig = self.plot_map(
-                    self.charge_fractions["neutral"], "PAH neutral fraction", wcs=wcs
+                    self.nc,
+                    self.mask,
+                    "average PAH size (N$_{{C}}$)",
+                    wcs=wcs,
                 )
                 pdf.savefig(fig)
                 plt.close(fig)
                 fig = self.plot_map(
-                    self.charge_fractions["cation"], "PAH cation fraction", wcs=wcs
+                    self.charge_fractions["neutral"],
+                    self.mask,
+                    "PAH neutral fraction",
+                    wcs=wcs,
                 )
                 pdf.savefig(fig)
                 plt.close(fig)
                 fig = self.plot_map(
-                    self.charge_fractions["anion"], "PAH anion fraction", wcs=wcs
+                    self.charge_fractions["cation"],
+                    self.mask,
+                    "PAH cation fraction",
+                    wcs=wcs,
+                )
+                pdf.savefig(fig)
+                plt.close(fig)
+                fig = self.plot_map(
+                    self.charge_fractions["anion"],
+                    self.mask,
+                    "PAH anion fraction",
+                    wcs=wcs,
                 )
                 pdf.savefig(fig)
                 plt.close(fig)
                 fig = self.plot_map(
                     self.size_fractions["large"],
+                    self.mask,
                     f"large PAH fraction (N$_{{C}}$ > {MEDIUM_SIZE})",
                     wcs=wcs,
                 )
@@ -154,6 +170,7 @@ class Decomposer(DecomposerBase):
                 plt.close(fig)
                 fig = self.plot_map(
                     self.size_fractions["medium"],
+                    self.mask,
                     f"medium PAH fraction ({SMALL_SIZE} < N$_{{C}}$ ≤ {MEDIUM_SIZE})",
                     wcs=wcs,
                 )
@@ -161,12 +178,16 @@ class Decomposer(DecomposerBase):
                 plt.close(fig)
                 fig = self.plot_map(
                     self.size_fractions["small"],
+                    self.mask,
                     f"small PAH fraction (N$_{{C}}$ ≤ {SMALL_SIZE})",
                     wcs=wcs,
                 )
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.error, "error", wcs=wcs)
+                fig = self.plot_map(self.error, self.mask, "error", wcs=wcs)
+                pdf.savefig(fig)
+                plt.close(fig)
+                fig = self.plot_map(self.mask.astype(float), np.ones(self.mask.shape, dtype=bool),  "mask", wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
 
@@ -223,11 +244,11 @@ class Decomposer(DecomposerBase):
                 "CUNIT3",
                 "PS3_0",
                 "PS3_1",
-                "WCSAXES",
             ]
             for c in cards:
                 if c in hdr:
                     del hdr[c]
+            hdr.insert("CRPIX1", ("WCSAXES", 2, "Number of coordinate axes"))
             comments = (
                 "This file contains results from pypahdb.\n"
                 "Pypahdb was created as part of the JWST ERS Program "
@@ -238,7 +259,7 @@ class Decomposer(DecomposerBase):
                 "information on pypahdb."
             )
             for line in comments.split("\n"):
-                for chunk in [line[i: i + 72] for i in range(0, len(line), 72)]:
+                for chunk in [line[i : i + 72] for i in range(0, len(line), 72)]:
                     hdr["COMMENT"] = chunk
             hdr["COMMENT"] = "1st extension has the PAH neutral fraction."
             hdr["COMMENT"] = "2nd extension has the PAH cation fraction."
@@ -249,6 +270,7 @@ class Decomposer(DecomposerBase):
             hdr["COMMENT"] = "7th extension has the error."
             hdr["COMMENT"] = "8th extension has the cation to neutral PAH ratio."
             hdr["COMMENT"] = "9th extension has the average Nc."
+            hdr["COMMENT"] = "10th extension has the computed mask."
 
             # Write results to FITS-file with multiple extension.
             primary_hdu = fits.PrimaryHDU(header=hdr)
@@ -265,6 +287,7 @@ class Decomposer(DecomposerBase):
                     data=self.cation_neutral_ratio.value, name="CATION_NEUTRAL_RATIO"
                 )
             )
+            hdulist.append(fits.ImageHDU(data=self.mask.astype(int), name="MASK"))
 
             hdulist.writeto(filename, overwrite=True, output_verify="fix")
 
@@ -282,14 +305,15 @@ class Decomposer(DecomposerBase):
         return
 
     @staticmethod
-    def plot_map(data, title, wcs=None):
+    def plot_map(data, mask, title, wcs=None):
         """Plots a map.
 
         Notes:
             None.
 
         Args:
-            im (numpy): Image.
+            data (numpy): Image.
+            mask (numpy): Mask.
             title (string): Image title.
 
         Keywords:
@@ -299,9 +323,14 @@ class Decomposer(DecomposerBase):
             fig (matplotlib.figure.Figure): Instance of figure.
 
         """
-        m = np.nanmax(data)
 
-        im = data / m
+        mmin = np.nanmin(data[mask])
+
+        im = data - mmin
+
+        mmax = np.nanmax(im[mask])
+
+        im /= mmax
 
         cmap = colormaps["rainbow"]
 
@@ -328,7 +357,7 @@ class Decomposer(DecomposerBase):
         for i in range(im.shape[0]):
             ii = [i, i + 1, i + 1, i, i]
             for j in range(im.shape[1]):
-                if np.isfinite(im[i, j]):
+                if mask[i, j] and np.isfinite(im[i, j]):
                     jj = [j, j, j + 1, j + 1, j]
                     args += [x[ii, jj], y[ii, jj], colors.to_hex(cmap(im[i, j]))]
         plt.fill(*tuple(args))
@@ -421,11 +450,12 @@ class Decomposer(DecomposerBase):
         fig.set_layout_engine("constrained")
 
         colorbar = cm.ScalarMappable(cmap=cmap)
-        colorbar.set_clim(0.0, m)
+        colorbar.set_clim(mmin, mmax)
         cax = inset_axes(
             ax, width="2%", height="100%", loc="center right", borderpad=-1
         )
         plt.colorbar(colorbar, cax=cax)
+        cax.locator_params(axis="y", steps=[1, 10])
         cax.set_ylabel(title)
 
         return fig
@@ -595,5 +625,5 @@ class Decomposer(DecomposerBase):
 
         return fig
 
-    # Make a cation to neutral ratio property.
+    # Make cation to neutral ratio a property.
     cation_neutral_ratio = property(_get_cation_neutral_ratio)

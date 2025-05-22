@@ -21,7 +21,7 @@ import importlib_resources
 import numpy as np
 from tqdm import tqdm
 from astropy import units as u
-from scipy import optimize
+from fnnls import fnnls
 from specutils import Spectrum1D
 
 SMALL_SIZE = 50
@@ -71,7 +71,7 @@ def _decomposer_interp(fp, x=None, xp=None):
 
 def _decomposer_nnls(y, m=None):
     """Do the NNLS in multiprocessing."""
-    return optimize.nnls(m, y)
+    return fnnls(m, y)
 
 
 class DecomposerBase(object):
@@ -121,8 +121,8 @@ class DecomposerBase(object):
         pool_shape = np.reshape(ordinate, (ordinate.shape[0], n_elements_yz))
 
         # Avoid fitting -zero- spectra.
-        self._mask = np.where(np.sum(pool_shape, axis=0) > 0.0)[0]
-        if self._mask.size == 0:
+        self._mask = np.sum(pool_shape, axis=0) > 0.0
+        if np.all(self._mask == False):
             print("spectral data is all zeros.")
             return None
 
@@ -173,8 +173,12 @@ class DecomposerBase(object):
 
         # Copy and normalize the matrix.
         m = self._matrix.copy()
-        scl = m.max()
-        m /= scl
+        m_scl = m.max()
+        m /= m_scl
+
+        # Normalize spectral input.
+        b_scl = np.max(pool_shape, axis=0).value
+        np.divide(pool_shape, b_scl[None, :], out=pool_shape, where=self._mask)
 
         # Setup the fitter.
         decomposer_nnls = partial(_decomposer_nnls, m=m)
@@ -185,13 +189,13 @@ class DecomposerBase(object):
         pool.close()
         pool.join()
 
-        # Rescale weights.
+        # Scale weights back.
         weights = np.array(weights)
-        weights /= scl
+        weights /= m_scl / b_scl[self._mask, None]
 
         # Set weights.
         self._weights = np.zeros((pool_shape.shape[1], self._matrix.shape[1]))
-        self._weights[self._mask] = np.array(weights)
+        self._weights[self._mask] = weights
 
         # Reshape results.
         new_shape = ordinate.shape[1:] + (self._matrix.shape[1],)
@@ -508,6 +512,10 @@ class DecomposerBase(object):
 
         return self._size
 
+    def _get_mask(self):
+        """Return the computed mask."""
+        return self._mask.reshape(self._weights.shape[1:])
+
     # Make fit a property.
     fit = property(_fit)
 
@@ -528,3 +536,6 @@ class DecomposerBase(object):
 
     # Make nc a property.
     nc = property(_get_average_nc)
+
+    # Make mask a property
+    mask = property(_get_mask)
