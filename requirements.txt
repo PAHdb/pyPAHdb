@@ -1,6 +1,7 @@
-scipy
 astropy
-specutils
-matplotlib
+fnnls
 importlib_resources
+matplotlib
+scipy
+specutils
 tqdm

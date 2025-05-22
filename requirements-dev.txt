@@ -1,18 +1,18 @@
+# These are dependencies of various sphinx extensions for documentation.
 # These are required for developing the package (running the tests, building
 # the documentation) but not necessarily required for _using_ it.
+Jinja2
+babel==2.11.0
 coverage
+docutils
 flake8
-pytest
-sphinx
-# These are dependencies of various sphinx extensions for documentation.
 ipython
 ipython_genutils
-Jinja2
 matplotlib
 nbconvert
 nbsphinx
 numpydoc
+pytest
+sphinx
 sphinx-copybutton
-docutils
 sphinx_rtd_theme==2.0.0
-babel==2.11.0
