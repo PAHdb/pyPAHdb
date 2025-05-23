@@ -244,11 +244,11 @@ class Decomposer(DecomposerBase):
                 "CUNIT3",
                 "PS3_0",
                 "PS3_1",
+                "WCSAXES",
             ]
             for c in cards:
                 if c in hdr:
                     del hdr[c]
-            hdr.insert("CRPIX1", ("WCSAXES", 2, "Number of coordinate axes"))
             comments = (
                 "This file contains results from pypahdb.\n"
                 "Pypahdb was created as part of the JWST ERS Program "
