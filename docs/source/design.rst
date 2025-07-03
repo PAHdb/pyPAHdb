@@ -8,11 +8,11 @@ implementation details will have changed since then.**
 Design
 ============
 
-Pypahdb analyzes spectroscopic observations (including spectral maps)
+PyPAHdb analyzes spectroscopic observations (including spectral maps)
 and characterizes the PAH emission in terms of PAH ionization and size
 fractions using a database-fitting approach.
 
-The pypahdb package is imported with the following statement:
+The pyPAHdb package is imported with the following statement:
 
 .. code-block:: python
 
@@ -24,7 +24,7 @@ Flowchart
 .. figure:: figures/fig_flowchart.png
    :align: center
 
-   Pypahdb flowchart. (1) Astronomical spectroscopic data is loaded from
+   PyPAHdb flowchart. (1) Astronomical spectroscopic data is loaded from
    FITS or ASCII files. (2) A highly over-sampled pre-computed matrix of
    PAH spectra is loaded and interpolated onto the wavelength grid of the
    astronomical observations. Database-fitting is performed using a
@@ -49,7 +49,7 @@ presented in the figure above and is as follows:
     between different coordinate representations. Below is example
     Python code demonstrating the use of the class. The file
     ``sample_data_NGC7023.tbl`` in this demonstration is bundled with the
-    pypahdb package. The output of the demonstration code is shown in the
+    pyPAHdb package. The output of the demonstration code is shown in the
     flowchart.
 
 .. code-block:: python
@@ -120,9 +120,9 @@ presented in the figure above and is as follows:
 Supported data formats
 -----------------------
 
-Pypahdb supports reading in IPAC tables, *Spitzer* FITS files, and *JWST* FITS
+PyPAHdb supports reading in IPAC tables, *Spitzer* FITS files, and *JWST* FITS
 files. Support for reading pahfit\ [#]_-files is underway. Pahfit is being
-developed as part of the same *JWST* ERS Program\ [#]_ as pypahdb.
+developed as part of the same *JWST* ERS Program\ [#]_ as pyPAHdb.
 
 ---------
 

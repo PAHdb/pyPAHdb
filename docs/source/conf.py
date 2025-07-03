@@ -73,7 +73,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "pypahdb"
+project = "pyPAHdb"
 author = "Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis"
 copyright = "2018-" + time.strftime("%Y") + " ⸺ " + author
 
@@ -161,7 +161,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "pypahdb"
+htmlhelp_basename = "pyPAHdb"
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -193,7 +193,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "pypahdb", "Pypahdb Documentation", [author], 1)]
+man_pages = [(master_doc, "pypahdb", "PyPAHdb Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output -------------------------------------------

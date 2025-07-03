@@ -5,8 +5,8 @@
 Usage
 =====
 
-Sample code demonstrating the use of pypahdb is shown below, which has been
-included in the pypahdb package as ``examples/example_tbl.py``. The example
+Sample code demonstrating the use of pyPAHdb is shown below, which has been
+included in the pyPAHdb package as ``examples/example_tbl.py``. The example
 makes use of  the bundled ``sample_data_NGC7023.tbl`` spectrum.
 
 .. code-block:: python
@@ -37,7 +37,7 @@ Details
 Let's briefly explore what the code above is doing.
 
 First the ``Decomposer`` and ``Observation`` classes are imported from
-pypahdb. The``importlib_resources`` package is used to locate and load the
+pyPAHdb. The``importlib_resources`` package is used to locate and load the
 provided sample data.
 
 .. code-block:: python
@@ -87,5 +87,5 @@ methods require the filename to write to as their first positional argument.
     pahdb_fit.save_pdf('NGC7023_pypahdb_tbl_example.pdf', domaps=False)
     pahdb_fit.save_fits('NGC7023_pypahdb_tbl_example.fits', header=obs.header)
 
-Note that ``header=obs.header`` is explicitely passed to ``save_fits``, but
+Note that ``header=obs.header`` is explicitly passed to ``save_fits``, but
 can be set arbitrary, i.e., it is possible to provide a customized the header.
