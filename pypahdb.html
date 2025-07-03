@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API &mdash; pypahdb  documentation</title>
+  <title>API &mdash; pyPAHdb  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -39,7 +39,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            pypahdb
+            pyPAHdb
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -97,7 +97,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">pypahdb</a>
+          <a href="index.html">pyPAHdb</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -152,10 +152,10 @@ information.</p>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.charge">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.charge" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge</span></span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase.charge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.charge" title="Link to this definition"></a></dt>
 <dd><p>Return the spectral charge breakdown from fit.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._charge (dictionary): Dictionary with keys
+<dt>Returns:</dt><dd><p>dict: Dictionary with keys
 ‘anion’, ‘neutral’ and ‘cation’.</p>
 </dd>
 </dl>
@@ -163,10 +163,10 @@ information.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.charge_fractions">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge_fractions</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.charge_fractions" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge_fractions</span></span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase.charge_fractions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.charge_fractions" title="Link to this definition"></a></dt>
 <dd><p>Return the charge fraction.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._charge_fraction (dict): Fraction of neutral,
+<dt>Returns:</dt><dd><p>dict: Fraction of neutral,
 cation and anion PAHs from fit.</p>
 </dd>
 </dl>
@@ -174,40 +174,46 @@ cation and anion PAHs from fit.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.error">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.error" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error</span></span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase.error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.error" title="Link to this definition"></a></dt>
 <dd><p>Return the error as ∫|residual|dν / ∫observation dν.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._yerror (quantity.Quantity): The fit error.</p>
+<dt>Returns:</dt><dd><p>quantity.Quantity: The fit error.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.fit">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fit</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.fit" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fit</span></span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.fit" title="Link to this definition"></a></dt>
 <dd><p>Return the fit.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._yfit (quantity.Quantity): The fit.</p>
+<dt>Returns:</dt><dd><p>quantity.Quantity: The fit.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.mask">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask</span></span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase.mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.mask" title="Link to this definition"></a></dt>
+<dd><p>Return the computed mask.</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.nc">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nc</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.nc" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nc</span></span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase.nc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.nc" title="Link to this definition"></a></dt>
 <dd><p>Return the average number of carbon atoms.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._nc (quantity.Quantity): Average number of carbon atoms</p>
+<dt>Returns:</dt><dd><p>quantity.Quantity: Average number of carbon atoms</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.size" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase.size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.size" title="Link to this definition"></a></dt>
 <dd><p>Return the spectral size breakdown from fit.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._size (dictionary): Dictionary with keys
+<dt>Returns:</dt><dd><p>dict: Dictionary with keys
 ‘large’, ‘medium’, ‘small’.</p>
 </dd>
 </dl>
@@ -215,10 +221,10 @@ cation and anion PAHs from fit.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase.size_fractions">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size_fractions</span></span><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.size_fractions" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size_fractions</span></span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase.size_fractions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase.size_fractions" title="Link to this definition"></a></dt>
 <dd><p>Return the size fraction.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>self._size_fractions (dict): Size fractions from fit.</p>
+<dt>Returns:</dt><dd><p>dict: Size fractions from fit.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -239,8 +245,8 @@ information.</p>
 <p>Extends DecomposerBase to write results to disk (PDF, FITS).</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer.cation_neutral_ratio">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cation_neutral_ratio</span></span><a class="headerlink" href="#pypahdb.decomposer.Decomposer.cation_neutral_ratio" title="Link to this definition"></a></dt>
-<dd><p>Calculate the cation neutral ratio if it is not already calculated and return it.</p>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cation_neutral_ratio</span></span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.cation_neutral_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.cation_neutral_ratio" title="Link to this definition"></a></dt>
+<dd><p>Compute the cation to neutral ratio and return it.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -260,12 +266,13 @@ j (int): Pixel coordinate (ordinate).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer.plot_map">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wcs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.plot_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.plot_map" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wcs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer.plot_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer.plot_map" title="Link to this definition"></a></dt>
 <dd><p>Plots a map.</p>
 <dl class="simple">
 <dt>Notes:</dt><dd><p>None.</p>
 </dd>
-<dt>Args:</dt><dd><p>im (numpy): Image.
+<dt>Args:</dt><dd><p>data (numpy): Image.
+mask (numpy): Mask.
 title (string): Image title.</p>
 </dd>
 <dt>Keywords:</dt><dd><p>wcs (wcs.wcs): WCS (defaults to None).</p>

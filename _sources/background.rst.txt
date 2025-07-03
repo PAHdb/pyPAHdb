@@ -7,16 +7,16 @@ Background
 Purpose
 ---------
 
-Pypahdb is used to characterize emission from one of the most
+PyPAHdb is used to characterize emission from one of the most
 prevalent types of organic molecules in space, namely polycyclic
 aromatic hydrocarbons (PAHs). It leverages the detailed studies of
-organic molecules done at the NASA Ames Research Center. Pypahdb is a
+organic molecules done at the NASA Ames Research Center. PyPAHdb is a
 streamlined Python version of the NASA Ames PAH IR Spectroscopic
 Database's (PAHdb; `www.astrochemistry.org/pahdb/
 <https://www.astrochemistry.org/pahdb/>`_) suite of IDL and Python tools.
 PAHdb has been extensively used to analyze and interpret the PAH signature
 from a plethora of emission sources, ranging from solar-system objects to
-entire galaxies. Pypahdb decomposes astronomical PAH emission spectra
+entire galaxies. PyPAHdb decomposes astronomical PAH emission spectra
 into contributing PAH sub-classes in terms of charge and size using a
 database-fitting technique. The inputs for the fit are spectra
 constructed using the spectroscopic libraries of PAHdb and take into
@@ -26,11 +26,11 @@ process.
 Features
 ------------------
 
-The purpose of pypahdb is to derive astronomical parameters directly
+The purpose of pyPAHdb is to derive astronomical parameters directly
 from *JWST* observations, but the tool is not limited to *JWST*
-observations alone. Pypahdb is the light version of a full suite of
+observations alone. PyPAHdb is the light version of a full suite of
 Python software tools\ [#]_ that is an analog of the off-line IDL tools\ [#]_.
-A feature comparison is presented in the table below. Pypahdb will enable PAH
+A feature comparison is presented in the table below. PyPAHdb will enable PAH
 experts and non-experts alike to analyze and interpret astronomical PAH
 emission spectra.
 
@@ -39,14 +39,14 @@ emission spectra.
    \setlength{\tablewidth}{0.7\textwidth}
 
 
-.. table:: Feature comparison between pypahdb and the full suites of
+.. table:: Feature comparison between pyPAHdb and the full suites of
            IDL/Python tools. Notes: NNLS=non-negative least-squares;
            NNLC=non-negative least-chi-squared; FWHM= full-width at
            half-maximum of a line profile; Uncertainties=handling
            observational spectroscopic uncertainties.
 
    +---------------------+----------+------------------+
-   |                     | Pypahdb  | IDL/Python Tools |
+   |                     | PyPAHdb  | IDL/Python Tools |
    +=====================+==========+==================+
    | Included molecules. | Fixed    | User defined     |
    +---------------------+----------+------------------+
@@ -71,7 +71,7 @@ emission spectra.
    | Uncertainties       |          | ✓                |
    +---------------------+----------+------------------+
 
-.. Pypahdb analyzes spectroscopic observations (including spectral maps)
+.. PyPAHdb analyzes spectroscopic observations (including spectral maps)
 .. and characterizes the PAH emission using a database-fitting approach,
 .. providing the PAH ionization and small/large fractions.
 
@@ -80,7 +80,7 @@ Academic references
 -------------------
 
 You are kindly asked to consider the following references for citation
-when using pypahdb:
+when using pyPAHdb:
 
   Shannon, M.J., Boersma, C., "ORGANIC MOLECULES IN SPACE: INSIGHTS
   FROM THE NASA AMES MOLECULAR DATABASE IN THE ERA OF THE JAMES WEBB
