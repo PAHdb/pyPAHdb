@@ -10,6 +10,7 @@ information.
 import copy
 import sys
 from datetime import datetime, timezone
+from functools import cached_property
 
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
@@ -36,20 +37,17 @@ class Decomposer(DecomposerBase):
             spectrum (specutils.Spectrum1D): The data to fit/decompose.
         """
         DecomposerBase.__init__(self, spectrum)
-        self._cation_neutral_ratio = None
 
-    def _get_cation_neutral_ratio(self):
+    @cached_property
+    def cation_neutral_ratio(self):
         """
-        Calculate the cation neutral ratio if it is not already calculated and return it.
+        Compute the cation to neutral ratio and return it.
         """
-        if self._cation_neutral_ratio is None:
-            self._cation_neutral_ratio = self.charge_fractions["cation"].copy()
-            nonzero = np.nonzero(self.charge_fractions["neutral"])
-            self._cation_neutral_ratio[nonzero] /= self.charge_fractions["neutral"][
-                nonzero
-            ]
+        cation_neutral_ratio = self.charge_fractions["cation"].copy()
+        nonzero = np.nonzero(self.charge_fractions["neutral"])
+        cation_neutral_ratio[nonzero] /= self.charge_fractions["neutral"][nonzero]
 
-        return self._cation_neutral_ratio
+        return cation_neutral_ratio
 
     def save_pdf(self, filename, header="", domaps=True, doplots=True):
         """Save a PDF summary of the fit results.
@@ -187,7 +185,12 @@ class Decomposer(DecomposerBase):
                 fig = self.plot_map(self.error, self.mask, "error", wcs=wcs)
                 pdf.savefig(fig)
                 plt.close(fig)
-                fig = self.plot_map(self.mask.astype(float), np.ones(self.mask.shape, dtype=bool),  "mask", wcs=wcs)
+                fig = self.plot_map(
+                    self.mask.astype(float),
+                    np.ones(self.mask.shape, dtype=bool),
+                    "mask",
+                    wcs=wcs,
+                )
                 pdf.savefig(fig)
                 plt.close(fig)
 
@@ -259,7 +262,7 @@ class Decomposer(DecomposerBase):
                 "information on pypahdb."
             )
             for line in comments.split("\n"):
-                for chunk in [line[i : i + 72] for i in range(0, len(line), 72)]:
+                for chunk in [line[i: i + 72] for i in range(0, len(line), 72)]:
                     hdr["COMMENT"] = chunk
             hdr["COMMENT"] = "1st extension has the PAH neutral fraction."
             hdr["COMMENT"] = "2nd extension has the PAH cation fraction."
@@ -624,6 +627,3 @@ class Decomposer(DecomposerBase):
         fig.set_layout_engine("constrained")
 
         return fig
-
-    # Make cation to neutral ratio a property.
-    cation_neutral_ratio = property(_get_cation_neutral_ratio)

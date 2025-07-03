@@ -23,8 +23,9 @@ class DecomposerTestCase(unittest.TestCase):
     def setUp(self):
         import importlib_resources
         import tempfile
-        file_name = 'resources/sample_data_NGC7023.tbl'
-        file_path = importlib_resources.files('pypahdb') / file_name
+
+        file_name = "resources/sample_data_NGC7023.tbl"
+        file_path = importlib_resources.files("pypahdb") / file_name
         self.observation = Observation(file_path)
         self.decomposer = Decomposer(self.observation.spectrum)
         self.tmpdir = tempfile.gettempdir()
@@ -70,9 +71,13 @@ class DecomposerTestCase(unittest.TestCase):
         assert os.path.isfile(ofile)
 
     def test_plot_map(self):
-        assert isinstance(Decomposer.plot_map(
-            np.ones((1, 1)), "dummy", WCS()), matplotlib.figure.Figure)
+        assert isinstance(
+            Decomposer.plot_map(
+                np.ones((1, 1)), np.ones((1, 1), dtype=bool), "dummy", WCS()
+            ),
+            matplotlib.figure.Figure,
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
