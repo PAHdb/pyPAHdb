@@ -3,5 +3,5 @@ fnnls
 importlib_resources
 matplotlib
 scipy
-specutils
+specutils>=2.0
 tqdm
