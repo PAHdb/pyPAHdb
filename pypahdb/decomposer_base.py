@@ -21,7 +21,7 @@ import importlib_resources
 import numpy as np
 from astropy import units as u
 from fnnls import fnnls
-from specutils import Spectrum1D
+from specutils import Spectrum
 from tqdm import tqdm
 
 SMALL_SIZE = 50
@@ -85,12 +85,12 @@ class DecomposerBase(object):
         """Construct a decomposer object.
 
         Args:
-            spectrum (specutil.Spectrum1D): The spectrum to fit and decompose.
+            spectrum (specutil.Spectrum): The spectrum to fit and decompose.
         """
 
-        # Check if spectrum is a Spectrum1D.
-        if not isinstance(spectrum, Spectrum1D):
-            print("spectrum is not a specutils.Spectrum1D")
+        # Check if spectrum is a Spectrum
+        if not isinstance(spectrum, Spectrum):
+            print("spectrum is not a specutils.Spectrum")
             return None
 
         self.spectrum = spectrum
@@ -377,7 +377,7 @@ class DecomposerBase(object):
             'anion', 'neutral' and 'cation'.
         """
 
-        # TODO: Should self._charge be a Spectrum1D-object?
+        # TODO: Should self._charge be a Spectrum-object?
 
         decomposer_anion = partial(
             _decomposer_anion,
@@ -440,7 +440,7 @@ class DecomposerBase(object):
             'large', 'medium', 'small'.
         """
 
-        # TODO: Should self._size be a Spectrum1D-object?
+        # TODO: Should self._size be a Spectrum-object?
 
         decomposer_large = partial(
             _decomposer_large,

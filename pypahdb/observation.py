@@ -16,7 +16,7 @@ from astropy.io import ascii, fits
 from astropy.io.fits.verify import VerifyWarning
 from astropy.io.registry import IORegistryError
 from astropy.nddata import StdDevUncertainty
-from specutils import Spectrum1D
+from specutils import Spectrum
 
 
 class Observation(object):
@@ -25,7 +25,7 @@ class Observation(object):
     Reads IPAC tables, Spitzer-IRS data cubes, and JWST spectra.
 
     Attributes:
-        spectrum (specutils.Spectrum1D): contains loaded spectrum.
+        spectrum (specutils.Spectrum): contains loaded spectrum.
     """
 
     def __init__(self, file_path):
@@ -39,15 +39,17 @@ class Observation(object):
         # TODO: implement try-except block for reading in pyPAHFit results
 
         try:
-            # Suppress warning when Spectrum1D cannot load the file.
+            # Suppress warning when Spectrum cannot load the file.
             warnings.simplefilter("ignore", category=VerifyWarning)
 
-            self.spectrum = Spectrum1D.read(self.file_path)
-            self.spectrum.meta['colnames'] = 3 * ["",]
+            self.spectrum = Spectrum.read(self.file_path)
+            self.spectrum.meta["colnames"] = 3 * [
+                "",
+            ]
 
             # Always work as if spectrum is a cube.
             if len(self.spectrum.flux.shape) == 1:
-                self.spectrum = Spectrum1D(
+                self.spectrum = Spectrum(
                     flux=np.reshape(
                         self.spectrum.flux,
                         (
@@ -68,7 +70,7 @@ class Observation(object):
         except FileNotFoundError as e:
             raise (e)
         except (OSError, IORegistryError):
-            # Because Spectrum1D raises a generic OSError when the
+            # Because Spectrum raises a generic OSError when the
             # file cannot be read, we have to catch OSError here and pass
             # so that we can try and read it directly as FITS or ASCII.
             pass
@@ -89,11 +91,15 @@ class Observation(object):
                         h0 = self.header["PS3_0"]
                         h1 = self.header["PS3_1"]
 
-                        # Create Spectrum1D object.
+                        # Create Spectrum object.
                         flux = h.data.T * u.Unit(h.header["BUNIT"])
-                        wave = hdu[h0].data[h1].squeeze() * u.Unit(hdu[h0].columns[h1].unit)
-                        self.spectrum = Spectrum1D(flux, spectral_axis=wave)
-                        self.spectrum.meta['colnames'] = 3 * ["",]
+                        wave = hdu[h0].data[h1].squeeze() * u.Unit(
+                            hdu[h0].columns[h1].unit
+                        )
+                        self.spectrum = Spectrum(flux, spectral_axis=wave)
+                        self.spectrum.meta["colnames"] = 3 * [
+                            "",
+                        ]
 
                         return None
 
@@ -105,14 +111,14 @@ class Observation(object):
                         # Create WCS object
                         # self.wcs = wcs.WCS(hdu[0].header, naxis=2)
 
-                        # Create Spectrum1D object
+                        # Create Spectrum object
                         # u.Unit(self.header['BUNIT'])
                         flux = h.data.T * u.Unit("Jy")
                         wave = (
                             h.header["CRVAL3"]
                             + h.header["CDELT3"] * np.arange(0, h.header["NAXIS3"])
                         ) * u.Unit(h.header["CUNIT3"])
-                        self.spectrum = Spectrum1D(flux, spectral_axis=wave)
+                        self.spectrum = Spectrum(flux, spectral_axis=wave)
 
                         return None
 
@@ -134,7 +140,7 @@ class Observation(object):
                 )
                 + data[data.colnames[1]].quantity.shape,
             )
-            # Create Spectrum1D object.
+            # Create Spectrum object.
             wave = data[data.colnames[0]].quantity
             unc = None
             if len(data.colnames) > 2:
@@ -149,8 +155,8 @@ class Observation(object):
                     )
                 )
 
-            self.spectrum = Spectrum1D(flux, spectral_axis=wave, uncertainty=unc)
-            self.spectrum.meta['colnames'] = data.colnames
+            self.spectrum = Spectrum(flux, spectral_axis=wave, uncertainty=unc)
+            self.spectrum.meta["colnames"] = data.colnames
 
             hdr = ""
             for card in data.meta["keywords"].keys():
