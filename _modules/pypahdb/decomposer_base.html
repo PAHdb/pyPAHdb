@@ -136,7 +136,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">astropy</span><span class="w"> </span><span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fnnls</span><span class="w"> </span><span class="kn">import</span> <span class="n">fnnls</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">specutils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Spectrum1D</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">specutils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Spectrum</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="n">SMALL_SIZE</span> <span class="o">=</span> <span class="mi">50</span>
@@ -202,12 +202,12 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct a decomposer object.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            spectrum (specutil.Spectrum1D): The spectrum to fit and decompose.</span>
+<span class="sd">            spectrum (specutil.Spectrum): The spectrum to fit and decompose.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># Check if spectrum is a Spectrum1D.</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">Spectrum1D</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;spectrum is not a specutils.Spectrum1D&quot;</span><span class="p">)</span>
+        <span class="c1"># Check if spectrum is a Spectrum</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">Spectrum</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;spectrum is not a specutils.Spectrum&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">spectrum</span>
@@ -368,9 +368,9 @@
 
         <span class="c1"># Use Trapezium rule to integrate the absolute of the residual</span>
         <span class="c1"># and the observations.</span>
-        <span class="n">abs_residual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fit</span> <span class="o">-</span> <span class="n">ordinate</span><span class="p">),</span> <span class="n">x</span><span class="o">=</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">abs_residual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fit</span> <span class="o">-</span> <span class="n">ordinate</span><span class="p">),</span> <span class="n">x</span><span class="o">=</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-        <span class="n">total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">ordinate</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">ordinate</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="c1"># Initialize result to NaN.</span>
         <span class="n">yerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">ordinate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
@@ -511,7 +511,7 @@
 <span class="sd">            &#39;anion&#39;, &#39;neutral&#39; and &#39;cation&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># TODO: Should self._charge be a Spectrum1D-object?</span>
+        <span class="c1"># TODO: Should self._charge be a Spectrum-object?</span>
 
         <span class="n">decomposer_anion</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
             <span class="n">_decomposer_anion</span><span class="p">,</span>
@@ -577,7 +577,7 @@
 <span class="sd">            &#39;large&#39;, &#39;medium&#39;, &#39;small&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># TODO: Should self._size be a Spectrum1D-object?</span>
+        <span class="c1"># TODO: Should self._size be a Spectrum-object?</span>
 
         <span class="n">decomposer_large</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
             <span class="n">_decomposer_large</span><span class="p">,</span>
