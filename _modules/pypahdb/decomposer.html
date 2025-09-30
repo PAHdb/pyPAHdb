@@ -456,15 +456,11 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+        <span class="n">mmin</span><span class="p">,</span> <span class="n">mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">99</span><span class="p">))</span>
 
         <span class="n">im</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">mmin</span>
 
-        <span class="n">mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">im</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
-
         <span class="n">im</span> <span class="o">/=</span> <span class="n">mmax</span>
-
-        <span class="n">mmax</span> <span class="o">+=</span> <span class="n">mmin</span>
 
         <span class="n">cmap</span> <span class="o">=</span> <span class="n">colormaps</span><span class="p">[</span><span class="s2">&quot;rainbow&quot;</span><span class="p">]</span>
 
