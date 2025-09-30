@@ -9,6 +9,7 @@ information.
 """
 import copy
 import sys
+import warnings
 from datetime import datetime, timezone
 from functools import cached_property
 
@@ -34,7 +35,7 @@ class Decomposer(DecomposerBase):
         Inherits from DecomposerBase defined in decomposer_base.py.
 
         Args:
-            spectrum (specutils.Spectrum1D): The data to fit/decompose.
+            spectrum (specutils.Spectrum): The data to fit/decompose.
         """
         DecomposerBase.__init__(self, spectrum)
 
@@ -335,6 +336,8 @@ class Decomposer(DecomposerBase):
 
         im /= mmax
 
+        mmax += mmin
+
         cmap = colormaps["rainbow"]
 
         x, y = np.meshgrid(np.arange(0, im.shape[1] + 1), np.arange(0, im.shape[0] + 1))
@@ -457,6 +460,9 @@ class Decomposer(DecomposerBase):
         cax = inset_axes(
             ax, width="2%", height="100%", loc="center right", borderpad=-1
         )
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=UserWarning)
+            plt.gcf().tight_layout(pad=1.0)
         plt.colorbar(colorbar, cax=cax)
         cax.locator_params(axis="y", steps=[1, 10])
         cax.set_ylabel(title)
