@@ -246,9 +246,9 @@ class DecomposerBase(object):
 
         # Use Trapezium rule to integrate the absolute of the residual
         # and the observations.
-        abs_residual = np.trapz(np.abs(self.fit - ordinate), x=abscissa, axis=0)
+        abs_residual = np.trapezoid(np.abs(self.fit - ordinate), x=abscissa, axis=0)
 
-        total = np.trapz(ordinate, x=abscissa, axis=0)
+        total = np.trapezoid(ordinate, x=abscissa, axis=0)
 
         # Initialize result to NaN.
         yerror = np.empty(ordinate.shape[1:])
