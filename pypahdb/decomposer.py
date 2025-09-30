@@ -328,15 +328,11 @@ class Decomposer(DecomposerBase):
 
         """
 
-        mmin = np.nanmin(data[mask])
+        mmin, mmax = np.nanpercentile(data[mask], (1, 99))
 
         im = data - mmin
 
-        mmax = np.nanmax(im[mask])
-
         im /= mmax
-
-        mmax += mmin
 
         cmap = colormaps["rainbow"]
 
