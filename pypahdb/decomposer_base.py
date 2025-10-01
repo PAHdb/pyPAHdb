@@ -20,7 +20,7 @@ from urllib.request import urlretrieve
 import importlib_resources
 import numpy as np
 from astropy import units as u
-from fnnls import fnnls
+from scipy.optimize import nnls
 from specutils import Spectrum
 from tqdm import tqdm
 
@@ -71,7 +71,7 @@ def _decomposer_interp(fp, x=None, xp=None):
 
 def _decomposer_nnls(y, m=None):
     """Do the NNLS in multiprocessing."""
-    return fnnls(m, y)
+    return nnls(m, y)
 
 
 class DecomposerBase(object):

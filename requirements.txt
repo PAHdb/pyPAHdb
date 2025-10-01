@@ -1,5 +1,4 @@
 astropy
-fnnls
 importlib_resources
 matplotlib
 scipy
