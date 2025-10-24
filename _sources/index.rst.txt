@@ -7,8 +7,8 @@
 pyPAHdb Manual
 =======================
 
-The NASA Ames PAH IR Spectroscopic Database [#f1]_ [#f2]_ (PAHdb) hosts the
-world's foremost collection of infrared (IR) PAH spectra. PAHdb's spectral
+The NASA Ames PAH IR Spectroscopic Database [#f1]_ [#f2]_ [#f3]_ (PAHdb) hosts
+the world's foremost collection of infrared (IR) PAH spectra. PAHdb's spectral
 libraries contain over 4,000 laboratory measured and quantum chemically
 computed PAH spectra. Beyond spectroscopic data, PAHdb also provides the models
 and software tools to work with the spectral data. The portal to the data and
@@ -48,14 +48,19 @@ Issues, comments, and suggestions can be submitted through
 
 ---------
 
-*Last updated July 2025*
+*Last updated October 2025*
 
 .. rubric:: Footnotes
 
-.. [#f1] From FY2019-2022 the NASA Ames PAH IR Spectroscopic Database was
-   supported through a directed Work Package at NASA Ames titled: "Laboratory
-   Astrophysics ⸺ The NASA Ames PAH IR Spectroscopic Database."
+
+.. [#f1] From FY2025 onward the NASA Ames PAH IR Spectroscopic Database is
+   being supported through the Laboratory Astrophysics Round 3 directed Work
+   Package at NASA Ames.
 
 .. [#f2] From FY2023-2025 the NASA Ames PAH IR Spectroscopic Database was
    supported through the Laboratory Astrophysics Round 2 directed Work Package
    at NASA Ames.
+
+.. [#f3] From FY2019-2022 the NASA Ames PAH IR Spectroscopic Database was
+   supported through a directed Work Package at NASA Ames titled: "*Laboratory
+   Astrophysics & The NASA Ames PAH IR Spectroscopic Database*".
