@@ -1,3 +1,8 @@
+2025-10-24 Acknowledge LADWP Rd 3 in docs [Christiaan.Boersma@nasa.gov]
+2025-10-24 Integrate with Zenodo [Christiaan.Boersma@nasa.gov]
+2025-10-03 Remove unused SIP keywords from sample fits file [Christiaan.Boersma@nasa.gov]
+2025-10-03 Properly re-normalize maps when drawing [Christiaan.Boersma@nasa.gov]
+2025-10-01 Update CHANGELOG [Christiaan.Boersma@nasa.gov]
 2025-10-01 Revert using fnnls because of inconsistent results between different machines [Christiaan.Boersma@nasa.gov]
 2025-10-01 NGC7023 sample fits data is now continuum and extinction corrected [Christiaan.Boersma@nasa.gov]
 2025-09-30 Apply a default 1% clipping when presenting maps [Christiaan.Boersma@nasa.gov]
