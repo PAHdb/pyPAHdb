@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17428405.svg)](https://doi.org/10.5281/zenodo.17428405)
 ![Workflow
 Status](https://github.com/pahdb/pyPAHdb/actions/workflows/ci.yml/badge.svg)
 [![Coverage
