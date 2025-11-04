@@ -4,5 +4,26 @@
             "name": "The PAHdb Team"
         }
     ],
-    "title": "pyPAHdb"
+    "contributors": [
+        {
+            "name": "Boersma, Christiaan",
+            "type": "ProjectLeader",
+            "orcid": "0000-0002-4836-217X",
+            "affiliation": "Ames Research Center"
+        },
+        {
+            "name": "Shannon, Matthew",
+            "type": "ProjectMember",
+            "orcid": "0000-0001-5681-5151",
+            "affiliation": "Universities Space Research Association"
+        },
+        {
+            "name": "Maragkoudakis, Alexandros",
+            "type": "ProjectMember",
+            "orcid": "0000-0003-2552-3871",
+            "affiliation": "Ames Research Center"
+        }
+    ],
+    "title": "pyPAHdb",
+    "description": "Polycyclic aromatic hydrocarbon (PAH) molecules dominate the mid-infrared (IR) emission of many objects in the sky. At NASA Ames Research Center, laboratory experiments and quantum chemical calculations have resulted in an unrivaled collection of PAH absorption spectra that have been collected into the NASA Ames PAH IR Spectroscopic Database. To have astronomers mine this wealth of data and apply it to observations, tools are needed. PyPAHdb is such a tool. It can decompose astronomical PAH emission into contributing PAH subclasses, i.e., charge and size, using a precomputed matrix of PAH spectra. PyPAHdb is written in Python and developed as part of the awarded James Webb Space Telescope (JWST) Early Release Science (ERS) program \"Radiative Feedback from Massive Stars as Traced by Multiband Imaging and Spectroscopic Mosaics\" (program website; ID: 1288). The program is coordinated by an international \"Core team\" of 19 scientists and supported by 119 \"science collaborators\". PyPAHdb is developed and maintained by the NASA Ames PAH IR Spectroscopic Database Team."
 }
