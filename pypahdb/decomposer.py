@@ -29,15 +29,16 @@ from pypahdb.decomposer_base import MEDIUM_SIZE, SMALL_SIZE, DecomposerBase
 class Decomposer(DecomposerBase):
     """Extends DecomposerBase to write results to disk (PDF, FITS)."""
 
-    def __init__(self, spectrum):
+    def __init__(self, spectrum, version=None):
         """Initialize Decomposer object.
 
         Inherits from DecomposerBase defined in decomposer_base.py.
 
         Args:
             spectrum (specutils.Spectrum): The data to fit/decompose.
+            version (str): The version of the precomputed matrix to use.
         """
-        DecomposerBase.__init__(self, spectrum)
+        DecomposerBase.__init__(self, spectrum, version=version)
 
     @cached_property
     def cation_neutral_ratio(self):
@@ -227,7 +228,7 @@ class Decomposer(DecomposerBase):
                 "Organization generating this file",
             )
             hdr["CREATOR"] = (
-                "pypahdb v{} (Python {}.{}.{})".format(
+                "pyPAHdb v{} (Python {}.{}.{})".format(
                     pypahdb.__version__,
                     sys.version_info.major,
                     sys.version_info.minor,
@@ -235,10 +236,19 @@ class Decomposer(DecomposerBase):
                 ),
                 "Software used to create this file",
             )
+            hdr["DOI_SOFT"] = (
+                "10.5281/zenodo.17428405",
+                "Digital Object Identifier pyPAHdb",
+            )
             hdr["AUTHOR"] = (
                 "Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis",
                 "Authors of the software",
             )
+            if "version" in self._precomputed:
+                hdr["VERSION"] = (
+                    self._precomputed["version"],
+                    "Version used precomputed matrix",
+                )
             cards = [
                 "PC3_3",
                 "CRPIX3",

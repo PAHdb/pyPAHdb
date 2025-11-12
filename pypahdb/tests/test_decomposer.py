@@ -27,7 +27,7 @@ class DecomposerTestCase(unittest.TestCase):
         file_name = "resources/sample_data_NGC7023.tbl"
         file_path = importlib_resources.files("pypahdb") / file_name
         self.observation = Observation(file_path)
-        self.decomposer = Decomposer(self.observation.spectrum)
+        self.decomposer = Decomposer(self.observation.spectrum, version="3.20")
         self.tmpdir = tempfile.gettempdir()
 
     def test_is_instance(self):

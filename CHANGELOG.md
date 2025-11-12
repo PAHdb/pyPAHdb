@@ -1,3 +1,6 @@
+2025-11-04 Improve integration with Zenodo [Christiaan.Boersma@nasa.gov]
+2025-10-25 No trailing commas in JSON for Zenodo [Christiaan.Boersma@nasa.gov]
+2025-10-24 Sync CHANGELOG [Christiaan.Boersma@nasa.gov]
 2025-10-24 Acknowledge LADWP Rd 3 in docs [Christiaan.Boersma@nasa.gov]
 2025-10-24 Integrate with Zenodo [Christiaan.Boersma@nasa.gov]
 2025-10-03 Remove unused SIP keywords from sample fits file [Christiaan.Boersma@nasa.gov]

@@ -10,19 +10,16 @@ approach.
 This file is part of pypahdb - see the module docs for more
 information.
 """
-
 import multiprocessing
-import os
 import pickle
 from functools import cached_property, partial
-from urllib.request import urlretrieve
 
-import importlib_resources
 import numpy as np
 from astropy import units as u
 from scipy.optimize import nnls
 from specutils import Spectrum
-from tqdm import tqdm
+
+from pypahdb.picker import Picker
 
 SMALL_SIZE = 50
 MEDIUM_SIZE = 70
@@ -81,11 +78,12 @@ class DecomposerBase(object):
        spectrum: A spectrum to fit and decompose.
     """
 
-    def __init__(self, spectrum):
+    def __init__(self, spectrum, version=None):
         """Construct a decomposer object.
 
         Args:
             spectrum (specutil.Spectrum): The spectrum to fit and decompose.
+            version (str): The version of the precomputed matrix to use.
         """
 
         # Check if spectrum is a Spectrum
@@ -117,35 +115,8 @@ class DecomposerBase(object):
             print("spectral data is all zeros.")
             return None
 
-        # Download the precomputed data if not present
-        remote_pkl = "https://www.astrochemistry.org/pahdb/pypahdb/pickle.php"
-        if os.getenv("GITHUB_ACTIONS") == "true":
-            remote_pkl += "?github_actions=true"
-        local_pkl = importlib_resources.files("pypahdb") / "resources/precomputed.pkl"
-        if not os.path.isfile(local_pkl):
-
-            def hook(t):
-                last_b = [0]
-
-                def inner(b=1, bsize=1, tsize=None):
-                    if tsize is not None:
-                        t.total = tsize
-                    t.update((b - last_b[0]) * bsize)
-                    last_b[0] = b
-
-                return inner
-
-            print("downloading pre-computed matrix")
-            with tqdm(
-                unit="B",
-                unit_scale=True,
-                leave=True,
-                miniters=1,
-            ) as t:
-                urlretrieve(
-                    remote_pkl, filename=local_pkl, reporthook=hook(t), data=None
-                )
-
+        # Pick and load the precomputed matrix.
+        local_pkl = Picker().pick(version)
         with open(local_pkl, "rb") as f:
             self._precomputed = pickle.load(f, encoding="latin1")
 

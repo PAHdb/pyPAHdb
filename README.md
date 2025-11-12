@@ -52,7 +52,14 @@ pyPAHdb can be directly installed from the
 
 `pip install git+https://github.com/PAHdb/pyPAHdb.git`
 
-Note that upon first-run a pickled precomputed matrix will be downloaded from PAHdb's server.
+Note that upon first-run a precomputed matrix will need to be downloaded from
+PAHdb's server. A menu with different configurations will be presented from
+which a selection must be made. The `version`-keyword to the
+`Decomposer`-constructor can be used to pick a specific version directly, e.g.,
+"3.20". If the version is not locally available, it will be automatically
+downloaded. To present the picker menu again, the `version`-keyword can be set
+to "picker". Upon subsequent runs and the `version`-keyword is not set, the
+latest locally available version is used.
 
 ## Supported data formats
 
@@ -111,31 +118,31 @@ Database](https://www.astrochemistry.org/pahdb/) team, associated with the
 [Astrophysics & Astrochemistry Laboratory](https://www.astrochemistry.org) at
 [NASA Ames Research Center](https://www.nasa.gov/centers/ames).
 
-Since FY19 the NASA Ames PAH IR Spectroscopic Database and pyPAHdb are being
-supported through a directed Work Package at NASA Ames titled: "_Laboratory
-Astrophysics – The NASA Ames PAH IR Spectroscopic Database_".
+From FY2025 onward the NASA Ames PAH IR Spectroscopic Database is being supported through the Laboratory Astrophysics Round 3 directed Work Package at NASA Ames.
 
-Since FY23 the NASA Ames PAH IR Spectroscopic Database and pyPAHdb are being
-supported through the Laboratory Astrophysics Round 2 directed Work Package at
-NASA Ames.
+From FY2023-2025 the NASA Ames PAH IR Spectroscopic Database was supported through the Laboratory Astrophysics Round 2 directed Work Package at NASA Ames.
+
+From FY2019-2022 the NASA Ames PAH IR Spectroscopic Database was supported through a directed Work Package at NASA Ames titled: “_Laboratory Astrophysics & The NASA Ames PAH IR Spectroscopic Database_”.
 
 pyPAHdb uses a precomputed matrix of theoretically calculated PAH emission
-spectra from version 3.00 of the library of computed spectra. This matrix has
-been constructed from a collection of _"astronomical"_ PAHs, which meet the
-following criteria and include the fullerenes C<sub>60</sub> and C<sub>70</sub>:
+spectra. This matrix has been constructed from a collection of _"astronomical"_
+PAHs, which meet the following criteria and include the fullerenes
+C<sub>60</sub> and C<sub>70</sub>:
 
 ```IDL
 magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c>20 hydrogen>0
 ```
 
 The PAH emission spectra have been calculated employing a PAH emission model
-using the following parameters:
+using the following general parameters:
 
 - A calculated vibrational temperature upon the absorption of a 7 eV photon
 - A calculated integrated band intensity after following the entire emission
   cascade
-- A redshift of 15 /cm to mimic _some_ anharmonic effect
 - A Gaussian emission profile with a FWHM of 15 cm<sup>-1</sup>
+
+Depending on the configuration of the selected version of the precomputed
+matrix, there can be variation in these parameters.
 
 Additional information can be found at the NASA Ames PAH IR Spectroscopic
 Database website, which is located at
@@ -149,6 +156,13 @@ using pyPAHdb:
   Proceedings of the 17th Python in Science Conference, eds. F. Akici, D. Lippa,
   D. Niederhut, and M. Pacer, 99, 2018
   [https://doi.org/10.25080/Majora-4af1f417-00f](https://doi.org/10.25080/Majora-4af1f417-00f)
+
+- Ricca, A., Boersma, C., Maragkoudakis, A., Roser, J.E., Shannon, M.J.
+  Allamandola, L.J., Bauschlicher Jr., C.W., "THE NASA AMES PAH IR
+  SPECTROSCOPIC DATABASE: COMPUTATIONAL VERSION 4.00, SOFTWARE TOOLS, WEBSITE,
+  AND DOCUMENTATION", The Astrophysical Journal Supplement Series, in press,
+  2025
+  [https://doi.org/10.3847/1538-4365/ae1c38](https://doi.org/10.3847/1538-4365/ae1c38)
 
 - C.W. Bauschlicher, Jr., A. Ricca, C. Boersma, and L.J. Allamandola, "THE NASA
   AMES PAH IR SPECTROSCOPIC DATABASE: COMPUTATIONAL VERSION 3.00 WITH UPDATED
