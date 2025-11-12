@@ -9,7 +9,7 @@ pyPAHdb Manual
 
 The NASA Ames PAH IR Spectroscopic Database [#f1]_ [#f2]_ [#f3]_ (PAHdb) hosts
 the world's foremost collection of infrared (IR) PAH spectra. PAHdb's spectral
-libraries contain over 4,000 laboratory measured and quantum chemically
+libraries contain over 11,000 laboratory measured and quantum chemically
 computed PAH spectra. Beyond spectroscopic data, PAHdb also provides the models
 and software tools to work with the spectral data. The portal to the data and
 tools is the PAHdb website, which is located at

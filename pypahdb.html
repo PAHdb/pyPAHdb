@@ -80,6 +80,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#pypahdb.observation.Observation"><code class="docutils literal notranslate"><span class="pre">Observation</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pypahdb.picker">pypahdb.picker module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pypahdb.picker.Picker"><code class="docutils literal notranslate"><span class="pre">Picker</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pypahdb">Module contents</a></li>
 </ul>
 </li>
@@ -143,7 +147,7 @@ approach.</p>
 information.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pypahdb.decomposer_base.DecomposerBase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer_base.</span></span><span class="sig-name descname"><span class="pre">DecomposerBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer_base.</span></span><span class="sig-name descname"><span class="pre">DecomposerBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer_base.html#DecomposerBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer_base.DecomposerBase" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Fit and decompose spectrum.</p>
 <dl class="simple">
@@ -240,7 +244,7 @@ cation and anion PAHs from fit.</p>
 information.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pypahdb.decomposer.Decomposer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer.</span></span><span class="sig-name descname"><span class="pre">Decomposer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pypahdb.decomposer.</span></span><span class="sig-name descname"><span class="pre">Decomposer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/decomposer.html#Decomposer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.decomposer.Decomposer" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pypahdb.decomposer_base.DecomposerBase" title="pypahdb.decomposer_base.DecomposerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecomposerBase</span></code></a></p>
 <p>Extends DecomposerBase to write results to disk (PDF, FITS).</p>
 <dl class="py property">
@@ -333,6 +337,40 @@ information.</p>
 </dd></dl>
 
 </section>
+<section id="module-pypahdb.picker">
+<span id="pypahdb-picker-module"></span><h2>pypahdb.picker module<a class="headerlink" href="#module-pypahdb.picker" title="Link to this heading"></a></h2>
+<p>picker.py</p>
+<p>Pick the precomputed matrix to use for decomposing an astronomical
+spectrum.</p>
+<p>This file is part of pypahdb - see the module docs for more
+information.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pypahdb.picker.Picker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pypahdb.picker.</span></span><span class="sig-name descname"><span class="pre">Picker</span></span><a class="reference internal" href="_modules/pypahdb/picker.html#Picker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.picker.Picker" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Pick the precomputed matrix to use for decomposing an astronomical
+spectrum.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>_pkl_files: List of already downloaded precomputed matrices.
+_releases: List of available releases.
+_resources_dir: Path to the resources directory.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pypahdb.picker.Picker.pick">
+<span class="sig-name descname"><span class="pre">pick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypahdb/picker.html#Picker.pick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypahdb.picker.Picker.pick" title="Link to this definition"></a></dt>
+<dd><p>Pick the precomputed matrix.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>version (str): The version of the precomputed matrix to use or “picker” to show menu.</p>
+</dd>
+<dt>Returns:</dt><dd><p>pathlib.Path: The path to the precomputed matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-pypahdb">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pypahdb" title="Link to this heading"></a></h2>
 <p>The pypahdb Python package is being developed as part of the
@@ -343,28 +381,32 @@ coordinated by an international “Core team” of 19 scientists and
 supported by 119 “science collaborators”. pypahdb is developed by the
 NASA Ames PAH IR Spectroscopic Database team, asscociated with the
 Astrophysics &amp; Astrochemistry Laboratory at NASA Ames Research Center.</p>
-<p>The NASA Ames PAH IR Spectroscopic Database and pypahdb are being
-supported through a directed Work Package at NASA Ames titled:
-“Laboratory Astrophysics - The NASA Ames PAH IR Spectroscopic
-Database”.</p>
-<p>pypahdb uses a precomputed matrix of theoretically calculated PAH
-emission spectra from version 3.00 of the library of computed
-spectra and is downloaded when installing the package. This matrix has
-been constructed from a collection of “astronomical” PAHs, which meet
-the following critera and include the fullerenes C₆₀ and C₇₀:</p>
+<p>From FY2025 onward the NASA Ames PAH IR Spectroscopic Database is being
+supported through the Laboratory Astrophysics Round 3 directed Work
+Package at NASA Ames.</p>
+<p>From FY2023-2025 the NASA Ames PAH IR Spectroscopic Database was
+supported through the Laboratory Astrophysics Round 2 directed Work
+Package at NASA Ames.</p>
+<p>From FY2019-2022 the NASA Ames PAH IR Spectroscopic Database was supported
+through a directed Work Package at NASA Ames titled: “Laboratory Astrophysics
+&amp; The NASA Ames PAH IR Spectroscopic Database”.</p>
+<p>pyPAHdb uses a precomputed matrix of theoretically calculated PAH emission
+spectra. This matrix has been constructed from a collection of “astronomical”
+PAHs, which meet the following criteria and include the fullerenes C₆₀ and C₇₀:</p>
 <blockquote>
 <div><p>‘magnesium=0 oxygen=0 iron=0 silicium=0 chx=0 ch2=0 c&gt;20 hydrogen&gt;0’</p>
 </div></blockquote>
-<p>The PAH emission spectra have been calculated employing a PAH emission
+<p>The PAH emission spectra have been calculated employing a general PAH emission
 model with the following parameters:</p>
 <ul class="simple">
 <li><p>A calculated vibrational temperature upon the absorption of a 7 eV
 photon.</p></li>
 <li><p>A calculated integrated band intensity after following the entire
 emission cascade.</p></li>
-<li><p>A redshift of 15 cm⁻¹ to mimic <em>some</em> anharmonic effect.</p></li>
 <li><p>A Gaussian emission profile with a FWHM of 15 cm⁻¹.</p></li>
 </ul>
+<p>Depending on the configuration of the selected version of the precomputed
+matrix, there can be variation in these parameters.</p>
 <p>Additional information can be found at the NASA Ames PAH IR
 Spectroscopic Database website, which is located at
 <a class="reference external" href="https://www.astrochemistry.org/pahdb/">https://www.astrochemistry.org/pahdb/</a></p>
@@ -377,6 +419,12 @@ INSIGHTS FROM THE NASA AMES MOLECULAR DATABASE IN THE ERA OF THE
 JAMES WEBB SPACE TELESCOPE” in Proceedings of the 17th Python in
 Science Conference, eds. F. Akici, D. Lippa, D. Niederhut, and
 M. Pacer, 99, 2018, <a class="reference external" href="https://doi.org/10.25080/Majora-4af1f417-00f">https://doi.org/10.25080/Majora-4af1f417-00f</a></p></li>
+<li><p>Ricca, A., Boersma, C., Maragkoudakis, A., Roser, J.E., Shannon, M.J.
+Allamandola, L.J., Bauschlicher Jr., C.W., “THE NASA AMES PAH IR
+SPECTROSCOPIC DATABASE: COMPUTATIONAL VERSION 4.00, SOFTWARE TOOLS, WEBSITE,
+AND DOCUMENTATION”, The Astrophysical Journal Supplement Series, in press,
+2025
+<a class="reference external" href="https://doi.org/10.3847/1538-4365/ae1c38">https://doi.org/10.3847/1538-4365/ae1c38</a></p></li>
 <li><p>C.W. Bauschlicher, Jr., A. Ricca, C. Boersma, and
 L.J. Allamandola, “THE NASA AMES PAH IR SPECTROSCOPIC DATABASE:
 COMPUTATIONAL VERSION 3.00 WITH UPDATED CONTENT AND THE

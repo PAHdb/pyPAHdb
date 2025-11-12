@@ -35,6 +35,14 @@ pypahdb.observation module
     :show-inheritance:
 
 
+pypahdb.picker module
+--------------------------
+
+.. automodule:: pypahdb.picker
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Module contents
 ---------------
 

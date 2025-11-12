@@ -88,6 +88,13 @@ when using pyPAHdb:
   `https://doi.org/10.25080/majora-4af1f417-00f
   <https://dx.doi.org/10.25080/majora-4af1f417-00f>`__
 
+  Ricca, A., Boersma, C., Maragkoudakis, A., Roser, J.E., Shannon, M.J.
+  Allamandola, L.J., Bauschlicher Jr., C.W., "THE NASA AMES PAH IR SPECTROSCOPIC
+  DATABASE: COMPUTATIONAL VERSION 4.00, SOFTWARE TOOLS, WEBSITE, AND
+  DOCUMENTATION", The Astrophysical Journal Supplement Series, in press, 2025
+  `https://doi.org/10.3847/1538-4365/ae1c38
+  <https://doi.org/10.3847/1538-4365/ae1c38>`__
+
   C.W. Bauschlicher, Jr., A. Ricca, C. Boersma, L.J. Allamandola, "THE
   NASA AMES PAH IR SPECTROSCOPIC DATABASE: COMPUTATIONAL VERSION 3.00
   WITH UPDATED CONTENT AND THE INTRODUCTION OF MULTIPLE SCALING

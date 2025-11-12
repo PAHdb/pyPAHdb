@@ -77,6 +77,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../../pypahdb.html#pypahdb.observation.Observation"><code class="docutils literal notranslate"><span class="pre">Observation</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../pypahdb.html#module-pypahdb.picker">pypahdb.picker module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../pypahdb.html#pypahdb.picker.Picker"><code class="docutils literal notranslate"><span class="pre">Picker</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../pypahdb.html#module-pypahdb">Module contents</a></li>
 </ul>
 </li>
@@ -146,15 +150,16 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">Decomposer</span><span class="p">(</span><span class="n">DecomposerBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Extends DecomposerBase to write results to disk (PDF, FITS).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Decomposer object.</span>
 
 <span class="sd">        Inherits from DecomposerBase defined in decomposer_base.py.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spectrum (specutils.Spectrum): The data to fit/decompose.</span>
+<span class="sd">            version (str): The version of the precomputed matrix to use.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">DecomposerBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">)</span>
+        <span class="n">DecomposerBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Decomposer.cation_neutral_ratio">
 <a class="viewcode-back" href="../../pypahdb.html#pypahdb.decomposer.Decomposer.cation_neutral_ratio">[docs]</a>
@@ -352,7 +357,7 @@
                 <span class="s2">&quot;Organization generating this file&quot;</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;CREATOR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;pypahdb v</span><span class="si">{}</span><span class="s2"> (Python </span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">&quot;pyPAHdb v</span><span class="si">{}</span><span class="s2"> (Python </span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">pypahdb</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span>
                     <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span><span class="p">,</span>
                     <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span><span class="p">,</span>
@@ -360,10 +365,19 @@
                 <span class="p">),</span>
                 <span class="s2">&quot;Software used to create this file&quot;</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;DOI_SOFT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;10.5281/zenodo.17428405&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Digital Object Identifier pyPAHdb&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;AUTHOR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">&quot;Dr. C. Boersma,  Dr. M.J. Shannon, and Dr. A. Maragkoudakis&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;Authors of the software&quot;</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;version&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">:</span>
+                <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;VERSION&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_precomputed</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;Version used precomputed matrix&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
             <span class="n">cards</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="s2">&quot;PC3_3&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;CRPIX3&quot;</span><span class="p">,</span>
