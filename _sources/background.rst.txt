@@ -91,7 +91,7 @@ when using pyPAHdb:
   Ricca, A., Boersma, C., Maragkoudakis, A., Roser, J.E., Shannon, M.J.
   Allamandola, L.J., Bauschlicher Jr., C.W., "THE NASA AMES PAH IR SPECTROSCOPIC
   DATABASE: COMPUTATIONAL VERSION 4.00, SOFTWARE TOOLS, WEBSITE, AND
-  DOCUMENTATION", The Astrophysical Journal Supplement Series, in press, 2025
+  DOCUMENTATION", The Astrophysical Journal Supplement Series, **282**, 7, 2025
   `https://doi.org/10.3847/1538-4365/ae1c38
   <https://doi.org/10.3847/1538-4365/ae1c38>`__
 
@@ -123,7 +123,7 @@ when using pyPAHdb:
   E., Cami, J., S&#225;nchez de Armas, F., Puerta Saborido, G.,
   Bauschlicher, C. W., J., and Allamandola, L. J. "THE NASA AMES PAH
   IR SPECTROSCOPIC DATABASE: THE LABORATORY SPECTRA", *The
-  Astrophysical Journal Supplement Series*, 251, 22, 2020,
+  Astrophysical Journal Supplement Series*, **251**, 22, 2020,
   `https://doi.org/10.3847/1538-4365/abc2c8
   <http://dx.doi.org/10.3847/1538-4365/abc2c8>`__
 
