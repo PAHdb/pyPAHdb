@@ -1,3 +1,4 @@
+2025-11-12 Add picker to select precomputed matrix, updated docs, and added Ricca+ 2025 citations [Christiaan.Boersma@nasa.gov]
 2025-11-04 Improve integration with Zenodo [Christiaan.Boersma@nasa.gov]
 2025-10-25 No trailing commas in JSON for Zenodo [Christiaan.Boersma@nasa.gov]
 2025-10-24 Sync CHANGELOG [Christiaan.Boersma@nasa.gov]
